@@ -19,20 +19,20 @@
       </div>
       <div class="logoBox">
         <img src="../assets/images/login/logo.png" class="logoImg p_left" alt="logo">
-        <h3 class="w_cter">Welcome to CTER</h3>
+        <h3 class="w_cter">{{ $t('welcome') }} &nbsp;<span>{{ $t('cter')  }}</span></h3>
         <p class="logo_p">Create an account to explore amazing feature</p>
       </div>
       <!-- 账号登陆 -->
       <div class="loginForm">
-        <div :class="{ focusBorderColor: inputIndex === index }" v-for="(item, index) in userInfo" :key="index">
-          <div class="formItem" :class="{ errorStyle: item.error }">
+        <div  v-for="(item, index) in userInfo" :key="index">
+          <div class="formItem" :class="{ errorStyle: item.error,focusBorderColor: inputIndex === index  }">
             <div class="login_left">
               <img :src="getImg('login', item.imgIcon)" alt="">
               <input :type="item.type" :placeholder="item.placeholder" @focus="borderActive(index)"
                 @blur="resetActive(item)">
             </div>
             <img :src="getImg('login', isReadPwd ? 'open' : 'close')" alt="" v-if="item.name == 'password'"
-              @click="readPwd(item)">
+              @click="readPwd(item)" style="cursor: pointer;">
           </div>
           <p :class="{ errorPStyle: item.error }" style="padding-left: 8px;margin-bottom: 9px;" v-if="item.error">{{ item.errorText }}</p>
         </div>
@@ -59,8 +59,12 @@
 </template>
 
 <script setup>
-import { reactive, toRefs } from 'vue'
+import { reactive, toRefs,onMounted } from 'vue'
 import { getImg } from '@/utils/utils'
+import { useI18n } from 'vue-i18n';
+
+const i18n  = useI18n()
+console.log(i18n);
 const state = reactive({
   langList: [
     {
@@ -119,6 +123,9 @@ function showSelect() {
 }
 function selectLang(item) {
   state.langTarget = item.name
+  let language = item.name.toLowerCase()
+  localStorage.setItem('lang',language)
+  i18n.locale.value = language
   state.showLangOpt = false
 }
 function readPwd(item) {
@@ -131,30 +138,36 @@ function borderActive(index) {
 function resetActive(item) {
   state.inputIndex = -1
 }
+onMounted(()=>{
+  state.langTarget = localStorage.getItem('lang')?.toUpperCase() || 'EN'
+})
 const { langList, showLangOpt, langTarget, userInfo, isRemember, isReadPwd, inputIndex } = toRefs(state)
 </script>
 <style lang="scss" scoped>
 $selectWidth: 86px;
 $selectHeight: 26px;
-
+$width: 335px;
 .p_left {
   padding-left: 4px;
 }
 
 .login {
-  width: 100%;
   height: 100%;
   background: url('@/assets/images/login/loginBg.png')no-repeat;
   background-size: cover;
   padding-bottom: 60px;
   box-sizing: border-box;
+  overflow: auto;
 }
 
 .loginMain {
   padding: 40px 20px 0;
+  @include flex();
+  flex-direction: column
 }
 
 .langBox {
+  width: 100%;
   @include flex(flex-end);
   position: relative;
 
@@ -166,6 +179,7 @@ $selectHeight: 26px;
     padding: 0 6px 0 4px;
     border-radius: 3.5px;
     border: solid 1px #fff;
+    cursor: pointer;
 
     .l_left {
       @include flex(flex-start)
@@ -179,7 +193,7 @@ $selectHeight: 26px;
 
   .l_name {
     margin-left: 6px;
-    font-family: Poppins;
+    font-family: $fontFamily;
     font-size: 15px;
     color: #fff;
   }
@@ -200,7 +214,7 @@ $selectHeight: 26px;
     .o_item {
       height: 28px;
       padding: 0 6px 0 7px;
-      font-family: Poppins;
+      font-family: $fontFamily;
       font-size: 15px;
       color: #fff;
       @include flex(flex-start);
@@ -221,6 +235,7 @@ $selectHeight: 26px;
 }
 
 .logoBox {
+  width: 100%;
   margin-top: 90px;
 
   .logoImg {
@@ -229,26 +244,28 @@ $selectHeight: 26px;
   }
 
   .w_cter {
-    margin: 12px 12px 4px 4px;
+    margin: 20px 12px 0px 4px;
     font-size: 22px;
-    font-weight: bold;
-    letter-spacing: -0.5px;
+    font-weight: 400;
+    letter-spacing: 0.5px;
     color: #eaeaea;
+    span{
+      font-weight: 700;
+    }
   }
 
   .logo_p {
-    margin: 16px 0px 20px 4px;
+    margin: 8px 0px 16px 4px;
     font-size: 13px;
     color: #ddd;
   }
 }
 
 .loginForm {
-  margin-top: 16px;
   box-sizing: border-box;
 
   .formItem {
-    width: 335px;
+    width: $width;
     height: 45px;
     border-radius: 12px;
     border: solid 1px #3f3f3f;
@@ -269,7 +286,7 @@ $selectHeight: 26px;
         height: calc(100% - px);
         background-color: #2c2c2c;
         border: none;
-        font-family: Poppins;
+        font-family: $fontFamily;
         font-size: 14px;
         color: #fff;
       }
@@ -278,7 +295,7 @@ $selectHeight: 26px;
   }
 
   .errorTipStyle {
-    font-family: Poppins;
+    font-family: $fontFamily;
     font-size: 12px;
     color: #ff4343;
 
@@ -304,6 +321,7 @@ $selectHeight: 26px;
 }
 
 .remember {
+  width: $width;
   @include flex();
   margin-top: 16px;
 
@@ -311,7 +329,7 @@ $selectHeight: 26px;
     @include flex(flex-start);
 
     span {
-      font-family: Poppins;
+      font-family: $fontFamily;
       font-size: 14px;
       color: #8d8d8d;
       margin-left: 12px;
@@ -319,7 +337,7 @@ $selectHeight: 26px;
   }
 
   .r_forgot {
-    font-family: Poppins;
+    font-family: $fontFamily;
     font-size: 14px;
     color: #eaeaea;
   }
@@ -332,14 +350,14 @@ $selectHeight: 26px;
   border-radius: 20px;
   background-color: $btnBgColor;
   border: none;
-  font-family: Poppins;
+  font-family: $fontFamily;
   font-size: 15px;
   color: #eaeaea;
 }
 
 .addAccText {
   text-align: center;
-  font-family: Poppins;
+  font-family: $fontFamily;
   font-size: 14px;
   color: #eaeaea;
   margin-top: 15px;
@@ -353,8 +371,9 @@ $selectHeight: 26px;
 .serviceLink {
   @include flex(center);
   margin: 5px 0 4px;
-  font-family: Poppins;
+  font-family: $fontFamily;
   font-size: 14px;
   color: #ff7c43;
   margin-bottom: 63px;
-}</style>
+}
+</style>
