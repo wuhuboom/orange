@@ -6,8 +6,9 @@
   url('../assets/font/Poppins-Medium.ttf') format('truetype'),
   url('../assets/font/Poppins-Regular.ttf') format('truetype');
 }
-html ,body{
+html ,body , #app{
   font-family: poppins;
+  height: 100%;
 }
 .maxWidth{
   max-width: 375px;
