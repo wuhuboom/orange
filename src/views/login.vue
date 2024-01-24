@@ -148,6 +148,7 @@ $selectHeight: 26px;
   background-size: cover;
   padding-bottom: 60px;
   box-sizing: border-box;
+  overflow: auto;
 }
 
 .loginMain {
