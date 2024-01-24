@@ -1,0 +1,8 @@
+$fontFamily: Poppins;
+$btnBgColor:  #ff7c43;
+
+@mixin flex($jc: space-between,$ai:center) {
+    display: flex;
+    justify-content: $jc;
+    align-items: $ai;
+}

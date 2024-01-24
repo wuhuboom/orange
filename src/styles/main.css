@@ -1,0 +1,18 @@
+@import './base.css';
+
+@font-face{
+  font-family: poppins;
+  src:url('../assets/font/Poppins-Bold.ttf') format('truetype'),
+  url('../assets/font/Poppins-Medium.ttf') format('truetype'),
+  url('../assets/font/Poppins-Regular.ttf') format('truetype');
+}
+html ,body{
+  font-family: poppins;
+}
+.maxWidth{
+  max-width: 375px;
+  margin: 0 auto;
+}
+.flex_fd{
+  flex-direction: column;
+}
