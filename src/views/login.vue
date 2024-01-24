@@ -24,15 +24,15 @@
       </div>
       <!-- 账号登陆 -->
       <div class="loginForm">
-        <div :class="{ focusBorderColor: inputIndex === index }" v-for="(item, index) in userInfo" :key="index">
-          <div class="formItem" :class="{ errorStyle: item.error }">
+        <div  v-for="(item, index) in userInfo" :key="index">
+          <div class="formItem" :class="{ errorStyle: item.error,focusBorderColor: inputIndex === index  }">
             <div class="login_left">
               <img :src="getImg('login', item.imgIcon)" alt="">
               <input :type="item.type" :placeholder="item.placeholder" @focus="borderActive(index)"
                 @blur="resetActive(item)">
             </div>
             <img :src="getImg('login', isReadPwd ? 'open' : 'close')" alt="" v-if="item.name == 'password'"
-              @click="readPwd(item)">
+              @click="readPwd(item)" style="cursor: pointer;">
           </div>
           <p :class="{ errorPStyle: item.error }" style="padding-left: 8px;margin-bottom: 9px;" v-if="item.error">{{ item.errorText }}</p>
         </div>
@@ -179,6 +179,7 @@ $width: 335px;
     padding: 0 6px 0 4px;
     border-radius: 3.5px;
     border: solid 1px #fff;
+    cursor: pointer;
 
     .l_left {
       @include flex(flex-start)
