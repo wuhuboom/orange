@@ -19,13 +19,13 @@
       </div>
       <div class="logoBox">
         <img src="../assets/images/login/logo.png" class="logoImg p_left" alt="logo">
-        <h3 class="w_cter">{{ $t('welcome') }} &nbsp;<span>{{ $t('cter')  }}</span></h3>
+        <h3 class="w_cter">{{ $t('welcome') }} &nbsp;<span>{{ $t('cter') }}</span></h3>
         <p class="logo_p">Create an account to explore amazing feature</p>
       </div>
       <!-- 账号登陆 -->
       <div class="loginForm">
-        <div  v-for="(item, index) in userInfo" :key="index">
-          <div class="formItem" :class="{ errorStyle: item.error,focusBorderColor: inputIndex === index  }">
+        <div v-for="(item, index) in userInfo" :key="index">
+          <div class="formItem" :class="{ errorStyle: item.error, focusBorderColor: inputIndex === index }">
             <div class="login_left">
               <img :src="getImg('login', item.imgIcon)" alt="">
               <input :type="item.type" :placeholder="item.placeholder" @focus="borderActive(index)"
@@ -34,7 +34,8 @@
             <img :src="getImg('login', isReadPwd ? 'open' : 'close')" alt="" v-if="item.name == 'password'"
               @click="readPwd(item)" style="cursor: pointer;">
           </div>
-          <p :class="{ errorPStyle: item.error }" style="padding-left: 8px;margin-bottom: 9px;" v-if="item.error">{{ item.errorText }}</p>
+          <p :class="{ errorPStyle: item.error }" style="padding-left: 8px;margin-bottom: 9px;" v-if="item.error">{{
+            item.errorText }}</p>
         </div>
       </div>
       <div class="remember">
@@ -47,7 +48,8 @@
         </div>
       </div>
       <van-button type="primary" class="loginbtn">Login</van-button>
-      <p class="addAccText">Not have an account? &nbsp;&nbsp;<span class="r_now">Register now</span></p>
+      <p class="addAccText">Not have an account? &nbsp;&nbsp;<span class="r_now" @click="jumpRegisterPage">Register
+          now</span></p>
 
     </div>
     <van-divider style="background-color: #343434;" :hairline="true" />
@@ -59,12 +61,14 @@
 </template>
 
 <script setup>
-import { reactive, toRefs,onMounted } from 'vue'
+import { reactive, toRefs, onMounted } from 'vue'
 import { getImg } from '@/utils/utils'
 import { useI18n } from 'vue-i18n';
+import { useRouter } from 'vue-router';
 
-const i18n  = useI18n()
-console.log(i18n);
+const i18n = useI18n()
+const router = useRouter()
+
 const state = reactive({
   langList: [
     {
@@ -92,7 +96,7 @@ const state = reactive({
       type: 'text',
       val: '',
       error: false,
-      errorText:'',
+      errorText: '',
       placeholder: 'Username or Email'
     },
     {
@@ -101,7 +105,7 @@ const state = reactive({
       type: 'password',
       val: '',
       error: false,
-      errorText:'',
+      errorText: '',
       placeholder: 'Password'
     },
     {
@@ -110,7 +114,7 @@ const state = reactive({
       type: 'text',
       val: '',
       error: false,
-      errorText:'',
+      errorText: '',
       placeholder: 'Verification code'
     },
   ],
@@ -124,7 +128,7 @@ function showSelect() {
 function selectLang(item) {
   state.langTarget = item.name
   let language = item.name.toLowerCase()
-  localStorage.setItem('lang',language)
+  localStorage.setItem('lang', language)
   i18n.locale.value = language
   state.showLangOpt = false
 }
@@ -138,15 +142,17 @@ function borderActive(index) {
 function resetActive(item) {
   state.inputIndex = -1
 }
-onMounted(()=>{
+function jumpRegisterPage() {
+  router.push({
+    path: '/register',
+  })
+}
+onMounted(() => {
   state.langTarget = localStorage.getItem('lang')?.toUpperCase() || 'EN'
 })
 const { langList, showLangOpt, langTarget, userInfo, isRemember, isReadPwd, inputIndex } = toRefs(state)
 </script>
 <style lang="scss" scoped>
-$selectWidth: 86px;
-$selectHeight: 26px;
-$width: 335px;
 .p_left {
   padding-left: 4px;
 }
@@ -210,6 +216,7 @@ $width: 335px;
     overflow: hidden;
     transition: height .5s ease-out;
     height: 0;
+    cursor: pointer;
 
     .o_item {
       height: 28px;
@@ -235,7 +242,7 @@ $width: 335px;
 }
 
 .logoBox {
-  width: 100%;
+  width: $width;
   margin-top: 90px;
 
   .logoImg {
@@ -249,7 +256,8 @@ $width: 335px;
     font-weight: 400;
     letter-spacing: 0.5px;
     color: #eaeaea;
-    span{
+
+    span {
       font-weight: 700;
     }
   }
@@ -304,8 +312,9 @@ $width: 335px;
   .errorStyle {
     @extend .errorTipStyle;
     border-color: #ff4343;
-    .login_left{
-      input{
+
+    .login_left {
+      input {
         color: #ff4343;
       }
     }
@@ -343,17 +352,7 @@ $width: 335px;
   }
 }
 
-.loginbtn {
-  width: 336px;
-  height: 40px;
-  margin: 26px 0 0;
-  border-radius: 20px;
-  background-color: $btnBgColor;
-  border: none;
-  font-family: $fontFamily;
-  font-size: 15px;
-  color: #eaeaea;
-}
+
 
 .addAccText {
   text-align: center;
@@ -365,15 +364,7 @@ $width: 335px;
   .r_now {
     font-size: 14px;
     color: #00a3b7;
+    cursor: pointer;
   }
-}
-
-.serviceLink {
-  @include flex(center);
-  margin: 5px 0 4px;
-  font-family: $fontFamily;
-  font-size: 14px;
-  color: #ff7c43;
-  margin-bottom: 63px;
 }
 </style>

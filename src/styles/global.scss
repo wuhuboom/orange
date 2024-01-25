@@ -1,8 +1,32 @@
 $fontFamily: poppins;
-$btnBgColor:  #ff7c43;
+$btnBgColor: #ff7c43;
+$width: 335px;
 
-@mixin flex($jc: space-between,$ai:center) {
-    display: flex;
-    justify-content: $jc;
-    align-items: $ai;
+$selectWidth: 86px;
+$selectHeight: 26px;
+
+@mixin flex($jc: space-between, $ai: center) {
+  display: flex;
+  justify-content: $jc;
+  align-items: $ai;
+}
+
+.loginbtn {
+  width: 336px;
+  height: 40px;
+  margin: 26px 0 0;
+  border-radius: 20px;
+  background-color: $btnBgColor;
+  border: none;
+  font-family: $fontFamily;
+  font-size: 15px;
+  color: #eaeaea;
+}
+.serviceLink {
+  @include flex(center);
+  margin: 5px 0 4px;
+  font-family: $fontFamily;
+  font-size: 14px;
+  color: #ff7c43;
+  margin-bottom: 63px;
 }
