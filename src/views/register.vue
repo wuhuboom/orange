@@ -20,7 +20,7 @@
                 <div class="options" :class="{ showOpt: showAreaCodeOpt }">
                   <div class="o_item" :class="{ lfc: item.num === areaCode }" v-for="(item, index) in codeList"
                     :key="index" @click="selectLang(item)">
-                    <span class="l_name">{{ item.num }}</span>
+                    <span class="l_name" @click="selectAreaNum(item)">{{ item.num }}</span>
                   </div>
                 </div>
               </div>
@@ -126,6 +126,9 @@ function isChecked() {
 function goback() {
   router.go(-1)
 }
+function selectAreaNum(item) {
+  state.areaCode = item.num
+}
 onMounted(() => {
   let codeList = [
     255,
@@ -221,6 +224,7 @@ const { userInfo, isReadPwd, areaCode, showAreaCodeOpt, codeList, checked } = to
             left: 0;
             top: 50%;
             transform: translateY(-50%);
+            z-index: 10;
 
             .langSelect {
               @include flex(flex-start);
@@ -255,7 +259,7 @@ const { userInfo, isReadPwd, areaCode, showAreaCodeOpt, codeList, checked } = to
               left: -0;
               color: #000;
               border-radius: 4px;
-              background-color: red;
+              background-color: #2c2c2c;
               height: 0;
               overflow: hidden;
               transition: height .5s ease-out;
@@ -278,13 +282,13 @@ const { userInfo, isReadPwd, areaCode, showAreaCodeOpt, codeList, checked } = to
                   width: 100%;
                   text-align: center;
                   border-bottom: 1px solid #707070;
+                  padding-bottom: 4px;
                 }
               }
 
               .lfc {
                 .l_name {
                   color: #ff7c43;
-
                 }
               }
             }
