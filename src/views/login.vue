@@ -28,11 +28,13 @@
           <div class="formItem" :class="{ errorStyle: item.error, focusBorderColor: inputIndex === index }">
             <div class="login_left">
               <img :src="getImg('login', item.imgIcon)" alt="">
-              <input :type="item.type" :placeholder="item.placeholder" @focus="borderActive(index)"
+              <input :type="item.type" v-model="item.val" :placeholder="item.placeholder" @focus="borderActive(index)"
                 @blur="resetActive(item)">
             </div>
             <img :src="getImg('login', isReadPwd ? 'open' : 'close')" alt="" v-if="item.name == 'password'"
               @click="readPwd(item)" style="cursor: pointer;">
+            <img :src="verificationObj?.img" alt="" v-if="item.name === 'verificationCode'"
+              style="width: 80px;cursor: pointer;" @click="getVerifyCode">
           </div>
           <p :class="{ errorPStyle: item.error }" style="padding-left: 8px;margin-bottom: 9px;" v-if="item.error">{{
             item.errorText }}</p>
@@ -47,7 +49,7 @@
           Forgot password
         </div>
       </div>
-      <van-button type="primary" class="loginbtn">Login</van-button>
+      <van-button type="primary" class="loginbtn" @click="login">Login</van-button>
       <p class="addAccText">Not have an account? &nbsp;&nbsp;<span class="r_now" @click="jumpRegisterPage">Register
           now</span></p>
 
@@ -65,6 +67,8 @@ import { reactive, toRefs, onMounted } from 'vue'
 import { getImg } from '@/utils/utils'
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
+import http from '@/utils/axios'
+import { showToast } from 'vant'
 
 const i18n = useI18n()
 const router = useRouter()
@@ -96,7 +100,7 @@ const state = reactive({
       type: 'text',
       val: '',
       error: false,
-      errorText: '',
+      errorText: 'The username cannot be empty',
       placeholder: 'Username or Email'
     },
     {
@@ -105,7 +109,7 @@ const state = reactive({
       type: 'password',
       val: '',
       error: false,
-      errorText: '',
+      errorText: 'The password cannot be empty',
       placeholder: 'Password'
     },
     {
@@ -114,13 +118,14 @@ const state = reactive({
       type: 'text',
       val: '',
       error: false,
-      errorText: '',
+      errorText: 'The verification code cannot be empty',
       placeholder: 'Verification code'
     },
   ],
   isRemember: true,
   isReadPwd: false,
-  inputIndex: -1
+  inputIndex: -1,
+  verificationObj: {}
 })
 function showSelect() {
   state.showLangOpt = !state.showLangOpt
@@ -147,10 +152,43 @@ function jumpRegisterPage() {
     path: '/register',
   })
 }
+async function login() {
+  let url = '/player/auth/login'
+  console.log(state.userInfo);
+  for (let i in state.userInfo) {
+    state.userInfo[i].error = (state.userInfo[i].val == '' ? true : false)
+    if (state.userInfo[i].error) {
+      return
+    }
+  }
+  let data = {
+    username: state.userInfo[0].val,
+    password: state.userInfo[1].val,
+    code: state.userInfo[2].val,
+    verifyKey: state.verificationObj.verifyKey
+  }
+  try {
+    const res = await http.post(url, data)
+    localStorage.setItem('userInfo', JSON.stringify(res))
+    showToast('登录成功')
+  } catch (error) {
+    console.log(error);
+  }
+}
+async function getVerifyCode() {
+  let url = '/player/auth/verify_code'
+  try {
+    const res = await http.get(url)
+    state.verificationObj = res
+  } catch (error) {
+    console.log(error);
+  }
+}
+getVerifyCode()
 onMounted(() => {
   state.langTarget = localStorage.getItem('lang')?.toUpperCase() || 'EN'
 })
-const { langList, showLangOpt, langTarget, userInfo, isRemember, isReadPwd, inputIndex } = toRefs(state)
+const { langList, showLangOpt, langTarget, userInfo, isRemember, isReadPwd, inputIndex, verificationObj } = toRefs(state)
 </script>
 <style lang="scss" scoped>
 .p_left {

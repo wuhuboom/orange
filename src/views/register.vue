@@ -54,6 +54,7 @@
 import { reactive, toRefs, onMounted } from 'vue'
 import { getImg } from '@/utils/utils'
 import { useRouter } from 'vue-router';
+import http from "@/utils/axios";
 const router = useRouter()
 
 const state = reactive({
@@ -130,6 +131,7 @@ function selectAreaNum(item) {
   state.areaCode = item.num
 }
 onMounted(() => {
+  console.log(http);
   let codeList = [
     255,
     213,
