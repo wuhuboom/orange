@@ -6,7 +6,7 @@
       </div>
       <div class="registerForm">
         <div v-for="(item, index) in userInfo" :key="index">
-          <div class="formItem">
+          <div class="formItem" :class="{ errorStyle: item.error, focusBorderColor: inputIndex === index }">
             <div class="login_left">
               <img :src="getImg(item.iconFile, item.imgIcon)" alt=""
                 v-if="item.imgIcon && item.name != 'verificationCode'">
@@ -24,10 +24,11 @@
                   </div>
                 </div>
               </div>
-              <input :type="item.type" :placeholder="item.placeholder"
-                :class="{ inputMl: item.name === 'phoneNumber', verificationMl: item.name === 'verificationCode' }">
-              <img :src="getImg(item.iconFile, item.imgIcon)" alt="" v-if="item.name === 'verificationCode'"
-                style="margin-left: 20px;">
+              <input :type="item.type" :placeholder="item.placeholder" v-model="item.val"
+                :class="{ inputMl: item.name === 'phoneNumber', verificationMl: item.name === 'verificationCode' }"
+                @focus="borderActive(index)" @blur="resetActive(item)" @input="resetActive(item)" />
+              <img :src="verificationObj?.img" alt="" v-if="item.name === 'verificationCode'"
+                style="margin-left: 20px; width: 80px;cursor: pointer;" @click="getVerifyCode">
             </div>
             <img :src="getImg('login', isReadPwd ? 'open' : 'close')" alt="" v-if="item.name == 'password'"
               @click="readPwd(item)" style="cursor: pointer;">
@@ -37,12 +38,14 @@
         </div>
       </div>
       <div class="desc">
-        <img :src="getImg('register', checked ? 'checked' : 'nocheck')" alt="" style="width: 28px;height: 28px;"
-          @click="isChecked">
+        <div :class="{ noChecked: showCheckedBordr, addAnimateClass: showCheckedAnimate }">
+          <img :src="getImg('register', checked ? 'checked' : 'nocheck')" alt="" style="width: 28px;height: 28px;"
+            @click="isChecked">
+        </div>
         <span>I am over 18 years old and agree toTrading
           related regulations and</span>
       </div>
-      <van-button type="primary" class="loginbtn">Register</van-button>
+      <van-button type="primary" class="loginbtn" @click="registerAcc">Register</van-button>
       <p class="serviceLink">
         <img src="../assets/images/login/service.png" alt="">
         Online Service
@@ -55,6 +58,8 @@ import { reactive, toRefs, onMounted } from 'vue'
 import { getImg } from '@/utils/utils'
 import { useRouter } from 'vue-router';
 import http from "@/utils/axios";
+import { showToast } from 'vant'
+
 const router = useRouter()
 
 const state = reactive({
@@ -65,6 +70,8 @@ const state = reactive({
       type: 'text',
       val: '',
       iconFile: 'login',
+      error: false,
+      errorText: 'The username cannot be empty',
       placeholder: 'Username or Email'
     },
     {
@@ -73,14 +80,28 @@ const state = reactive({
       type: 'password',
       val: '',
       iconFile: 'login',
+      error: false,
+      errorText: 'The password cannot be empty',
       placeholder: 'Password'
     },
     {
-      name: 'referralCode',
+      name: 'ConfirmPassword',
+      imgIcon: 'pwd',
+      type: 'password',
+      val: '',
+      iconFile: 'login',
+      error: false,
+      errorText: 'The password cannot be empty',
+      placeholder: 'Confirm Password'
+    },
+    {
+      name: 'invitationCode',
       imgIcon: 'rCode',
       type: 'text',
       val: '',
+      error: false,
       iconFile: 'register',
+      errorText: 'You must enter the invitation code',
       placeholder: 'Referral code'
     },
     {
@@ -89,6 +110,8 @@ const state = reactive({
       type: 'text',
       val: '',
       iconFile: 'login',
+      error: false,
+      errorText: 'Email cannot be empty',
       placeholder: 'email address'
     },
     {
@@ -97,6 +120,8 @@ const state = reactive({
       type: 'text',
       val: '',
       iconFile: '',
+      error: false,
+      errorText: 'Mobile phone numbers are not allowed to be empty',
       placeholder: 'Mobile Phone number'
     },
     {
@@ -105,6 +130,8 @@ const state = reactive({
       type: 'text',
       val: '',
       iconFile: 'register',
+      error: false,
+      errorText: 'The verification code cannot be empty',
       placeholder: 'Verification code'
     },
   ],
@@ -112,7 +139,11 @@ const state = reactive({
   showAreaCodeOpt: false,
   areaCode: 225,
   codeList: [],
-  checked: false
+  checked: false,
+  showCheckedBordr: false,
+  showCheckedAnimate: false,
+  verificationObj: {},
+  inputIndex: -1,
 })
 function showSelect() {
   state.showAreaCodeOpt = !state.showAreaCodeOpt
@@ -123,6 +154,9 @@ function readPwd(item) {
 }
 function isChecked() {
   state.checked = !state.checked
+  if (state.checked) {
+    state.showCheckedBordr = false
+  }
 }
 function goback() {
   router.go(-1)
@@ -130,6 +164,65 @@ function goback() {
 function selectAreaNum(item) {
   state.areaCode = item.num
 }
+function borderActive(index) {
+  state.inputIndex = index
+}
+function resetActive(item) {
+  state.inputIndex = -1
+  if (item.vale != '') {
+    item.error = false
+  }
+}
+async function registerAcc() {
+  for (let i in state.userInfo) {
+    state.userInfo[i].error = state.userInfo[i].val == '' ? true : false
+    if (state.userInfo[i].error) {
+      return
+    }
+  }
+  if (!state.checked) {
+    state.showCheckedBordr = true
+    state.showCheckedAnimate = true
+    setTimeout(() => {
+      state.showCheckedAnimate = false
+    }, 1000);
+    return
+  }
+  let url = '/player/auth/regist'
+  let data = {
+    username: state.userInfo[0].val,
+    password: state.userInfo[1].val,
+    twoPassword: state.userInfo[2].val,
+    invitationCode: state.userInfo[3].val,
+    verifyKey: state.verificationObj?.verifyKey,
+    email: state.userInfo[4].val,
+    code: state.userInfo[6].val,
+    phone: state.userInfo[5].val,
+    areaCode: state.areaCode,
+  }
+  try {
+    const res = await http.post(url, data)
+    // console.log(
+    //   '%c res: ',
+    //   'background-color: #3756d4; padding: 4px 8px; border-radius: 2px; font-size: 14px; color: #fff; font-weight: 700;',
+    //   res
+    // )
+    // showToast('register success')
+  } catch (error) {
+    console.log(error);
+  }
+  console.log(data);
+}
+async function getVerifyCode() {
+  let url = '/player/auth/verify_code'
+  try {
+    const res = await http.get(url)
+    state.verificationObj = res
+  } catch (error) {
+    console.log(error);
+  }
+}
+getVerifyCode()
 onMounted(() => {
   console.log(http);
   let codeList = [
@@ -157,9 +250,31 @@ onMounted(() => {
     }
   })
 })
-const { userInfo, isReadPwd, areaCode, showAreaCodeOpt, codeList, checked } = toRefs(state)
+const { userInfo, isReadPwd, areaCode, showAreaCodeOpt, codeList, checked, verificationObj, showCheckedBordr, showCheckedAnimate, inputIndex } = toRefs(state)
 </script>
 <style lang="scss" scoped>
+@keyframes shake {
+  0% {
+    transform: translateX(0);
+  }
+
+  25% {
+    transform: translateX(-5px);
+  }
+
+  50% {
+    transform: translateX(0);
+  }
+
+  75% {
+    transform: translateX(5px);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
+}
+
 .register {
   height: 100%;
   background: url('@/assets/images/register/registerBg.png')no-repeat;
@@ -356,6 +471,15 @@ const { userInfo, isReadPwd, areaCode, showAreaCodeOpt, codeList, checked } = to
       @include flex('', flex-start);
       width: 335px;
       margin-top: 18px;
+
+      .noChecked {
+        border: 1px solid red;
+        border-radius: 5px;
+      }
+
+      .addAnimateClass {
+        animation: shake 0.5s forwards;
+      }
 
       img {
         vertical-align: middle;

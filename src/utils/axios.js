@@ -2,16 +2,19 @@ import axios from "axios";
 
 import { showToast } from "vant";
 
-// console.log(import.meta.env);
-
+console.log(import.meta.env);
 let { MODE } = import.meta.env;
 let origin = location.origin;
 
+let proxyUrl = {
+  development: "https://api.uunn.org",
+  production: "",
+};
 // const baseURL = MODE === "development" ? "https://api.uunn.org" : `${origin}`;
 
 //
 const http = axios.create({
-  baseURL: "/api",
+  baseURL: `/api`,
   timeout: 5000,
 });
 // 请求拦截器

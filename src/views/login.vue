@@ -28,8 +28,8 @@
           <div class="formItem" :class="{ errorStyle: item.error, focusBorderColor: inputIndex === index }">
             <div class="login_left">
               <img :src="getImg('login', item.imgIcon)" alt="">
-              <input :type="item.type" v-model="item.val" :placeholder="item.placeholder" @focus="borderActive(index)"
-                @blur="resetActive(item)">
+              <input :type="item.type" autocomplete="off" v-model="item.val" :placeholder="item.placeholder"
+                @focus="borderActive(index)" @blur="resetActive(item)" @input="resetActive(item)" />
             </div>
             <img :src="getImg('login', isReadPwd ? 'open' : 'close')" alt="" v-if="item.name == 'password'"
               @click="readPwd(item)" style="cursor: pointer;">
@@ -42,7 +42,7 @@
       </div>
       <div class="remember">
         <div class="r_switch">
-          <van-switch v-model="isRemember" active-color="#ff7c43" inactive-color="#2c2c2c" />
+          <van-switch v-model="isRemember" active-color="#ff7c43" inactive-color="#2c2c2c" @change="savePwd" />
           <span>Remember me</span>
         </div>
         <div class="r_forgot">
@@ -122,7 +122,7 @@ const state = reactive({
       placeholder: 'Verification code'
     },
   ],
-  isRemember: true,
+  isRemember: false,
   isReadPwd: false,
   inputIndex: -1,
   verificationObj: {}
@@ -146,6 +146,23 @@ function borderActive(index) {
 }
 function resetActive(item) {
   state.inputIndex = -1
+  if (item.vale != '') {
+    item.error = false
+  }
+  if (state.isRemember) {
+    savePwd()
+  }
+}
+function savePwd() {
+  let storeage = {
+    isremember: state.isRemember,
+    user: state.userInfo
+  }
+  if (state.isRemember) {
+    localStorage.setItem('remember', JSON.stringify(storeage))
+  } else {
+    localStorage.removeItem('remember')
+  }
 }
 function jumpRegisterPage() {
   router.push({
@@ -154,9 +171,8 @@ function jumpRegisterPage() {
 }
 async function login() {
   let url = '/player/auth/login'
-  console.log(state.userInfo);
   for (let i in state.userInfo) {
-    state.userInfo[i].error = (state.userInfo[i].val == '' ? true : false)
+    state.userInfo[i].error = state.userInfo[i].val == '' ? true : false
     if (state.userInfo[i].error) {
       return
     }
@@ -170,7 +186,7 @@ async function login() {
   try {
     const res = await http.post(url, data)
     localStorage.setItem('userInfo', JSON.stringify(res))
-    showToast('登录成功')
+    // showToast('login success')
   } catch (error) {
     console.log(error);
   }
@@ -187,6 +203,11 @@ async function getVerifyCode() {
 getVerifyCode()
 onMounted(() => {
   state.langTarget = localStorage.getItem('lang')?.toUpperCase() || 'EN'
+  if (localStorage.getItem('remember')) {
+    let storeage = JSON.parse(localStorage.getItem('remember'))
+    state.isRemember = storeage.isremember
+    state.userInfo = storeage.user
+  }
 })
 const { langList, showLangOpt, langTarget, userInfo, isRemember, isReadPwd, inputIndex, verificationObj } = toRefs(state)
 </script>
