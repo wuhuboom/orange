@@ -1,5 +1,5 @@
 <template>
-    <div class="forgotPwd maxWidth">
+    <div class="forgotPwd maxWidth" @click="showAreaCodeOpt = false">
         <div class="forgotMain">
             <div class="backBox">
                 <img src="../assets/images/register/back.png" class="goBack" alt="" @click="goback">
@@ -22,7 +22,7 @@
                                     </div>
                                     <div class="options" :class="{ showOpt: showAreaCodeOpt }">
                                         <div class="o_item" :class="{ lfc: item.num === areaCode }"
-                                            v-for="(item, index) in codeList" :key="index" @click="selectLang(item)">
+                                            v-for="(item, index) in codeList" :key="index">
                                             <span class="l_name" @click="selectAreaNum(item)">{{ item.num }}</span>
                                         </div>
                                     </div>
@@ -175,7 +175,6 @@ function resetActive(item) {
     }
 }
 function showVerifySelect(item) {
-    console.log(item);
     if (item.name === 'emailOrPhoneVerifiCode') {
         state.showVerifyOpt = !state.showVerifyOpt
     }
@@ -187,26 +186,15 @@ function getVerifyCode() {
         getPhoneCode()
     }
 }
+function selectAreaNum(item) {
+    state.areaCode = item.num
+    state.showAreaCodeOpt = false
+}
 async function getEmailCode() {
     let url = '/player/mail/change_pwd'
     let data = {
         username: state.userInfo[0].val,
         email: state.userInfo[4].val
-    }
-    try {
-        let res = http.post(url, data)
-        if (res?.hasSend) {
-            showToast(t('form.verift.send.text'))
-        }
-    } catch (error) {
-        console.log(error);
-    }
-}
-async function getPhoneCode() {
-    let url = '/player/v2/phone_code/change_pwd'
-    let data = {
-        username: state.userInfo[0].val,
-        phone: state.userInfo[5].val
     }
     try {
         let res = await http.post(url, data)
@@ -222,8 +210,22 @@ async function getPhoneCode() {
         console.log(error);
     }
 }
+async function getPhoneCode() {
+    let url = '/player/v2/phone_code/change_pwd'
+    let data = {
+        username: state.userInfo[0].val,
+        phone: `${state.areaCode}${state.userInfo[5].val}`
+    }
+    try {
+        let res = await http.post(url, data)
+        if (res?.hasSend) {
+            showToast(t('form.verift.send.text'))
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
 function clickVerify(params) {
-    console.log(params);
     state.optVal = params
     state.showVerifyOpt = false
     state.userInfo.forEach(item => {
@@ -254,6 +256,11 @@ async function changePwd() {
         const res = await http.post(url, data)
         if (res === null) {
             showToast(t('index.editor.psd.change.pass.success.text'))
+            setTimeout(() => {
+                router.push({
+                    path: "/"
+                })
+            }, 1000);
         }
     } catch (error) {
         console.log(error);

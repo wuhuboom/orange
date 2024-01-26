@@ -19,7 +19,7 @@
                 </div>
                 <div class="options" :class="{ showOpt: showAreaCodeOpt }">
                   <div class="o_item" :class="{ lfc: item.num === areaCode }" v-for="(item, index) in codeList"
-                    :key="index" @click="selectLang(item)">
+                    :key="index">
                     <span class="l_name" @click="selectAreaNum(item)">{{ item.num }}</span>
                   </div>
                 </div>
@@ -196,7 +196,7 @@ async function registerAcc() {
     verifyKey: state.verificationObj?.verifyKey,
     email: state.userInfo[4].val,
     code: state.userInfo[6].val,
-    phone: state.userInfo[5].val,
+    phone: `${state.areaCode}${state.userInfo[5].val}`,
     areaCode: state.areaCode,
   }
   try {
