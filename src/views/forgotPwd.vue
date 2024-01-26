@@ -1,0 +1,480 @@
+<template>
+    <div class="forgotPwd maxWidth">
+        <div class="forgotMain">
+            <div class="backBox">
+                <img src="../assets/images/register/back.png" class="goBack" alt="" @click="goback">
+                <span class="title">Forget password</span>
+            </div>
+            <div class="registerForm">
+                <div v-for="(item, index) in userInfo" :key="index" style="position: relative;" v-if="item.isShow">
+                    <div class="formItem" :class="{ errorStyle: item.error, focusBorderColor: inputIndex === index }"
+                        @click="showVerifySelect(item)">
+                        <div class="login_left">
+                            <img :src="getImg(item.iconFile, item.imgIcon)" alt=""
+                                v-if="item.imgIcon && item.name != 'emailOrPhoneVerifiCode'">
+                            <div class="langBox" v-if="item.name === 'phoneNumber'">
+                                <div class="langSelect" @click.stop="showSelect">
+                                    <div class="l_left">
+                                        <span class="l_name">{{ areaCode }}</span>
+                                    </div>
+                                    <van-icon :name="showAreaCodeOpt ? 'arrow-up' : 'arrow-down'" />
+                                </div>
+                                <div class="options" :class="{ showOpt: showAreaCodeOpt }">
+                                    <div class="o_item" :class="{ lfc: item.num === areaCode }"
+                                        v-for="(item, index) in codeList" :key="index" @click="selectLang(item)">
+                                        <span class="l_name" @click="selectAreaNum(item)">{{ item.num }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <input :type="item.type" :placeholder="item.placeholder" v-model="item.val"
+                                :class="{ inputMl: item.name === 'phoneNumber' }" @focus="borderActive(index)"
+                                @blur="resetActive(item)" @input="resetActive(item)"
+                                v-if="item.name != 'emailOrPhoneVerifiCode'" />
+                            <!-- 选择 验证方式 -->
+                            <div v-if="item.name == 'emailOrPhoneVerifiCode'"
+                                style="width:100%;display: flex; justify-content: space-between;font-size: 14px;color: #fff;">
+                                <span style="margin-left: 12px;">{{ item.val }}</span>
+                                <van-icon :name="showVerifyOpt ? 'arrow-up' : 'arrow-down'" />
+                            </div>
+                            <!-- 发送验证码 -->
+                            <div class="sendBtn" v-if="item.name === 'verificationCode'">
+                                send
+                            </div>
+                        </div>
+                    </div>
+                    <p :class="{ errorPStyle: item.error }" style="padding-left: 8px;margin-bottom: 9px;" v-if="item.error">
+                        {{ item.errorText }}</p>
+                    <!-- 验证方式下拉选项 -->
+                    <div class="verifyType" v-if="showVerifyOpt && item.name == 'emailOrPhoneVerifiCode'">
+                        <p @click="clickVerify('Phone verifiCode')"
+                            :class="{ activeText: optVal.includes('Phone verifiCode') }">Phone verifiCode</p>
+                        <van-divider :hairline="true" />
+                        <p @click="clickVerify('Email verifiCode')"
+                            :class="{ activeText: optVal.includes('Email verifiCode') }">Email verifiCode</p>
+                    </div>
+                </div>
+            </div>
+            <van-button type="primary" class="loginbtn" @click="changePwd">Continue</van-button>
+        </div>
+    </div>
+</template>
+<script setup >
+import { reactive, toRefs, onMounted } from 'vue'
+import { getImg } from '@/utils/utils'
+import { useRouter } from 'vue-router';
+
+const router = useRouter()
+
+const state = reactive({
+    userInfo: [
+        {
+            name: 'username',
+            type: 'text',
+            val: '',
+            error: false,
+            isShow: true,
+            errorText: 'The username cannot be empty',
+            placeholder: 'Username'
+        },
+        {
+            name: 'newPwd',
+            type: 'password',
+            val: '',
+            error: false,
+            isShow: true,
+            errorText: 'The password cannot be empty',
+            placeholder: 'new login password'
+        },
+        {
+            name: 'ConfirmPassword',
+            type: 'password',
+            val: '',
+            error: false,
+            isShow: true,
+            errorText: 'The password cannot be empty',
+            placeholder: 'set a new login password'
+        },
+        {
+            name: 'emailOrPhoneVerifiCode',
+            imgIcon: 'back',
+            type: 'text',
+            val: 'Email verifiCode',
+            iconFile: 'register',
+            error: false,
+            errorText: '',
+            isOpt: false,
+            isShow: true,
+            placeholder: 'Referral code'
+        },
+        {
+            name: 'emailAddress',
+            imgIcon: 'email',
+            type: 'text',
+            val: '',
+            iconFile: 'login',
+            error: false,
+            isShow: true,
+            errorText: 'Email cannot be empty',
+            placeholder: 'email address'
+        },
+        {
+            name: 'phoneNumber',
+            imgIcon: '',
+            type: 'text',
+            val: '',
+            iconFile: '',
+            error: false,
+            isShow: false,
+            errorText: 'Mobile phone numbers are not allowed to be empty',
+            placeholder: 'Mobile Phone number'
+        },
+        {
+            name: 'verificationCode',
+            type: 'text',
+            val: '',
+            error: false,
+            isShow: true,
+            errorText: 'The verification code cannot be empty',
+            placeholder: 'Verification code'
+        },
+    ],
+    inputIndex: -1,
+    areaCode: '225',
+    showAreaCodeOpt: false,
+    showVerifyOpt: false,
+    codeList: [],
+    optVal: 'Email verifiCode'
+})
+function goback() {
+    router.go(-1)
+}
+function showSelect() {
+    state.showAreaCodeOpt = !state.showAreaCodeOpt
+}
+function borderActive(index) {
+    state.inputIndex = index
+}
+function resetActive(item) {
+    state.inputIndex = -1
+    if (item.vale != '') {
+        item.error = false
+    }
+}
+function showVerifySelect(item) {
+    console.log(item);
+    if (item.name === 'emailOrPhoneVerifiCode') {
+        state.showVerifyOpt = !state.showVerifyOpt
+    }
+}
+function clickVerify(params) {
+    state.userInfo.forEach(item => {
+        if (item.name === 'emailOrPhoneVerifiCode') {
+            state.optVal = params
+            state.showVerifyOpt = false
+        }
+    });
+}
+function changePwd() {
+    let url = '/player/v2/phone_change_pwd'
+    let data = {
+        username: state.userInfo[0].val,
+        newPwd: state.userInfo[1].val,
+        twicePwd: state.userInfo[2].val,
+        code: state.userInfo[6].val
+    }
+}
+onMounted(() => {
+    let codeList = [
+        255,
+        213,
+        33,
+        44,
+        49,
+        34,
+        1,
+        91,
+        90,
+        260,
+        251,
+        254,
+        255,
+        234,
+        237,
+        213,
+        33,
+        44,]
+    state.codeList = codeList.map(item => {
+        return {
+            num: item
+        }
+    })
+})
+const { userInfo, inputIndex, areaCode, showAreaCodeOpt, codeList, showVerifyOpt, optVal } = toRefs(state)
+</script>
+<style scoped lang='scss'>
+.forgotPwd {
+    height: 100%;
+    background: url('@/assets/images/register/forgotPwd.png')no-repeat;
+    background-size: cover;
+    box-sizing: border-box;
+    overflow: auto;
+
+    .forgotMain {
+        padding: 40px 20px 0;
+        @include flex();
+
+        flex-direction: column;
+
+        .backBox {
+            width: $width;
+
+            @include flex(flex-start);
+
+            .title {
+                margin: 4px 0 5px 12px;
+                font-family: Roboto;
+                font-size: 16px;
+                color: #fff;
+            }
+        }
+
+        .registerForm {
+            box-sizing: border-box;
+            margin-top: 16px;
+
+            .formItem {
+                width: $width;
+                height: 45px;
+                border-radius: 12px;
+                border: solid 1px #3f3f3f;
+                background-color: #2c2c2c;
+                @include flex();
+                padding-left: 9px;
+                margin-bottom: 9px;
+                box-sizing: border-box;
+                padding-right: 14px;
+                position: relative;
+
+                .login_left {
+                    height: 100%;
+                    @include flex(flex-start);
+                    flex: 1;
+
+                    input {
+                        // width: 100%;
+                        // height: calc(100% - px);
+                        background-color: #2c2c2c;
+                        border: none;
+                        font-family: $fontFamily;
+                        font-size: 14px;
+                        color: #fff;
+                        margin-left: 12px;
+                    }
+
+                    .inputMl {
+                        margin-left: 50px;
+                    }
+
+                    .verificationMl {
+                        margin-left: 0;
+                    }
+
+                    .langBox {
+                        width: 43px;
+                        position: absolute;
+                        left: 0;
+                        top: 50%;
+                        transform: translateY(-50%);
+                        z-index: 10;
+
+                        .langSelect {
+                            @include flex(flex-start);
+                            color: #fff;
+                            width: 100%;
+                            border-radius: 3.5px;
+                            cursor: pointer;
+                            margin-left: 12px;
+
+                            .l_left {
+                                @include flex(flex-start);
+                                margin-right: 4px;
+                            }
+                        }
+
+                        .langImg {
+                            width: 19px;
+                            height: 19px;
+                        }
+
+                        .l_name {
+                            font-family: normal;
+                            font-size: 14px;
+                            color: #fff;
+                            font-weight: normal;
+                        }
+
+                        .options {
+                            width: 74px;
+                            position: absolute;
+                            top: 30px;
+                            left: -0;
+                            color: #000;
+                            border-radius: 4px;
+                            background-color: #2c2c2c;
+                            height: 0;
+                            overflow: hidden;
+                            transition: height .5s ease-out;
+                            height: 0;
+                            cursor: pointer;
+                            box-sizing: border-box;
+                            padding: 0 9px;
+
+                            .o_item {
+                                width: 100%;
+                                height: 28px;
+                                font-family: $fontFamily;
+                                font-size: 15px;
+                                color: #fff;
+                                @include flex(flex-start);
+                                margin-top: 9px;
+
+                                span {
+                                    display: block;
+                                    width: 100%;
+                                    text-align: center;
+                                    border-bottom: 1px solid #707070;
+                                    padding-bottom: 4px;
+                                }
+                            }
+
+                            .lfc {
+                                .l_name {
+                                    color: #ff7c43;
+                                }
+                            }
+                        }
+
+                        .showOpt {
+                            transition: height .5s ease-out;
+                            height: 185px;
+                            overflow: auto;
+                        }
+
+                        .showOpt::-webkit-scrollbar {
+                            width: 0px;
+                            /* 设置滚动条宽度 */
+                        }
+
+                        .showOpt::-webkit-scrollbar-track {
+                            background-color: rgb(0, 0, 0);
+                            /* 设置滚动条轨道背景色 */
+                        }
+
+                        .showOpt::-webkit-scrollbar-thumb {
+                            background-color: rgb(0, 0, 0);
+                            /* 设置滚动条滑块颜色 */
+                        }
+
+                        .showOpt::-webkit-scrollbar-thumb:hover {
+                            background-color: rgb(0, 0, 0);
+                            /* 设置滚动条滑块在鼠标悬停时的颜色 */
+                        }
+                    }
+
+                    .sendBtn {
+                        width: 58px;
+                        height: 28px;
+                        margin: 0 0 0 33px;
+                        border-radius: 4px;
+                        background-color: #ff7c43;
+                        font-size: 14px;
+                        color: #fff;
+                        @include flex(center, center);
+                        cursor: pointer;
+                    }
+                }
+            }
+
+            .verifyType {
+                width: 100%;
+                height: 90px;
+                position: absolute;
+                top: 50px;
+                background-color: #202020;
+                z-index: 12;
+                padding: 7px 16px 11px;
+                border-radius: 12px;
+                box-sizing: border-box;
+                color: #8d8d8d;
+                font-size: 14px;
+                // height: 0;
+                cursor: pointer;
+
+                p {
+                    height: 40px;
+                    @include flex(flex-start, center);
+                }
+
+                .van-divider {
+                    margin: 0;
+                }
+
+                .activeText {
+                    color: #fff;
+                }
+            }
+
+            .addVerifyClass {
+                height: 90px;
+                transition: height .5s ease-out;
+                cursor: pointer;
+            }
+
+            // .removeVerifyClass {
+            //     display: none;
+            // }
+
+            .errorTipStyle {
+                font-family: $fontFamily;
+                font-size: 12px;
+                color: #ff4343;
+
+            }
+
+            .errorStyle {
+                @extend .errorTipStyle;
+                border-color: #ff4343;
+
+                .login_left {
+                    input {
+                        color: #ff4343;
+                    }
+                }
+            }
+
+            .errorPStyle {
+                @extend .errorTipStyle;
+            }
+
+            .focusBorderColor {
+                border-color: $btnBgColor;
+            }
+        }
+
+        .loginbtn {
+            margin-top: 264px;
+        }
+    }
+}
+
+@media screen and (max-width: 400px) {
+    .forgotPwd {
+        .forgotMain {
+            .loginbtn {
+                margin-top: 30%;
+            }
+        }
+
+    }
+}
+</style>

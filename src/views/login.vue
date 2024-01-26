@@ -45,7 +45,7 @@
           <van-switch v-model="isRemember" active-color="#ff7c43" inactive-color="#2c2c2c" @change="savePwd" />
           <span>Remember me</span>
         </div>
-        <div class="r_forgot">
+        <div class="r_forgot" @click="toForgot">
           Forgot password
         </div>
       </div>
@@ -144,6 +144,11 @@ function readPwd(item) {
 function borderActive(index) {
   state.inputIndex = index
 }
+function toForgot() {
+  router.push({
+    path: '/forgotPwd'
+  })
+}
 function resetActive(item) {
   state.inputIndex = -1
   if (item.vale != '') {
@@ -186,12 +191,19 @@ async function login() {
   try {
     const res = await http.post(url, data)
     localStorage.setItem('userInfo', JSON.stringify(res))
-    // showToast('login success')
+    if (res?.token) {
+      setTimeout(() => {
+        router.push({
+          path: '/home'
+        })
+      }, 500)
+    }
   } catch (error) {
     console.log(error);
   }
 }
 async function getVerifyCode() {
+  state.userInfo[2].val = ''
   let url = '/player/auth/verify_code'
   try {
     const res = await http.get(url)
@@ -206,7 +218,8 @@ onMounted(() => {
   if (localStorage.getItem('remember')) {
     let storeage = JSON.parse(localStorage.getItem('remember'))
     state.isRemember = storeage.isremember
-    state.userInfo = storeage.user
+    state.userInfo[0] = storeage.user[0]
+    state.userInfo[1] = storeage.user[1]
   }
 })
 const { langList, showLangOpt, langTarget, userInfo, isRemember, isReadPwd, inputIndex, verificationObj } = toRefs(state)
@@ -408,6 +421,7 @@ const { langList, showLangOpt, langTarget, userInfo, isRemember, isReadPwd, inpu
     font-family: $fontFamily;
     font-size: 14px;
     color: #eaeaea;
+    cursor: pointer;
   }
 }
 

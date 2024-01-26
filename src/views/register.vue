@@ -58,7 +58,6 @@ import { reactive, toRefs, onMounted } from 'vue'
 import { getImg } from '@/utils/utils'
 import { useRouter } from 'vue-router';
 import http from "@/utils/axios";
-import { showToast } from 'vant'
 
 const router = useRouter()
 
@@ -72,7 +71,7 @@ const state = reactive({
       iconFile: 'login',
       error: false,
       errorText: 'The username cannot be empty',
-      placeholder: 'Username or Email'
+      placeholder: 'Username'
     },
     {
       name: 'password',
@@ -279,7 +278,6 @@ const { userInfo, isReadPwd, areaCode, showAreaCodeOpt, codeList, checked, verif
   height: 100%;
   background: url('@/assets/images/register/registerBg.png')no-repeat;
   background-size: cover;
-  padding-bottom: 60px;
   box-sizing: border-box;
   overflow: auto;
 
@@ -377,7 +375,6 @@ const { userInfo, isReadPwd, areaCode, showAreaCodeOpt, codeList, checked, verif
               color: #000;
               border-radius: 4px;
               background-color: #2c2c2c;
-              height: 0;
               overflow: hidden;
               transition: height .5s ease-out;
               height: 0;

@@ -7,7 +7,6 @@ import fr from "./fr.json";
 import ins from "./ins.json";
 import zh from "./zh.json";
 import deal from "./deal.json";
-console.log(zh);
 // 创建 i18n 实例
 const i18n = createI18n({
   locale: localStorage.getItem("lang") || "en", // 设置默认语言

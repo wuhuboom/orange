@@ -32,7 +32,7 @@ http.interceptors.response.use(
     let { code, data, msg } = response.data;
     if (code === 200) {
       return data;
-    } else if (code === 103) {
+    } else if (code === 103 || code === 105) {
       if (data.length > 0) {
         let msgKey = `backapi.${data[0].msgKey}`;
         console.log(i18n);

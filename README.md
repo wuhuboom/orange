@@ -27,3 +27,13 @@ npm run dev
 ```sh
 npm run build
 ```
+
+### public 下面的 config 是配置一些公用的变量，支持文件单独更新，不需要打包，
+
+### .env.development 这个文件是配置开发环境的 VITE_BASE_URL="......."
+
+### .env.production 这个文件是配置生产环境的 VITE_BASE_URL="......."
+
+### npm run build:dev 打包开发环境包
+
+### npm run build:prod 打包生产环境包
