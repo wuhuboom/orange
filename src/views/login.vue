@@ -101,7 +101,7 @@ const state = reactive({
       val: '',
       error: false,
       errorText: 'The username cannot be empty',
-      placeholder: 'Username or Email'
+      placeholder: 'Username'
     },
     {
       name: 'password',

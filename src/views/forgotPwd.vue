@@ -6,52 +6,62 @@
                 <span class="title">Forget password</span>
             </div>
             <div class="registerForm">
-                <div v-for="(item, index) in userInfo" :key="index" style="position: relative;" v-if="item.isShow">
-                    <div class="formItem" :class="{ errorStyle: item.error, focusBorderColor: inputIndex === index }"
-                        @click="showVerifySelect(item)">
-                        <div class="login_left">
-                            <img :src="getImg(item.iconFile, item.imgIcon)" alt=""
-                                v-if="item.imgIcon && item.name != 'emailOrPhoneVerifiCode'">
-                            <div class="langBox" v-if="item.name === 'phoneNumber'">
-                                <div class="langSelect" @click.stop="showSelect">
-                                    <div class="l_left">
-                                        <span class="l_name">{{ areaCode }}</span>
+                <div v-for="(item, index) in userInfo" :key="index" style="position: relative;">
+                    <div v-if="item.isShow">
+                        <div class="formItem" :class="{ errorStyle: item.error, focusBorderColor: inputIndex === index }"
+                            @click="showVerifySelect(item)">
+                            <div class="login_left">
+                                <img :src="getImg(item.iconFile, item.imgIcon)" alt=""
+                                    v-if="item.imgIcon && item.name != 'emailOrPhoneVerifiCode'">
+                                <div class="langBox" v-if="item.name === 'phoneNumber'">
+                                    <div class="langSelect" @click.stop="showSelect">
+                                        <div class="l_left">
+                                            <span class="l_name">{{ areaCode }}</span>
+                                        </div>
+                                        <van-icon :name="showAreaCodeOpt ? 'arrow-up' : 'arrow-down'" />
                                     </div>
-                                    <van-icon :name="showAreaCodeOpt ? 'arrow-up' : 'arrow-down'" />
-                                </div>
-                                <div class="options" :class="{ showOpt: showAreaCodeOpt }">
-                                    <div class="o_item" :class="{ lfc: item.num === areaCode }"
-                                        v-for="(item, index) in codeList" :key="index" @click="selectLang(item)">
-                                        <span class="l_name" @click="selectAreaNum(item)">{{ item.num }}</span>
+                                    <div class="options" :class="{ showOpt: showAreaCodeOpt }">
+                                        <div class="o_item" :class="{ lfc: item.num === areaCode }"
+                                            v-for="(item, index) in codeList" :key="index" @click="selectLang(item)">
+                                            <span class="l_name" @click="selectAreaNum(item)">{{ item.num }}</span>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <input :type="item.type" :placeholder="item.placeholder" v-model="item.val"
-                                :class="{ inputMl: item.name === 'phoneNumber' }" @focus="borderActive(index)"
-                                @blur="resetActive(item)" @input="resetActive(item)"
-                                v-if="item.name != 'emailOrPhoneVerifiCode'" />
-                            <!-- 选择 验证方式 -->
-                            <div v-if="item.name == 'emailOrPhoneVerifiCode'"
-                                style="width:100%;display: flex; justify-content: space-between;font-size: 14px;color: #fff;">
-                                <span style="margin-left: 12px;">{{ item.val }}</span>
-                                <van-icon :name="showVerifyOpt ? 'arrow-up' : 'arrow-down'" />
-                            </div>
-                            <!-- 发送验证码 -->
-                            <div class="sendBtn" v-if="item.name === 'verificationCode'">
-                                send
+                                <input :type="item.type" :placeholder="item.placeholder" v-model="item.val"
+                                    :class="{ inputMl: item.name === 'phoneNumber' }" @focus="borderActive(index)"
+                                    @blur="resetActive(item)" @input="resetActive(item)"
+                                    v-if="item.name != 'emailOrPhoneVerifiCode'" />
+                                <!-- 选择 验证方式 -->
+                                <div v-if="item.name == 'emailOrPhoneVerifiCode'"
+                                    style="width:100%;display: flex; justify-content: space-between;font-size: 14px;color: #fff;">
+                                    <span style="margin-left: 12px;">{{ item.val }}</span>
+                                    <van-icon :name="showVerifyOpt ? 'arrow-up' : 'arrow-down'" />
+                                </div>
+                                <!-- 发送验证码 -->
+                                <div class="sendBtn" v-if="item.name === 'verificationCode'" @click="getVerifyCode">
+                                    send
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <p :class="{ errorPStyle: item.error }" style="padding-left: 8px;margin-bottom: 9px;" v-if="item.error">
-                        {{ item.errorText }}</p>
-                    <!-- 验证方式下拉选项 -->
-                    <div class="verifyType" v-if="showVerifyOpt && item.name == 'emailOrPhoneVerifiCode'">
+                        <p :class="{ errorPStyle: item.error }" style="padding-left: 8px;margin-bottom: 9px;"
+                            v-if="item.error">
+                            {{ item.errorText }}</p>
+                        <!-- 验证方式下拉选项 -->
+                        <!-- <div class="verifyType" v-if="showVerifyOpt && item.name == 'emailOrPhoneVerifiCode'">
                         <p @click="clickVerify('Phone verifiCode')"
                             :class="{ activeText: optVal.includes('Phone verifiCode') }">Phone verifiCode</p>
                         <van-divider :hairline="true" />
                         <p @click="clickVerify('Email verifiCode')"
                             :class="{ activeText: optVal.includes('Email verifiCode') }">Email verifiCode</p>
+                    </div> -->
                     </div>
+                </div>
+                <div class="verifyType" :class="{ addVerifyClass: showVerifyOpt }">
+                    <p @click="clickVerify('Phone verifiCode')"
+                        :class="{ activeText: optVal.includes('Phone verifiCode') }">Phone verifiCode</p>
+                    <van-divider :hairline="true" />
+                    <p @click="clickVerify('Email verifiCode')"
+                        :class="{ activeText: optVal.includes('Email verifiCode') }">Email verifiCode</p>
                 </div>
             </div>
             <van-button type="primary" class="loginbtn" @click="changePwd">Continue</van-button>
@@ -62,7 +72,11 @@
 import { reactive, toRefs, onMounted } from 'vue'
 import { getImg } from '@/utils/utils'
 import { useRouter } from 'vue-router';
+import { showToast } from 'vant'
+import http from "@/utils/axios";
+import { useI18n } from 'vue-i18n'
 
+const { t } = useI18n()
 const router = useRouter()
 
 const state = reactive({
@@ -166,21 +180,83 @@ function showVerifySelect(item) {
         state.showVerifyOpt = !state.showVerifyOpt
     }
 }
+function getVerifyCode() {
+    if (state.optVal === 'Email verifiCode') {
+        getEmailCode()
+    } else {
+        getPhoneCode()
+    }
+}
+async function getEmailCode() {
+    let url = '/player/mail/change_pwd'
+    let data = {
+        username: state.userInfo[0].val,
+        email: state.userInfo[4].val
+    }
+    try {
+        let res = http.post(url, data)
+        if (res?.hasSend) {
+            showToast(t('form.verift.send.text'))
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
+async function getPhoneCode() {
+    let url = '/player/v2/phone_code/change_pwd'
+    let data = {
+        username: state.userInfo[0].val,
+        phone: state.userInfo[5].val
+    }
+    try {
+        let res = await http.post(url, data)
+        console.log(
+            '%c res: ',
+            'background-color: #3756d4; padding: 4px 8px; border-radius: 2px; font-size: 14px; color: #fff; font-weight: 700;',
+            res
+        )
+        if (res?.hasSend) {
+            showToast(t('form.verift.send.text'))
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
 function clickVerify(params) {
+    console.log(params);
+    state.optVal = params
+    state.showVerifyOpt = false
     state.userInfo.forEach(item => {
         if (item.name === 'emailOrPhoneVerifiCode') {
-            state.optVal = params
-            state.showVerifyOpt = false
+            item.val = params
         }
     });
+    if (params === 'Phone verifiCode') {
+        state.userInfo[4].isShow = false
+        state.userInfo[5].isShow = true
+        state.userInfo[4].val = ''
+    }
+    if (params === 'Email verifiCode') {
+        state.userInfo[5].isShow = false
+        state.userInfo[4].isShow = true
+        state.userInfo[5].val = ''
+    }
 }
-function changePwd() {
+async function changePwd() {
     let url = '/player/v2/phone_change_pwd'
     let data = {
         username: state.userInfo[0].val,
         newPwd: state.userInfo[1].val,
         twicePwd: state.userInfo[2].val,
         code: state.userInfo[6].val
+    }
+    try {
+        const res = await http.post(url, data)
+        if (res === null) {
+            showToast(t('index.editor.psd.change.pass.success.text'))
+        }
+    } catch (error) {
+        console.log(error);
     }
 }
 onMounted(() => {
@@ -396,10 +472,10 @@ const { userInfo, inputIndex, areaCode, showAreaCodeOpt, codeList, showVerifyOpt
             }
 
             .verifyType {
-                width: 100%;
-                height: 90px;
+                width: $width;
+                // height: 90px;
                 position: absolute;
-                top: 50px;
+                top: 296px;
                 background-color: #202020;
                 z-index: 12;
                 padding: 7px 16px 11px;
@@ -407,8 +483,9 @@ const { userInfo, inputIndex, areaCode, showAreaCodeOpt, codeList, showVerifyOpt
                 box-sizing: border-box;
                 color: #8d8d8d;
                 font-size: 14px;
-                // height: 0;
+                height: 0;
                 cursor: pointer;
+                display: none;
 
                 p {
                     height: 40px;
@@ -425,6 +502,7 @@ const { userInfo, inputIndex, areaCode, showAreaCodeOpt, codeList, showVerifyOpt
             }
 
             .addVerifyClass {
+                display: block;
                 height: 90px;
                 transition: height .5s ease-out;
                 cursor: pointer;
