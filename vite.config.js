@@ -39,15 +39,15 @@ export default defineConfig({
     /** 端口被占用时，是否直接退出 */
     strictPort: false,
     /** 接口代理 */
-    proxy: {
-      "/api": {
-        target: "https://api.uunn.org",
-        ws: false,
-        /** 是否允许跨域 */
-        changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, ""),
-      },
-    },
+    // proxy: {
+    //   "/api": {
+    //     target: "https://api.uunn.org",
+    //     ws: false,
+    //     /** 是否允许跨域 */
+    //     changeOrigin: true,
+    //     rewrite: (path) => path.replace(/^\/api/, ""),
+    //   },
+    // },
     /** 预热常用文件，提高初始页面加载速度 */
     // warmup: {
     //   clientFiles: ["./src/layouts/**/*.vue"],

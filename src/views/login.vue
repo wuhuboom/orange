@@ -19,7 +19,7 @@
       </div>
       <div class="logoBox">
         <img src="../assets/images/login/logo.png" class="logoImg p_left" alt="logo">
-        <h3 class="w_cter">{{ $t('welcome') }} &nbsp;<span>{{ $t('cter') }}</span></h3>
+        <h3 class="w_cter">Welcome to &nbsp;<span>CTER</span></h3>
         <p class="logo_p">Create an account to explore amazing feature</p>
       </div>
       <!-- 账号登陆 -->

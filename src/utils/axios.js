@@ -1,20 +1,17 @@
 import axios from "axios";
-
 import { showToast } from "vant";
+import i18n from "@/i18n/i18n";
 
-console.log(import.meta.env);
-let { MODE } = import.meta.env;
-let origin = location.origin;
+const t = i18n.global.t;
 
-let proxyUrl = {
-  development: "https://api.uunn.org",
-  production: "",
-};
-// const baseURL = MODE === "development" ? "https://api.uunn.org" : `${origin}`;
+// console.log("import.meta.env", import.meta.env);
 
-//
+let { VITE_BASE_URL } = import.meta.env;
+
+let baseURL = VITE_BASE_URL;
+
 const http = axios.create({
-  baseURL: `/api`,
+  baseURL,
   timeout: 5000,
 });
 // 请求拦截器
@@ -32,11 +29,15 @@ http.interceptors.request.use(
 // 添加响应拦截器
 http.interceptors.response.use(
   (response) => {
-    if (response.status === 200 && response.data.code === 200) {
-      return response.data.data;
-    } else if (response.data.code === 500) {
-      // console.log(response);
-      showToast(response.data.msg);
+    let { code, data, msg } = response.data;
+    if (code === 200) {
+      return data;
+    } else if (code === 103) {
+      if (data.length > 0) {
+        let msgKey = `backapi.${data[0].msgKey}`;
+        console.log(i18n);
+        showToast(t(msgKey));
+      }
     }
   },
   (error) => {
