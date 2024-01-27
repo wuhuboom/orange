@@ -455,7 +455,7 @@
   "backapi.codeTimeOut": "验证码已过期",
   "backapi.codeError": "验证码不正确",
   "backapi.pwdErrorMax": "密码输入错误次数已达上限",
-  "backapi.pwdErrorCount": "密码错误次数N次",
+  "backapi.pwdErrorCount": "密码错误次数{N}次",
 
   "backapi.usernameIsEmpty": "用户名不能为空",
   "backapi.usernameSizeError": "用户名长度为5-16",

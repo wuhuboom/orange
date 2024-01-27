@@ -30,13 +30,38 @@ http.interceptors.request.use(
 http.interceptors.response.use(
   (response) => {
     let { code, data, msg } = response.data;
+    let msgKey;
     if (code === 200) {
       return data;
-    } else if (code === 103 || code === 105) {
+    } else if (code === 103) {
       if (data.length > 0) {
-        let msgKey = `backapi.${data[0].msgKey}`;
-        console.log(i18n);
+        msgKey = `backapi.${data[0].msgKey}`;
         showToast(t(msgKey));
+      }
+    } else if (code === 105) {
+      let count = "";
+      if (data.length === 3) {
+        let msgStr = currData[0].msgKey;
+        let timeStr = currData[1].msgKey;
+        let failStr = currData[2].value;
+        showMsg =
+          t(`backapi.${msgStr}`) +
+          failStr +
+          t(`backapi.pwdErrorCountRight`) +
+          " " +
+          t(`backapi.waittime1`) +
+          " " +
+          timeStr +
+          " " +
+          t(`backapi.waittime2`);
+        showToast(showMsg);
+      } else if (data.length === 2) {
+        msgKey = `backapi.${data[0].msgKey}`;
+        if (data[1].name === "failCount") {
+          count = data[1].value;
+        }
+        console.log(count);
+        showToast(t(msgKey, { N: count }));
       }
     }
   },

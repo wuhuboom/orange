@@ -19,4 +19,12 @@ html ,body , #app{
 .flex_fd{
   flex-direction: column;
 }
+.van-popup{
+  max-width: 335px !important;
+  flex-wrap: wrap;
+}
+ .van-toast--text  .van-toast__text {
+  font-family: 'poppins' !important;
+}
+
 

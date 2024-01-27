@@ -700,7 +700,7 @@
   "backapi.codeTimeOut": "Verification code timeout",
   "backapi.codeError": "Verification code error",
   "backapi.pwdErrorMax": "The number of incorrect passwords reached the upper limit",
-  "backapi.pwdErrorCount": "Incorrect password N times",
+  "backapi.pwdErrorCount": "Incorrect password {N} times",
 
   "backapi.usernameIsEmpty": "The username cannot be empty",
   "backapi.usernameSizeError": "The username contains 5 to 16 characters",
