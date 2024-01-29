@@ -223,12 +223,12 @@ function clickVerify(params) {
             item.val = state.optObj[params]
         }
     });
-    if (params === 'Phone verifiCode') {
+    if (params === 1) {
         state.userInfo[4].isShow = false
         state.userInfo[5].isShow = true
         state.userInfo[4].val = ''
     }
-    if (params === 'Email verifiCode') {
+    if (params === 2) {
         state.userInfo[5].isShow = false
         state.userInfo[4].isShow = true
         state.userInfo[5].val = ''
