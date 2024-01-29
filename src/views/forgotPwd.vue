@@ -3,7 +3,7 @@
         <div class="forgotMain">
             <div class="backBox">
                 <img src="../assets/images/register/back.png" class="goBack" alt="" @click="goback">
-                <span class="title">Forget password</span>
+                <span class="title">{{ $t('forget.title') }}</span>
             </div>
             <div class="registerForm">
                 <div v-for="(item, index) in userInfo" :key="index" style="position: relative;">
@@ -39,32 +39,24 @@
                                 </div>
                                 <!-- 发送验证码 -->
                                 <div class="sendBtn" v-if="item.name === 'verificationCode'" @click="getVerifyCode">
-                                    send
+                                    {{ $t('forget.send') }}
                                 </div>
                             </div>
                         </div>
                         <p :class="{ errorPStyle: item.error }" style="padding-left: 8px;margin-bottom: 9px;"
                             v-if="item.error">
                             {{ item.errorText }}</p>
-                        <!-- 验证方式下拉选项 -->
-                        <!-- <div class="verifyType" v-if="showVerifyOpt && item.name == 'emailOrPhoneVerifiCode'">
-                        <p @click="clickVerify('Phone verifiCode')"
-                            :class="{ activeText: optVal.includes('Phone verifiCode') }">Phone verifiCode</p>
-                        <van-divider :hairline="true" />
-                        <p @click="clickVerify('Email verifiCode')"
-                            :class="{ activeText: optVal.includes('Email verifiCode') }">Email verifiCode</p>
-                    </div> -->
                     </div>
                 </div>
                 <div class="verifyType" :class="{ addVerifyClass: showVerifyOpt }">
-                    <p @click="clickVerify('Phone verifiCode')"
-                        :class="{ activeText: optVal.includes('Phone verifiCode') }">Phone verifiCode</p>
+                    <p @click="clickVerify(1)" :class="{ activeText: optVal.includes($t('forget.phoneVerifiCode')) }">{{
+                        $t('forget.phoneVerifiCode') }}</p>
                     <van-divider :hairline="true" />
-                    <p @click="clickVerify('Email verifiCode')"
-                        :class="{ activeText: optVal.includes('Email verifiCode') }">Email verifiCode</p>
+                    <p @click="clickVerify(2)" :class="{ activeText: optVal.includes($t('forget.emailVerifiCode')) }">{{
+                        $t('forget.emailVerifiCode') }}</p>
                 </div>
             </div>
-            <van-button type="primary" class="loginbtn" @click="changePwd">Continue</van-button>
+            <van-button type="primary" class="loginbtn" @click="changePwd">{{ $t('forget.continue') }}</van-button>
         </div>
     </div>
 </template>
@@ -87,8 +79,8 @@ const state = reactive({
             val: '',
             error: false,
             isShow: true,
-            errorText: 'The username cannot be empty',
-            placeholder: 'Username'
+            errorText: t('login.uErrorText'),
+            placeholder: t('login.username')
         },
         {
             name: 'newPwd',
@@ -96,8 +88,8 @@ const state = reactive({
             val: '',
             error: false,
             isShow: true,
-            errorText: 'The password cannot be empty',
-            placeholder: 'new login password'
+            errorText: t('login.pErrorText'),
+            placeholder: t('login.password')
         },
         {
             name: 'ConfirmPassword',
@@ -105,20 +97,19 @@ const state = reactive({
             val: '',
             error: false,
             isShow: true,
-            errorText: 'The password cannot be empty',
-            placeholder: 'set a new login password'
+            errorText: t('register.confirmErrorText'),
+            placeholder: t('register.confirmPwd')
         },
         {
             name: 'emailOrPhoneVerifiCode',
             imgIcon: 'back',
             type: 'text',
-            val: 'Email verifiCode',
+            val: t('forget.emailVerifiCode'),
             iconFile: 'register',
             error: false,
             errorText: '',
             isOpt: false,
             isShow: true,
-            placeholder: 'Referral code'
         },
         {
             name: 'emailAddress',
@@ -128,8 +119,8 @@ const state = reactive({
             iconFile: 'login',
             error: false,
             isShow: true,
-            errorText: 'Email cannot be empty',
-            placeholder: 'email address'
+            errorText: t('register.emailErrorText'),
+            placeholder: t('register.email')
         },
         {
             name: 'phoneNumber',
@@ -139,8 +130,8 @@ const state = reactive({
             iconFile: '',
             error: false,
             isShow: false,
-            errorText: 'Mobile phone numbers are not allowed to be empty',
-            placeholder: 'Mobile Phone number'
+            errorText: t('register.phoneErrorText'),
+            placeholder: t('register.phone')
         },
         {
             name: 'verificationCode',
@@ -148,8 +139,8 @@ const state = reactive({
             val: '',
             error: false,
             isShow: true,
-            errorText: 'The verification code cannot be empty',
-            placeholder: 'Verification code'
+            errorText: t('login.vErrorText'),
+            placeholder: t('login.verificationCode')
         },
     ],
     inputIndex: -1,
@@ -157,7 +148,11 @@ const state = reactive({
     showAreaCodeOpt: false,
     showVerifyOpt: false,
     codeList: [],
-    optVal: 'Email verifiCode'
+    optVal: t('forget.emailVerifiCode'),
+    optObj: {
+        1: t('forget.phoneVerifiCode'),
+        2: t('forget.emailVerifiCode')
+    }
 })
 function goback() {
     router.go(-1)
@@ -198,11 +193,6 @@ async function getEmailCode() {
     }
     try {
         let res = await http.post(url, data)
-        console.log(
-            '%c res: ',
-            'background-color: #3756d4; padding: 4px 8px; border-radius: 2px; font-size: 14px; color: #fff; font-weight: 700;',
-            res
-        )
         if (res?.hasSend) {
             showToast(t('form.verift.send.text'))
         }
@@ -226,11 +216,11 @@ async function getPhoneCode() {
     }
 }
 function clickVerify(params) {
-    state.optVal = params
+    state.optVal = state.optObj[params]
     state.showVerifyOpt = false
     state.userInfo.forEach(item => {
         if (item.name === 'emailOrPhoneVerifiCode') {
-            item.val = params
+            item.val = state.optObj[params]
         }
     });
     if (params === 'Phone verifiCode') {
@@ -267,6 +257,88 @@ async function changePwd() {
     }
 }
 onMounted(() => {
+
+    state.optVal = t('forget.emailVerifiCode')
+    console.log(
+        '%c state.optVal: ',
+        'background-color: #3756d4; padding: 4px 8px; border-radius: 2px; font-size: 14px; color: #fff; font-weight: 700;',
+        state.optVal
+    )
+    state.optObj = {
+        1: t('forget.phoneVerifiCode'),
+        2: t('forget.emailVerifiCode')
+    }
+    state.userInfo = [
+        {
+            name: 'username',
+            type: 'text',
+            val: '',
+            error: false,
+            isShow: true,
+            errorText: t('login.uErrorText'),
+            placeholder: t('login.username')
+        },
+        {
+            name: 'newPwd',
+            type: 'password',
+            val: '',
+            error: false,
+            isShow: true,
+            errorText: t('login.pErrorText'),
+            placeholder: t('login.password')
+        },
+        {
+            name: 'ConfirmPassword',
+            type: 'password',
+            val: '',
+            error: false,
+            isShow: true,
+            errorText: t('register.confirmErrorText'),
+            placeholder: t('register.confirmPwd')
+        },
+        {
+            name: 'emailOrPhoneVerifiCode',
+            imgIcon: 'back',
+            type: 'text',
+            val: t('forget.emailVerifiCode'),
+            iconFile: 'register',
+            error: false,
+            errorText: '',
+            isOpt: false,
+            isShow: true,
+        },
+        {
+            name: 'emailAddress',
+            imgIcon: 'email',
+            type: 'text',
+            val: '',
+            iconFile: 'login',
+            error: false,
+            isShow: true,
+            errorText: t('register.emailErrorText'),
+            placeholder: t('register.email')
+        },
+        {
+            name: 'phoneNumber',
+            imgIcon: '',
+            type: 'text',
+            val: '',
+            iconFile: '',
+            error: false,
+            isShow: false,
+            errorText: t('register.phoneErrorText'),
+            placeholder: t('register.phone')
+        },
+        {
+            name: 'verificationCode',
+            type: 'text',
+            val: '',
+            error: false,
+            isShow: true,
+            errorText: t('login.vErrorText'),
+            placeholder: t('login.verificationCode')
+        },
+    ]
     let codeList = [
         255,
         213,

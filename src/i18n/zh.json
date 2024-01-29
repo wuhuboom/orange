@@ -23,6 +23,12 @@
   "register.phoneErrorText":"手机号码不能为空",
   "register.instructions":"我已年满18岁，并同意交易相关的规定和条款",
   "register.registerBtn":"注册",
+  "forget.title":"忘记密码",
+  "forget.phoneVerifiCode":"手机验证码",
+  "forget.emailVerifiCode":"邮箱验证码",
+  "forget.continue":"确认",
+  "forget.send":"发送",
+
 
 
   "backapi.maxCards": "收款账号已达上限",
