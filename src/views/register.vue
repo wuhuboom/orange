@@ -201,11 +201,14 @@ async function registerAcc() {
   }
   try {
     const res = await http.post(url, data)
-    // console.log(
-    //   '%c res: ',
-    //   'background-color: #3756d4; padding: 4px 8px; border-radius: 2px; font-size: 14px; color: #fff; font-weight: 700;',
-    //   res
-    // )
+    if (res.token) {
+      localStorage.setItem('remember', state.userInfo)
+      setTimeout(() => {
+        router.push({
+          pathh: '/'
+        })
+      }, 500);
+    }
     // showToast('register success')
   } catch (error) {
     console.log(error);

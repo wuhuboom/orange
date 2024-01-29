@@ -41,10 +41,10 @@ http.interceptors.response.use(
     } else if (code === 105) {
       let count = "";
       if (data.length === 3) {
-        let msgStr = currData[0].msgKey;
-        let timeStr = currData[1].msgKey;
-        let failStr = currData[2].value;
-        showMsg =
+        let msgStr = data[0].msgKey;
+        let timeStr = data[1].msgKey;
+        let failStr = data[2].value;
+        let showMsg =
           t(`backapi.${msgStr}`) +
           failStr +
           t(`backapi.pwdErrorCountRight`) +

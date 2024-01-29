@@ -55,7 +55,7 @@
 
     </div>
     <van-divider style="background-color: #343434;" :hairline="true" />
-    <p class="serviceLink">
+    <p class="serviceLink" @click="jumpService">
       <img src="../assets/images/login/service.png" alt="">
       Online Service
     </p>
@@ -125,7 +125,8 @@ const state = reactive({
   isRemember: false,
   isReadPwd: false,
   inputIndex: -1,
-  verificationObj: {}
+  verificationObj: {},
+  serviceUrl: ''
 })
 function showSelect() {
   state.showLangOpt = !state.showLangOpt
@@ -213,6 +214,24 @@ async function getVerifyCode() {
   }
 }
 getVerifyCode()
+async function getServiceLink() {
+  let url = '/player/home/serv_tmp'
+  try {
+    const res = await http.get(url)
+    if (res.serviceAddr) {
+      state.serviceUrl = res.serviceAddr
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
+getServiceLink()
+function jumpService() {
+  console.log(state.serviceUrl);
+  if (state.serviceUrl) {
+    window.location.href = state.serviceUrl
+  }
+}
 onMounted(() => {
   state.langTarget = localStorage.getItem('lang')?.toUpperCase() || 'EN'
   if (localStorage.getItem('remember')) {
