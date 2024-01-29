@@ -1,7 +1,7 @@
 <template>
     <div class="home maxWidth">
         <div class="fSwiper">
-            <Swiper :slides-per-view="3" :space-between="12" :centeredSlides="true" :loop="true" :autoplay="3000"
+            <Swiper slides-per-view="auto" :space-between="12" :centeredSlides="true" :loop="true" :autoplay="3000"
                 class="homeSwiper">
                 <swiper-slide v-for="(item, index) in swiper" :key="index">
                     <img :src="getImg('home', item.link)" />
@@ -22,10 +22,9 @@
                     <span class="t_right">See All</span>
                 </div>
                 <div class="foretell">
-
-                    <Swiper :slides-per-view="2" :space-between="12">
+                    <Swiper slides-per-view="auto" :freeMode="true" :space-between="12">
                         <swiper-slide v-for="(item, index) in upcomingSwiper" :key="index"
-                            :class="{ s_active: upcomingIndex === index }">
+                            :class="{ s_active: upcomingIndex === index }" @click="changeSwiper(index)">
                             <div class="f_title">{{ item.title }}</div>
                             <div class="f_vs">
                                 <img src="../assets/images/home/vs_left.png" alt="">
@@ -146,6 +145,9 @@ const state = reactive({
 
     ]
 })
+function changeSwiper(index) {
+    state.upcomingIndex = index
+}
 const { swiper, upcomingSwiper, upcomingIndex } = toRefs(state)
 </script>
 <style scoped lang='scss'>
