@@ -49,7 +49,7 @@
           {{ $t('login.forgotPwd') }}
         </div>
       </div>
-      <van-button type="primary" class="loginbtn" @click="login">Login</van-button>
+      <van-button type="primary" class="loginbtn" @click="login">{{ $t('login.loginBtn') }}</van-button>
       <p class="addAccText">{{ $t('login.notAcc') }}? &nbsp;&nbsp;<span class="r_now" @click="jumpRegisterPage">{{
         $t('login.goRegister') }}</span></p>
 

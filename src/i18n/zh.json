@@ -1,5 +1,6 @@
 {
   "login.title":"欢迎来到",
+  "login.loginBtn": "登录",
   "login.create.accTips": "创建一个账户来探索令人惊叹的功能",
   "login.remember":"记住我",
   "login.forgotPwd":"忘记密码",

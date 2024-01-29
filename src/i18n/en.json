@@ -1,5 +1,6 @@
 {
   "login.title": "Welcome to",
+  "login.loginBtn": "Login",
   "login.create.accTips": "Create an account to explore amazing feature",
   "login.remember":"Remember me",
   "login.forgotPwd":"Forgot password",
