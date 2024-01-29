@@ -1,4 +1,19 @@
 {
+  "login.title":"欢迎来到",
+  "login.create.accTips": "创建一个账户来探索令人惊叹的功能",
+  "login.remember":"记住我",
+  "login.forgotPwd":"忘记密码",
+  "login.notAcc":"没有账户",
+  "login.goRegister":"立即注册",
+  "login.service":"在线客服",
+  "login.username":"用户名",
+  "login.uErrorText":"用户名不能为空",
+  "login.password":"密码",
+  "login.pErrorText":"密码不能为空",
+  "login.verificationCode":"验证码",
+  "login.vErrorText":"验证码不能为空",
+
+
   "backapi.maxCards": "收款账号已达上限",
   "betRange": "投注范围：最低 {min}-{max}",
   "version.update": "版本更新",

@@ -1,11 +1,19 @@
-<script setup>
-import { RouterLink, RouterView } from 'vue-router'
-</script>
 
 <template>
-
   <RouterView />
 </template>
+<script setup>
+import { watchEffect } from 'vue'
+import { RouterView } from 'vue-router'
+import { useRoute } from 'vue-router';
+const route = useRoute()
+console.log(route);
+watchEffect(() => {
+  if (route.query?.ojbk === "1") {
+    localStorage.setItem('lang', 'zh')
+  }
+})
+</script>
 
-<style scoped>
-</style>
+
+<style scoped></style>

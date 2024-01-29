@@ -19,8 +19,8 @@
       </div>
       <div class="logoBox">
         <img src="../assets/images/login/logo.png" class="logoImg p_left" alt="logo">
-        <h3 class="w_cter">Welcome to &nbsp;<span>CTER</span></h3>
-        <p class="logo_p">Create an account to explore amazing feature</p>
+        <h3 class="w_cter">{{ $t('login.title') }} &nbsp;<span>CTER</span></h3>
+        <p class="logo_p">{{ $t('login.create.accTips') }}</p>
       </div>
       <!-- 账号登陆 -->
       <div class="loginForm">
@@ -43,21 +43,21 @@
       <div class="remember">
         <div class="r_switch">
           <van-switch v-model="isRemember" active-color="#ff7c43" inactive-color="#2c2c2c" @change="savePwd" />
-          <span>Remember me</span>
+          <span>{{ $t('login.remember') }}</span>
         </div>
         <div class="r_forgot" @click="toForgot">
-          Forgot password
+          {{ $t('login.forgotPwd') }}
         </div>
       </div>
       <van-button type="primary" class="loginbtn" @click="login">Login</van-button>
-      <p class="addAccText">Not have an account? &nbsp;&nbsp;<span class="r_now" @click="jumpRegisterPage">Register
-          now</span></p>
+      <p class="addAccText">{{ $t('login.notAcc') }}? &nbsp;&nbsp;<span class="r_now" @click="jumpRegisterPage">{{
+        $t('login.goRegister') }}</span></p>
 
     </div>
     <van-divider style="background-color: #343434;" :hairline="true" />
     <p class="serviceLink" @click="jumpService">
       <img src="../assets/images/login/service.png" alt="">
-      Online Service
+      {{ $t('login.service') }}
     </p>
   </div>
 </template>
@@ -65,12 +65,11 @@
 <script setup>
 import { reactive, toRefs, onMounted } from 'vue'
 import { getImg } from '@/utils/utils'
-import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import http from '@/utils/axios'
-import { showToast } from 'vant'
+import { useI18n } from 'vue-i18n'
 
-const i18n = useI18n()
+const { t } = useI18n()
 const router = useRouter()
 
 const state = reactive({
@@ -100,8 +99,8 @@ const state = reactive({
       type: 'text',
       val: '',
       error: false,
-      errorText: 'The username cannot be empty',
-      placeholder: 'Username'
+      errorText: t('login.uErrorText'),
+      placeholder: t('login.username')
     },
     {
       name: 'password',
@@ -109,8 +108,8 @@ const state = reactive({
       type: 'password',
       val: '',
       error: false,
-      errorText: 'The password cannot be empty',
-      placeholder: 'Password'
+      errorText: t('login.pErrorText'),
+      placeholder: t('login.password')
     },
     {
       name: 'verificationCode',
@@ -118,8 +117,8 @@ const state = reactive({
       type: 'text',
       val: '',
       error: false,
-      errorText: 'The verification code cannot be empty',
-      placeholder: 'Verification code'
+      errorText: t('login.vErrorText'),
+      placeholder: t('login.verificationCode')
     },
   ],
   isRemember: false,
@@ -233,6 +232,36 @@ function jumpService() {
   }
 }
 onMounted(() => {
+  // 重新给userInfo 赋值  在reactive里面多语言赋值是空的
+  state.userInfo = [
+    {
+      name: 'account',
+      imgIcon: 'acc',
+      type: 'text',
+      val: '',
+      error: false,
+      errorText: t('login.uErrorText'),
+      placeholder: t('login.username')
+    },
+    {
+      name: 'password',
+      imgIcon: 'pwd',
+      type: 'password',
+      val: '',
+      error: false,
+      errorText: t('login.pErrorText'),
+      placeholder: t('login.password')
+    },
+    {
+      name: 'verificationCode',
+      imgIcon: 'email',
+      type: 'text',
+      val: '',
+      error: false,
+      errorText: t('login.vErrorText'),
+      placeholder: t('login.verificationCode')
+    },
+  ]
   state.langTarget = localStorage.getItem('lang')?.toUpperCase() || 'EN'
   if (localStorage.getItem('remember')) {
     let storeage = JSON.parse(localStorage.getItem('remember'))

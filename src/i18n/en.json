@@ -1,4 +1,22 @@
 {
+  "login.title": "Welcome to",
+  "login.create.accTips": "Create an account to explore amazing feature",
+  "login.remember":"Remember me",
+  "login.forgotPwd":"Forgot password",
+  "login.notAcc":"Not have an account",
+  "login.goRegister":"Register now",
+  "login.service":"Online Service",
+  "login.username":"Username",
+  "login.uErrorText":"The username cannot be empty",
+  "login.password":"Password",
+  "login.pErrorText":"The password cannot be empty",
+  "login.verificationCode":"Verification code",
+  "login.vErrorText":"The verification code cannot be empty",
+
+
+
+
+
   "backapi.maxCards": "Maximum number of recipient accounts reached",
   "betRange": "Trading Range: Minimum {min}-{max}",
   "version.update": "Version Update",
@@ -262,7 +280,6 @@
   "backapi.betMoneyTooMuch": "The cumulative maximum trade for this match has been exceeded",
   "dropdown.billing.income.lower.level.recharge.rebate.text": "Lower Level Recharge Rebate",
   "dropdown.billing.invite.first.charge.text": "Invite First Charge",
-
   "failed": "Failed",
   "phone.length.tip": "The length of the phone number should be {num} digits.",
   "please.enter.email": "Please enter {emailName}",
@@ -610,7 +627,6 @@
   "recharge.record.status.pay.timeout.text": "payment timeout",
   "recharge.record.filter.text": "Filter",
   "recharge.record.reset.text": "Reset",
-
   "form.recharge.amount.place": "Please enter the recharge amount",
   "form.account.place": "Please enter the username",
   "form.password.place": "Please enter the password",
@@ -634,12 +650,10 @@
   "form.pwd2.text": "Fund Password",
   "bet.index.today.bet.text": "Today’s trade",
   "bet.index.cancel.btn.text": "Cancel Order",
-
   "login.btn.text": "Login",
   "reg.btn.text": "Register",
   "cancel.btn.text": "Cancel",
   "confirm.btn.text": "Confirm",
-
   "ruls.trc.length": "Please enter a valid wallet address",
   "ruls.xxx.please": "Please enter {name}",
   "ruls.xxx.empty": "{type} cannot be empty",
@@ -657,7 +671,6 @@
   "ruls.pwd2.length": "Please enter a six-digit numeric password",
   "ruls.amount.length": "Please enter the amount",
   "ruls.amoun.null.length": "Amount cannot be empty",
-
   "dropdown.billing.all.title.text": "All",
   "dropdown.billing.income.withdraw.text": "Withdraw",
   "dropdown.billing.income.online.recharge.text": "Online Recharge",
@@ -694,14 +707,11 @@
   "dropdown.billing.recharge.compensation.text": "Recharge compensation",
   "dropdown.billing.transaction.fee.text": "Transaction fee",
   "dropdown.billing.bonus.text": "Bonus",
-
   "backapi.success.bet.text": "Successfully placed the order",
-
   "backapi.codeTimeOut": "Verification code timeout",
   "backapi.codeError": "Verification code error",
   "backapi.pwdErrorMax": "The number of incorrect passwords reached the upper limit",
   "backapi.pwdErrorCount": "Incorrect password {N} times",
-
   "backapi.usernameIsEmpty": "The username cannot be empty",
   "backapi.usernameSizeError": "The username contains 5 to 16 characters",
   "backapi.usernameFormatError": "The user name must be alphanumeric",
@@ -714,14 +724,12 @@
   "backapi.passwordDiff": "Incorrect password twice",
   "backapi.invitationCodeIsEmpty": "You must enter the invitation code",
   "backapi.invitationCodeError": "The invitation code is incorrect",
-
   "backapi.originIsEmpty": "The old password cannot be empty",
   "backapi.originError": "The old password is incorrect",
   "backapi.newpwdIsEmpty": "The new password cannot be empty",
   "backapi.confirmedIsEmpty": "Confirm password cannot be empty",
   "backapi.confirmedError": "The two passwords you entered did not match.",
   "backapi.updateFailed": "Password change failure",
-
   "backapi.gameIdIsNull": "The game ID cannot be empty",
   "backapi.oddsIdIsNull": "Odds ID cannot be empty",
   "backapi.moneyIsNull": "The wager amount cannot be empty",
@@ -731,9 +739,7 @@
   "backapi.gameClosed": "Race close",
   "backapi.gameStarted": "Begin playing",
   "backapi.gameFinished": "End of game",
-
   "backapi.alreadyExtracted": "Rebate Already Extracted",
-
   "backapi.orderCatUnbet": "Unable to cancel order. The match is in progress",
   "backapi.orderNotFound": "Order does not exist",
   "backapi.bankCardExists": "Number of bank cards limits exceeded-maximum number is 1",
@@ -817,7 +823,6 @@
   "backapi.emailChangePwdError": "Failed to change password via email",
   "backapi.emailExsit": "Email already registered",
   "backapi.serviceUnhold": "Customer service system under maintenance",
-
   "backapi.self.editStr": "Edit",
   "backapi.self.creatimer": "Add the date",
   "backapi.self.edit.bankcard": "Edit bank card",
@@ -833,25 +838,21 @@
   "backapi.self.add.bank.phone.text": "Reserved mobile phone number",
   "backapi.self.add.bank.phone.input.text": "Please enter the reserved cell phone number",
   "backapi.self.add.bank.phone.empty.text": "The reserved cell phone number cannot be empty",
-
   "backapi.self.user.info.accumulativeBet.text": "Accumulated trade",
   "backapi.self.user.info.frozenBet.text": "Trades Freeze",
   "backapi.self.user.info.frozenWithdrawal.text": "Withdrawal freeze",
   "backapi.self.server.dear.user.text": "Dear User",
   "backapi.self.server.center.user.welcome.text": "Welcome to the customer service center",
-
   "backapi.self.withdraw.add.sim.text": "Add SIM",
   "backapi.self.withdraw.bind.sim.text": "Bind SIM",
   "backapi.self.withdraw.edit.sim.text": "Edit SIM",
   "backapi.self.withdraw.edit.form.sim.number.text": "SIM number",
   "backapi.self.withdraw.edit.form.sim.name.text": "Name",
   "backapi.self.sim.list.title.text": "Phone",
-
   "backapi.self.rebate.top.content.total.text": "Total Rebate",
   "backapi.self.rebate.top.content.week.text": "Rebate This Week",
   "backapi.self.rebate.top.content.today.text": "Today Rebate",
   "backapi.self.rebate.top.content.lastweek.text": "Last rebate",
-
   "backapi.self.statistics.top.title.text": "List of requirement met",
   "backapi.self.statistics.top.content.monthAim.text": "Requirement met this month",
   "backapi.self.statistics.top.content.monthUnAim.text": "Requirement not met this month ",
@@ -869,20 +870,16 @@
   "backapi.self.account.list.sort.swith.desc.text": "DESC",
   "backapi.self.account.list.sort.swith.asc.text": "ASC",
   "backapi.self.change.ua.and.phonecard.text": "Sir, your account has changed mobile phone number or performed bank card operations in the last 24 hours. Please confirm this is operated on behalf of you. If not, please contact customer service as soon as possible!",
-
   "backapi.self.need.money.text": "Unpaid taxes",
   "backapi.self.already.money.text": "Paid taxes",
   "backapi.self.already.money.time.text": "Countdown",
   "backapi.self.need.paid.text": "Amount not paid",
   "backapi.self.already.paid.text": "Amount paid",
-
   "backapi.self.notice.alert.tip.text": "REMINDER",
   "backapi.self.notice.alert.okbtn.text": "OKAY",
-
   "backapi.report.account.change.query.type.team.motivation.text": "team motivation",
   "backapi.report.account.change.query.type.turntable.lottery.text": "Turntable lottery",
   "backapi.report.account.change.query.type.turntable.jackpot.text": "Turntable jackpot",
-
   "backapi.self.safe.text": "Wallet",
   "backapi.self.safe.balance.text": "balance",
   "backapi.self.safe.today.cumulative .text": "Yesterday's reward amount",
@@ -897,7 +894,6 @@
   "backapi.self.safe.bill.detail.order.num.text": "odd number",
   "backapi.self.safe.bill.detail.order.money.text": "the amount",
   "backapi.self.safe.bill.detail.confirm.date.text": "confirmation date",
-
   "backapi.self.safe.bill.data.text": "Billing Details",
   "backapi.self.safe.bill.data.date.text": "date",
   "backapi.self.safe.bill.data.type.text": "type",
@@ -923,31 +919,25 @@
   "backapi.self.safe.huaz.transfer.func.pass.place.text": "Please enter payment password",
   "backapi.self.safe.huaz.transfer.funcpass.not.allow.null.text": "The payment password cannot be empty!",
   "backapi.self.safe.rule.desc.text": "Explanation",
-
   "backapi.self.safe.rule.content1.text": "1.The Safebox is independent of the football account, and the balance of the football account cannot be transferred to the Safebox",
   "backapi.self.safe.rule.content2.text": "2.Transfer function: transfer the money in the Safebox to the football account",
   "backapi.self.safe.rule.content3.text": "3.The transfer function is that you can enter the player's username to transfer money to it",
   "backapi.self.safe.rule.content4.text": "",
-
   "backapi.self.safe.recharge.text": "recharge",
   "backapi.self.safe.recharge.money.not.allow.null.text": "Recharge amount cannot be empty!",
   "backapi.self.safe.recharge.input.money.title.text": "Please enter the recharge amount",
   "backapi.self.safe.recharge.curr.rate.text": "current exchange rate",
   "backapi.self.safe.recharge.actual.received.text": "Actual amount received",
   "backapi.self.safe.recharge.get.rate.err.text": "get exchange rate error",
-
   "backapi.self.safe.account.change.type.recharge.offer.text": "Recharge offer",
   "backapi.self.bet.today.num.text": "Today's trade",
-
   "backapi.self.30day.bet.num.text": "Total trade amount of last 30 days",
   "backapi.self.30day.bet.person.num.text": "The numbers of trade in 30 days",
-
   "backapi.self.safe.team.motivation.text": "Team Motivation Achievement",
   "backapi.self.safe.team.motivation.not.text": "Team incentives not up to par",
   "backapi.self.safe.team.motivation.not.list.text": "Team Incentive Failure List",
   "backapi.self.safe.team.motivation.not.list.account.name.text": "Member account",
   "backapi.self.safe.team.motivation.not.list.aim.count.text": "Trade days",
-
   "backapi.self.wheel.rules.Leaderboard.text": "Leaderboard",
   "backapi.self.wheel.activity.rules.text": "Rulus",
   "backapi.self.wheel.rules.ranking.text": "Ranking",
@@ -955,17 +945,12 @@
   "backapi.self.wheel.rules.get.amount.text": "Get amount",
   "backapi.self.wheel.rules.congratual.content.text": "Congratulations you have successfully obtained the reward",
   "backapi.self.wheel.rules.congratual.btn.ok.text": "OK",
-
   "backapi.self.wheel.rules.content1.text": "You can spend 100 to get a lucky draw amount is 2-1000.",
-
   "backapi.self.wheel.rules.content2.text": "",
-
   "backapi.self.wheel.rules.content3.text": "",
-
   "backapi.self.home.tool.wheel.text": "Luck Wheel",
   "backapi.self.home.tool.safebox.text": "Wallet",
   "backapi.self.home.tool.online.ser.text": "Service",
-
   "backapi.self.wheel.load.err.alert.text": "Data acquisition error, please refresh the page!",
   "backapi.self.whitdraw.type.ewallet.title.text": "E-wallet",
   "backapi.self.whitdraw.type.ewallet.form.type.text": "Type",
@@ -980,11 +965,9 @@
   "backapi.self.whitdraw.type.ewallet.form.wallet.list.title.text": "Wallet list",
   "backapi.self.whitdraw.type.ewallet.form.wallet.add.center.title.text": "Add wallet",
   "backapi.self.whitdraw.type.ewallet.form.wallet.add.choose.placehole.public.text": " Number",
-
   "backapi.self.recharge.tip.content1.text": "1. Please obtain the latest payment account every time you recharge, and it is forbidden to save the payment account information.",
   "backapi.self.recharge.tip.content2.text": "2. It is forbidden to save the previous collection account for payment, and the platform is not responsible for the loss caused by the recharge of the previous collection account.",
   "backapi.self.recharge.tip.content3.text": "3. Using this platform for money laundering fraud, the company reserves the right to terminate membership services and freeze their accounts.",
-
   "backapi.self.login.reg.page.email.input.text": "Please enter email",
   "backapi.self.login.reg.page.email.not.empty.text": "Email cannot be empty",
   "backapi.self.login.reg.page.email.input.format.text": "Please enter a valid email format",
