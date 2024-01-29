@@ -13,6 +13,17 @@
   "login.verificationCode":"Verification code",
   "login.vErrorText":"The verification code cannot be empty",
 
+  "register.confirmPwd":"Confirm Password",
+  "register.confirmErrorText":"The Confirm password cannot be empty",
+  "register.referralCode":"Referral code",
+  "register.referralErrorText":"You must enter the invitation code",
+  "register.email":"email address",
+  "register.emailErrorText":"Email cannot be empty",
+  "register.phone":"Mobile Phone number",
+  "register.phoneErrorText":"Mobile phone numbers are not allowed to be empty",
+  "register.instructions":"I am over 18 years old and agree toTradingrelated regulations and",
+  "register.registerBtn":"Register",
+
 
 
 

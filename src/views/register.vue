@@ -42,13 +42,12 @@
           <img :src="getImg('register', checked ? 'checked' : 'nocheck')" alt="" style="width: 28px;height: 28px;"
             @click="isChecked">
         </div>
-        <span>I am over 18 years old and agree toTrading
-          related regulations and</span>
+        <span>{{ $t('register.instructions') }}</span>
       </div>
-      <van-button type="primary" class="loginbtn" @click="registerAcc">Register</van-button>
+      <van-button type="primary" class="loginbtn" @click="registerAcc">{{ $t('register.registerBtn') }}</van-button>
       <p class="serviceLink">
         <img src="../assets/images/login/service.png" alt="">
-        Online Service
+        {{ $t('login.service') }}
       </p>
     </div>
   </div>
@@ -58,6 +57,9 @@ import { reactive, toRefs, onMounted } from 'vue'
 import { getImg } from '@/utils/utils'
 import { useRouter } from 'vue-router';
 import http from "@/utils/axios";
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
 
 const router = useRouter()
 
@@ -70,8 +72,8 @@ const state = reactive({
       val: '',
       iconFile: 'login',
       error: false,
-      errorText: 'The username cannot be empty',
-      placeholder: 'Username'
+      errorText: t('login.uErrorText'),
+      placeholder: t('login.username')
     },
     {
       name: 'password',
@@ -80,8 +82,8 @@ const state = reactive({
       val: '',
       iconFile: 'login',
       error: false,
-      errorText: 'The password cannot be empty',
-      placeholder: 'Password'
+      errorText: t('login.pErrorText'),
+      placeholder: t('login.password')
     },
     {
       name: 'ConfirmPassword',
@@ -90,8 +92,8 @@ const state = reactive({
       val: '',
       iconFile: 'login',
       error: false,
-      errorText: 'The password cannot be empty',
-      placeholder: 'Confirm Password'
+      errorText: t('register.confirmErrorText'),
+      placeholder: t('register.confirmPwd')
     },
     {
       name: 'invitationCode',
@@ -100,8 +102,8 @@ const state = reactive({
       val: '',
       error: false,
       iconFile: 'register',
-      errorText: 'You must enter the invitation code',
-      placeholder: 'Referral code'
+      errorText: t('register.referralErrorText'),
+      placeholder: t('register.referralCode')
     },
     {
       name: 'emailAddress',
@@ -110,8 +112,8 @@ const state = reactive({
       val: '',
       iconFile: 'login',
       error: false,
-      errorText: 'Email cannot be empty',
-      placeholder: 'email address'
+      errorText: t('register.emailErrorText'),
+      placeholder: t('register.email')
     },
     {
       name: 'phoneNumber',
@@ -120,8 +122,8 @@ const state = reactive({
       val: '',
       iconFile: '',
       error: false,
-      errorText: 'Mobile phone numbers are not allowed to be empty',
-      placeholder: 'Mobile Phone number'
+      errorText: t('register.phoneErrorText'),
+      placeholder: t('register.phone')
     },
     {
       name: 'verificationCode',
@@ -130,8 +132,8 @@ const state = reactive({
       val: '',
       iconFile: 'register',
       error: false,
-      errorText: 'The verification code cannot be empty',
-      placeholder: 'Verification code'
+      errorText: t('login.vErrorText'),
+      placeholder: t('login.verificationCode')
     },
   ],
   isReadPwd: false,
@@ -226,7 +228,78 @@ async function getVerifyCode() {
 }
 getVerifyCode()
 onMounted(() => {
-  console.log(http);
+  state.userInfo = [
+    {
+      name: 'account',
+      imgIcon: 'acc',
+      type: 'text',
+      val: '',
+      iconFile: 'login',
+      error: false,
+      errorText: t('login.uErrorText'),
+      placeholder: t('login.username')
+    },
+    {
+      name: 'password',
+      imgIcon: 'pwd',
+      type: 'password',
+      val: '',
+      iconFile: 'login',
+      error: false,
+      errorText: t('login.pErrorText'),
+      placeholder: t('login.password')
+    },
+    {
+      name: 'ConfirmPassword',
+      imgIcon: 'pwd',
+      type: 'password',
+      val: '',
+      iconFile: 'login',
+      error: false,
+      errorText: t('register.confirmErrorText'),
+      placeholder: t('register.confirmPwd')
+    },
+    {
+      name: 'invitationCode',
+      imgIcon: 'rCode',
+      type: 'text',
+      val: '',
+      error: false,
+      iconFile: 'register',
+      errorText: t('register.referralErrorText'),
+      placeholder: t('register.referralCode')
+    },
+    {
+      name: 'emailAddress',
+      imgIcon: 'email',
+      type: 'text',
+      val: '',
+      iconFile: 'login',
+      error: false,
+      errorText: t('register.emailErrorText'),
+      placeholder: t('register.email')
+    },
+    {
+      name: 'phoneNumber',
+      imgIcon: '',
+      type: 'text',
+      val: '',
+      iconFile: '',
+      error: false,
+      errorText: t('register.phoneErrorText'),
+      placeholder: t('register.phone')
+    },
+    {
+      name: 'verificationCode',
+      imgIcon: 'code',
+      type: 'text',
+      val: '',
+      iconFile: 'register',
+      error: false,
+      errorText: t('login.vErrorText'),
+      placeholder: t('login.verificationCode')
+    },
+  ]
   let codeList = [
     255,
     213,
