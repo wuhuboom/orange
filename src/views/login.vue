@@ -262,7 +262,11 @@ onMounted(() => {
       placeholder: t('login.verificationCode')
     },
   ]
-  state.langTarget = localStorage.getItem('lang')?.toUpperCase() || 'EN'
+  if (localStorage.getItem('lang')?.toUpperCase() == 'ZH') {
+    state.langTarget = 'EN'
+  } else {
+    state.langTarget = localStorage.getItem('lang')?.toUpperCase() || 'EN'
+  }
   if (localStorage.getItem('remember')) {
     let storeage = JSON.parse(localStorage.getItem('remember'))
     state.isRemember = storeage.isremember
