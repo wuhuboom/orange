@@ -1,11 +1,6 @@
 <template>
     <div class="home maxWidth">
         <div class="fSwiper">
-            <!-- <van-swipe :show-indicators="false" :initial-swipe="1" :loop="false" :width="310">
-                <van-swipe-item v-for="(item, index) in swiper" :key="index">
-                    <img :src="getImg('home', item.link)" />
-                </van-swipe-item>
-            </van-swipe> -->
             <Swiper :slides-per-view="3" :space-between="12" :centeredSlides="true" :loop="true" :autoplay="3000"
                 class="homeSwiper">
                 <swiper-slide v-for="(item, index) in swiper" :key="index">
@@ -27,26 +22,10 @@
                     <span class="t_right">See All</span>
                 </div>
                 <div class="foretell">
-                    <!-- <van-swipe :show-indicators="false" :loop="false" :width="222">
-                        <van-swipe-item v-for="(item, index) in upcomingSwiper" :key="index">
-                            <div class="f_title">{{ item.title }}</div>
-                            <div class="f_vs">
-                                <img src="../assets/images/home/vs_left.png" alt="">
-                                <div class="vs_content">
-                                    <h2>vs</h2>
-                                    <p>{{ item.date }}</p>
-                                </div>
-                                <img src="../assets/images/home/vs_right.png" alt="">
-                            </div>
-                            <div class="name">
-                                <span class="name_left">{{ item.firstName }}</span>
-                                <span class="name_right">{{ item.lastName }}</span>
-                            </div>
-                        </van-swipe-item>
-                    </van-swipe> -->
 
                     <Swiper :slides-per-view="2" :space-between="12">
-                        <swiper-slide v-for="(item, index) in swiper" :key="index">
+                        <swiper-slide v-for="(item, index) in upcomingSwiper" :key="index"
+                            :class="{ s_active: upcomingIndex === index }">
                             <div class="f_title">{{ item.title }}</div>
                             <div class="f_vs">
                                 <img src="../assets/images/home/vs_left.png" alt="">
@@ -144,6 +123,7 @@ const state = reactive({
             link: 'swiper3'
         },
     ],
+    upcomingIndex: 0,
     upcomingSwiper: [
         {
             title: 'Friendlies Clubs',
@@ -166,7 +146,7 @@ const state = reactive({
 
     ]
 })
-const { swiper, upcomingSwiper } = toRefs(state)
+const { swiper, upcomingSwiper, upcomingIndex } = toRefs(state)
 </script>
 <style scoped lang='scss'>
 .lrPadding {
@@ -180,24 +160,13 @@ const { swiper, upcomingSwiper } = toRefs(state)
 
     .fSwiper {
         padding-left: 12px;
-        // :deep(.van-swipe) {
-        //     width: 100%;
 
-        //     .van-swipe__track {
-
-        //         .van-swipe-item {
-        //             width: 310px !important;
-        //             margin-right: 12px;
-
-
-        //         }
-        //     }
-        // }
         .homeSwiper {
             :deep(.swiper-wrapper) {
                 .swiper-slide {
                     width: 310px !important;
                 }
+
             }
         }
     }
@@ -306,6 +275,10 @@ const { swiper, upcomingSwiper } = toRefs(state)
 
                             .name_right {}
                         }
+                    }
+
+                    .s_active {
+                        background: linear-gradient(89deg, #e8763e 1%, #d24509 99%) !important;
                     }
                 }
             }
