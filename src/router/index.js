@@ -6,6 +6,10 @@ const router = createRouter({
   routes: [
     {
       path: "/",
+      redirect: "/home", // 设置重定向到'/home'
+    },
+    {
+      path: "/login",
       name: "login",
       component: Login,
     },
