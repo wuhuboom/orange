@@ -27,10 +27,10 @@
               <input :type="item.type" :placeholder="item.placeholder" v-model="item.val"
                 :class="{ inputMl: item.name === 'phoneNumber', verificationMl: item.name === 'verificationCode' }"
                 @focus="borderActive(index)" @blur="resetActive(item)" @input="resetActive(item)" />
-              <img :src="verificationObj?.img" alt="" v-if="item.name === 'verificationCode'"
-                style="margin-left: 20px; width: 80px;cursor: pointer;" @click="getVerifyCode">
+              <img :src="verificationObj?.img" alt="" v-if="item.name === 'verificationCode' && verificationObj?.img"
+                style="margin-left: 60px; width: 80px;cursor: pointer;" @click="getVerifyCode">
             </div>
-            <img :src="getImg('login', isReadPwd ? 'open' : 'close')" alt="" v-if="item.name == 'password'"
+            <img :src="getImg('login', isReadPwd ? 'open' : 'close')" class="eye" alt="" v-if="item.name == 'password'"
               @click="readPwd(item)" style="cursor: pointer;">
           </div>
           <p :class="{ errorPStyle: item.error }" style="padding-left: 8px;margin-bottom: 9px;" v-if="item.error">{{
@@ -46,7 +46,7 @@
       </div>
       <van-button type="primary" class="loginbtn" @click="registerAcc">{{ $t('register.registerBtn') }}</van-button>
       <p class="serviceLink">
-        <img src="../assets/images/login/service.png" alt="">
+        <img src="../assets/images/login/service.webp" alt="">
         {{ $t('login.service') }}
       </p>
     </div>
@@ -390,6 +390,11 @@ const { userInfo, isReadPwd, areaCode, showAreaCodeOpt, codeList, checked, verif
           @include flex(flex-start);
           flex: 1;
 
+          img {
+            width: 28px;
+            height: 28px;
+          }
+
           input {
             // width: 100%;
             // height: calc(100% - px);
@@ -510,6 +515,11 @@ const { userInfo, isReadPwd, areaCode, showAreaCodeOpt, codeList, checked, verif
             }
           }
 
+        }
+
+        .eye {
+          width: 28px;
+          height: 28px;
         }
       }
 

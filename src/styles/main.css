@@ -25,6 +25,12 @@ html ,body , #app{
   max-width: 400px;
   margin: 0 auto;
 }
+.serviceLink{
+  img{
+    width: 32px;
+    height: 32px;
+  }
+}
 .flex_fd{
   flex-direction: column;
 }
