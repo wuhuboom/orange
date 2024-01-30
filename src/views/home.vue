@@ -9,10 +9,10 @@
             </Swiper>
             <div class="fTips lrPadding">
                 <div class="tips_left">
-                    <img src="../assets/images/home/notice.png" alt="">
+                    <img src="../assets/images/home/notice.webp" class="notice" alt="">
                     <span>Welcome to CTER Football!</span>
                 </div>
-                <img src="../assets//images/home/listIcon.png" class="listIcon" alt="">
+                <img src="../assets//images/home/listIcon.webp" class="listIcon" alt="">
             </div>
         </div>
         <div class="main">
@@ -27,12 +27,12 @@
                             :class="{ s_active: upcomingIndex === index }" @click="changeSwiper(index)">
                             <div class="f_title">{{ item.title }}</div>
                             <div class="f_vs">
-                                <img src="../assets/images/home/vs_left.png" alt="">
+                                <img src="../assets/images/home/vs_left.webp" class="vs_left" alt="">
                                 <div class="vs_content">
                                     <h2>vs</h2>
                                     <p>{{ item.date }}</p>
                                 </div>
-                                <img src="../assets/images/home/vs_right.png" alt="">
+                                <img src="../assets/images/home/vs_right.webp" class="vs_right" alt="">
                             </div>
                             <div class="name">
                                 <span class="name_left">{{ item.firstName }}</span>
@@ -51,42 +51,42 @@
                     <div class="item">
                         <div class="itemLeft">
                             <div>Chelsea</div>
-                            <img src="../assets/images/home/listlIcon.png" class="listlIcon" alt="">
+                            <img src="../assets/images/home/listlIcon.webp" class="listlIcon" alt="">
                         </div>
                         <div class="itemCenter">
                             <p class="date">27 Aug 2024</p>
                             <p class="time">01:40</p>
                         </div>
                         <div class="itemRight">
-                            <img src="../assets/images/home/listrIcon.png" class="listrIcon" alt="">
+                            <img src="../assets/images/home/listrIcon.webp" class="listrIcon" alt="">
                             <div>Chelsea</div>
                         </div>
                     </div>
                     <div class="item">
                         <div class="itemLeft">
                             <div>Chelsea</div>
-                            <img src="../assets/images/home/listlIcon.png" class="listlIcon" alt="">
+                            <img src="../assets/images/home/listlIcon.webp" class="listlIcon" alt="">
                         </div>
                         <div class="itemCenter">
                             <p class="date">27 Aug 2024</p>
                             <p class="time">01:40</p>
                         </div>
                         <div class="itemRight">
-                            <img src="../assets/images/home/listrIcon.png" class="listrIcon" alt="">
+                            <img src="../assets/images/home/listrIcon.webp" class="listrIcon" alt="">
                             <div>Chelsea</div>
                         </div>
                     </div>
                     <div class="item">
                         <div class="itemLeft">
                             <div>Chelsea</div>
-                            <img src="../assets/images/home/listlIcon.png" class="listlIcon" alt="">
+                            <img src="../assets/images/home/listlIcon.webp" class="listlIcon" alt="">
                         </div>
                         <div class="itemCenter">
                             <p class="date">27 Aug 2024</p>
                             <p class="time">01:40</p>
                         </div>
                         <div class="itemRight">
-                            <img src="../assets/images/home/listrIcon.png" class="listrIcon" alt="">
+                            <img src="../assets/images/home/listrIcon.webp" class="listrIcon" alt="">
                             <div>Chelsea</div>
                         </div>
                     </div>
@@ -167,6 +167,7 @@ const { swiper, upcomingSwiper, upcomingIndex } = toRefs(state)
             :deep(.swiper-wrapper) {
                 .swiper-slide {
                     width: 310px !important;
+
                 }
 
             }
@@ -181,11 +182,23 @@ const { swiper, upcomingSwiper, upcomingIndex } = toRefs(state)
         .tips_left {
             @include flex(space-between);
 
+            .notice {
+                width: 20px;
+                height: 20px;
+            }
+
+
+
             span {
                 font-size: 12px;
                 color: #fff;
                 margin-left: 13px;
             }
+        }
+
+        .listIcon {
+            width: 22px;
+            height: 22px;
         }
     }
 
@@ -238,6 +251,11 @@ const { swiper, upcomingSwiper, upcomingIndex } = toRefs(state)
                             @include flex();
                             margin-bottom: 10px;
                             padding: 0 19px 0 10px;
+
+                            img {
+                                width: 45px;
+                                height: 45px;
+                            }
 
                             .vs_content {
 
@@ -310,6 +328,8 @@ const { swiper, upcomingSwiper, upcomingIndex } = toRefs(state)
                         @include flex();
 
                         .listlIcon {
+                            width: 40px;
+                            height: 40px;
                             margin-left: 15px;
                         }
                     }
@@ -329,6 +349,8 @@ const { swiper, upcomingSwiper, upcomingIndex } = toRefs(state)
                         @include flex();
 
                         .listrIcon {
+                            width: 40px;
+                            height: 40px;
                             margin-right: 16px;
                         }
                     }

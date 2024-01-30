@@ -2,7 +2,7 @@
   <div class="register maxWidth" @click="showAreaCodeOpt = false">
     <div class="registerMain">
       <div class="backBox">
-        <img src="../assets/images/register/back.png" class="goBack" alt="" @click="goback">
+        <img src="../assets/images/register/back.webp" class="goBack" alt="" @click="goback">
       </div>
       <div class="registerForm">
         <div v-for="(item, index) in userInfo" :key="index">
@@ -352,7 +352,7 @@ const { userInfo, isReadPwd, areaCode, showAreaCodeOpt, codeList, checked, verif
 
 .register {
   height: 100%;
-  background: url('@/assets/images/register/registerBg.png')no-repeat;
+  background: url('@/assets/images/register/registerBg.webp')no-repeat;
   background-size: cover;
   box-sizing: border-box;
   overflow: auto;
@@ -365,7 +365,13 @@ const { userInfo, isReadPwd, areaCode, showAreaCodeOpt, codeList, checked, verif
 
     .backBox {
       width: $width;
-      @include flex(flex-start)
+
+      @include flex(flex-start);
+
+      img {
+        width: 28px;
+        height: 28px;
+      }
     }
 
     .registerForm {

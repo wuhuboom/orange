@@ -56,6 +56,11 @@ const { list, activeIndex } = toRefs(state)
         font-size: 10px;
         text-align: left;
         color: #8d8d8d;
+
+        img {
+            width: 26px;
+            height: 26px;
+        }
     }
 }
 </style>

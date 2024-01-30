@@ -2,7 +2,7 @@
     <div class="forgotPwd maxWidth" @click="showAreaCodeOpt = false">
         <div class="forgotMain">
             <div class="backBox">
-                <img src="../assets/images/register/back.png" class="goBack" alt="" @click="goback">
+                <img src="../assets/images/register/back.webp" class="goBack" alt="" @click="goback">
                 <span class="title">{{ $t('forget.title') }}</span>
             </div>
             <div class="registerForm">
@@ -369,7 +369,7 @@ const { userInfo, inputIndex, areaCode, showAreaCodeOpt, codeList, showVerifyOpt
 <style scoped lang='scss'>
 .forgotPwd {
     height: 100%;
-    background: url('@/assets/images/register/forgotPwd.png')no-repeat;
+    background: url('@/assets/images/register/forgotPwd.webp')no-repeat;
     background-size: cover;
     box-sizing: border-box;
     overflow: auto;
@@ -384,6 +384,11 @@ const { userInfo, inputIndex, areaCode, showAreaCodeOpt, codeList, showVerifyOpt
             width: $width;
 
             @include flex(flex-start);
+
+            img {
+                width: 28px;
+                height: 28px;
+            }
 
             .title {
                 margin: 4px 0 5px 12px;
@@ -414,6 +419,11 @@ const { userInfo, inputIndex, areaCode, showAreaCodeOpt, codeList, showVerifyOpt
                     height: 100%;
                     @include flex(flex-start);
                     flex: 1;
+
+                    img {
+                        width: 28px;
+                        height: 28px;
+                    }
 
                     input {
                         // width: 100%;
@@ -539,7 +549,7 @@ const { userInfo, inputIndex, areaCode, showAreaCodeOpt, codeList, showVerifyOpt
                     .sendBtn {
                         width: 58px;
                         height: 28px;
-                        margin: 0 0 0 33px;
+                        margin: 0 0 0 70px;
                         border-radius: 4px;
                         background-color: #ff7c43;
                         font-size: 14px;
