@@ -1,7 +1,7 @@
 <template>
     <div class="footer maxWidth">
         <div v-for="(item, index) in list" :key="index" class="footerItem" @click="changeFooterIndex(item, index)">
-            <img :src="getImg('footer', activeIndex === index ? `${item.icon}Active` : item.icon)" alt="">
+            <img :src="getImg('footer', (activeIndex === index ? `${item.icon}Active` : item.icon))" alt="">
             <p>{{ item.name }}</p>
         </div>
     </div>
@@ -42,10 +42,10 @@ const state = reactive({
     ]
 })
 function changeFooterIndex(item, index) {
+    state.activeIndex = index
     router.push({
         path: item.link
     })
-    state.activeIndex = index
 }
 onMounted(() => {
     let pageName = route.name
