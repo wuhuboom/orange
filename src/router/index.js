@@ -32,6 +32,11 @@ const router = createRouter({
           name: "home",
           component: () => import("../views/home.vue"),
         },
+        {
+          path: "contest",
+          name: "contest",
+          component: () => import("../views/contest.vue"),
+        },
       ],
     },
   ],

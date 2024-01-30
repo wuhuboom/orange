@@ -1,24 +1,31 @@
 <template>
     <div class="footer maxWidth">
-        <div v-for="(item, index) in list" :key="index" class="footerItem" @click="changeFooterIndex(index)">
+        <div v-for="(item, index) in list" :key="index" class="footerItem" @click="changeFooterIndex(item, index)">
             <img :src="getImg('footer', activeIndex === index ? `${item.icon}Active` : item.icon)" alt="">
             <p>{{ item.name }}</p>
         </div>
     </div>
 </template>
 <script setup>
-import { reactive, toRefs } from 'vue'
+import { reactive, toRefs, onMounted } from 'vue'
 import { getImg } from '@/utils/utils'
+import { useRouter, useRoute } from 'vue-router'
+
+const router = useRouter()
+const route = useRoute()
+
 const state = reactive({
     activeIndex: 0,
     list: [
         {
             icon: 'home',
             name: 'Home',
+            link: '/home'
         },
         {
             icon: 'contest',
             name: 'Contest',
+            link: '/contest'
         },
         {
             icon: 'partner',
@@ -34,9 +41,16 @@ const state = reactive({
         },
     ]
 })
-function changeFooterIndex(index) {
+function changeFooterIndex(item, index) {
+    router.push({
+        path: item.link
+    })
     state.activeIndex = index
 }
+onMounted(() => {
+    let pageName = route.name
+    state.activeIndex = state.list.findIndex(item => item.name.toLocaleLowerCase() === pageName) || 0
+})
 const { list, activeIndex } = toRefs(state)
 </script>
 <style scoped lang='scss'>

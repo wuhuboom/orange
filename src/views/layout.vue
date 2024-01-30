@@ -22,6 +22,12 @@ const state = reactive({
             center: '',
             rightIcon: 'hRightIcon',
             isShowRightMoney: true
+        },
+        contest: {
+            leftIcon: 'hleftIcon',
+            center: '',
+            rightIcon: 'hRightIcon',
+            isShowRightMoney: true
         }
     },
 })

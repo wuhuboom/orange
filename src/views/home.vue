@@ -151,10 +151,6 @@ function changeSwiper(index) {
 const { swiper, upcomingSwiper, upcomingIndex } = toRefs(state)
 </script>
 <style scoped lang='scss'>
-.lrPadding {
-    padding: 0 12px;
-}
-
 .home {
     height: 100%;
     background-color: #202020;
