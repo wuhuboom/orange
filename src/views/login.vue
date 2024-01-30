@@ -54,7 +54,7 @@
         $t('login.goRegister') }}</span></p>
 
     </div>
-    <van-divider style="background-color: #343434;" :hairline="false" />
+    <van-divider style="background-color: #343434;" :hairline="true" />
     <p class="serviceLink" @click="jumpService">
       <img src="../assets/images/login/service.webp" alt="">
       {{ $t('login.service') }}
@@ -487,6 +487,9 @@ const { langList, showLangOpt, langTarget, isRemember, isReadPwd, inputIndex, ve
   }
 }
 
+.loginbtn {
+  margin-top: 32px;
+}
 
 
 .addAccText {
