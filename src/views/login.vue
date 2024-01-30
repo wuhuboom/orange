@@ -18,7 +18,7 @@
         </div>
       </div>
       <div class="logoBox">
-        <img src="../assets/images/login/logo.png" class="logoImg p_left" alt="logo">
+        <img src="../assets/images/login/logo.webp" class="logoImg p_left" alt="logo">
         <h3 class="w_cter">{{ $t('login.title') }} &nbsp;<span>CTER</span></h3>
         <p class="logo_p">{{ $t('login.create.accTips') }}</p>
       </div>
@@ -31,7 +31,7 @@
               <input :type="item.type" autocomplete="off" v-model="item.val" :placeholder="item.placeholder"
                 @focus="borderActive(index)" @blur="resetActive(item)" @input="resetActive(item)" />
             </div>
-            <img :src="getImg('login', isReadPwd ? 'open' : 'close')" alt="" v-if="item.name == 'password'"
+            <img :src="getImg('login', isReadPwd ? 'open' : 'close')" alt="" class="eye" v-if="item.name == 'password'"
               @click="readPwd(item)" style="cursor: pointer;">
             <img :src="verificationObj?.img" alt="" v-if="item.name === 'verificationCode'"
               style="width: 80px;cursor: pointer;" @click="getVerifyCode">
@@ -56,7 +56,7 @@
     </div>
     <van-divider style="background-color: #343434;" :hairline="true" />
     <p class="serviceLink" @click="jumpService">
-      <img src="../assets/images/login/service.png" alt="">
+      <img src="../assets/images/login/service.webp" alt="">
       {{ $t('login.service') }}
     </p>
   </div>
@@ -285,7 +285,7 @@ const { langList, showLangOpt, langTarget, userInfo, isRemember, isReadPwd, inpu
 
 .login {
   height: 100%;
-  background: url('@/assets/images/login/loginBg.png')no-repeat;
+  background: url('@/assets/images/login/loginBg.webp')no-repeat;
   background-size: cover;
   padding-bottom: 60px;
   box-sizing: border-box;
@@ -415,6 +415,11 @@ const { langList, showLangOpt, langTarget, userInfo, isRemember, isReadPwd, inpu
       @include flex(flex-start);
       flex: 1;
 
+      img {
+        width: 28px;
+        height: 28px;
+      }
+
       input {
         width: 100%;
         height: calc(100% - px);
@@ -424,7 +429,11 @@ const { langList, showLangOpt, langTarget, userInfo, isRemember, isReadPwd, inpu
         font-size: 14px;
         color: #fff;
       }
+    }
 
+    .eye {
+      width: 28px;
+      height: 28px;
     }
   }
 
