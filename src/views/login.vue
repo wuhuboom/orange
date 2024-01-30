@@ -221,8 +221,8 @@ async function login() {
   }
   try {
     const res = await http.post(url, data)
-    localStorage.setItem('userInfo', JSON.stringify(res))
     if (res?.token) {
+      localStorage.setItem('userInfo', JSON.stringify(res))
       setTimeout(() => {
         router.push({
           path: '/home'

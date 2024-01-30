@@ -18,9 +18,11 @@ const http = axios.create({
 http.interceptors.request.use(
   (config) => {
     config.headers["Content-Type"] = "application/x-www-form-urlencoded";
-    config.headers["token"] = JSON.parse(
-      localStorage.getItem("userInfo")
-    )?.token;
+    if (localStorage.getItem("userInfo")) {
+      config.headers["token"] = JSON.parse(
+        localStorage.getItem("userInfo")
+      )?.token;
+    }
     return config;
   },
   (error) => {
@@ -73,7 +75,7 @@ http.interceptors.response.use(
     } else if (code === 402) {
       showToast(msg);
       setTimeout(() => {
-        // window.location.href = "/login";
+        window.location.href = "/login";
       }, 500);
     }
   },
