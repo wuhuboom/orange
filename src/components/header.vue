@@ -59,7 +59,7 @@ defineProps(['header'])
 
             .moneyNum {
                 margin: 0px 0 0px 6px;
-                font-family: Poppins;
+                font-family: Roboto;
                 font-size: 14px;
                 color: #fff;
             }
