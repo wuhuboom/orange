@@ -1,16 +1,19 @@
 <template>
     <div class="home maxWidth">
         <div class="fSwiper">
-            <Swiper slides-per-view="auto" :space-between="12" :centeredSlides="true" :loop="true" :autoplay="3000"
-                class="homeSwiper">
+            <Swiper slides-per-view="auto" :space-between="12" :centeredSlides="true" :loop="true"
+                :autoplay="swiperAutoPlay" class="homeSwiper">
                 <swiper-slide v-for="(item, index) in swiper" :key="index">
-                    <img :src="getImg('home', item.link)" />
+                    <img :src="item?.imageUrl" />
                 </swiper-slide>
             </Swiper>
             <div class="fTips lrPadding">
                 <div class="tips_left">
-                    <img src="../assets/images/home/notice.webp" class="notice" alt="">
-                    <span>Welcome to CTER Football!</span>
+                    <van-notice-bar scrollable background="#131313" text="Welcome to CTER Football!">
+                        <template #left-icon>
+                            <img src="../assets/images/home/notice.webp" class="notice" alt="">
+                        </template>
+                    </van-notice-bar>
                 </div>
                 <img src="../assets//images/home/listIcon.webp" class="listIcon" alt="">
             </div>
@@ -25,19 +28,21 @@
                     <Swiper slides-per-view="auto" :freeMode="true" :space-between="12">
                         <swiper-slide v-for="(item, index) in upcomingSwiper" :key="index"
                             :class="{ s_active: upcomingIndex === index }" @click="changeSwiper(index)">
-                            <div class="f_title">{{ item.title }}</div>
+                            <div class="f_title">{{ item.allianceName }}</div>
                             <div class="f_vs">
-                                <img src="../assets/images/home/vs_left.webp" class="vs_left" alt="">
+                                <div class="u_left">
+                                    <img :src="item.mainLogo" class="vs_left" alt="">
+                                    <span class="name_left">{{ item.mainName }}</span>
+                                </div>
                                 <div class="vs_content">
                                     <h2>vs</h2>
-                                    <p>{{ item.date }}</p>
                                 </div>
-                                <img src="../assets/images/home/vs_right.webp" class="vs_right" alt="">
+                                <div class="u_right">
+                                    <img :src="item.guestLogo" class="vs_right" alt="">
+                                    <span class="name_right">{{ item.guestName }}</span>
+                                </div>
                             </div>
-                            <div class="name">
-                                <span class="name_left">{{ item.firstName }}</span>
-                                <span class="name_right">{{ item.lastName }}</span>
-                            </div>
+                            <p class="uDate">{{ item.startTimeStr }}</p>
                         </swiper-slide>
                     </Swiper>
                 </div>
@@ -48,46 +53,18 @@
                     <span class="t_right">See All</span>
                 </div>
                 <div class="e_lists lrPadding">
-                    <div class="item">
+                    <div class="item" v-for="(item, index) in gameList" :key="index">
                         <div class="itemLeft">
-                            <div>Chelsea</div>
-                            <img src="../assets/images/home/listlIcon.webp" class="listlIcon" alt="">
+                            <div class="name">{{ item.mainName }}</div>
+                            <img :src="item.mainLogo" class="listlIcon" alt="">
                         </div>
                         <div class="itemCenter">
-                            <p class="date">27 Aug 2024</p>
-                            <p class="time">01:40</p>
+                            <p class="date">{{ formatDate(item.startTime, 'YYYY-MM-DD') }}</p>
+                            <p class="time">{{ formatDate(item.startTime, 'HH:mm:ss') }}</p>
                         </div>
                         <div class="itemRight">
-                            <img src="../assets/images/home/listrIcon.webp" class="listrIcon" alt="">
-                            <div>Chelsea</div>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <div class="itemLeft">
-                            <div>Chelsea</div>
-                            <img src="../assets/images/home/listlIcon.webp" class="listlIcon" alt="">
-                        </div>
-                        <div class="itemCenter">
-                            <p class="date">27 Aug 2024</p>
-                            <p class="time">01:40</p>
-                        </div>
-                        <div class="itemRight">
-                            <img src="../assets/images/home/listrIcon.webp" class="listrIcon" alt="">
-                            <div>Chelsea</div>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <div class="itemLeft">
-                            <div>Chelsea</div>
-                            <img src="../assets/images/home/listlIcon.webp" class="listlIcon" alt="">
-                        </div>
-                        <div class="itemCenter">
-                            <p class="date">27 Aug 2024</p>
-                            <p class="time">01:40</p>
-                        </div>
-                        <div class="itemRight">
-                            <img src="../assets/images/home/listrIcon.webp" class="listrIcon" alt="">
-                            <div>Chelsea</div>
+                            <img :src="item.guestLogo" class="listrIcon" alt="">
+                            <div class="name">{{ item.guestName }}</div>
                         </div>
                     </div>
                 </div>
@@ -97,69 +74,84 @@
 </template>
 <script setup >
 import { reactive, toRefs } from 'vue'
-import { getImg } from '@/utils/utils'
+import { formatDate } from '@/utils/utils'
+import http from '@/utils/axios'
+
 
 import { Swiper, SwiperSlide } from 'swiper/vue';
 
 const state = reactive({
-    swiper: [
-        {
-            link: 'swiper1'
-        },
-        {
-            link: 'swiper2'
-        },
-        {
-            link: 'swiper3'
-        },
-        {
-            link: 'swiper3'
-        },
-        {
-            link: 'swiper3'
-        },
-        {
-            link: 'swiper3'
-        },
-    ],
+    swiper: [],
     upcomingIndex: 0,
-    upcomingSwiper: [
-        {
-            title: 'Friendlies Clubs',
-            date: '03：09：31',
-            firstName: 'Chelsea',
-            lastName: 'Leicester'
-        },
-        {
-            title: 'Friendlies Clubs',
-            date: '03：09：31',
-            firstName: 'Chelsea',
-            lastName: 'Leicester'
-        },
-        {
-            title: 'Friendlies Clubs',
-            date: '03：09：31',
-            firstName: 'Chelsea',
-            lastName: 'Leicester'
-        },
-
-    ]
+    upcomingSwiper: [],
+    gameList: [],
+    swiperAutoPlay: {
+        delay: 3000, // 自动播放间隔时间，单位为毫秒
+        disableOnInteraction: false, // 用户操作后是否停止自动播放，默认为 true
+    }
 })
+getInit()
+function getInit() {
+    getSwiper()
+    getAllGame()
+    getHotGame()
+}
+async function getHotGame() {
+    let url = '/player/home/hot'
+    try {
+        const res = await http.get(url)
+        state.gameList = res || []
+    } catch (error) {
+        console.log(error);
+    }
+}
+async function getAllGame() {
+    let url = '/player/game'
+    // startTime 日期选项0全部,1今天,2明日
+    let data = {
+        startTime: 1,
+        status: 0,
+        pageNo: 1,
+        pageSize: 10,
+        teamName: ''
+    }
+    try {
+        const res = await http.post(url, data)
+        if (res && Array.isArray(res.results)) {
+            state.upcomingSwiper = res.results
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
+async function getSwiper() {
+    let url = '/player/home/slider'
+    try {
+        const res = await http.get(url)
+        state.swiper = res || []
+    } catch (error) {
+        console.log(error);
+    }
+}
 function changeSwiper(index) {
     state.upcomingIndex = index
 }
-const { swiper, upcomingSwiper, upcomingIndex } = toRefs(state)
+const { swiper, upcomingSwiper, upcomingIndex, gameList, swiperAutoPlay } = toRefs(state)
 </script>
 <style scoped lang='scss'>
 .home {
-    height: 100%;
+    min-height: 100%;
     background-color: #202020;
     padding-top: 27px;
+    padding-bottom: 50px;
 
     .fSwiper {
         padding-left: 12px;
+        min-height: 205px;
 
         .homeSwiper {
+            min-height: 164px;
+
             :deep(.swiper-wrapper) {
                 .swiper-slide {
                     width: 310px !important;
@@ -176,7 +168,21 @@ const { swiper, upcomingSwiper, upcomingIndex } = toRefs(state)
         background-color: #131313;
 
         .tips_left {
+            width: 100%;
             @include flex(space-between);
+
+            :deep(.van-notice-bar) {
+                width: 100%;
+                padding: 0px;
+
+                .van-notice-bar__wrap {
+                    .van-notice-bar__content {
+                        font-size: 12px;
+                        color: #fff;
+                        margin-left: 13px;
+                    }
+                }
+            }
 
             .notice {
                 width: 20px;
@@ -188,7 +194,6 @@ const { swiper, upcomingSwiper, upcomingIndex } = toRefs(state)
             span {
                 font-size: 12px;
                 color: #fff;
-                margin-left: 13px;
             }
         }
 
@@ -248,6 +253,30 @@ const { swiper, upcomingSwiper, upcomingIndex } = toRefs(state)
                             margin-bottom: 10px;
                             padding: 0 19px 0 10px;
 
+
+                            .u_left {
+                                width: 40%;
+                                @include flex();
+                                flex-direction: column;
+                                font-size: 10px;
+                                font-weight: 500;
+                                color: #fff;
+
+                                .name_left {
+                                    text-align: center;
+                                    margin-top: 5px;
+                                }
+                            }
+
+                            .u_right {
+                                @extend .u_left;
+
+                                .name_right {
+                                    text-align: center;
+                                    margin-top: 5px;
+                                }
+                            }
+
                             img {
                                 width: 45px;
                                 height: 45px;
@@ -276,20 +305,11 @@ const { swiper, upcomingSwiper, upcomingIndex } = toRefs(state)
                             }
                         }
 
-                        .name {
+                        .uDate {
+                            text-align: center;
                             font-size: 10px;
                             font-weight: 500;
                             color: #fff;
-                            @include flex(space-between);
-                            padding: 0 19px 0 10px;
-
-                            span {
-                                width: 45px;
-                            }
-
-                            .name_left {}
-
-                            .name_right {}
                         }
                     }
 
@@ -323,6 +343,11 @@ const { swiper, upcomingSwiper, upcomingIndex } = toRefs(state)
                     .itemLeft {
                         @include flex();
 
+                        .name {
+                            width: 70px;
+                            text-align: center;
+                        }
+
                         .listlIcon {
                             width: 40px;
                             height: 40px;
@@ -335,6 +360,10 @@ const { swiper, upcomingSwiper, upcomingIndex } = toRefs(state)
                         @include flex();
                         flex-direction: column;
 
+                        .date {
+                            text-align: center;
+                        }
+
                         .time {
                             margin-top: 4px;
                         }
@@ -343,6 +372,11 @@ const { swiper, upcomingSwiper, upcomingIndex } = toRefs(state)
                     .itemRight {
 
                         @include flex();
+
+                        .name {
+                            width: 70px;
+                            text-align: center;
+                        }
 
                         .listrIcon {
                             width: 40px;

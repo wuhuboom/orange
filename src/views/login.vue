@@ -54,7 +54,7 @@
         $t('login.goRegister') }}</span></p>
 
     </div>
-    <van-divider style="background-color: #343434;" :hairline="true" />
+    <van-divider style="background-color: #3f3f3f;" :hairline="true" />
     <p class="serviceLink" @click="jumpService">
       <img src="../assets/images/login/service.webp" alt="">
       {{ $t('login.service') }}

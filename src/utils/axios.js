@@ -17,8 +17,10 @@ const http = axios.create({
 // 请求拦截器
 http.interceptors.request.use(
   (config) => {
-    // config.headers["language"] = localStorage.getItem("lang") || "en";
     config.headers["Content-Type"] = "application/x-www-form-urlencoded";
+    config.headers["token"] = JSON.parse(
+      localStorage.getItem("userInfo")
+    )?.token;
     return config;
   },
   (error) => {
@@ -30,6 +32,11 @@ http.interceptors.request.use(
 http.interceptors.response.use(
   (response) => {
     let { code, data, msg } = response.data;
+    // console.log(
+    //   "%c code: ",
+    //   "background-color: #3756d4; padding: 4px 8px; border-radius: 2px; font-size: 14px; color: #fff; font-weight: 700;",
+    //   code
+    // );
     let msgKey;
     if (code === 200) {
       return data;
@@ -63,6 +70,11 @@ http.interceptors.response.use(
         console.log(count);
         showToast(t(msgKey, { N: count }));
       }
+    } else if (code === 402) {
+      showToast(msg);
+      setTimeout(() => {
+        // window.location.href = "/login";
+      }, 500);
     }
   },
   (error) => {

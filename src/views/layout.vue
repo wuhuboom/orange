@@ -13,7 +13,7 @@ import Header from '@/components/header.vue'
 import Footer from '@/components/footer.vue'
 
 const route = useRoute()
-console.log(route.name);
+// console.log(route.name);
 const state = reactive({
     pageName: route.name,
     headerObj: {
