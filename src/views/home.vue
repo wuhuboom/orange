@@ -9,7 +9,7 @@
             </Swiper>
             <div class="fTips lrPadding">
                 <div class="tips_left">
-                    <van-notice-bar scrollable background="#131313" text="Welcome to CTER Football!">
+                    <van-notice-bar scrollable background="#1F1F21" text="Welcome to CTER Football!">
                         <template #left-icon>
                             <img src="../assets/images/home/notice.webp" class="notice" alt="">
                         </template>
@@ -141,7 +141,7 @@ const { swiper, upcomingSwiper, upcomingIndex, gameList, swiperAutoPlay } = toRe
 <style scoped lang='scss'>
 .home {
     min-height: 100%;
-    background-color: #202020;
+    background-color: #18181B;
     padding-top: 27px;
     padding-bottom: 50px;
 
@@ -165,7 +165,7 @@ const { swiper, upcomingSwiper, upcomingIndex, gameList, swiperAutoPlay } = toRe
     .fTips {
         @include flex(space-between);
         padding: 10px 12px 7px;
-        background-color: #131313;
+        background-color: #1F1F21;
 
         .tips_left {
             width: 100%;
@@ -205,7 +205,7 @@ const { swiper, upcomingSwiper, upcomingIndex, gameList, swiperAutoPlay } = toRe
 
     .main {
         margin-top: 15px;
-        background-color: #202020;
+        background-color: #18181B;
 
         .title {
             @include flex(space-between);
@@ -335,7 +335,7 @@ const { swiper, upcomingSwiper, upcomingIndex, gameList, swiperAutoPlay } = toRe
                     letter-spacing: 0.24px;
                     color: #fff;
                     border-radius: 5px;
-                    background-color: #2b2b2b;
+                    background-color: #1F1F21;
                     padding: 0 11px 0 15px;
                     box-sizing: border-box;
                     margin-bottom: 10px;
@@ -345,12 +345,13 @@ const { swiper, upcomingSwiper, upcomingIndex, gameList, swiperAutoPlay } = toRe
 
                         .name {
                             width: 70px;
+                            line-height: 16px;
                             text-align: center;
                         }
 
                         .listlIcon {
-                            width: 40px;
-                            height: 40px;
+                            width: 26px;
+                            height: 26px;
                             margin-left: 15px;
                         }
                     }
@@ -375,12 +376,13 @@ const { swiper, upcomingSwiper, upcomingIndex, gameList, swiperAutoPlay } = toRe
 
                         .name {
                             width: 70px;
+                            line-height: 16px;
                             text-align: center;
                         }
 
                         .listrIcon {
-                            width: 40px;
-                            height: 40px;
+                            width: 26px;
+                            height: 26px;
                             margin-right: 16px;
                         }
                     }
