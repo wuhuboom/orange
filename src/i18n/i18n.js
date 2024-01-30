@@ -11,7 +11,7 @@ import deal from "./deal.json";
 const i18n = createI18n({
   locale: localStorage.getItem("lang") || "en", // 设置默认语言
   fallbackLocale: "en", // 设置回退语言
-  legacy: true,
+  legacy: false, //不兼容vue2
   allowComposition: true, //允许组合式api使用
   messages: {
     en: { ...en, ...deal.en },

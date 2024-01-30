@@ -63,17 +63,14 @@
 </template>
 
 <script setup>
-import { reactive, toRefs, onMounted } from 'vue'
+import { reactive, toRefs, onMounted, computed } from 'vue'
 import { getImg } from '@/utils/utils'
 import { useRouter } from 'vue-router';
 import http from '@/utils/axios'
 import { useI18n } from 'vue-i18n'
 
-const { t } = useI18n()
-const i18n = useI18n()
-console.log(i18n);
+const { t, locale } = useI18n()
 const router = useRouter()
-
 const state = reactive({
   langList: [
     {
@@ -129,113 +126,8 @@ const state = reactive({
   verificationObj: {},
   serviceUrl: ''
 })
-function showSelect() {
-  state.showLangOpt = !state.showLangOpt
-}
-function selectLang(item) {
-  state.langTarget = item.name
-  let language = item.name.toLowerCase()
-  localStorage.setItem('lang', language)
-  i18n.locale.value = language
-  state.showLangOpt = false
-}
-function readPwd(item) {
-  state.isReadPwd = !state.isReadPwd
-  item.type = state.isReadPwd ? 'text' : 'password'
-}
-function borderActive(index) {
-  state.inputIndex = index
-}
-function toForgot() {
-  router.push({
-    path: '/forgotPwd'
-  })
-}
-function resetActive(item) {
-  state.inputIndex = -1
-  if (item.vale != '') {
-    item.error = false
-  }
-  if (state.isRemember) {
-    savePwd()
-  }
-}
-function savePwd() {
-  let storeage = {
-    isremember: state.isRemember,
-    user: state.userInfo
-  }
-  if (state.isRemember) {
-    localStorage.setItem('remember', JSON.stringify(storeage))
-  } else {
-    localStorage.removeItem('remember')
-  }
-}
-function jumpRegisterPage() {
-  router.push({
-    path: '/register',
-  })
-}
-async function login() {
-  let url = '/player/auth/login'
-  for (let i in state.userInfo) {
-    state.userInfo[i].error = state.userInfo[i].val == '' ? true : false
-    if (state.userInfo[i].error) {
-      return
-    }
-  }
-  let data = {
-    username: state.userInfo[0].val,
-    password: state.userInfo[1].val,
-    code: state.userInfo[2].val,
-    verifyKey: state.verificationObj.verifyKey
-  }
-  try {
-    const res = await http.post(url, data)
-    localStorage.setItem('userInfo', JSON.stringify(res))
-    if (res?.token) {
-      setTimeout(() => {
-        router.push({
-          path: '/home'
-        })
-      }, 500)
-    }
-  } catch (error) {
-    console.log(error);
-  }
-}
-async function getVerifyCode() {
-  state.userInfo[2].val = ''
-  let url = '/player/auth/verify_code'
-  try {
-    const res = await http.get(url)
-    state.verificationObj = res
-  } catch (error) {
-    console.log(error);
-  }
-}
-getVerifyCode()
-async function getServiceLink() {
-  let url = '/player/home/serv_tmp'
-  try {
-    const res = await http.get(url)
-    if (res.serviceAddr) {
-      state.serviceUrl = res.serviceAddr
-    }
-  } catch (error) {
-    console.log(error);
-  }
-}
-getServiceLink()
-function jumpService() {
-  console.log(state.serviceUrl);
-  if (state.serviceUrl) {
-    window.location.href = state.serviceUrl
-  }
-}
-onMounted(() => {
-  // 重新给userInfo 赋值  在reactive里面多语言赋值是空的
-  state.userInfo = [
+const userInfo = computed(() => {
+  let user = [
     {
       name: 'account',
       imgIcon: 'acc',
@@ -264,6 +156,113 @@ onMounted(() => {
       placeholder: t('login.verificationCode')
     },
   ]
+  return user
+})
+function showSelect() {
+  state.showLangOpt = !state.showLangOpt
+}
+function selectLang(item) {
+  state.langTarget = item.name
+  let language = item.name.toLowerCase()
+  localStorage.setItem('lang', language)
+  locale.value = language
+  state.showLangOpt = false
+}
+function readPwd(item) {
+  state.isReadPwd = !state.isReadPwd
+  item.type = state.isReadPwd ? 'text' : 'password'
+}
+function borderActive(index) {
+  state.inputIndex = index
+}
+function toForgot() {
+  router.push({
+    path: '/forgotPwd'
+  })
+}
+function resetActive(item) {
+  state.inputIndex = -1
+  if (item.vale != '') {
+    item.error = false
+  }
+  if (state.isRemember) {
+    savePwd()
+  }
+}
+function savePwd() {
+  let storeage = {
+    isremember: state.isRemember,
+    user: userInfo.value
+  }
+  if (state.isRemember) {
+    localStorage.setItem('remember', JSON.stringify(storeage))
+  } else {
+    localStorage.removeItem('remember')
+  }
+}
+function jumpRegisterPage() {
+  router.push({
+    path: '/register',
+  })
+}
+async function login() {
+  let url = '/player/auth/login'
+  for (let i in userInfo.value) {
+    userInfo.value[i].error = userInfo.value[i].val == '' ? true : false
+    if (userInfo.value[i].error) {
+      return
+    }
+  }
+  let data = {
+    username: userInfo.value[0].val,
+    password: userInfo.value[1].val,
+    code: userInfo.value[2].val,
+    verifyKey: state.verificationObj.verifyKey
+  }
+  try {
+    const res = await http.post(url, data)
+    localStorage.setItem('userInfo', JSON.stringify(res))
+    if (res?.token) {
+      setTimeout(() => {
+        router.push({
+          path: '/home'
+        })
+      }, 500)
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
+async function getVerifyCode() {
+  userInfo.value[2].val = ''
+  let url = '/player/auth/verify_code'
+  try {
+    const res = await http.get(url)
+    state.verificationObj = res
+  } catch (error) {
+    console.log(error);
+  }
+}
+getVerifyCode()
+async function getServiceLink() {
+  let url = '/player/home/serv_tmp'
+  try {
+    const res = await http.get(url)
+    if (res.serviceAddr) {
+      state.serviceUrl = res.serviceAddr
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
+getServiceLink()
+function jumpService() {
+  console.log(state.serviceUrl);
+  if (state.serviceUrl) {
+    window.location.href = state.serviceUrl
+  }
+}
+onMounted(() => {
   if (localStorage.getItem('lang')?.toUpperCase() == 'ZH') {
     state.langTarget = 'EN'
   } else {
@@ -272,11 +271,11 @@ onMounted(() => {
   if (localStorage.getItem('remember')) {
     let storeage = JSON.parse(localStorage.getItem('remember'))
     state.isRemember = storeage.isremember
-    state.userInfo[0] = storeage.user[0]
-    state.userInfo[1] = storeage.user[1]
+    userInfo.value[0] = storeage.user[0]
+    userInfo.value[1] = storeage.user[1]
   }
 })
-const { langList, showLangOpt, langTarget, userInfo, isRemember, isReadPwd, inputIndex, verificationObj } = toRefs(state)
+const { langList, showLangOpt, langTarget, isRemember, isReadPwd, inputIndex, verificationObj } = toRefs(state)
 </script>
 <style lang="scss" scoped>
 .p_left {
