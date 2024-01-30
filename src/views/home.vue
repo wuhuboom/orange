@@ -163,23 +163,35 @@ const { swiper, upcomingSwiper, upcomingIndex, gameList, swiperAutoPlay } = toRe
     }
 
     .fTips {
+        height: 36px;
+        box-sizing: border-box;
         @include flex(space-between);
-        padding: 10px 12px 7px;
+        // padding: 10px 12px 7px;
         background-color: #1F1F21;
+        margin-right: 12px;
+        border-radius: 10px;
+        margin-top: 13px;
 
         .tips_left {
             width: 100%;
+            height: 36px;
             @include flex(space-between);
 
             :deep(.van-notice-bar) {
                 width: 100%;
+                height: 36px !important;
                 padding: 0px;
 
                 .van-notice-bar__wrap {
+                    height: 36px;
+
                     .van-notice-bar__content {
+                        height: 36px;
                         font-size: 12px;
                         color: #fff;
                         margin-left: 13px;
+                        display: flex;
+                        align-items: center;
                     }
                 }
             }
