@@ -31,7 +31,7 @@
               <input :type="item.type" autocomplete="off" v-model="item.val" :placeholder="item.placeholder"
                 @focus="borderActive(index)" @blur="resetActive(item)" @input="resetActive(item)" />
             </div>
-            <img :src="getImg('login', isReadPwd ? 'open' : 'close')" alt="" class="eye" v-if="item.name == 'password'"
+            <img :src="getImg('login', (isReadPwd ? 'open' : 'close'))" alt="" class="eye" v-if="item.name == 'password'"
               @click="readPwd(item)" style="cursor: pointer;">
             <img :src="verificationObj?.img" alt="" v-if="item.name === 'verificationCode'"
               style="width: 80px;cursor: pointer;" @click="getVerifyCode">
@@ -91,35 +91,6 @@ const state = reactive({
   ],
   showLangOpt: false,
   langTarget: 'EN',
-  userInfo: [
-    {
-      name: 'account',
-      imgIcon: 'acc',
-      type: 'text',
-      val: '',
-      error: false,
-      errorText: t('login.uErrorText'),
-      placeholder: t('login.username')
-    },
-    {
-      name: 'password',
-      imgIcon: 'pwd',
-      type: 'password',
-      val: '',
-      error: false,
-      errorText: t('login.pErrorText'),
-      placeholder: t('login.password')
-    },
-    {
-      name: 'verificationCode',
-      imgIcon: 'email',
-      type: 'text',
-      val: '',
-      error: false,
-      errorText: t('login.vErrorText'),
-      placeholder: t('login.verificationCode')
-    },
-  ],
   isRemember: false,
   isReadPwd: false,
   inputIndex: -1,
