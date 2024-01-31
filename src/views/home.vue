@@ -92,11 +92,11 @@ let swiperOption = {
     centeredSlides: true, // 居中的slide是否标记为active，默认是最左active,这样样式即可生效
     slideToClickedSlide: true, // 点击的slide会居中
     loop: true, // 循环播放, 可有无限滚动效果，初始加载即是滚动后的效果
-    // autoplay: {
-    //     delay: 3000,
-    //     disableOnInteraction: false, //用户操作swiper之后，是否禁止autoplay
-    //     pauseOnMouseEnter: true, //鼠标置于swiper是否时暂停自动切换
-    // },
+    autoplay: {
+        delay: 3000,
+        disableOnInteraction: false, //用户操作swiper之后，是否禁止autoplay
+        pauseOnMouseEnter: true, //鼠标置于swiper是否时暂停自动切换
+    },
 };
 
 const state = reactive({
