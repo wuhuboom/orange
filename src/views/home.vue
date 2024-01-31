@@ -284,8 +284,13 @@ const { swiper, upcomingSwiper, upcomingIndex, gameList, swiperAutoPlay } = toRe
                                 color: #fff;
 
                                 .name_left {
+                                    height: 20px;
                                     text-align: center;
                                     margin-top: 5px;
+                                    display: -webkit-box;
+                                    -webkit-line-clamp: 2;
+                                    -webkit-box-orient: vertical;
+                                    overflow: hidden;
                                 }
                             }
 
@@ -295,6 +300,11 @@ const { swiper, upcomingSwiper, upcomingIndex, gameList, swiperAutoPlay } = toRe
                                 .name_right {
                                     text-align: center;
                                     margin-top: 5px;
+                                    height: 20px;
+                                    display: -webkit-box;
+                                    -webkit-line-clamp: 2;
+                                    -webkit-box-orient: vertical;
+                                    overflow: hidden;
                                 }
                             }
 

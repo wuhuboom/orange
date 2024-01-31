@@ -73,7 +73,7 @@ const { toClipboard } = useClipboard()
 const router = useRouter()
 
 const state = reactive({
-    activeNames: [],
+    activeNames: ["1"],
     list: [
         {
             id: '56598989',
