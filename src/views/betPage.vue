@@ -41,7 +41,7 @@
                         <img :src="getImg('header', 'mIcon')" class="mIcon" alt="">
                         <span class="moneyNum">5093.76</span>
                     </div>
-                    <div class="panel_tit">Bet Slip</div>
+                    <div class="panel_tit">Create Order</div>
                 </div>
                 <van-icon name="cross" color="#fff" @click="closePanel" />
             </div>
@@ -79,7 +79,7 @@
                         <img src="../assets/images/betpage/subtraction.webp" class="subtraction" alt="">
                         <img src="../assets/images/betpage/add.webp" class="add" alt="">
                     </div>
-                    <div class="betBtn" @click="betSubmit">Bet</div>
+                    <div class="betBtn" @click="betSubmit">Confirm</div>
                 </div>
                 <p class="serviceFee">Service Fee：<span class="num">0</span></p>
                 <p class="quickBet">Quick bets</p>
@@ -102,7 +102,7 @@ const successIcon = getImg('betpage', 'successIcon')
 const state = reactive({
     tabIndex: 0,
     betIndex: -1,
-    tabArr: ['All', 'first half'],
+    tabArr: ['Inverse Score', 'First Half Counter Score'],
     betData: [
         [
             {
@@ -385,7 +385,7 @@ $bgHeight: 280px;
 
     .betPanel {
         position: fixed;
-        left: 0;
+        left: 50%;
         bottom: 0;
         height: 0;
         background-color: #1c1b20;
@@ -393,6 +393,7 @@ $bgHeight: 280px;
         border-top-left-radius: 15px;
         border-top-right-radius: 15px;
         transition: height .5s ease-out;
+        transform: translateX(-50%);
 
         .panelBar {
             width: 35px;

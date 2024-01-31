@@ -37,18 +37,18 @@ const router = createRouter({
           component: () => import("../views/home.vue"),
         },
         {
-          path: "contest",
-          name: "contest",
+          path: "Match",
+          name: "Match",
           meta: {
-            parentName: "contest",
+            parentName: "match",
           },
-          component: () => import("../views/contest.vue"),
+          component: () => import("../views/match.vue"),
         },
         {
           path: "betPage",
           name: "betPage",
           meta: {
-            parentName: "contest",
+            parentName: "match",
           },
           component: () => import("../views/betPage.vue"),
         },

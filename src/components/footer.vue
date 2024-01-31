@@ -24,8 +24,8 @@ const state = reactive({
         },
         {
             icon: 'contest',
-            name: 'Contest',
-            link: '/contest'
+            name: 'Match',
+            link: '/Match'
         },
         {
             icon: 'partner',
@@ -48,6 +48,7 @@ function changeFooterIndex(item, index) {
     })
 }
 function currentHighlight() {
+    console.log(route);
     let pageName = route.name
     if (route.meta?.parentName) {
         state.activeIndex = state.list.findIndex(item => item.name.toLocaleLowerCase() === route.meta?.parentName) || 0

@@ -23,7 +23,7 @@
                                 class="arrowIcon" alt="">
                         </template>
                         <template #default>
-                            <div class="content" v-for="(item, index) in list" :key="index" @click="toBetPage">
+                            <div class="content" v-for="(item, index) in item.games" :key="index" @click="toBetPage">
                                 <div class="c_header">
                                     <span class="contentId">ID: {{ item.id }}</span>
                                     <img src="../assets/images/contest/copy.webp" alt="" class="copy"
@@ -32,22 +32,22 @@
                                 <div class="cMain">
                                     <div class="main_left">
                                         <div class="date">
-                                            <p>24</p>
-                                            <p>Jan</p>
+                                            <p>{{ new Date(item.startTime).getDate() }}</p>
+                                            <p>{{ getENMonth(item.startTime) }}</p>
                                         </div>
                                         <div class="main_name">
                                             <p>
-                                                <img src="../assets/images/contest/topIcon.webp" alt="">
-                                                <span>Liverpool</span>
+                                                <img :src="item.mainLogo" alt="">
+                                                <span>{{ getSplitName(item.mainName) }}</span>
                                             </p>
                                             <p>
-                                                <img src="../assets/images/contest/bottomIcon.webp" alt="">
-                                                <span>Aston Villa</span>
+                                                <img :src="item.guestLogo" alt="">
+                                                <span>{{ getSplitName(item.guestName) }}</span>
                                             </p>
                                         </div>
                                     </div>
                                     <div class="main_right">
-                                        09.00 AM
+                                        {{ formatDate(item.startTime, 'HH:mm') }} {{ getAmOrPm(item.startTime) }}
                                     </div>
                                 </div>
                             </div>
@@ -64,7 +64,7 @@
 <script setup >
 import { reactive, toRefs } from 'vue'
 import { showToast } from 'vant'
-import { getImg } from '@/utils/utils'
+import { getImg, getSplitName, formatDate, getAmOrPm, getENMonth } from '@/utils/utils'
 import { useRouter } from 'vue-router'
 import http from '@/utils/axios'
 
@@ -86,7 +86,7 @@ const state = reactive({
 })
 getGameList(state.teamName)
 async function getGameList(teamName) {
-    let url = '/player/game'
+    let url = '/player/game/g'
     // startTime 日期选项0全部,1今天,2明日, status状态选项0未开始
     let data = {
         startTime: 0,
@@ -98,23 +98,15 @@ async function getGameList(teamName) {
     try {
         const res = await http.post(url, data)
         if (res && res.results.length > 0) {
-            if (teamName === '') {
-                console.log(
-                    '%c res: ',
-                    'background-color: #3756d4; padding: 4px 8px; border-radius: 2px; font-size: 14px; color: #fff; font-weight: 700;',
-                    res
-                )
-                state.list = res.results
-                state.page.pageNo = res.pageNo
-                state.page.pageSize = res.pageSize
-                state.page.hasNext = res.hasNext
-                // let index = state.list.length === 0 ? 0 : 
-                getGameList(res.results[0].allianceName)
-            } else {
-                console.log('有队名的', res);
-                state.teamLs = res.results
-
-            }
+            console.log(
+                '%c res: ',
+                'background-color: #3756d4; padding: 4px 8px; border-radius: 2px; font-size: 14px; color: #fff; font-weight: 700;',
+                res
+            )
+            state.list = res.results
+            state.page.pageNo = res.pageNo
+            state.page.pageSize = res.pageSize
+            state.page.hasNext = res.hasNext
         }
     } catch (error) {
         console.log(error);

@@ -23,7 +23,7 @@ const state = reactive({
             isShowRightMoney: true,
             bgColor: '#202020'
         },
-        contest: {
+        Match: {
             leftIcon: 'hleftIcon',
             center: '',
             rightIcon: 'hRightIcon',
