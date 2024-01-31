@@ -368,6 +368,10 @@ const { swiper, upcomingSwiper, upcomingIndex, gameList, swiperAutoPlay } = toRe
                             width: 70px;
                             line-height: 16px;
                             text-align: center;
+                            display: -webkit-box;
+                            -webkit-line-clamp: 2;
+                            -webkit-box-orient: vertical;
+                            overflow: hidden;
                         }
 
                         .listlIcon {
@@ -399,6 +403,10 @@ const { swiper, upcomingSwiper, upcomingIndex, gameList, swiperAutoPlay } = toRe
                             width: 70px;
                             line-height: 16px;
                             text-align: center;
+                            display: -webkit-box;
+                            -webkit-line-clamp: 2;
+                            -webkit-box-orient: vertical;
+                            overflow: hidden;
                         }
 
                         .listrIcon {

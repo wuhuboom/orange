@@ -7,7 +7,7 @@
     </div>
 </template>
 <script setup>
-import { reactive, toRefs, onMounted } from 'vue'
+import { reactive, toRefs, onMounted, watchEffect } from 'vue'
 import { getImg } from '@/utils/utils'
 import { useRouter, useRoute } from 'vue-router'
 
@@ -47,9 +47,15 @@ function changeFooterIndex(item, index) {
         path: item.link
     })
 }
-onMounted(() => {
+function currentHighlight(params) {
     let pageName = route.name
     state.activeIndex = state.list.findIndex(item => item.name.toLocaleLowerCase() === pageName) || 0
+}
+watchEffect(() => {
+    currentHighlight()
+})
+onMounted(() => {
+    currentHighlight()
 })
 const { list, activeIndex } = toRefs(state)
 </script>
