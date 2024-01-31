@@ -52,6 +52,14 @@ const router = createRouter({
           },
           component: () => import("../views/betPage.vue"),
         },
+        {
+          path: "sysNotice",
+          name: "sysNotice",
+          meta: {
+            parentName: "home",
+          },
+          component: () => import("../views/sysNotice.vue"),
+        },
       ],
     },
   ],

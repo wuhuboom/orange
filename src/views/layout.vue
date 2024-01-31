@@ -43,6 +43,16 @@ const state = reactive({
             isShowRightMoney: false,
             bgColor: 'transparent',
             link: '/contest'
+        },
+        sysNotice: {
+            leftIcon: 'back',
+            leftIconWidth: '32px',
+            leftIconHeight: '32px',
+            center: 'Message Center',
+            rightIcon: '',
+            isShowRightMoney: false,
+            bgColor: '#202020',
+            link: '/home'
         }
     },
 

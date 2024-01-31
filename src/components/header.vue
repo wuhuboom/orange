@@ -10,7 +10,7 @@
                 <img :src="getImg('header', 'mIcon')" class="mIcon" alt="">
                 <span class="moneyNum">5093.76</span>
             </div>
-            <img :src="getImg('header', header.rightIcon)" class="rightIcon" alt="">
+            <img :src="getImg('header', header.rightIcon)" class="rightIcon" alt="" v-if="header.rightIcon">
         </div>
     </div>
 </template>

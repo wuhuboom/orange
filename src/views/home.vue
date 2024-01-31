@@ -14,7 +14,7 @@
                         </template>
                     </van-notice-bar>
                 </div>
-                <img src="../assets//images/home/listIcon.webp" class="listIcon" alt="">
+                <img src="../assets/images/home/listIcon.webp" class="listIcon" alt="" @click="toNotice">
             </div>
         </div>
         <div class="main">
@@ -167,6 +167,11 @@ function getSplitName(name) {
         }
     }
     return name
+}
+function toNotice() {
+    router.push({
+        path: '/sysNotice'
+    })
 }
 const { swiper, upcomingSwiper, upcomingIndex, gameList, swiperAutoPlay } = toRefs(state)
 </script>

@@ -239,6 +239,11 @@ onMounted(() => {
   } else {
     state.langTarget = localStorage.getItem('lang')?.toUpperCase() || 'EN'
   }
+  const language = navigator.language;
+  if (!localStorage.getItem('lang')) {
+    localStorage.setItem('lang', language)
+
+  }
   if (localStorage.getItem('remember')) {
     let storeage = JSON.parse(localStorage.getItem('remember'))
     state.isRemember = storeage.isremember
