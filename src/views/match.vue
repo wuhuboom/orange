@@ -94,9 +94,6 @@ const state = reactive({
     refreshing: false
 })
 function getSearchGameRes() {
-    if (state.teamName == '') {
-        return false
-    }
     state.page.pageNo = 1
     getGameList('search')
 }
