@@ -23,17 +23,17 @@ const state = reactive({
             link: '/home'
         },
         {
-            icon: 'contest',
+            icon: 'match',
             name: 'Match',
             link: '/Match'
         },
         {
             icon: 'partner',
-            name: 'partner',
+            name: 'Partner',
         },
         {
             icon: 'funds',
-            name: 'funds',
+            name: 'Funds',
         },
         {
             icon: 'profile',
@@ -48,7 +48,6 @@ function changeFooterIndex(item, index) {
     })
 }
 function currentHighlight() {
-    console.log(route);
     let pageName = route.name
     if (route.meta?.parentName) {
         state.activeIndex = state.list.findIndex(item => item.name.toLocaleLowerCase() === route.meta?.parentName) || 0

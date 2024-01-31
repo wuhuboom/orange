@@ -2,7 +2,7 @@
     <div class="contest maxWidth lrPadding">
         <van-search v-model="teamName" placeholder="Type to search" clearable background="#252528" @blur="getSearchGameRes">
             <template #left-icon>
-                <img src="../assets/images/contest/searchIcon.webp" class="searchIcon" alt="">
+                <img src="../assets/images/match/searchIcon.webp" class="searchIcon" alt="">
             </template>
         </van-search>
 
@@ -17,13 +17,13 @@
                                     <template #title>
                                         <div class="title">
                                             <div class="leftTit">
-                                                <img src="../assets/images/contest/fIcon.webp" class="fIcon" alt="">
+                                                <img src="../assets/images/match/fIcon.webp" class="fIcon" alt="">
                                                 <span>{{ item.allianceName }}</span>
                                             </div>
                                         </div>
                                     </template>
                                     <template #right-icon>
-                                        <img :src="getImg('contest', (activeNames === index ? 'arrowUp' : 'arrowDown'))"
+                                        <img :src="getImg('match', (activeNames === index ? 'arrowUp' : 'arrowDown'))"
                                             class="arrowIcon" alt="">
                                     </template>
                                     <template #default>
@@ -31,7 +31,7 @@
                                             @click="toBetPage">
                                             <div class="c_header">
                                                 <span class="contentId">ID: {{ item.id }}</span>
-                                                <img src="../assets/images/contest/copy.webp" alt="" class="copy"
+                                                <img src="../assets/images/match/copy.webp" alt="" class="copy"
                                                     @click="copyBtn(item)">
                                             </div>
                                             <div class="cMain">
