@@ -37,6 +37,7 @@ const state = reactive({
 })
 function handleClickTab(index) {
     state.tabIndex = index
+    getNoticeList()
 }
 getNoticeList()
 async function getNoticeList(param) {
