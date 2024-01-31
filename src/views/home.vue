@@ -1,8 +1,7 @@
 <template>
     <div class="home maxWidth">
         <div class="fSwiper">
-            <Swiper slides-per-view="auto" :space-between="12" :centeredSlides="true" :loop="true"
-                :autoplay="swiperAutoPlay" class="homeSwiper">
+            <Swiper :modules="modules" v-bind="swiperOption" class="homeSwiper">
                 <swiper-slide v-for="(item, index) in swiper" :key="index">
                     <img :src="item?.imageUrl" />
                 </swiper-slide>
@@ -80,6 +79,25 @@ import { useRouter } from 'vue-router'
 
 const router = useRouter()
 import { Swiper, SwiperSlide } from 'swiper/vue';
+// 引入swiper核心和所需模块
+import {
+    Autoplay, Navigation, Pagination, Scrollbar, A11y,
+} from "swiper/modules";
+// 在modules加入要使用的模块
+const modules = [Autoplay, Pagination, Navigation, Scrollbar];
+let swiperOption = {
+    spaceBetween: '15',
+    slidesPerView: 'auto', // 一屏显示的slide个数  'auto'
+    slidesPerGroup: 3, //每组多少个swiper滑块
+    centeredSlides: true, // 居中的slide是否标记为active，默认是最左active,这样样式即可生效
+    slideToClickedSlide: true, // 点击的slide会居中
+    loop: true, // 循环播放, 可有无限滚动效果，初始加载即是滚动后的效果
+    // autoplay: {
+    //     delay: 3000,
+    //     disableOnInteraction: false, //用户操作swiper之后，是否禁止autoplay
+    //     pauseOnMouseEnter: true, //鼠标置于swiper是否时暂停自动切换
+    // },
+};
 
 const state = reactive({
     swiper: [],
@@ -170,6 +188,10 @@ const { swiper, upcomingSwiper, upcomingIndex, gameList, swiperAutoPlay } = toRe
                 .swiper-slide {
                     width: 310px !important;
 
+                    img {
+                        border-radius: 10px;
+
+                    }
                 }
 
             }
