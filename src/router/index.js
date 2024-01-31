@@ -38,6 +38,11 @@ const router = createRouter({
           name: "contest",
           component: () => import("../views/contest.vue"),
         },
+        {
+          path: "betPage",
+          name: "betPage",
+          component: () => import("../views/betPage.vue"),
+        },
       ],
     },
   ],

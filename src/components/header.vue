@@ -1,9 +1,9 @@
 <template>
-    <div class="header maxWidth">
+    <div class="header maxWidth" :style="{ background: header.bgColor }">
         <div class="left">
-            <img :src="getImg('header', header.leftIcon)" alt="">
+            <img :src="getImg('header', header.leftIcon)" alt="" @click="handleHeaderClick">
         </div>
-        <div class="center"></div>
+        <div class="center">{{ header.center }}</div>
         <div class="right">
             <!-- 金额 -->
             <div class="money" v-if="header.isShowRightMoney">
@@ -15,8 +15,19 @@
     </div>
 </template>
 <script setup >
+import { toRefs, defineProps, watchEffect } from 'vue'
 import { getImg } from '@/utils/utils'
-defineProps(['header'])
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+const props = defineProps(['header'])
+const { header } = toRefs(props)
+
+function handleHeaderClick() {
+    router.push({
+        path: header.value.link
+    })
+}
 </script>
 <style scoped lang='scss'>
 .header {
@@ -26,7 +37,7 @@ defineProps(['header'])
     left: 0;
     right: 0;
     @include flex(space-between);
-    background-color: #202020;
+    // background-color: #202020;
     box-sizing: border-box;
     padding: 0 12px;
     z-index: 10;
@@ -39,6 +50,11 @@ defineProps(['header'])
     .left {
         width: 32px;
         height: 32px;
+    }
+
+    .center {
+        font-size: 16px;
+        color: #fff;
     }
 
     .right {

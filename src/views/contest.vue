@@ -8,7 +8,7 @@
 
         <div class="list">
             <div class="list-item">
-                <van-collapse v-model="activeNames">
+                <van-collapse v-model="activeNames" @change="handleCollapse">
                     <van-collapse-item name="1">
                         <template #title>
                             <div class="title">
@@ -19,10 +19,11 @@
                             </div>
                         </template>
                         <template #right-icon>
-                            <img src="../assets/images/contest/arrowUp.webp" class="arrowIcon" alt="">
+                            <img :src="getImg('contest', (activeNames.includes('1') ? 'arrowUp' : 'arrowDown'))"
+                                class="arrowIcon" alt="">
                         </template>
                         <template #default>
-                            <div class="content" v-for="(item, index) in list" :key="index">
+                            <div class="content" v-for="(item, index) in list" :key="index" @click="toBetPage">
                                 <div class="c_header">
                                     <span class="contentId">ID: {{ item.id }}</span>
                                     <img src="../assets/images/contest/copy.webp" alt="" class="copy"
@@ -63,13 +64,16 @@
 <script setup >
 import { reactive, toRefs } from 'vue'
 import { showToast } from 'vant'
+import { getImg } from '@/utils/utils'
+import { useRouter } from 'vue-router'
 
 import useClipboard from "vue-clipboard3";
 
 const { toClipboard } = useClipboard()
+const router = useRouter()
 
 const state = reactive({
-    activeNames: ["1"],
+    activeNames: [],
     list: [
         {
             id: '56598989',
@@ -94,6 +98,14 @@ const state = reactive({
         },
     ]
 })
+function toBetPage() {
+    router.push({
+        path: '/betPage'
+    })
+}
+function handleCollapse() {
+    console.log(state.activeNames);
+}
 function copyBtn(item) {
     toClipboard(item.id).then(() => {
         showToast('copy Success')
