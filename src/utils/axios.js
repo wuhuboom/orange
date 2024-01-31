@@ -69,7 +69,6 @@ http.interceptors.response.use(
         if (data[1].name === "failCount") {
           count = data[1].value;
         }
-        console.log(count);
         showToast(t(msgKey, { N: count }));
       }
     } else if (code === 402) {

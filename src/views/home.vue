@@ -36,13 +36,13 @@
                                 </div>
                                 <div class="vs_content">
                                     <h2>vs</h2>
+                                    <p class="uDate">{{ formatDate(item.startTime, 'HH:mm') }}</p>
                                 </div>
                                 <div class="u_right">
                                     <img :src="item.guestLogo" class="vs_right" alt="">
                                     <span class="name_right">{{ getSplitName(item.guestName) }}</span>
                                 </div>
                             </div>
-                            <p class="uDate">{{ item.startTimeStr }}</p>
                         </swiper-slide>
                     </Swiper>
                 </div>
