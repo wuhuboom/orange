@@ -32,14 +32,14 @@
                             <div class="f_vs">
                                 <div class="u_left">
                                     <img :src="item.mainLogo" class="vs_left" alt="">
-                                    <span class="name_left">{{ item.mainName }}</span>
+                                    <span class="name_left">{{ getSplitName(item.mainName) }}</span>
                                 </div>
                                 <div class="vs_content">
                                     <h2>vs</h2>
                                 </div>
                                 <div class="u_right">
                                     <img :src="item.guestLogo" class="vs_right" alt="">
-                                    <span class="name_right">{{ item.guestName }}</span>
+                                    <span class="name_right">{{ getSplitName(item.guestName) }}</span>
                                 </div>
                             </div>
                             <p class="uDate">{{ item.startTimeStr }}</p>
@@ -135,6 +135,15 @@ async function getSwiper() {
 }
 function changeSwiper(index) {
     state.upcomingIndex = index
+}
+function getSplitName(name) {
+    if (name != '') {
+        const index = name.indexOf("("); // 查找第一个 "(" 的位置
+        if (index !== -1) {
+            name = name.slice(0, index); // 截取 "(" 之前的内容
+        }
+    }
+    return name
 }
 const { swiper, upcomingSwiper, upcomingIndex, gameList, swiperAutoPlay } = toRefs(state)
 </script>
