@@ -27,7 +27,7 @@
                 <div class="foretell">
                     <Swiper slides-per-view="auto" :freeMode="true" :space-between="12">
                         <swiper-slide v-for="(item, index) in upcomingSwiper" :key="index"
-                            :class="{ s_active: upcomingIndex === index }" @click="changeSwiper(index)">
+                            :class="{ s_active: upcomingIndex === index }" @click="changeSwiper(item, index)">
                             <div class="f_title">{{ item.allianceName }}</div>
                             <div class="f_vs">
                                 <div class="u_left">
@@ -76,8 +76,9 @@
 import { reactive, toRefs } from 'vue'
 import { formatDate } from '@/utils/utils'
 import http from '@/utils/axios'
+import { useRouter } from 'vue-router'
 
-
+const router = useRouter()
 import { Swiper, SwiperSlide } from 'swiper/vue';
 
 const state = reactive({
@@ -133,8 +134,12 @@ async function getSwiper() {
         console.log(error);
     }
 }
-function changeSwiper(index) {
+function changeSwiper(item, index) {
     state.upcomingIndex = index
+    router.push({
+        path: '/betPage',
+        query: { gameId: item.id }
+    })
 }
 function getSplitName(name) {
     if (name != '') {

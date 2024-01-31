@@ -1,6 +1,6 @@
 <template>
     <div class="contest maxWidth lrPadding">
-        <van-search v-model="value" placeholder="Type to search" clearable background="#252528">
+        <van-search v-model="teamName" placeholder="Type to search" clearable background="#252528">
             <template #left-icon>
                 <img src="../assets/images/contest/searchIcon.webp" class="searchIcon" alt="">
             </template>
@@ -8,18 +8,18 @@
 
         <div class="list">
             <div class="list-item">
-                <van-collapse v-model="activeNames" @change="handleCollapse">
-                    <van-collapse-item name="1">
+                <van-collapse v-model="activeNames" accordion @change="handleCollapse">
+                    <van-collapse-item :name="index" v-for="(item, index) in list" :key="index">
                         <template #title>
                             <div class="title">
                                 <div class="leftTit">
                                     <img src="../assets/images/contest/fIcon.webp" class="fIcon" alt="">
-                                    <span>Friendlies Clubs</span>
+                                    <span>{{ item.allianceName }}</span>
                                 </div>
                             </div>
                         </template>
                         <template #right-icon>
-                            <img :src="getImg('contest', (activeNames.includes('1') ? 'arrowUp' : 'arrowDown'))"
+                            <img :src="getImg('contest', (activeNames === index ? 'arrowUp' : 'arrowDown'))"
                                 class="arrowIcon" alt="">
                         </template>
                         <template #default>
@@ -66,6 +66,7 @@ import { reactive, toRefs } from 'vue'
 import { showToast } from 'vant'
 import { getImg } from '@/utils/utils'
 import { useRouter } from 'vue-router'
+import http from '@/utils/axios'
 
 import useClipboard from "vue-clipboard3";
 
@@ -73,31 +74,52 @@ const { toClipboard } = useClipboard()
 const router = useRouter()
 
 const state = reactive({
-    activeNames: ["1"],
-    list: [
-        {
-            id: '56598989',
-        },
-        {
-            id: '56598233',
-        },
-        {
-            id: '56598453',
-        },
-        {
-            id: '56598234',
-        },
-        {
-            id: '56598989',
-        },
-        {
-            id: '56598989',
-        },
-        {
-            id: '56598989',
-        },
-    ]
+    activeNames: 0,
+    teamName: '',
+    page: {
+        pageNo: 1,
+        pageSize: 10,
+        hasNext: false
+    },
+    list: [],
+    teamLs: []
 })
+getGameList(state.teamName)
+async function getGameList(teamName) {
+    let url = '/player/game'
+    // startTime 日期选项0全部,1今天,2明日, status状态选项0未开始
+    let data = {
+        startTime: 0,
+        status: 0,
+        teamName,
+        pageNo: state.page.pageNo,
+        pageSize: state.page.pageSize
+    }
+    try {
+        const res = await http.post(url, data)
+        if (res && res.results.length > 0) {
+            if (teamName === '') {
+                console.log(
+                    '%c res: ',
+                    'background-color: #3756d4; padding: 4px 8px; border-radius: 2px; font-size: 14px; color: #fff; font-weight: 700;',
+                    res
+                )
+                state.list = res.results
+                state.page.pageNo = res.pageNo
+                state.page.pageSize = res.pageSize
+                state.page.hasNext = res.hasNext
+                // let index = state.list.length === 0 ? 0 : 
+                getGameList(res.results[0].allianceName)
+            } else {
+                console.log('有队名的', res);
+                state.teamLs = res.results
+
+            }
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
 function toBetPage() {
     router.push({
         path: '/betPage'
@@ -111,7 +133,7 @@ function copyBtn(item) {
         showToast('copy Success')
     })
 }
-const { activeNames, list } = toRefs(state)
+const { activeNames, list, teamName } = toRefs(state)
 </script>
 <style scoped lang='scss'>
 .contest {

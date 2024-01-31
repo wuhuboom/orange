@@ -24,9 +24,10 @@ const props = defineProps(['header'])
 const { header } = toRefs(props)
 
 function handleHeaderClick() {
-    router.push({
-        path: header.value.link
-    })
+    // router.push({
+    //     path: header.value.link
+    // })
+    router.go(-1)
 }
 </script>
 <style scoped lang='scss'>

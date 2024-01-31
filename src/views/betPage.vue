@@ -79,7 +79,7 @@
                         <img src="../assets/images/betpage/subtraction.webp" class="subtraction" alt="">
                         <img src="../assets/images/betpage/add.webp" class="add" alt="">
                     </div>
-                    <div class="betBtn">Bet</div>
+                    <div class="betBtn" @click="betSubmit">Bet</div>
                 </div>
                 <p class="serviceFee">Service Fee：<span class="num">0</span></p>
                 <p class="quickBet">Quick bets</p>
@@ -95,11 +95,10 @@
 <script setup>
 import { reactive, toRefs } from 'vue'
 import { getImg } from '@/utils/utils'
-const anchors = [
-    100,
-    Math.round(0.4 * window.innerHeight),
-    Math.round(0.7 * window.innerHeight),
-];
+import { showToast } from 'vant'
+
+const successIcon = getImg('betpage', 'successIcon')
+
 const state = reactive({
     tabIndex: 0,
     betIndex: -1,
@@ -182,6 +181,14 @@ const state = reactive({
     betNum: 10,
     isShowBetPanel: false
 })
+function betSubmit() {
+    showToast({
+        icon: successIcon,
+        iconSize: '46px',
+        message: 'successfully',
+        position: 'bottom',
+    })
+}
 function closePanel() {
     state.isShowBetPanel = false
 }
