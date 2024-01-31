@@ -18,13 +18,17 @@ const state = reactive({
     headerObj: {
         home: {
             leftIcon: 'hleftIcon',
+            leftIconWidth: '32px',
+            leftIconHeight: '32px',
             center: '',
             rightIcon: 'hRightIcon',
             isShowRightMoney: true,
             bgColor: '#202020'
         },
         Match: {
-            leftIcon: 'hleftIcon',
+            leftIcon: 'cter',
+            leftIconWidth: '58px',
+            leftIconHeight: '19px',
             center: '',
             rightIcon: 'hRightIcon',
             isShowRightMoney: true,
@@ -32,6 +36,8 @@ const state = reactive({
         },
         betPage: {
             leftIcon: 'back',
+            leftIconWidth: '32px',
+            leftIconHeight: '32px',
             center: 'Friendlies Clubs',
             rightIcon: 'bell',
             isShowRightMoney: false,

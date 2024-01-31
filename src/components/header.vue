@@ -1,6 +1,6 @@
 <template>
     <div class="header maxWidth" :style="{ background: header.bgColor }">
-        <div class="left">
+        <div class="left" :style="{ width: header.leftIconWidth, height: header.leftIconHeight }">
             <img :src="getImg('header', header.leftIcon)" alt="" @click="handleHeaderClick">
         </div>
         <div class="center">{{ header.center }}</div>
