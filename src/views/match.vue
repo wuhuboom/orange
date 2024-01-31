@@ -1,6 +1,6 @@
 <template>
     <div class="contest maxWidth lrPadding">
-        <van-search v-model="teamName" placeholder="Type to search" clearable background="#252528">
+        <van-search v-model="teamName" placeholder="Type to search" clearable background="#252528" @blur="getSearchGameRes">
             <template #left-icon>
                 <img src="../assets/images/contest/searchIcon.webp" class="searchIcon" alt="">
             </template>
@@ -8,55 +8,61 @@
 
         <div class="list">
             <div class="list-item">
-                <van-collapse v-model="activeNames" accordion @change="handleCollapse">
-                    <van-collapse-item :name="index" v-for="(item, index) in list" :key="index">
-                        <template #title>
-                            <div class="title">
-                                <div class="leftTit">
-                                    <img src="../assets/images/contest/fIcon.webp" class="fIcon" alt="">
-                                    <span>{{ item.allianceName }}</span>
-                                </div>
-                            </div>
-                        </template>
-                        <template #right-icon>
-                            <img :src="getImg('contest', (activeNames === index ? 'arrowUp' : 'arrowDown'))"
-                                class="arrowIcon" alt="">
-                        </template>
-                        <template #default>
-                            <div class="content" v-for="(item, index) in item.games" :key="index" @click="toBetPage">
-                                <div class="c_header">
-                                    <span class="contentId">ID: {{ item.id }}</span>
-                                    <img src="../assets/images/contest/copy.webp" alt="" class="copy"
-                                        @click="copyBtn(item)">
-                                </div>
-                                <div class="cMain">
-                                    <div class="main_left">
-                                        <div class="date">
-                                            <p>{{ new Date(item.startTime).getDate() }}</p>
-                                            <p>{{ getENMonth(item.startTime) }}</p>
+                <van-pull-refresh v-model="refreshing" @refresh="onRefresh">
+                    <van-list v-model:loading="loading" loading-text="loading" :finished="finished" finished-text="no more"
+                        @load="onLoad" @refresh="onRefresh">
+                        <van-cell v-for="(item, index) in list" :key="index">
+                            <van-collapse v-model="activeNames" accordion @change="handleCollapse">
+                                <van-collapse-item :name="index">
+                                    <template #title>
+                                        <div class="title">
+                                            <div class="leftTit">
+                                                <img src="../assets/images/contest/fIcon.webp" class="fIcon" alt="">
+                                                <span>{{ item.allianceName }}</span>
+                                            </div>
                                         </div>
-                                        <div class="main_name">
-                                            <p>
-                                                <img :src="item.mainLogo" alt="">
-                                                <span>{{ getSplitName(item.mainName) }}</span>
-                                            </p>
-                                            <p>
-                                                <img :src="item.guestLogo" alt="">
-                                                <span>{{ getSplitName(item.guestName) }}</span>
-                                            </p>
+                                    </template>
+                                    <template #right-icon>
+                                        <img :src="getImg('contest', (activeNames === index ? 'arrowUp' : 'arrowDown'))"
+                                            class="arrowIcon" alt="">
+                                    </template>
+                                    <template #default>
+                                        <div class="content" v-for="(item, index) in item.games" :key="index"
+                                            @click="toBetPage">
+                                            <div class="c_header">
+                                                <span class="contentId">ID: {{ item.id }}</span>
+                                                <img src="../assets/images/contest/copy.webp" alt="" class="copy"
+                                                    @click="copyBtn(item)">
+                                            </div>
+                                            <div class="cMain">
+                                                <div class="main_left">
+                                                    <div class="date">
+                                                        <p>{{ new Date(item.startTime).getDate() }}</p>
+                                                        <p>{{ getENMonth(item.startTime) }}</p>
+                                                    </div>
+                                                    <div class="main_name">
+                                                        <p>
+                                                            <img :src="item.mainLogo" alt="">
+                                                            <span>{{ getSplitName(item.mainName) }}</span>
+                                                        </p>
+                                                        <p>
+                                                            <img :src="item.guestLogo" alt="">
+                                                            <span>{{ getSplitName(item.guestName) }}</span>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                                <div class="main_right">
+                                                    {{ formatDate(item.startTime, 'HH:mm') }} {{ getAmOrPm(item.startTime)
+                                                    }}
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="main_right">
-                                        {{ formatDate(item.startTime, 'HH:mm') }} {{ getAmOrPm(item.startTime) }}
-                                    </div>
-                                </div>
-                            </div>
-                        </template>
-                    </van-collapse-item>
-                    <!-- <van-collapse-item title="标题2" name="2" icon="shop-o">
-                        技术无非就是那些开发它的人的共同灵魂。
-                    </van-collapse-item> -->
-                </van-collapse>
+                                    </template>
+                                </van-collapse-item>
+                            </van-collapse>
+                        </van-cell>
+                    </van-list>
+                </van-pull-refresh>
             </div>
         </div>
     </div>
@@ -77,40 +83,70 @@ const state = reactive({
     activeNames: 0,
     teamName: '',
     page: {
-        pageNo: 1,
+        pageNo: 0,
         pageSize: 10,
-        hasNext: false
+        hasNext: true,
     },
     list: [],
-    teamLs: []
+    teamLs: [],
+    loading: false,
+    finished: false,
+    refreshing: false
 })
-getGameList(state.teamName)
-async function getGameList(teamName) {
+function getSearchGameRes() {
+    if (state.teamName == '') {
+        return false
+    }
+    state.page.pageNo = 1
+    getGameList('search')
+}
+async function getGameList(val) {
     let url = '/player/game/g'
     // startTime 日期选项0全部,1今天,2明日, status状态选项0未开始
     let data = {
         startTime: 0,
         status: 0,
-        teamName,
+        teamName: state.teamName,
         pageNo: state.page.pageNo,
         pageSize: state.page.pageSize
     }
     try {
         const res = await http.post(url, data)
         if (res && res.results.length > 0) {
-            console.log(
-                '%c res: ',
-                'background-color: #3756d4; padding: 4px 8px; border-radius: 2px; font-size: 14px; color: #fff; font-weight: 700;',
-                res
-            )
-            state.list = res.results
+            if (val == 'refresh' || val == 'search') {
+                state.list = []
+            }
+            state.list = [...state.list, ...res.results]
             state.page.pageNo = res.pageNo
             state.page.pageSize = res.pageSize
             state.page.hasNext = res.hasNext
+            state.page.totalPage = res.totalPage
+            state.loading = false
+            state.refreshing = false
+            console.log(state.list.length);
         }
     } catch (error) {
         console.log(error);
     }
+}
+function onLoad() {
+    let timer = null
+    timer && clearTimeout(timer)
+    timer = setTimeout(() => {
+        state.page.pageNo += 1
+        if (state.page.hasNext) {
+            getGameList()
+        }
+    }, 1000);
+}
+function onRefresh() {
+    let timer = null
+    timer && clearTimeout(timer)
+    timer = setTimeout(() => {
+        state.page.pageNo = 1
+        getGameList('refresh')
+    }, 1000);
+
 }
 function toBetPage() {
     router.push({
@@ -125,7 +161,7 @@ function copyBtn(item) {
         showToast('copy Success')
     })
 }
-const { activeNames, list, teamName } = toRefs(state)
+const { activeNames, list, teamName, loading, finished, refreshing } = toRefs(state)
 </script>
 <style scoped lang='scss'>
 .contest {
@@ -147,12 +183,31 @@ const { activeNames, list, teamName } = toRefs(state)
                 width: 22px;
                 height: 22px;
             }
+
+            .van-cell {
+                .van-cell__value {
+                    .van-field__body {
+                        .van-field__control {
+                            color: #fff;
+                        }
+                    }
+                }
+            }
         }
     }
 
     .list {
+        margin-top: 17px;
 
         .list-item {
+            .van-list {
+                .van-cell {
+                    background-color: #18181b;
+                    line-height: normal;
+                    padding: 0px 0 5px 0;
+                }
+            }
+
             :deep(.van-collapse) {
                 background-color: #18181b;
 
