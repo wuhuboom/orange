@@ -37,12 +37,15 @@ const state = reactive({
 })
 function handleClickTab(index) {
     state.tabIndex = index
-    getNoticeList()
+    state.list = []
+    if (index === 0) {
+        getNoticeList()
+    }
 }
 getNoticeList()
-async function getNoticeList(param) {
+async function getNoticeList() {
     let url = '/player/home/notice'
-    let lang = localStorage.getItem('')
+    let lang = localStorage.getItem('lang') || navigator.language
     try {
         const res = await http.get(`${url}?lang=${lang}`)
         state.list = res || []
