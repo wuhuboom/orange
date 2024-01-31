@@ -47,9 +47,14 @@ function changeFooterIndex(item, index) {
         path: item.link
     })
 }
-function currentHighlight(params) {
+function currentHighlight() {
+    console.log(route);
     let pageName = route.name
-    state.activeIndex = state.list.findIndex(item => item.name.toLocaleLowerCase() === pageName) || 0
+    if (route.meta?.parentName) {
+        state.activeIndex = state.list.findIndex(item => item.name.toLocaleLowerCase() === route.meta?.parentName) || 0
+    } else {
+        state.activeIndex = state.list.findIndex(item => item.name.toLocaleLowerCase() === pageName) || 0
+    }
 }
 watchEffect(() => {
     currentHighlight()

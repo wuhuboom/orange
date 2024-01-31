@@ -31,16 +31,25 @@ const router = createRouter({
         {
           path: "home",
           name: "home",
+          meta: {
+            parentName: "home",
+          },
           component: () => import("../views/home.vue"),
         },
         {
           path: "contest",
           name: "contest",
+          meta: {
+            parentName: "contest",
+          },
           component: () => import("../views/contest.vue"),
         },
         {
           path: "betPage",
           name: "betPage",
+          meta: {
+            parentName: "contest",
+          },
           component: () => import("../views/betPage.vue"),
         },
       ],
