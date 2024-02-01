@@ -2,13 +2,13 @@
     <div class="betPage maxWidth lrPadding">
         <div class="top_container maxWidth">
             <div class="parallelogram_wrapper">
-                <span> <img src="../assets/images/betpage/mainIcon.webp" class="mainIcon" alt=""></span>
-                <span><img src="../assets/images/betpage/guest.webp" class="guestIcon" alt=""></span>
+                <span v-if="gameInfo?.game"> <img :src="gameInfo?.game?.mainLogo" class="mainIcon" alt=""></span>
+                <span v-if="gameInfo?.game"><img :src="gameInfo?.game?.guestLogo" class="guestIcon" alt=""></span>
 
             </div>
             <div class="parallelogram_wrapper">
-                <div class="parallelogram_left">Liverpool</div>
-                <div class="parallelogram_right">Aston Villa</div>
+                <div class="parallelogram_left" v-if="gameInfo?.game">{{ getSplitName(gameInfo?.game?.mainName) }}</div>
+                <div class="parallelogram_right" v-if="gameInfo?.game">{{ getSplitName(gameInfo?.game?.guestName) }}</div>
                 <img src="../assets/images/betpage/vs.webp" class="vsImg" alt="">
             </div>
             <div class="time">
@@ -17,8 +17,9 @@
                     <span class="colon">:</span>
                     <span>0</span>
                 </div>
-                <span class="date">1-28-2024</span>
-                <span class="t">12：00PM</span>
+                <span class="date">{{ formatDate(gameInfo?.game?.startTime, 'YYYY-MM-DD') }}</span>
+                <span class="t">{{ formatDate(gameInfo?.game?.startTime, 'HH:mm') }}{{ getAmOrPm(gameInfo?.game?.startTime)
+                }}</span>
             </div>
         </div>
         <div class="tab">
@@ -93,7 +94,7 @@
 </template>
 <script setup>
 import { reactive, toRefs } from 'vue'
-import { getImg } from '@/utils/utils'
+import { getImg, getSplitName, getAmOrPm, formatDate } from '@/utils/utils'
 import { showToast } from 'vant'
 import { useRoute } from 'vue-router'
 import http from '@/utils/axios'
@@ -129,6 +130,11 @@ async function getGameInfo() {
         const res = await http.get(url)
         if (res?.game && res?.lossPerCent) {
             state.gameInfo = res
+            console.log(
+                '%c state.gameInfo: ',
+                'background-color: #3756d4; padding: 4px 8px; border-radius: 2px; font-size: 14px; color: #fff; font-weight: 700;',
+                state.gameInfo
+            )
             // gameType 比赛类型 1上半场 2全场,
             // 上半场得分
             state.firstHalfScore = res?.lossPerCent.filter(item => item.gameType == 1)
