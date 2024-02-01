@@ -18,12 +18,13 @@
 <script setup >
 import { toRefs, defineProps, reactive } from 'vue'
 import { getImg } from '@/utils/utils'
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 import http from '@/utils/axios'
 import { useStore } from '@/stores/index'
 
 const store = useStore()
 const router = useRouter()
+const route = useRoute()
 const props = defineProps(['header'])
 const { header } = toRefs(props)
 
@@ -36,6 +37,10 @@ function handleHeaderClick() {
     // })
     if (header.value.leftIcon == 'back') {
         router.go(-1)
+    }
+    let showLeftArr = ['home']
+    if (showLeftArr.includes(route.name)) {
+        store.showLeftNav = true
     }
 }
 function handleRightIcon() {

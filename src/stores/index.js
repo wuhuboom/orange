@@ -4,6 +4,7 @@ export const useStore = defineStore("store", {
   state: () => {
     return {
       balance: "0.0",
+      showLeftNav: false,
     };
   },
 });

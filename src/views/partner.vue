@@ -329,4 +329,24 @@ const { tabsIndex, tabArr, groupUnAim, groupAim, partnerObj, passRate, userArr }
         }
     }
 }
+
+.partner::-webkit-scrollbar {
+    width: 0px;
+    /* 设置滚动条宽度 */
+}
+
+.partner::-webkit-scrollbar-track {
+    background-color: rgb(0, 0, 0);
+    /* 设置滚动条轨道背景色 */
+}
+
+.partner::-webkit-scrollbar-thumb {
+    background-color: rgb(0, 0, 0);
+    /* 设置滚动条滑块颜色 */
+}
+
+.partner::-webkit-scrollbar-thumb:hover {
+    background-color: rgb(0, 0, 0);
+    /* 设置滚动条滑块在鼠标悬停时的颜色 */
+}
 </style>

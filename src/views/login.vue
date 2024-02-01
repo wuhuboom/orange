@@ -316,7 +316,6 @@ const { langList, showLangOpt, langTarget, isRemember, isReadPwd, inputIndex, ve
     height: 0;
     overflow: hidden;
     transition: height .5s ease-out;
-    height: 0;
     cursor: pointer;
 
     .o_item {
