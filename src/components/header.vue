@@ -8,7 +8,7 @@
             <!-- 金额 -->
             <div class="money" v-if="header.isShowRightMoney">
                 <img :src="getImg('header', 'mIcon')" class="mIcon" alt="">
-                <span class="moneyNum">5093.76</span>
+                <span class="moneyNum">{{ accInfo?.currRate || '0.0' }}</span>
             </div>
             <img :src="getImg('header', header.rightIcon)" class="rightIcon" alt="" v-if="header.rightIcon"
                 @click="handleRightIcon">
@@ -16,14 +16,20 @@
     </div>
 </template>
 <script setup >
-import { toRefs, defineProps, watchEffect } from 'vue'
+import { toRefs, defineProps, reactive } from 'vue'
 import { getImg } from '@/utils/utils'
 import { useRouter } from 'vue-router'
+import http from '@/utils/axios'
+import { useStore } from '@/stores/index'
 
+const store = useStore()
 const router = useRouter()
 const props = defineProps(['header'])
 const { header } = toRefs(props)
 
+const state = reactive({
+    accInfo: {}
+})
 function handleHeaderClick() {
     // router.push({
     //     path: header.value.link
@@ -37,6 +43,20 @@ function handleRightIcon() {
         })
     }
 }
+getBalance()
+async function getBalance() {
+    let url = '/player/player_info'
+    try {
+        const res = await http.get(url)
+        if (res?.currRate) {
+            state.accInfo = res
+            store.balance = res.currRate
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
+const { accInfo } = toRefs(state)
 </script>
 <style scoped lang='scss'>
 .header {
@@ -96,4 +116,4 @@ function handleRightIcon() {
         }
     }
 }
-</style>
+</style>@/stores

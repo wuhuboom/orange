@@ -26,10 +26,9 @@
                 {{ item }}</div>
         </div>
         <div class="betMain">
-            <div class="betItem" v-for="(item, index) in betData[tabIndex]" :key="index"
-                @click="handleBetClick(item, index)">
-                <p class="score">{{ item.score }}</p>
-                <div class="odds" :class="{ oddsActive: betIndex === index }">{{ item.odds }}</div>
+            <div class="betItem" v-for="(item, index) in betData" :key="index" @click="handleBetClick(item, index)">
+                <p class="score">{{ item.scoreHome }}-{{ item.scoreAway }}</p>
+                <div class="odds" :class="{ oddsActive: betIndex === index }">{{ item.antiPerCent }}</div>
             </div>
         </div>
         <!-- 投注面板 -->
@@ -39,7 +38,7 @@
                 <div class="flex left_box">
                     <div class="money">
                         <img :src="getImg('header', 'mIcon')" class="mIcon" alt="">
-                        <span class="moneyNum">5093.76</span>
+                        <span class="moneyNum">{{ balance }}</span>
                     </div>
                     <div class="panel_tit">Create Order</div>
                 </div>
@@ -47,46 +46,46 @@
             </div>
             <div class="panel_main">
                 <div class="clubs_name flex">
-                    <img src="../assets/images/contest/fIcon.webp" alt="">
-                    <p>Friendlies Clubs</p>
+                    <img src="../assets/images/match/fIcon.webp" alt="">
+                    <p>{{ gameInfo?.game?.allianceName }}</p>
                 </div>
                 <div class="team flex">
                     <p class="flex">
-                        <img src="../assets/images/betpage/mainIcon.webp" alt="">
-                        Liverpool
+                        <img :src="gameInfo?.game?.mainLogo" alt="">
+                        {{ gameInfo?.game?.mainName }}
                     </p>
                     <span>vs</span>
                     <p class="flex">
-                        <img src="../assets/images/betpage/guest.webp" alt="">
-                        Aston Villa
+                        <img :src="gameInfo?.game?.guestLogo" alt="">
+                        {{ gameInfo?.game?.guestName }}
                     </p>
                 </div>
                 <div class="betDetal">
                     <p class="betScore">
                         <span>Events</span>
-                        <span>0-1</span>
+                        <span>{{ betPreData?.lossPerCent?.scoreHome }}-{{ betPreData?.lossPerCent?.scoreAway }}</span>
                     </p>
                     <p class="betOdds">
                         <span>Odds</span>
-                        <span>1.83</span>
+                        <span>{{ targetBetOpt.antiPerCent }}</span>
                     </p>
                 </div>
-                <p class="betRange">Betting Range: Minimum 10.00 - 10000.00</p>
-                <p class="betWinNum">Potential winnings: <span>18.30</span></p>
+                <p class="betRange">Betting Range: Minimum {{ gameInfo?.game?.minBet }} - {{ gameInfo?.game?.maxBet }}</p>
+                <p class="betWinNum">Potential winnings: <span>{{ potentialWinnings }}</span></p>
                 <div class="counter">
                     <div class="count-left flex">
                         <input type="number" v-model="betNum">
-                        <img src="../assets/images/betpage/subtraction.webp" class="subtraction" alt="">
-                        <img src="../assets/images/betpage/add.webp" class="add" alt="">
+                        <img src="../assets/images/betpage/subtraction.webp" class="subtraction" alt=""
+                            @click="subtraction">
+                        <img src="../assets/images/betpage/add.webp" class="add" alt="" @click="add">
                     </div>
                     <div class="betBtn" @click="betSubmit">Confirm</div>
                 </div>
-                <p class="serviceFee">Service Fee：<span class="num">0</span></p>
+                <p class="serviceFee">Service Fee：<span class="num">{{ betPreData?.betHandMoneyRate }}</span></p>
                 <p class="quickBet">Quick bets</p>
                 <div class="betButton">
-                    <div>100</div>
-                    <div>200</div>
-                    <div>ALL</div>
+                    <div @click="quickBets(betPreData?.fastMoney)">{{ betPreData?.fastMoney }}</div>
+                    <div @click="quickBets('all')">ALL</div>
                 </div>
             </div>
         </div>
@@ -96,112 +95,135 @@
 import { reactive, toRefs } from 'vue'
 import { getImg } from '@/utils/utils'
 import { showToast } from 'vant'
+import { useRoute } from 'vue-router'
+import http from '@/utils/axios'
+import { useStore } from '@/stores/index'
+import { storeToRefs } from 'pinia'
+const store = useStore()
+
+const { balance } = storeToRefs(store)
 
 const successIcon = getImg('betpage', 'successIcon')
+
+const route = useRoute()
 
 const state = reactive({
     tabIndex: 0,
     betIndex: -1,
     tabArr: ['Inverse Score', 'First Half Counter Score'],
-    betData: [
-        [
-            {
-                score: '0-1',
-                odds: '4.25'
-            },
-            {
-                score: '0-2',
-                odds: '1.25'
-            },
-            {
-                score: '0-3',
-                odds: '2.25'
-            },
-            {
-                score: '0-4',
-                odds: '3.25'
-            },
-            {
-                score: '0-5',
-                odds: '4.25'
-            },
-            {
-                score: '0-6',
-                odds: '5.25'
-            },
-            {
-                score: '0-6',
-                odds: '5.25'
-            },
-            {
-                score: '0-6',
-                odds: '5.25'
-            },
-            {
-                score: '0-6',
-                odds: '5.25'
-            },
-        ],
-        [
-            {
-                score: '0-1',
-                odds: '4.25'
-            },
-            {
-                score: '0-2',
-                odds: '1.25'
-            },
-            {
-                score: '0-3',
-                odds: '2.25'
-            },
-            {
-                score: '0-4',
-                odds: '3.25'
-            },
-            {
-                score: '0-5',
-                odds: '4.25'
-            },
-            {
-                score: '0-6',
-                odds: '5.25'
-            },
-            {
-                score: '0-3',
-                odds: '2.25'
-            },
-            {
-                score: '0-3',
-                odds: '2.25'
-            },
-        ],
-
-    ],
-    betNum: 10,
-    isShowBetPanel: false
+    betData: [],
+    betNum: 0,
+    isShowBetPanel: false,
+    gameInfo: {},//游戏详情
+    firstHalfScore: [],
+    secondHalfScore: [],
+    targetBetOpt: {}, //投注项
+    betPreData: {},
+    potentialWinnings: 0,//预估盈利
 })
-function betSubmit() {
-    showToast({
-        icon: successIcon,
-        iconSize: '46px',
-        message: 'successfully',
-        position: 'bottom',
-    })
+getGameInfo()
+async function getGameInfo() {
+    let gameId = route.query?.gameId
+    let url = `/player/game?gameId=${gameId}`
+    try {
+        const res = await http.get(url)
+        if (res?.game && res?.lossPerCent) {
+            state.gameInfo = res
+            // gameType 比赛类型 1上半场 2全场,
+            // 上半场得分
+            state.firstHalfScore = res?.lossPerCent.filter(item => item.gameType == 1)
+            // 下半场得分
+            state.secondHalfScore = res?.lossPerCent.filter(item => item.gameType == 2)
+            // console.log(state.firstHalfScore, state.secondHalfScore);
+            state.betData = state.tabIndex == 0 ? state.secondHalfScore : state.firstHalfScore
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
+async function betPrepare() {
+    let url = '/player/bet/pre'
+    let data = {
+        gameId: route.query?.gameId,
+        oddsId: state.targetBetOpt?.id
+    }
+    try {
+        const res = await http.post(url, data)
+        console.log(
+            '%c res投注准备: ',
+            'background-color: #3756d4; padding: 4px 8px; border-radius: 2px; font-size: 14px; color: #fff; font-weight: 700;',
+            res
+        )
+        state.betPreData = res
+        state.isShowBetPanel = true
+    } catch (error) {
+        console.log(error);
+    }
+}
+function quickBets(params) {
+    if (params === 'all') {
+        state.betNum = balance
+    } else {
+        state.betNum = params
+    }
+    state.potentialWinnings = (state.betPreData?.lossPerCent?.antiPerCent * state.betNum / 100).toFixed(4)
+    betSubmit()
+}
+async function betSubmit() {
+    let url = '/player/bet'
+    let data = {
+        gameId: route?.query?.gameId,
+        oddsId: state.targetBetOpt?.id,
+        type: '2',
+        money: state.betNum
+    }
+    try {
+        const res = await http.post(url, data)
+        console.log(
+            '%c res: ',
+            'background-color: #3756d4; padding: 4px 8px; border-radius: 2px; font-size: 14px; color: #fff; font-weight: 700;',
+            res
+        )
+        if (res?.id) {
+            showToast({
+                icon: successIcon,
+                iconSize: '46px',
+                message: 'successfully',
+                position: 'bottom',
+            })
+            state.isShowBetPanel = false
+            state.potentialWinnings = 0
+
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
+function subtraction() {
+    state.betNum -= 1
+    if (state.betNum <= 0) {
+        state.betNum = 0
+    }
+    state.potentialWinnings = (state.betPreData?.lossPerCent?.antiPerCent * state.betNum / 100).toFixed(4)
+}
+function add() {
+    state.betNum += 1
+    state.potentialWinnings = (state.betPreData?.lossPerCent?.antiPerCent * state.betNum / 100).toFixed(4)
 }
 function closePanel() {
     state.isShowBetPanel = false
 }
 function handleBetClick(item, index) {
-    console.log(index);
+    state.targetBetOpt = item
+    betPrepare()
     state.betIndex = index
-    state.isShowBetPanel = true
 }
 function handleClickTab(index) {
     state.tabIndex = index
     state.betIndex = -1
+    state.betData = state.tabIndex == 0 ? state.secondHalfScore : state.firstHalfScore
 }
-const { tabIndex, tabArr, betData, betIndex, betNum, isShowBetPanel } = toRefs(state)
+const { tabIndex, tabArr, betData, betIndex, betNum, isShowBetPanel, gameInfo, targetBetOpt, betPreData, potentialWinnings } = toRefs(state)
 </script>
 <style scoped lang='scss'>
 $bgHeight: 280px;
@@ -211,7 +233,7 @@ $bgHeight: 280px;
     background-color: #100f13;
     // 减去header的高度
     padding-top: calc($bgHeight - 44px);
-    overflow: hidden;
+    overflow: auto;
     box-sizing: border-box;
 
     .top_container {
@@ -595,7 +617,7 @@ $bgHeight: 280px;
             }
 
             .betButton {
-                @include flex();
+                @include flex(flex-start);
                 margin-top: 6px;
 
                 div {
@@ -608,6 +630,7 @@ $bgHeight: 280px;
                     background-color: #4d5fff;
                     font-size: 14px;
                     color: #fff;
+                    margin-right: 5px;
                 }
             }
         }

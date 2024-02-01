@@ -15,7 +15,8 @@
             </div>
         </div>
         <div class="tabs">
-            <div v-for="(item, index) in tabArr" :key="index" :class="{ tabActive: index === tabsIndex }">
+            <div v-for="(item, index) in tabArr" :key="index" :class="{ tabActive: index === tabsIndex }"
+                @click="handleClickTab(item, index)">
                 {{ item.name }}
             </div>
         </div>
@@ -82,18 +83,41 @@ const state = reactive({
     tabsIndex: 0,
     tabArr: [
         {
-            name: 'Today'
+            name: 'Today',
+            time: 1
         },
         {
-            name: 'Week'
+            name: 'Week',
+            time: 3
         },
         {
-            name: 'Last Ten days'
+            name: 'Last Ten days',
+            time: 4
         },
     ],
     currentRate: 40,
     rate: 60
 })
+getTeamData()
+async function getTeamData() {
+    let url = '/player/report_form_team'
+    let data = {
+        time: state.tabArr[state.tabsIndex].time
+    }
+    try {
+        const res = await http.post(url, data)
+        console.log(
+            '%c res: ',
+            'background-color: #3756d4; padding: 4px 8px; border-radius: 2px; font-size: 14px; color: #fff; font-weight: 700;',
+            res
+        )
+    } catch (error) {
+        console.log(error);
+    }
+}
+function handleClickTab(item, index) {
+    console.log(item, index);
+}
 const { balance, tabsIndex, tabArr, currentRate, rate } = toRefs(state)
 </script>
 <style scoped lang='scss'>
@@ -217,11 +241,11 @@ const { balance, tabsIndex, tabArr, currentRate, rate } = toRefs(state)
             color: #d9dbe9;
 
             .tangerine {
-                color: #d9dbe9;
+                color: #ff7c43;
             }
 
             .blue {
-                color: #ff7c43;
+                color: #0b4de6;
             }
 
             .mt {

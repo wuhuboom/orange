@@ -27,32 +27,32 @@
                                             class="arrowIcon" alt="">
                                     </template>
                                     <template #default>
-                                        <div class="content" v-for="(item, index) in item.games" :key="index"
-                                            @click="toBetPage">
+                                        <div class="content" v-for="(it, index) in item.games" :key="index"
+                                            @click="toBetPage(it)">
                                             <div class="c_header">
-                                                <span class="contentId">ID: {{ item.id }}</span>
+                                                <span class="contentId">ID: {{ it.id }}</span>
                                                 <img src="../assets/images/match/copy.webp" alt="" class="copy"
-                                                    @click="copyBtn(item)">
+                                                    @click="copyBtn(it)">
                                             </div>
                                             <div class="cMain">
                                                 <div class="main_left">
                                                     <div class="date">
-                                                        <p>{{ new Date(item.startTime).getDate() }}</p>
-                                                        <p>{{ getENMonth(item.startTime) }}</p>
+                                                        <p>{{ new Date(it.startTime).getDate() }}</p>
+                                                        <p>{{ getENMonth(it.startTime) }}</p>
                                                     </div>
                                                     <div class="main_name">
                                                         <p>
-                                                            <img :src="item.mainLogo" alt="">
-                                                            <span>{{ getSplitName(item.mainName) }}</span>
+                                                            <img :src="it.mainLogo" alt="">
+                                                            <span>{{ getSplitName(it.mainName) }}</span>
                                                         </p>
                                                         <p>
-                                                            <img :src="item.guestLogo" alt="">
-                                                            <span>{{ getSplitName(item.guestName) }}</span>
+                                                            <img :src="it.guestLogo" alt="">
+                                                            <span>{{ getSplitName(it.guestName) }}</span>
                                                         </p>
                                                     </div>
                                                 </div>
                                                 <div class="main_right">
-                                                    {{ formatDate(item.startTime, 'HH:mm') }} {{ getAmOrPm(item.startTime)
+                                                    {{ formatDate(it.startTime, 'HH:mm') }} {{ getAmOrPm(it.startTime)
                                                     }}
                                                 </div>
                                             </div>
@@ -145,9 +145,12 @@ function onRefresh() {
     }, 1000);
 
 }
-function toBetPage() {
+function toBetPage(item) {
     router.push({
-        path: '/betPage'
+        path: `/betPage`,
+        query: {
+            gameId: item.id
+        }
     })
 }
 function handleCollapse() {
