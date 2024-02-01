@@ -8,10 +8,20 @@
             <img src="../assets/images/partner/arrow-right.webp" class="arrow-right" alt="">
         </div>
         <div class="balanceBox">
-            <div class="item" :class="item.img" v-for="(item, index) in balance" :key="index">
-                <img :src="getImg('partner', item.img)" alt="">
-                <p class="name">{{ item.name }}</p>
-                <p class="num"><span v-if="item.img != 'trade'">$ </span>{{ item.num }}</p>
+            <div class="item balance">
+                <img :src="getImg('partner', 'balance')" alt="">
+                <p class="name">Balance</p>
+                <p class="num"><span>$ </span>{{ partnerObj.totalBalance || 0 }}</p>
+            </div>
+            <div class="item trade">
+                <img :src="getImg('partner', 'trade')" alt="">
+                <p class="name">Trade User</p>
+                <p class="num">{{ partnerObj.playerCount || 0 }}</p>
+            </div>
+            <div class="item win">
+                <img :src="getImg('partner', 'win')" alt="">
+                <p class="name">Winning</p>
+                <p class="num"><span>$ {{ partnerObj?.netProfit || 0 }} </span></p>
             </div>
         </div>
         <div class="tabs">
@@ -24,35 +34,25 @@
         <div class="progressBar">
             <div class="p_left">
                 <p>Team Motivation</p>
-                <p>Achievement: <span class="tangerine">0</span></p>
+                <p>Achievement: <span class="tangerine">{{ partnerObj?.groupAim || 0 }}</span></p>
                 <p class="mt">Team incentives</p>
-                <p>not up to par: <span class="blue">0</span></p>
+                <p>not up to par: <span class="blue">{{ partnerObj?.groupUnAim || 0 }}</span></p>
             </div>
             <div class="p_right">
-                <van-circle v-model:current-rate="currentRate" :rate="rate" color="#ff7c43" layer-color="#0b4de6"
-                    :stroke-width="80" text="60%" />
+                <van-circle v-model:current-rate="groupUnAim" :speed="100" :rate="groupAim" color="#0b4de6"
+                    layer-color="#ff7c43" :stroke-width="80" :text="passRate" />
             </div>
         </div>
         <div class="teamList">
             <p class="title">Team list</p>
-            <div class="item">
+            <div class="item" v-for="(item, index) in userArr" :key="index">
                 <p>
-                    <span class="name">name</span>
+                    <span class="name">{{ item.username }}</span>
                     <span>Logir Time</span>
                 </p>
                 <p>
-                    <span>id:565655</span>
-                    <span>07/11/2023 20:41:13</span>
-                </p>
-            </div>
-            <div class="item">
-                <p>
-                    <span class="name">name</span>
-                    <span>Logir Time</span>
-                </p>
-                <p>
-                    <span>id:565655</span>
-                    <span>07/11/2023 20:41:13</span>
+                    <span>id:{{ item.id }}</span>
+                    <span>{{ formatDate(item.theNewLoginTime) }}</span>
                 </p>
             </div>
         </div>
@@ -60,26 +60,9 @@
 </template>
 <script setup >
 import { reactive, toRefs } from 'vue'
-import { getImg } from '@/utils/utils'
+import { getImg, formatDate } from '@/utils/utils'
 import http from '@/utils/axios'
 const state = reactive({
-    balance: [
-        {
-            img: 'balance',
-            name: 'Balance',
-            num: 0
-        },
-        {
-            img: 'trade',
-            name: 'Trade User',
-            num: 0
-        },
-        {
-            img: 'win',
-            name: 'Winning',
-            num: 0
-        },
-    ],
     tabsIndex: 0,
     tabArr: [
         {
@@ -95,14 +78,52 @@ const state = reactive({
             time: 4
         },
     ],
-    currentRate: 40,
-    rate: 60
+    partnerObj: {},
+    groupUnAim: 0,
+    groupAim: 0,
+    passRate: '',
+    page: {
+        pageNo: 1,
+        pageSize: 10,
+    },
+    userArr: []
 })
-getTeamData()
-async function getTeamData() {
-    let url = '/player/report_form_team'
+getTeamData(1)
+async function getTeamData(index, key = '') {
+    let url = `/player/data_center/${index}`
     let data = {
-        time: state.tabArr[state.tabsIndex].time
+        time: state.tabArr[state.tabsIndex].time,
+        index: index,
+        key
+    }
+    let res = ''
+    try {
+        res = await http.post(url, data)
+        if (res?.key) {
+            index += 1
+            if (index < 8) {
+                console.log(index);
+                getTeamData(index, res.key)
+            }
+        }
+        state.partnerObj = { ...state.partnerObj, ...res }
+        if (state.partnerObj.hasOwnProperty('groupUnAim')) {
+            state.groupUnAim = state.partnerObj.groupUnAim
+        }
+        if (state.partnerObj.hasOwnProperty('groupAim')) {
+            state.groupAim = state.partnerObj.groupAim
+            state.passRate = state.partnerObj.groupAim / 100 + '%'
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
+getUserList()
+async function getUserList() {
+    let url = '/player/sub_players'
+    let data = {
+        pageNo: state.page.pageNo,
+        pageSize: state.page.pageSize
     }
     try {
         const res = await http.post(url, data)
@@ -111,14 +132,19 @@ async function getTeamData() {
             'background-color: #3756d4; padding: 4px 8px; border-radius: 2px; font-size: 14px; color: #fff; font-weight: 700;',
             res
         )
+        state.userArr = [...state.userArr, ...res.results] || []
+        state.page.pageNo = res.pageNo
+        state.page.pageSize = res.pageSize
+        state.page.hasNext = res.hasNext
     } catch (error) {
         console.log(error);
     }
 }
 function handleClickTab(item, index) {
-    console.log(item, index);
+    state.tabsIndex = index
+    getTeamData(1)
 }
-const { balance, tabsIndex, tabArr, currentRate, rate } = toRefs(state)
+const { tabsIndex, tabArr, groupUnAim, groupAim, partnerObj, passRate, userArr } = toRefs(state)
 </script>
 <style scoped lang='scss'>
 .partner {
@@ -129,7 +155,7 @@ const { balance, tabsIndex, tabArr, currentRate, rate } = toRefs(state)
     overflow: auto;
 
     .totalData {
-        width: 351px;
+        // width: 351px;
         height: 60px;
         padding: 18px 15px 14px;
         border-radius: 10px;
@@ -269,6 +295,8 @@ const { balance, tabsIndex, tabArr, currentRate, rate } = toRefs(state)
     }
 
     .teamList {
+        padding-bottom: 20px;
+
         .title {
             margin: 17px 0;
             font-size: 16px;
@@ -276,7 +304,7 @@ const { balance, tabsIndex, tabArr, currentRate, rate } = toRefs(state)
         }
 
         .item {
-            width: 351px;
+            // width: 351px;
             height: 56px;
             margin: 0 0 8px;
             padding: 9px 12px 8px 13px;
