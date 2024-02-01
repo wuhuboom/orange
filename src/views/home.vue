@@ -52,7 +52,8 @@
                     <span class="t_right">See All</span>
                 </div>
                 <div class="e_lists lrPadding">
-                    <div class="item" v-for="(item, index) in gameList" :key="index">
+                        <div class="item" v-for="(item, index) in gameList" :key="index" @click="toBetPage(item)">
+
                         <div class="itemLeft">
                             <div class="name">{{ item.mainName }}</div>
                             <img :src="item.mainLogo" class="listlIcon" alt="">
@@ -175,6 +176,15 @@ function toNotice() {
         path: '/sysNotice'
     })
 }
+function toBetPage(item) {
+    router.push({
+        path: '/betPage',
+        query:{
+            gameId: item.id
+        }
+    })
+}
+
 const { swiper, upcomingSwiper, upcomingIndex, gameList, swiperAutoPlay } = toRefs(state)
 </script>
 <style scoped lang='scss'>

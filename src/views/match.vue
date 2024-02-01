@@ -44,7 +44,7 @@
                                             <div class="c_header">
                                                 <span class="contentId">ID: {{ it.id }}</span>
                                                 <img src="../assets/images/match/copy.webp" alt="" class="copy"
-                                                    @click="copyBtn(it)">
+                                                    @click.stop="copyBtn(it)">
                                             </div>
                                             <div class="cMain">
                                                 <div class="main_left">
@@ -98,7 +98,7 @@ const state = reactive({
     teamName: '',
     page: {
         pageNo: 0,
-        pageSize: 10,
+        pageSize: 3,
         hasNext: true,
     },
     list: [],
@@ -176,10 +176,14 @@ function toBetPage(item) {
 function handleCollapse() {
     console.log(state.activeNames);
 }
-function copyBtn(item) {
-    toClipboard(item.id).then(() => {
+async function copyBtn(item) {
+    let copyText = item.id.toString()
+    try {
+        await toClipboard(copyText)
         showToast('copy Success')
-    })
+    } catch (error) {
+        console.log(error);
+    }
 }
 const { activeNames, list, teamName, loading, finished, refreshing, dateIndex, totalCount } = toRefs(state)
 </script>
