@@ -6,6 +6,18 @@
             </template>
         </van-search>
 
+        <div class="dateOption">
+            <p @click="selectDate(0)" :class="{ dateActive: dateIndex === 0 }">ALL <span
+                    v-if="dateIndex === 0 && totalCount > 0">({{
+                        totalCount }})</span></p>
+            <p @click="selectDate(1)" :class="{ dateActive: dateIndex === 1 }">Today <span
+                    v-if="dateIndex === 1 && totalCount > 0">({{
+                        totalCount }})</span></p>
+            <p @click="selectDate(2)" :class="{ dateActive: dateIndex === 2 }">Tomorrow
+                <span v-if="dateIndex === 2 && totalCount > 0">({{ totalCount }})</span>
+            </p>
+        </div>
+
         <div class="list">
             <div class="list-item">
                 <van-pull-refresh v-model="refreshing" @refresh="onRefresh">
@@ -80,6 +92,8 @@ const { toClipboard } = useClipboard()
 const router = useRouter()
 
 const state = reactive({
+    dateIndex: 0,
+    totalCount: 0,
     activeNames: 0,
     teamName: '',
     page: {
@@ -101,7 +115,7 @@ async function getGameList(val) {
     let url = '/player/game/g'
     // startTime 日期选项0全部,1今天,2明日, status状态选项0未开始
     let data = {
-        startTime: 0,
+        startTime: state.dateIndex,
         status: 0,
         teamName: state.teamName,
         pageNo: state.page.pageNo,
@@ -118,6 +132,7 @@ async function getGameList(val) {
             state.page.pageSize = res.pageSize
             state.page.hasNext = res.hasNext
             state.page.totalPage = res.totalPage
+            state.totalCount = res.totalCount
             state.loading = false
             state.refreshing = false
             console.log(state.list.length);
@@ -135,6 +150,11 @@ function onLoad() {
             getGameList()
         }
     }, 1000);
+}
+function selectDate(num) {
+    state.totalCount = 0
+    state.dateIndex = num
+    getGameList('refresh')
 }
 function onRefresh() {
     let timer = null
@@ -161,7 +181,7 @@ function copyBtn(item) {
         showToast('copy Success')
     })
 }
-const { activeNames, list, teamName, loading, finished, refreshing } = toRefs(state)
+const { activeNames, list, teamName, loading, finished, refreshing, dateIndex, totalCount } = toRefs(state)
 </script>
 <style scoped lang='scss'>
 .contest {
@@ -193,6 +213,27 @@ const { activeNames, list, teamName, loading, finished, refreshing } = toRefs(st
                     }
                 }
             }
+        }
+    }
+
+    .dateOption {
+        width: 100%;
+        margin-top: 12px;
+        @include flex(space-between);
+
+        p {
+            min-width: 80px;
+            background-color: #252528;
+            border-radius: 15px;
+            padding: 8px 14px;
+            font-size: 14px;
+            color: #8d8d8d;
+            text-align: center;
+        }
+
+        .dateActive {
+            background-color: #fe7c43;
+            color: #fff;
         }
     }
 

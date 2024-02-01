@@ -155,11 +155,6 @@ async function betPrepare() {
     }
     try {
         const res = await http.post(url, data)
-        console.log(
-            '%c res投注准备: ',
-            'background-color: #3756d4; padding: 4px 8px; border-radius: 2px; font-size: 14px; color: #fff; font-weight: 700;',
-            res
-        )
         state.betPreData = res
         state.isShowBetPanel = true
     } catch (error) {
