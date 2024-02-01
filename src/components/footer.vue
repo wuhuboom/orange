@@ -30,6 +30,7 @@ const state = reactive({
         {
             icon: 'partner',
             name: 'Partner',
+            link: '/partner'
         },
         {
             icon: 'funds',

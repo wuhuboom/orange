@@ -37,8 +37,8 @@ const router = createRouter({
           component: () => import("../views/home.vue"),
         },
         {
-          path: "Match",
-          name: "Match",
+          path: "match",
+          name: "match",
           meta: {
             parentName: "match",
           },
@@ -59,6 +59,14 @@ const router = createRouter({
             parentName: "home",
           },
           component: () => import("../views/sysNotice.vue"),
+        },
+        {
+          path: "partner",
+          name: "partner",
+          meta: {
+            parentName: "partner",
+          },
+          component: () => import("../views/partner.vue"),
         },
       ],
     },

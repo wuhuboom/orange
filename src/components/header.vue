@@ -10,7 +10,8 @@
                 <img :src="getImg('header', 'mIcon')" class="mIcon" alt="">
                 <span class="moneyNum">5093.76</span>
             </div>
-            <img :src="getImg('header', header.rightIcon)" class="rightIcon" alt="" v-if="header.rightIcon">
+            <img :src="getImg('header', header.rightIcon)" class="rightIcon" alt="" v-if="header.rightIcon"
+                @click="handleRightIcon">
         </div>
     </div>
 </template>
@@ -28,6 +29,13 @@ function handleHeaderClick() {
     //     path: header.value.link
     // })
     router.go(-1)
+}
+function handleRightIcon() {
+    if (header.value.noticeLink) {
+        router.push({
+            path: header.value.noticeLink
+        })
+    }
 }
 </script>
 <style scoped lang='scss'>

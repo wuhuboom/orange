@@ -25,7 +25,7 @@ const state = reactive({
             isShowRightMoney: true,
             bgColor: '#202020'
         },
-        Match: {
+        match: {
             leftIcon: 'cter',
             leftIconWidth: '58px',
             leftIconHeight: '19px',
@@ -40,6 +40,7 @@ const state = reactive({
             leftIconHeight: '32px',
             center: 'Friendlies Clubs',
             rightIcon: 'bell',
+            noticeLink: '/sysNotice',
             isShowRightMoney: false,
             bgColor: 'transparent',
             link: '/contest'
@@ -53,7 +54,16 @@ const state = reactive({
             isShowRightMoney: false,
             bgColor: '#202020',
             link: '/home'
-        }
+        },
+        partner: {
+            leftIcon: 'cter',
+            leftIconWidth: '58px',
+            leftIconHeight: '19px',
+            center: '',
+            rightIcon: 'bell',
+            isShowRightMoney: true,
+            bgColor: '#202020'
+        },
     },
 
 })

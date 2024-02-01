@@ -16,12 +16,14 @@ export const getSplitName = (name) => {
   }
   return name;
 };
+// 根据时间戳判断是上午还是下午
 export const getAmOrPm = (timestamp) => {
   const date = new Date(timestamp);
   const hour = date.getHours();
   return hour < 12 ? "AM" : "PM";
 };
 
+// 获取月份英文简写
 export const getENMonth = (timestamp) => {
   // 假设时间戳为 timestamp
   let monthObj = {
