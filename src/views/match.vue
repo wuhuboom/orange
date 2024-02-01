@@ -298,6 +298,7 @@ const { activeNames, list, teamName, loading, finished, refreshing, dateIndex, t
 
                             .content {
                                 margin-bottom: 12px;
+                                cursor: pointer;
 
                                 .c_header {
                                     height: 35px;

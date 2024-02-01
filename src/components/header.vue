@@ -34,7 +34,9 @@ function handleHeaderClick() {
     // router.push({
     //     path: header.value.link
     // })
-    router.go(-1)
+    if (header.value.leftIcon == 'back') {
+        router.go(-1)
+    }
 }
 function handleRightIcon() {
     if (header.value.noticeLink) {

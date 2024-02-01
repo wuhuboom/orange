@@ -73,6 +73,7 @@ const { list, activeIndex } = toRefs(state)
     right: 0;
     background-color: #18181b;
     @include flex();
+    cursor: pointer;
 
     .footerItem {
         width: calc(100% / 5);
