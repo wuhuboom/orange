@@ -8,7 +8,8 @@
         <div class="list" v-for="(item, index) in list" :key="index">
             <div class="list_tit">
                 <div class="tit_left">
-                    <span class="dot"></span>
+                    <!-- 0未读 1已读 -->
+                    <span class="dot" :class="{ activeDot: item.readStatus == 0 }"></span>
                     <span class="title">{{ item.title }}</span>
                 </div>
                 <div class="date">{{ formatDate(item.createdAt) }}</div>
@@ -107,7 +108,12 @@ const { tabArr, tabIndex, list } = toRefs(state)
                     display: block;
                     margin-right: 7px;
                     border-radius: 50%;
+                    background-color: #262628;
+                }
+
+                .activeDot {
                     background-color: #ff4343;
+
                 }
 
                 .title {
@@ -119,8 +125,10 @@ const { tabArr, tabIndex, list } = toRefs(state)
             }
 
             .date {
+                min-width: 130px;
                 font-size: 12px;
                 color: #8d8d8d;
+                text-align: right;
             }
         }
 
