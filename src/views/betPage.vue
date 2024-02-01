@@ -12,10 +12,10 @@
                 <img src="../assets/images/betpage/vs.webp" class="vsImg" alt="">
             </div>
             <div class="time">
-                <div class="bowling">
-                    <span>1</span>
+                <div class="bowling" v-if="betPreData?.lossPerCent">
+                    <span>{{ betPreData?.lossPerCent?.scoreHome }}</span>
                     <span class="colon">:</span>
-                    <span>0</span>
+                    <span>{{ betPreData?.lossPerCent?.scoreAway }}</span>
                 </div>
                 <span class="date">{{ formatDate(gameInfo?.game?.startTime, 'YYYY-MM-DD') }}</span>
                 <span class="t">{{ formatDate(gameInfo?.game?.startTime, 'HH:mm') }}{{ getAmOrPm(gameInfo?.game?.startTime)
