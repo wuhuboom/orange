@@ -70,6 +70,7 @@ const state = reactive({
     perInfo: {},
     showLangOpt: false,
     langTarget: 'EN',
+    menuIndex: -1,
     listArr: [
         {
             icon: 'money',
@@ -182,18 +183,20 @@ const state = reactive({
 })
 
 function showSecondList(item, index) {
-    state.listArr.forEach(item => {
-        if (item.isOpen) {
-            item.isOpen = false
+    state.menuIndex = index
+    state.listArr.forEach((j, i) => {
+        if (i != state.menuIndex) {
+            j.isOpen = false
         }
-        if (item.hasOwnProperty('menu')) {
-            item.menu.forEach(k => {
+        if (j.hasOwnProperty('menu')) {
+            j.menu.forEach(k => {
                 k.highlight = false
             })
         }
     })
     item.isOpen = !item.isOpen
     if (item.link) {
+        store.showLeftNav = false
         router.push({
             path: item.link
         })
