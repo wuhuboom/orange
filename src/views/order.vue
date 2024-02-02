@@ -6,8 +6,8 @@
                 {{ item.name }}
             </div>
         </div>
-        <van-pull-refresh v-model="listStatus.refreshing" @refresh="onRefresh" loading-text="loading">
-            <van-list v-model:loading="listStatus.loading" :finished="listStatus.finished"
+        <van-pull-refresh v-model="listStatus.refreshing" @refresh="onRefresh" loosing-text="Release to refresh">
+            <van-list v-model:loading="listStatus.loading" loading-text="loading" :finished="listStatus.finished"
                 :finished-text="listStatus.finishedText" @load="onLoad">
                 <div class="lItem" v-for="(item, index) in    dataList   " :key="index">
                     <div class="lTop">

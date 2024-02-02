@@ -21,9 +21,10 @@
 
         <div class="list">
             <div class="list-item">
-                <van-pull-refresh v-model="refreshing" @refresh="onRefresh">
-                    <van-list v-model:loading="loading" loading-text="loading" :finished="finished" finished-text="no more"
-                        @load="onLoad" @refresh="onRefresh">
+                <van-pull-refresh v-model="refreshing" @refresh="onRefresh" loading-text="loading"
+                    loosing-text="Release to refresh">
+                    <van-list v-model:loading="loading" :finished="finished" loading-text="loading" finished-text="no more"
+                        @load="onLoad" :immediate-check="false">
                         <van-cell v-for="(item, index) in list" :key="index">
                             <van-collapse v-model="activeNames" accordion @change="handleCollapse">
                                 <van-collapse-item :name="index">
@@ -81,7 +82,7 @@
     </div>
 </template>
 <script setup >
-import { reactive, toRefs } from 'vue'
+import { reactive, toRefs, onMounted } from 'vue'
 import { showToast } from 'vant'
 import { getImg, getSplitName, formatDate, getAmOrPm, getENMonth } from '@/utils/utils'
 import { useRouter } from 'vue-router'
@@ -98,9 +99,9 @@ const state = reactive({
     activeNames: 0,
     teamName: '',
     page: {
-        pageNo: 0,
-        pageSize: 3,
-        hasNext: true,
+        pageNo: 1,
+        pageSize: 10,
+        hasNext: false,
     },
     list: [],
     teamLs: [],
@@ -108,7 +109,8 @@ const state = reactive({
     finished: false,
     refreshing: false,
     timer: null,
-    timer2: null
+    refreshTimer: null,
+    loadTime: null
 })
 function getSearchGameRes() {
     state.timer && clearTimeout(state.timer)
@@ -117,6 +119,7 @@ function getSearchGameRes() {
         getGameList('search')
     }, 500);
 }
+getGameList()
 async function getGameList(val) {
     let url = '/player/game/g'
     // startTime 日期选项0全部,1今天,2明日, status状态选项0未开始
@@ -127,6 +130,8 @@ async function getGameList(val) {
         pageNo: state.page.pageNo,
         pageSize: state.page.pageSize
     }
+    state.loading = true
+    state.refreshing = true
     try {
         const res = await http.post(url, data)
         if (res && res.results.length > 0) {
@@ -136,39 +141,43 @@ async function getGameList(val) {
             state.list = [...state.list, ...res.results]
             state.page.pageNo = res.pageNo
             state.page.pageSize = res.pageSize
-            state.page.hasNext = res.hasNext
+            if (res.totalCount > (res.pageSize * res.totalPage)) {
+                state.page.hasNext = true
+            } else {
+                state.page.hasNext = false
+                state.finished = true
+            }
             state.page.totalPage = res.totalPage
             state.totalCount = res.totalCount
             state.loading = false
             state.refreshing = false
-            console.log(state.list.length);
         }
     } catch (error) {
+        state.loading = false
         console.log(error);
     }
 }
 function onLoad() {
-    state.timer2 && clearTimeout(state.timer2)
-    state.timer2 = setTimeout(() => {
-        state.page.pageNo += 1
+    state.loadTime && clearTimeout(state.loadTime)
+    state.loadTime = setTimeout(() => {
         if (state.page.hasNext) {
-            getGameList()
+            state.page.pageNo += 1
         }
+        getGameList()
     }, 1000);
+}
+function onRefresh() {
+    // state.refreshTimer && clearTimeout(state.refreshTimer)
+    // state.refreshTimer = setTimeout(() => {
+    state.page.pageNo = 1
+    getGameList('refresh')
+    // }, 1000);
+
 }
 function selectDate(num) {
     state.totalCount = 0
     state.dateIndex = num
     getGameList('refresh')
-}
-function onRefresh() {
-    let timer = null
-    timer && clearTimeout(timer)
-    timer = setTimeout(() => {
-        state.page.pageNo = 1
-        getGameList('refresh')
-    }, 1000);
-
 }
 function toBetPage(item) {
     router.push({
