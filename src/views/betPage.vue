@@ -102,8 +102,8 @@ import { useStore } from '@/stores/index'
 import { storeToRefs } from 'pinia'
 const store = useStore()
 
-const { balance } = storeToRefs(store)
-
+let { balance } = storeToRefs(store)
+// console.log('balance', balance);
 const successIcon = getImg('betpage', 'successIcon')
 
 const route = useRoute()
@@ -130,11 +130,11 @@ async function getGameInfo() {
         const res = await http.get(url)
         if (res?.game && res?.lossPerCent) {
             state.gameInfo = res
-            console.log(
-                '%c state.gameInfo: ',
-                'background-color: #3756d4; padding: 4px 8px; border-radius: 2px; font-size: 14px; color: #fff; font-weight: 700;',
-                state.gameInfo
-            )
+            // console.log(
+            //     '%c state.gameInfo: ',
+            //     'background-color: #3756d4; padding: 4px 8px; border-radius: 2px; font-size: 14px; color: #fff; font-weight: 700;',
+            //     state.gameInfo
+            // )
             // gameType 比赛类型 1上半场 2全场,
             // 上半场得分
             state.firstHalfScore = res?.lossPerCent.filter(item => item.gameType == 1)
@@ -163,11 +163,16 @@ async function betPrepare() {
 }
 function quickBets(params) {
     if (params === 'all') {
-        state.betNum = balance
+        state.betNum = balance.value
     } else {
         state.betNum = params
     }
     state.potentialWinnings = (state.betPreData?.lossPerCent?.antiPerCent * state.betNum / 100).toFixed(4)
+    // console.log(
+    //     '%c state.potentialWinnings: ',
+    //     'background-color: #3756d4; padding: 4px 8px; border-radius: 2px; font-size: 14px; color: #fff; font-weight: 700;',
+    //     state.potentialWinnings
+    // )
 
 }
 async function betSubmit() {
