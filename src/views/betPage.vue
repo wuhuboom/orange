@@ -163,9 +163,9 @@ async function betPrepare() {
 }
 function quickBets(params) {
     if (params === 'all') {
-        state.betNum = balance.value
+        state.betNum = Number(balance.value)
     } else {
-        state.betNum = params
+        state.betNum = Number(params)
     }
     state.potentialWinnings = (state.betPreData?.lossPerCent?.antiPerCent * state.betNum / 100).toFixed(4)
     // console.log(
@@ -215,6 +215,10 @@ function subtraction() {
     state.potentialWinnings = (state.betPreData?.lossPerCent?.antiPerCent * state.betNum / 100).toFixed(4)
 }
 function add() {
+    if (state.betNum >= balance.value) {
+        state.betNum = Number(balance.value)
+        return
+    }
     state.betNum += 1
     state.potentialWinnings = (state.betPreData?.lossPerCent?.antiPerCent * state.betNum / 100).toFixed(4)
 }

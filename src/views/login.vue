@@ -192,6 +192,9 @@ async function login() {
   }
   try {
     const res = await http.post(url, data)
+    if (res == 103) {
+      getVerifyCode()
+    }
     if (res?.token) {
       localStorage.setItem('userInfo', JSON.stringify(res))
       setTimeout(() => {

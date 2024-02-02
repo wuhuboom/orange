@@ -5,6 +5,7 @@ export const useStore = defineStore("store", {
     return {
       balance: "0.0",
       showLeftNav: false,
+      isRefreshVerifyCode: false,
     };
   },
 });

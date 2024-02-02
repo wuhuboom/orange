@@ -3,9 +3,7 @@ import { showToast } from "vant";
 import i18n from "@/i18n/i18n";
 
 const t = i18n.global.t;
-
 // console.log("import.meta.env", import.meta.env);
-
 let { VITE_BASE_URL } = import.meta.env;
 
 let baseURL = VITE_BASE_URL;
@@ -46,6 +44,9 @@ http.interceptors.response.use(
       if (data.length > 0) {
         msgKey = `backapi.${data[0].msgKey}`;
         showToast(t(msgKey));
+      }
+      if (data[0].msgKey == "codeTimeOut") {
+        return code;
       }
     } else if (code === 105) {
       let count = "";
