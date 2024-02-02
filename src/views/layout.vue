@@ -3,6 +3,8 @@
         <Header :header="headerObj[pageName]" />
         <router-view />
         <Footer />
+
+        <LeftNav />
     </div>
 </template>
 <script setup>
@@ -11,6 +13,7 @@ import { useRoute } from 'vue-router'
 
 import Header from '@/components/header.vue'
 import Footer from '@/components/footer.vue'
+import LeftNav from '@/components/leftNav.vue'
 
 const route = useRoute()
 const state = reactive({
@@ -48,9 +51,11 @@ const state = reactive({
             leftIconWidth: '32px',
             leftIconHeight: '32px',
             center: 'Safebox',
-            rightIcon: 'hRightIcon',
+            rightIcon: 'hRightSafe',
+            rightIconWidth: '18px',
+            rightIconHeight: '18px',
             isShowRightMoney: false,
-            bgColor: '#202020'
+            bgColor: '#0b0b0b'
         },
         betPage: {
             leftIcon: 'back',

@@ -34,6 +34,10 @@ html ,body , #app{
 .lrPadding {
   padding: 0 12px;
 }
+.relative{
+  position: relative;
+
+}
 .flex{
   display: flex;
 }

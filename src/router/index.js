@@ -53,6 +53,14 @@ const router = createRouter({
           component: () => import("../views/order.vue"),
         },
         {
+          path: "safe",
+          name: "safe",
+          meta: {
+            parentName: "safe",
+          },
+          component: () => import("../views/safe.vue"),
+        },
+        {
           path: "betPage",
           name: "betPage",
           meta: {

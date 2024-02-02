@@ -70,7 +70,6 @@
                 </div>
             </div>
         </div>
-        <LeftNav />
     </div>
 </template>
 <script setup >
@@ -78,7 +77,6 @@ import { reactive, toRefs } from 'vue'
 import { formatDate } from '@/utils/utils'
 import http from '@/utils/axios'
 import { useRouter } from 'vue-router'
-import LeftNav from '@/components/leftNav.vue'
 
 const router = useRouter()
 import { Swiper, SwiperSlide } from 'swiper/vue';

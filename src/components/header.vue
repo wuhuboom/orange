@@ -11,7 +11,7 @@
                 <span class="moneyNum">{{ accInfo?.currRate || '0.0' }}</span>
             </div>
             <img :src="getImg('header', header.rightIcon)" class="rightIcon" alt="" v-if="header.rightIcon"
-                @click="handleRightIcon">
+                @click="handleRightIcon" :style="{ width: header?.rightIconWidth, height: header?.rightIconHeight }">
         </div>
     </div>
 </template>
@@ -38,7 +38,8 @@ function handleHeaderClick() {
     if (header.value.leftIcon == 'back') {
         router.go(-1)
     }
-    let showLeftArr = ['home']
+    let showLeftArr = ['home', 'safe']
+    console.log(route.name);
     if (showLeftArr.includes(route.name)) {
         store.showLeftNav = true
     }

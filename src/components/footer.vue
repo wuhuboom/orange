@@ -1,8 +1,10 @@
 <template>
     <div class="footer maxWidth">
-        <div v-for="(item, index) in list" :key="index" class="footerItem" @click="changeFooterIndex(item, index)">
-            <img :src="getImg('footer', (activeIndex === index ? `${item.icon}Active` : item.icon))" alt="">
-            <p>{{ item.name }}</p>
+        <div class="radius">
+            <div v-for="(item, index) in list" :key="index" class="footerItem" @click="changeFooterIndex(item, index)">
+                <img :src="getImg('footer', (activeIndex === index ? `${item.icon}Active` : item.icon))" alt="">
+                <p>{{ item.name }}</p>
+            </div>
         </div>
     </div>
 </template>
@@ -39,8 +41,8 @@ const state = reactive({
         },
         {
             icon: 'funds',
-            name: 'SafeBox',
-            link: '/safeBox'
+            name: 'safe',
+            link: '/safe'
         },
         // {
         //     icon: 'funds',
@@ -81,22 +83,30 @@ const { list, activeIndex } = toRefs(state)
     bottom: 0;
     left: 0;
     right: 0;
-    background-color: $mainBg;
-    @include flex();
     cursor: pointer;
+    background-color: $mainBg;
 
-    .footerItem {
-        width: calc(100% / 4);
+    .radius {
+        height: 50px;
         @include flex();
-        flex-direction: column;
-        font-size: 10px;
-        text-align: left;
-        color: #8d8d8d;
+        background-color: #212121;
+        border-top-left-radius: 20px;
+        border-top-right-radius: 20px;
 
-        img {
-            width: 26px;
-            height: 26px;
+        .footerItem {
+            width: calc(100% / 4);
+            @include flex();
+            flex-direction: column;
+            font-size: 10px;
+            text-align: left;
+            color: #8d8d8d;
+
+            img {
+                width: 26px;
+                height: 26px;
+            }
         }
+
     }
 }
 </style>
