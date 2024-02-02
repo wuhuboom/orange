@@ -45,6 +45,14 @@ const router = createRouter({
           component: () => import("../views/match.vue"),
         },
         {
+          path: "order",
+          name: "order",
+          meta: {
+            parentName: "order",
+          },
+          component: () => import("../views/order.vue"),
+        },
+        {
           path: "betPage",
           name: "betPage",
           meta: {

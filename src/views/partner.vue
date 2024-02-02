@@ -149,7 +149,7 @@ const { tabsIndex, tabArr, groupUnAim, groupAim, partnerObj, passRate, userArr }
 <style scoped lang='scss'>
 .partner {
     height: 100%;
-    background-color: #18181b;
+    background-color: $mainBg;
     box-sizing: border-box;
     padding-top: 13px;
     overflow: auto;

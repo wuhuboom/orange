@@ -107,7 +107,8 @@ const state = reactive({
     loading: false,
     finished: false,
     refreshing: false,
-    timer: null
+    timer: null,
+    timer2: null
 })
 function getSearchGameRes() {
     state.timer && clearTimeout(state.timer)
@@ -147,9 +148,8 @@ async function getGameList(val) {
     }
 }
 function onLoad() {
-    let timer = null
-    timer && clearTimeout(timer)
-    timer = setTimeout(() => {
+    state.timer2 && clearTimeout(state.timer2)
+    state.timer2 = setTimeout(() => {
         state.page.pageNo += 1
         if (state.page.hasNext) {
             getGameList()
@@ -195,7 +195,7 @@ const { activeNames, list, teamName, loading, finished, refreshing, dateIndex, t
 <style scoped lang='scss'>
 .contest {
     height: 100%;
-    background-color: #18181b;
+    background-color: $mainBg;
     box-sizing: border-box;
     padding-top: 5px;
     overflow-y: auto;

@@ -93,13 +93,15 @@ const state = reactive({
             icon: 'order',
             name: 'My Order',
             isOpen: false,
-            isArrow: false
+            isArrow: false,
+            link: '/order'
         },
         {
             icon: 'partners',
             name: 'Partners',
             isOpen: false,
-            isArrow: false
+            isArrow: false,
+            link: '/partner'
         },
         {
             icon: 'tournaments',
@@ -178,7 +180,6 @@ const state = reactive({
         },
     ],
 })
-const popShow = ref(true)
 
 function showSecondList(item, index) {
     state.listArr.forEach(item => {
@@ -192,7 +193,11 @@ function showSecondList(item, index) {
         }
     })
     item.isOpen = !item.isOpen
-
+    if (item.link) {
+        router.push({
+            path: item.link
+        })
+    }
 }
 function selectList(k, index) {
     state.listArr.forEach(item => {
@@ -233,6 +238,7 @@ async function logOut() {
         const res = await http.get(url)
         if (res == null) {
             localStorage.removeItem('userInfo')
+            store.showLeftNav = false
             setTimeout(() => {
                 router.push({
                     path: '/login'

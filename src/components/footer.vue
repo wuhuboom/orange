@@ -27,19 +27,29 @@ const state = reactive({
             name: 'Match',
             link: '/Match'
         },
+        // {
+        //     icon: 'partner',
+        //     name: 'Partner',
+        //     link: '/partner'
+        // },
         {
             icon: 'partner',
-            name: 'Partner',
-            link: '/partner'
+            name: 'Order',
+            link: '/order'
         },
         {
             icon: 'funds',
-            name: 'Funds',
+            name: 'SafeBox',
+            link: '/safeBox'
         },
-        {
-            icon: 'profile',
-            name: 'Profile',
-        },
+        // {
+        //     icon: 'funds',
+        //     name: 'Funds',
+        // },
+        // {
+        //     icon: 'profile',
+        //     name: 'Profile',
+        // },
     ]
 })
 function changeFooterIndex(item, index) {
@@ -71,12 +81,12 @@ const { list, activeIndex } = toRefs(state)
     bottom: 0;
     left: 0;
     right: 0;
-    background-color: #18181b;
+    background-color: $mainBg;
     @include flex();
     cursor: pointer;
 
     .footerItem {
-        width: calc(100% / 5);
+        width: calc(100% / 4);
         @include flex();
         flex-direction: column;
         font-size: 10px;

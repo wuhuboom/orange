@@ -52,7 +52,7 @@
                     <span class="t_right">See All</span>
                 </div>
                 <div class="e_lists lrPadding">
-                        <div class="item" v-for="(item, index) in gameList" :key="index" @click="toBetPage(item)">
+                    <div class="item" v-for="(item, index) in gameList" :key="index" @click="toBetPage(item)">
 
                         <div class="itemLeft">
                             <div class="name">{{ item.mainName }}</div>
@@ -179,7 +179,7 @@ function toNotice() {
 function toBetPage(item) {
     router.push({
         path: '/betPage',
-        query:{
+        query: {
             gameId: item.id
         }
     })
@@ -190,7 +190,7 @@ const { swiper, upcomingSwiper, upcomingIndex, gameList, swiperAutoPlay } = toRe
 <style scoped lang='scss'>
 .home {
     min-height: 100%;
-    background-color: #18181B;
+    background-color: $mainBg;
     padding-top: 27px;
     padding-bottom: 50px;
 
@@ -270,7 +270,7 @@ const { swiper, upcomingSwiper, upcomingIndex, gameList, swiperAutoPlay } = toRe
 
     .main {
         margin-top: 15px;
-        background-color: #18181B;
+        background-color: $mainBg;
 
         .title {
             @include flex(space-between);

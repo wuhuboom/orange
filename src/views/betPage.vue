@@ -192,7 +192,9 @@ async function betSubmit() {
                 message: 'successfully',
                 position: 'bottom',
             })
+            state.betIndex = -1
             state.isShowBetPanel = false
+            state.betNum = 0
             state.potentialWinnings = 0
 
         }
