@@ -21,9 +21,15 @@
                                 <p class="profit">Profit：<span class="num">{{ item.winningAmount }}</span></p>
                             </div>
                             <div class="statusRight">
-                                <!-- 0未开奖 1已中奖 2未中奖, -->
-                                <div class="cancel" v-if="item.statusOpen === 0" @click="cancelCurrOrder(item)">
-                                    Cancel
+                                <!-- statusOpen 0未开奖 1已中奖 2未中奖, -->
+                                <!-- "status": 状态0.未确认 1已确认 2已取消 3 已撤消 4已回滚, -->
+                                <div class="cancel" v-if="item.statusOpen === 0">
+                                    <span class="canceled" v-if="item.status === 3 || item.status === 2">
+                                        Canceled
+                                    </span>
+                                    <span class="cancelspan" v-else @click="cancelCurrOrder(item)">
+                                        Cancel
+                                    </span>
                                 </div>
                                 <div :style="{ color: item.statusOpen === 1 ? '#ff7c43' : '#10ab61' }"
                                     v-if="item.statusOpen !== 0">
@@ -36,14 +42,16 @@
                         <div class="orderNo">
                             NO.{{ item.orderNo }}
                         </div>
-                        <div class="btn">
-                            {{ item.statusOpen === 0 ? 'in Progress' : 'details' }}
+                        <div class="btn" @click="getOrderDetails(item)">
+                            {{ item.statusSettlement === 0 ? 'in Progress' : 'details' }} <img
+                                v-if="item.statusSettlement === 1" src="../assets/images/common/arrow_right.webp" alt=""
+                                style="width: 14px;height: 14px;">
                         </div>
                     </div>
                 </div>
             </van-list>
         </van-pull-refresh>
-
+        <!-- 是否取消订单 -->
         <van-dialog v-model:show="cancelShow" title="You sure you want to cancel the game?" className="cancelModal">
             <template #footer>
                 <div class="fBtn">
@@ -56,12 +64,71 @@
                 </div>
             </template>
         </van-dialog>
+        <!-- 查看订单详情的弹窗 -->
+        <van-dialog v-model:show="orderShow" className="orderModal">
+            <template #default>
+                <div class="header">
+                    <div class="h_left">
+                        {{ orderInfo?.game?.mainName }}
+                    </div>
+                    <div class="h_center">
+                        <p class="vs" v-if="orderInfo?.game?.score === ''">vs</p>
+                        <p v-if="orderInfo?.game?.score">{{ orderInfo?.game?.score }}</p>
+                        <p class="date">{{ orderInfo?.game?.startTimeStr }}</p>
+                    </div>
+                    <div class="h_right">
+                        {{ orderInfo?.game?.guestName }}
+                    </div>
+                </div>
+                <van-divider :style="{ backgroundColor: '#363636' }" />
+                <div class="rowDiv">
+                    <span>Type</span>
+                    <!-- 下注类型1正波2反波, -->
+                    <span>{{ orderInfo?.betinfo?.betType === 1 ? '正波' : '反波' }}</span>
+                </div>
+                <div class="rowDiv">
+                    <span>Score</span>
+                    <span>{{ orderInfo?.betinfo?.betScore }}</span>
+                </div>
+                <div class="rowDiv">
+                    <span>odds</span>
+                    <span>{{ orderInfo?.betinfo?.betOdds }}</span>
+                </div>
+                <div class="rowDiv">
+                    <span>money</span>
+                    <span>{{ orderInfo?.betinfo?.betMoney }}</span>
+                </div>
+                <div class="rowDiv">
+                    <span>WinAmount</span>
+                    <span>{{ orderInfo?.betinfo?.winningAmount }}</span>
+                </div>
+                <div class="rowDiv">
+                    <span>Start</span>
+                    <span>{{ formatDate(orderInfo?.betinfo?.createdAt) }}</span>
+                </div>
+                <div class="rowDiv">
+                    <span>Status</span>
+                    <!--  结算状态 0未结算 1已结算, -->
+                    <span>{{ orderInfo?.betinfo?.statusSettlement === 1 ? '已结算' : '未结算' }}</span>
+                </div>
+                <van-divider :style="{ backgroundColor: '#363636' }" />
+            </template>
+            <template #footer>
+                <div class="fBtn">
+                    <div class="closeDialog" @click="orderShow = false">
+                        Cancel
+                    </div>
+                </div>
+            </template>
+        </van-dialog>
+
     </div>
 </template>
 <script setup>
 import { reactive, toRefs } from 'vue'
 import http from '@/utils/axios'
-import List from '@/components/list.vue'
+import { formatDate } from '@/utils/utils'
+import { showToast } from 'vant'
 const state = reactive({
     tabIndex: 0,
     tabsArr: [
@@ -96,7 +163,9 @@ const state = reactive({
     dataList: [],
     timer: null,
     cancelShow: false,
-    targetItem: {}
+    targetItem: {},
+    orderShow: false,
+    orderInfo: {}
 })
 orderList()
 async function orderList(val) {
@@ -109,11 +178,6 @@ async function orderList(val) {
     }
     try {
         const res = await http.post(url, data)
-        console.log(
-            '%c res: ',
-            'background-color: #3756d4; padding: 4px 8px; border-radius: 2px; font-size: 14px; color: #fff; font-weight: 700;',
-            res
-        )
         if (val === 'refresh') {
             state.dataList = []
         }
@@ -129,12 +193,24 @@ async function orderList(val) {
             state.page.hasNext = false
             state.listStatus.finished = true
         }
-        console.log(
-            '%c state.dataList: ',
-            'background-color: #3756d4; padding: 4px 8px; border-radius: 2px; font-size: 14px; color: #fff; font-weight: 700;',
-            state.dataList
-        )
 
+    } catch (error) {
+        console.log(error);
+    }
+}
+async function getOrderDetails(item) {
+    let url = `/player/betInfo?betId=${item.id}`
+    try {
+        const res = await http.get(url)
+        console.log(
+            '%c res: ',
+            'background-color: #3756d4; padding: 4px 8px; border-radius: 2px; font-size: 14px; color: #fff; font-weight: 700;',
+            res
+        )
+        if (typeof (res) === 'object') {
+            state.orderInfo = res
+            state.orderShow = true
+        }
     } catch (error) {
         console.log(error);
     }
@@ -155,14 +231,13 @@ function onRefresh() {
 }
 async function cancelOrder() {
     let url = `/player/unbet?betId=${state.targetItem.id}`
-    console.log(state.targetItem);
     try {
         const res = await http.get(url)
-        console.log(
-            '%c res: ',
-            'background-color: #3756d4; padding: 4px 8px; border-radius: 2px; font-size: 14px; color: #fff; font-weight: 700;',
-            res
-        )
+        if (res == null && res != undefined) {
+            orderList('refresh')
+            showToast('cancel success')
+            state.cancelShow = false
+        }
     } catch (error) {
         console.log(error);
     }
@@ -176,7 +251,7 @@ function changeTabs(item, index) {
     state.tabIndex = index
     orderList('refresh')
 }
-const { tabsArr, tabIndex, dataList, listStatus, cancelShow } = toRefs(state)
+const { tabsArr, tabIndex, dataList, listStatus, cancelShow, orderShow, orderInfo } = toRefs(state)
 </script>
 <style scoped lang='scss'>
 .order {
@@ -266,13 +341,21 @@ const { tabsArr, tabIndex, dataList, listStatus, cancelShow } = toRefs(state)
                 }
 
                 .statusRight {
-                    padding: 9px 15px;
-                    border-radius: 16px;
-                    background-color: #ff7c43;
                     font-family: SFProText;
                     font-size: 12px;
                     font-weight: 500;
                     color: #fff;
+
+                    .cancelspan {
+                        border-radius: 16px;
+                        padding: 9px 15px;
+                        background-color: #ff7c43;
+
+                    }
+
+                    .canceled {
+                        color: #8d8d8d;
+                    }
                 }
             }
         }
@@ -297,6 +380,11 @@ const { tabsArr, tabIndex, dataList, listStatus, cancelShow } = toRefs(state)
                 background-color: rgba(93, 86, 105, 0.48);
                 font-size: 12px;
                 color: #fff;
+                @include flex();
+
+                img {
+                    margin-left: 5px;
+                }
             }
         }
     }
@@ -332,6 +420,109 @@ const { tabsArr, tabIndex, dataList, listStatus, cancelShow } = toRefs(state)
                 background-color: #ff7c43;
             }
         }
+
+    }
+
+    :deep(.orderModal) {
+        width: 312px;
+        border-radius: 15px;
+        background-image: linear-gradient(to bottom, #2b2b2b, #1c1c1c);
+        color: #fff;
+
+        .van-dialog__content {
+            box-sizing: border-box;
+
+            .header {
+                padding: 14px 8px 0 16px;
+                @include flex();
+                font-size: 12px;
+                color: #fff;
+
+                .h_left {
+                    text-align: center;
+                    font-size: 12px;
+                    padding-right: 8px;
+                    line-height: 1.5;
+                }
+
+                .h_center {
+                    width: 162px;
+                    height: 48px;
+                    border: 1px solid #363636;
+                    border-top: none;
+                    border-bottom: none;
+                    @include flex(center, center);
+                    flex-direction: column;
+
+                    .vs {
+                        font-family: Calibri;
+                        font-size: 22px;
+                        letter-spacing: -0.28px;
+                        color: #fff;
+                    }
+
+                    .date {
+                        margin-top: 4px;
+                        color: #8d8d8d;
+                        text-align: center;
+                    }
+                }
+
+                .h_right {
+                    font-size: 12px;
+                    text-align: center;
+                    padding-left: 8px;
+                    line-height: 1.5;
+                }
+            }
+
+            .rowDiv {
+                width: 162px;
+                // padding: 0 70px 0 71px;
+                margin: 10px auto 0;
+                box-sizing: border-box;
+                @include flex(space-between);
+
+                span {
+                    width: 50%;
+                    font-family: Calibri;
+                    font-size: 12px;
+                    font-weight: 300;
+                    letter-spacing: 0.17px;
+                    color: #e0e1eb;
+                }
+
+                span:first-child {
+                    text-align: left;
+                }
+
+                span:last-child {
+                    text-align: center;
+                    margin-left: 0px;
+                }
+            }
+
+        }
+
+        .fBtn {
+            @include flex(center);
+            padding-bottom: 18px;
+
+            .closeDialog {
+                width: 257px;
+                height: 48px;
+                margin: 0 auto;
+                text-align: center;
+                line-height: 48px;
+                border-radius: 14px;
+                background-color: #ff7c43;
+                font-size: 14px;
+                color: #fff;
+            }
+
+
+        }
+
 
     }
 }

@@ -43,6 +43,7 @@ html ,body , #app{
 .van-popup{
   max-width: 335px !important;
   flex-wrap: wrap;
+  background-color: rgba(0, 0, 0, 0.7)  !important;
 }
  .van-toast--text  .van-toast__text {
   font-family: 'Roboto' !important;
