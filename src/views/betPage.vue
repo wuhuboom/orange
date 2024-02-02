@@ -168,7 +168,7 @@ function quickBets(params) {
         state.betNum = params
     }
     state.potentialWinnings = (state.betPreData?.lossPerCent?.antiPerCent * state.betNum / 100).toFixed(4)
-    betSubmit()
+
 }
 async function betSubmit() {
     let url = '/player/bet'

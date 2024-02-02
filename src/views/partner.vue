@@ -118,28 +118,28 @@ async function getTeamData(index, key = '') {
         console.log(error);
     }
 }
-getUserList()
-async function getUserList() {
-    let url = '/player/sub_players'
-    let data = {
-        pageNo: state.page.pageNo,
-        pageSize: state.page.pageSize
-    }
-    try {
-        const res = await http.post(url, data)
-        console.log(
-            '%c res: ',
-            'background-color: #3756d4; padding: 4px 8px; border-radius: 2px; font-size: 14px; color: #fff; font-weight: 700;',
-            res
-        )
-        state.userArr = [...state.userArr, ...res.results] || []
-        state.page.pageNo = res.pageNo
-        state.page.pageSize = res.pageSize
-        state.page.hasNext = res.hasNext
-    } catch (error) {
-        console.log(error);
-    }
-}
+// getUserList()
+// async function getUserList() {
+//     let url = '/player/sub_players'
+//     let data = {
+//         pageNo: state.page.pageNo,
+//         pageSize: state.page.pageSize
+//     }
+//     try {
+//         const res = await http.post(url, data)
+//         console.log(
+//             '%c res: ',
+//             'background-color: #3756d4; padding: 4px 8px; border-radius: 2px; font-size: 14px; color: #fff; font-weight: 700;',
+//             res
+//         )
+//         state.userArr = [...state.userArr, ...res.results] || []
+//         state.page.pageNo = res.pageNo
+//         state.page.pageSize = res.pageSize
+//         state.page.hasNext = res.hasNext
+//     } catch (error) {
+//         console.log(error);
+//     }
+// }
 function handleClickTab(item, index) {
     state.tabsIndex = index
     getTeamData(1)

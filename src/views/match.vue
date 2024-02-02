@@ -1,6 +1,7 @@
 <template>
     <div class="contest maxWidth lrPadding">
-        <van-search v-model="teamName" placeholder="Type to search" clearable background="#252528" @blur="getSearchGameRes">
+        <van-search v-model="teamName" placeholder="Type to search" clearable background="#252528"
+            @update:model-value="getSearchGameRes">
             <template #left-icon>
                 <img src="../assets/images/match/searchIcon.webp" class="searchIcon" alt="">
             </template>
@@ -105,11 +106,15 @@ const state = reactive({
     teamLs: [],
     loading: false,
     finished: false,
-    refreshing: false
+    refreshing: false,
+    timer: null
 })
 function getSearchGameRes() {
-    state.page.pageNo = 1
-    getGameList('search')
+    state.timer && clearTimeout(state.timer)
+    state.timer = setTimeout(() => {
+        state.page.pageNo = 1
+        getGameList('search')
+    }, 500);
 }
 async function getGameList(val) {
     let url = '/player/game/g'
