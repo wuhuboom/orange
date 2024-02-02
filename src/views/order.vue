@@ -17,8 +17,8 @@
                         </div>
                         <div class="statusBox">
                             <div class="statusLeft">
-                                <p class="trading">Trading：{{ item.betMoney }}</p>
-                                <p class="profit">Profit：<span class="num">{{ item.winningAmount }}</span></p>
+                                <p class="trading">Trading：{{ getAmount(item.betMoney) }}</p>
+                                <p class="profit">Profit：<span class="num">{{ getAmount(item.winningAmount) }}</span></p>
                             </div>
                             <div class="statusRight">
                                 <!-- statusOpen 0未开奖 1已中奖 2未中奖, -->
@@ -96,11 +96,11 @@
                 </div>
                 <div class="rowDiv">
                     <span>money</span>
-                    <span>{{ orderInfo?.betinfo?.betMoney }}</span>
+                    <span>{{ getAmount(orderInfo?.betinfo?.betMoney) }}</span>
                 </div>
                 <div class="rowDiv">
                     <span>WinAmount</span>
-                    <span>{{ orderInfo?.betinfo?.winningAmount }}</span>
+                    <span>{{ getAmount(orderInfo?.betinfo?.winningAmount) }}</span>
                 </div>
                 <div class="rowDiv">
                     <span>Start</span>
@@ -116,7 +116,7 @@
             <template #footer>
                 <div class="fBtn">
                     <div class="closeDialog" @click="orderShow = false">
-                        Cancel
+                        Close
                     </div>
                 </div>
             </template>
@@ -127,7 +127,7 @@
 <script setup>
 import { reactive, toRefs } from 'vue'
 import http from '@/utils/axios'
-import { formatDate } from '@/utils/utils'
+import { formatDate, getAmount } from '@/utils/utils'
 import { showToast } from 'vant'
 const state = reactive({
     tabIndex: 0,

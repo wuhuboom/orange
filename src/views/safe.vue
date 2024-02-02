@@ -9,7 +9,8 @@
                     <img src="../assets/images/safe/refresh.webp" class="refresh" alt="">
                 </div>
                 <div class="moneyusd">
-                    {{ safeData?.money || 0 }} <span class="usd">{{ safeData?.symbol || 'USDT' }}</span>
+                    {{ getAmount(safeData?.money) || 0 }} <span class="usd">{{ safeData?.symbol ||
+                        'USDT' }}</span>
                 </div>
                 <div class="Cbottom">
                     <p>
@@ -17,8 +18,8 @@
                         <span>Cumulative amount</span>
                     </p>
                     <p class="num">
-                        <span>{{ safeData?.todayIncome || 0 }}</span>
-                        <span>{{ safeData?.totalIncome || 0 }}</span>
+                        <span>{{ getAmount(safeData?.todayIncome) || 0 }}</span>
+                        <span>{{ getAmount(safeData?.totalIncome) || 0 }}</span>
                     </p>
                 </div>
             </div>
@@ -47,7 +48,7 @@
 </template>
 <script setup >
 import { toRefs, reactive } from 'vue'
-import { getImg } from '@/utils/utils'
+import { getImg, getAmount } from '@/utils/utils'
 import http from '@/utils/axios'
 const state = reactive({
     menu: [

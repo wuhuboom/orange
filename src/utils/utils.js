@@ -45,3 +45,7 @@ export const getENMonth = (timestamp) => {
   // const day = date.getDate();
   return monthObj[month];
 };
+export const getAmount = (money) => {
+  let res = (Number(money) / window?.config?.UNIFIED_NUMBER).toFixed(4);
+  return Number(res);
+};
