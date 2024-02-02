@@ -9,7 +9,7 @@
                     <img src="../assets/images/safe/refresh.webp" class="refresh" alt="">
                 </div>
                 <div class="moneyusd">
-                    5432.00 <span class="usd">USD</span>
+                    {{ safeData?.money || 0 }} <span class="usd">{{ safeData?.symbol || 'USDT' }}</span>
                 </div>
                 <div class="Cbottom">
                     <p>
@@ -17,8 +17,8 @@
                         <span>Cumulative amount</span>
                     </p>
                     <p class="num">
-                        <span>0</span>
-                        <span>0</span>
+                        <span>{{ safeData?.todayIncome || 0 }}</span>
+                        <span>{{ safeData?.totalIncome || 0 }}</span>
                     </p>
                 </div>
             </div>
@@ -48,6 +48,7 @@
 <script setup >
 import { toRefs, reactive } from 'vue'
 import { getImg } from '@/utils/utils'
+import http from '@/utils/axios'
 const state = reactive({
     menu: [
         {
@@ -62,9 +63,27 @@ const state = reactive({
         {
             name: 'Transfer',
         },
-    ]
+    ],
+    safeData: {}
 })
-const { menu } = toRefs(state)
+getSafeInfo()
+async function getSafeInfo() {
+    let url = '/player/safe/info'
+    try {
+        const res = await http.get(url)
+        console.log(
+            '%c res : ',
+            'background-color: #3756d4; padding: 4px 8px; border-radius: 2px; font-size: 14px; color: #fff; font-weight: 700;',
+            res
+        )
+        if (res?.id) {
+            state.safeData = res
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
+const { menu, safeData } = toRefs(state)
 </script>
 <style scoped lang='scss'>
 .safe {
