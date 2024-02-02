@@ -43,6 +43,15 @@ const state = reactive({
             isShowRightMoney: true,
             bgColor: '#202020'
         },
+        safe: {
+            leftIcon: 'hleftIcon',
+            leftIconWidth: '32px',
+            leftIconHeight: '32px',
+            center: 'Safebox',
+            rightIcon: 'hRightIcon',
+            isShowRightMoney: false,
+            bgColor: '#202020'
+        },
         betPage: {
             leftIcon: 'back',
             leftIconWidth: '32px',
@@ -73,6 +82,7 @@ const state = reactive({
             isShowRightMoney: true,
             bgColor: '#202020'
         },
+
     },
 
 })

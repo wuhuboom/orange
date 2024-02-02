@@ -485,14 +485,14 @@ const { userInfo, inputIndex, areaCode, showAreaCodeOpt, codeList, showVerifyOpt
                 top: 296px;
                 background-color: #202020;
                 z-index: 12;
-                padding: 7px 16px 11px;
+                // padding: 7px 16px 11px;
                 border-radius: 12px;
                 box-sizing: border-box;
                 color: #8d8d8d;
                 font-size: 14px;
                 height: 0;
                 cursor: pointer;
-                display: none;
+                overflow: hidden;
 
                 p {
                     height: 40px;
@@ -511,6 +511,7 @@ const { userInfo, inputIndex, areaCode, showAreaCodeOpt, codeList, showVerifyOpt
             .addVerifyClass {
                 display: block;
                 height: 90px;
+                padding: 7px 16px 11px;
                 transition: height .5s ease-out;
                 cursor: pointer;
             }
