@@ -26,7 +26,7 @@ const state = reactive({
             bgColor: '#202020'
         },
         match: {
-            leftIcon: 'cter',
+            leftIcon: 'boldCter',
             leftIconWidth: '58px',
             leftIconHeight: '19px',
             center: '',
