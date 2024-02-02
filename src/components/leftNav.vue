@@ -19,7 +19,8 @@
                             </div>
                             <van-icon :name="item.isOpen ? 'arrow-down' : 'arrow-up'" color="#fff" v-if="item.isArrow" />
                         </div>
-                        <div class="secondList" v-if="item.isOpen">
+                        <!-- v-if="item.isOpen" -->
+                        <div class="secondList" :class="{ addShowClass: item.isOpen }">
                             <p v-for="(it, k ) in item.menu" :key="k" :class="{ pActive: it.highlight }"
                                 @click="selectList(it, k)">{{ it.name }}</p>
                         </div>
@@ -343,9 +344,9 @@ const { listArr, perInfo, showLangOpt, langTarget, langList } = toRefs(state)
 
                     .secondList {
                         width: 100%;
-                        max-height: 300px;
-                        // overflow: hidden;
-                        // transition: height .5s ease-out;
+                        max-height: 0;
+                        overflow: hidden;
+                        transition: max-height .5s ease-out;
 
                         p {
                             font-size: 14px;
@@ -361,7 +362,6 @@ const { listArr, perInfo, showLangOpt, langTarget, langList } = toRefs(state)
                     }
 
                     .addShowClass {
-                        height: 100%;
                         max-height: 300px;
                     }
                 }
