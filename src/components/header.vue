@@ -1,8 +1,8 @@
 <template>
     <div class="header maxWidth" :style="{ background: header?.bgColor }">
         <div class="hbox">
-            <div class="left" :style="{ width: header.leftIconWidth, height: header.leftIconHeight }">
-                <img :src="getImg('header', header.leftIcon)" alt="" @click="handleHeaderClick">
+            <div class="left" >
+                <img :src="getImg('header', header.leftIcon)" :style="{ width: header.leftIconWidth, height: header.leftIconHeight }" alt="" @click="handleHeaderClick">
                 <div class="buyC2C" v-if="route.name == 'buy'">
                     C2C
                 </div>
@@ -130,7 +130,8 @@ const { accInfo } = toRefs(state)
 
         .rightIcon {
             @extend .left;
-
+            width: 32px;
+            height: 32px;
         }
 
         .money {

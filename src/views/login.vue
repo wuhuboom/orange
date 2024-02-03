@@ -237,7 +237,7 @@ function jumpService() {
   }
 }
 onMounted(() => {
-  if (localStorage.getItem('lang')?.toUpperCase() == 'ZH') {
+  if (localStorage.getItem('lang')?.toUpperCase().includes('ZH')) {
     state.langTarget = 'EN'
   } else {
     state.langTarget = localStorage.getItem('lang')?.toUpperCase() || 'EN'
