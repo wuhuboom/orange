@@ -83,7 +83,7 @@ export default defineConfig({
         // 用于输出静态资源的命名，[ext]表示文件扩展名
         assetFileNames(assetInfo) {
           if (
-            ["png", "jpg", "svg", "PNG"].some((ext) =>
+            ["png", "jpg", "svg", "PNG", "webp"].some((ext) =>
               assetInfo.name.endsWith(ext)
             )
           ) {

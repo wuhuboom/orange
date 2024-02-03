@@ -25,7 +25,7 @@
             </div>
         </div>
         <div class="menubox">
-            <div class="item" v-for="(item, index) in menu" :key="index">
+            <div class="item" v-for="(item, index) in menu" :key="index" @click="toPage(item)">
                 <img :src="getImg('safe', item.name.toLocaleLowerCase())" alt="">
                 <p>{{ item.name }}</p>
             </div>
@@ -49,20 +49,26 @@
 <script setup >
 import { toRefs, reactive } from 'vue'
 import { getImg, getAmount } from '@/utils/utils'
+import { useRouter } from 'vue-router'
 import http from '@/utils/axios'
+const router = useRouter()
 const state = reactive({
     menu: [
         {
             name: 'Send',
+            link: '/send'
         },
         {
             name: 'Recharge',
+            link: '/recharge'
         },
         {
             name: 'Buy',
+            link: '/buy'
         },
         {
             name: 'Transfer',
+            link: '/transfer'
         },
     ],
     safeData: {}
@@ -84,6 +90,9 @@ async function getSafeInfo() {
         console.log(error);
     }
 }
+function toPage(item) {
+    router.push(item.link)
+}
 const { menu, safeData } = toRefs(state)
 </script>
 <style scoped lang='scss'>
@@ -92,6 +101,7 @@ const { menu, safeData } = toRefs(state)
     overflow: auto;
     background-color: $mainBg;
     box-sizing: border-box;
+    padding-top: 20px;
 
     .cardBox {
         width: 100%;

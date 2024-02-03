@@ -14,81 +14,12 @@ import { useRoute } from 'vue-router'
 import Header from '@/components/header.vue'
 import Footer from '@/components/footer.vue'
 import LeftNav from '@/components/leftNav.vue'
+import headerConf from '@/utils/header'
 
 const route = useRoute()
 const state = reactive({
     pageName: route.name,
-    headerObj: {
-        home: {
-            leftIcon: 'hleftIcon',
-            leftIconWidth: '32px',
-            leftIconHeight: '32px',
-            center: '',
-            rightIcon: 'hRightIcon',
-            isShowRightMoney: true,
-            bgColor: '#202020'
-        },
-        match: {
-            leftIcon: 'boldCter',
-            leftIconWidth: '58px',
-            leftIconHeight: '19px',
-            center: '',
-            rightIcon: 'hRightIcon',
-            isShowRightMoney: true,
-            bgColor: '#202020'
-        },
-        order: {
-            leftIcon: 'boldCter',
-            leftIconWidth: '58px',
-            leftIconHeight: '19px',
-            center: '',
-            rightIcon: 'hRightIcon',
-            isShowRightMoney: true,
-            bgColor: '#202020'
-        },
-        safe: {
-            leftIcon: 'hleftIcon',
-            leftIconWidth: '32px',
-            leftIconHeight: '32px',
-            center: 'Safebox',
-            rightIcon: 'hRightSafe',
-            rightIconWidth: '18px',
-            rightIconHeight: '18px',
-            isShowRightMoney: false,
-            bgColor: '#0b0b0b'
-        },
-        betPage: {
-            leftIcon: 'back',
-            leftIconWidth: '32px',
-            leftIconHeight: '32px',
-            center: 'Friendlies Clubs',
-            rightIcon: 'bell',
-            noticeLink: '/sysNotice',
-            isShowRightMoney: false,
-            bgColor: 'transparent',
-            link: '/contest'
-        },
-        sysNotice: {
-            leftIcon: 'back',
-            leftIconWidth: '32px',
-            leftIconHeight: '32px',
-            center: 'Message Center',
-            rightIcon: '',
-            isShowRightMoney: false,
-            bgColor: '#202020',
-            link: '/home'
-        },
-        partner: {
-            leftIcon: 'cter',
-            leftIconWidth: '58px',
-            leftIconHeight: '19px',
-            center: '',
-            rightIcon: 'bell',
-            isShowRightMoney: true,
-            bgColor: '#202020'
-        },
-
-    },
+    headerObj: headerConf
 
 })
 watchEffect(() => {

@@ -37,12 +37,28 @@ const router = createRouter({
           component: () => import("../views/home.vue"),
         },
         {
+          path: "sysNotice",
+          name: "sysNotice",
+          meta: {
+            parentName: "home",
+          },
+          component: () => import("../views/sysNotice.vue"),
+        },
+        {
           path: "match",
           name: "match",
           meta: {
             parentName: "match",
           },
           component: () => import("../views/match.vue"),
+        },
+        {
+          path: "betPage",
+          name: "betPage",
+          meta: {
+            parentName: "match",
+          },
+          component: () => import("../views/betPage.vue"),
         },
         {
           path: "order",
@@ -61,20 +77,36 @@ const router = createRouter({
           component: () => import("../views/safe.vue"),
         },
         {
-          path: "betPage",
-          name: "betPage",
+          path: "send",
+          name: "send",
           meta: {
-            parentName: "match",
+            parentName: "safe",
           },
-          component: () => import("../views/betPage.vue"),
+          component: () => import("../views/send.vue"),
         },
         {
-          path: "sysNotice",
-          name: "sysNotice",
+          path: "transfer",
+          name: "transfer",
           meta: {
-            parentName: "home",
+            parentName: "safe",
           },
-          component: () => import("../views/sysNotice.vue"),
+          component: () => import("../views/transfer.vue"),
+        },
+        {
+          path: "buy",
+          name: "buy",
+          meta: {
+            parentName: "safe",
+          },
+          component: () => import("../views/buy.vue"),
+        },
+        {
+          path: "recharge",
+          name: "recharge",
+          meta: {
+            parentName: "safe",
+          },
+          component: () => import("../views/recharge.vue"),
         },
         {
           path: "partner",

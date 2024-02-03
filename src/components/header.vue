@@ -1,17 +1,32 @@
 <template>
-    <div class="header maxWidth" :style="{ background: header.bgColor }">
-        <div class="left" :style="{ width: header.leftIconWidth, height: header.leftIconHeight }">
-            <img :src="getImg('header', header.leftIcon)" alt="" @click="handleHeaderClick">
-        </div>
-        <div class="center">{{ header.center }}</div>
-        <div class="right">
-            <!-- 金额 -->
-            <div class="money" v-if="header.isShowRightMoney">
-                <img :src="getImg('header', 'mIcon')" class="mIcon" alt="">
-                <span class="moneyNum">{{ accInfo?.currRate || '0.0' }}</span>
+    <div class="header maxWidth" :style="{ background: header?.bgColor }">
+        <div class="hbox">
+            <div class="left" :style="{ width: header.leftIconWidth, height: header.leftIconHeight }">
+                <img :src="getImg('header', header.leftIcon)" alt="" @click="handleHeaderClick">
+                <div class="buyC2C" v-if="route.name == 'buy'">
+                    C2C
+                </div>
             </div>
-            <img :src="getImg('header', header.rightIcon)" class="rightIcon" alt="" v-if="header.rightIcon"
-                @click="handleRightIcon" :style="{ width: header?.rightIconWidth, height: header?.rightIconHeight }">
+            <div class="center">{{ header.center }}</div>
+            <div class="right">
+                <!-- 金额 -->
+                <div class="money" v-if="header.isShowRightMoney">
+                    <img :src="getImg('header', 'mIcon')" class="mIcon" alt="">
+                    <span class="moneyNum">{{ accInfo?.currRate || '0.0' }}</span>
+                </div>
+                <!-- buy页面 -->
+                <div class="hbuy" v-if="route.name == 'buy'">
+                    <div class="money buyMoney">
+                        <img :src="getImg('header', 'buy')" class="mIcon" alt="">
+                        <span class="moneyNum bOrder">Order</span>
+                    </div>
+                    <div class="myAssets">
+                        My Assets
+                    </div>
+                </div>
+                <img :src="getImg('header', header.rightIcon)" class="rightIcon" alt="" v-if="header.rightIcon"
+                    @click="handleRightIcon" :style="{ width: header?.rightIconWidth, height: header?.rightIconHeight }">
+            </div>
         </div>
     </div>
 </template>
@@ -79,14 +94,30 @@ const { accInfo } = toRefs(state)
     padding: 0 12px;
     z-index: 10;
 
+    .hbox {
+        width: 100%;
+        @include flex(space-between);
+    }
+
     img {
         width: 100%;
         height: 100%;
     }
 
     .left {
-        width: 32px;
-        height: 32px;
+        @include flex(flex-start);
+
+        img {
+            width: 32px;
+            height: 32px;
+        }
+
+        .buyC2C {
+            color: #fff;
+            font-family: Helvetica;
+            font-size: 18px;
+            color: #fff;
+        }
     }
 
     .center {
@@ -117,10 +148,32 @@ const { accInfo } = toRefs(state)
                 color: #fff;
             }
 
+
             .mIcon {
                 width: 24px;
                 height: 24px;
             }
+        }
+
+        .hbuy {
+            @include flex();
+
+            .buyMoney {
+                background-color: #0b0b0b;
+            }
+
+            .myAssets {
+                height: 23px;
+                line-height: 23px;
+                padding: 2.4px 9px 2.6px 10px;
+                border-radius: 8px;
+                background-image: linear-gradient(to bottom, #ff6c00, #ffa031);
+                font-family: SegoeUI;
+                font-size: 11px;
+                color: #fff;
+            }
+
+
         }
     }
 }
