@@ -5,9 +5,9 @@ import i18n from "@/i18n/i18n";
 console.log(window);
 const t = i18n.global.t;
 // console.log("import.meta.env", import.meta.env);
-let { VITE_BASE_URL } = import.meta.env;
+// let { VITE_BASE_URL } = import.meta.env;
 
-let baseURL = VITE_BASE_URL;
+let baseURL = window?.config.baseUrl;
 
 const http = axios.create({
   baseURL,

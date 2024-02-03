@@ -1,5 +1,5 @@
 <template>
-    <div class="buy">
+    <div class="buy maxWidth">
         <div class="sort">
             <div class="text">
                 buy
@@ -41,7 +41,7 @@
                 </div>
                 <div class="bottom">
                     <div>payment：Adapay VISA</div>
-                    <div>buy</div>
+                    <div class="cursor" @click="toPurchaseAmount">buy</div>
                 </div>
             </div>
         </div>
@@ -49,9 +49,16 @@
 </template>
 <script setup>
 import { reactive, toRefs } from "vue";
+import { useRouter } from 'vue-router'
+const router = useRouter()
 const state = reactive({
     showSelect: false
 })
+function toPurchaseAmount() {
+    router.push({
+        path: '/purchaseAmount'
+    })
+}
 const { showSelect } = toRefs(state)
 </script>
 <style scoped lang='scss'>

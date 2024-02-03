@@ -14,18 +14,25 @@
                 Actual receivedamount：: <span class="money">56556.3</span>
             </p>
         </div>
-        <div class="confirm">
+        <div class="confirm" @click="toPage">
             Confirm
         </div>
     </div>
 </template>
 <script setup>
 import { reactive, toRefs, } from 'vue'
+import { useRouter } from "vue-router";
+const router = useRouter()
 const state = reactive({
     useName: '',
     amount: '0.0',
     payPwd: ''
 })
+function toPage() {
+    router.push({
+        path: '/swapInfo'
+    })
+}
 const { useName, amount, payPwd } = toRefs(state)
 </script>
 <style scoped lang='scss'>

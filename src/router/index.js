@@ -101,12 +101,28 @@ const router = createRouter({
           component: () => import("../views/buy.vue"),
         },
         {
+          path: "purchaseAmount",
+          name: "purchaseAmount",
+          meta: {
+            parentName: "safe",
+          },
+          component: () => import("../views/purchaseAmount.vue"),
+        },
+        {
           path: "recharge",
           name: "recharge",
           meta: {
             parentName: "safe",
           },
           component: () => import("../views/recharge.vue"),
+        },
+        {
+          path: "swapInfo",
+          name: "swapInfo",
+          meta: {
+            parentName: "safe",
+          },
+          component: () => import("../views/swapInfo.vue"),
         },
         {
           path: "partner",

@@ -60,7 +60,9 @@ body,
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
-
+.cursor{
+  cursor: pointer;
+}
 .van-popup {
   max-width: 335px !important;
   flex-wrap: wrap;

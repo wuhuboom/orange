@@ -1,18 +1,30 @@
 <template>
     <div class="header maxWidth" :style="{ background: header?.bgColor }">
         <div class="hbox">
-            <div class="left" >
-                <img :src="getImg('header', header.leftIcon)" :style="{ width: header.leftIconWidth, height: header.leftIconHeight }" alt="" @click="handleHeaderClick">
+            <div class="left">
+                <img :src="getImg('header', header.leftIcon)"
+                    :style="{ width: header.leftIconWidth, height: header.leftIconHeight }" alt=""
+                    @click="handleHeaderClick">
+                <!-- buy页面 -->
                 <div class="buyC2C" v-if="route.name == 'buy'">
                     C2C
                 </div>
+                <!-- 购买数量 -->
+                <div class="purchaseAmount" v-if="route.name == 'purchaseAmount'">
+                    <img src="" class="avatar" alt="">
+                    <div>
+                        <p class="name">name name</p>
+                        <p class="num">$7.821</p>
+                    </div>
+                </div>
+
             </div>
             <div class="center">{{ header.center }}</div>
             <div class="right">
                 <!-- 金额 -->
                 <div class="money" v-if="header.isShowRightMoney">
                     <img :src="getImg('header', 'mIcon')" class="mIcon" alt="">
-                    <span class="moneyNum">{{ accInfo?.currRate || '0.0' }}</span>  
+                    <span class="moneyNum">{{ accInfo?.currRate || '0.0' }}</span>
                 </div>
                 <!-- buy页面 -->
                 <div class="hbuy" v-if="route.name == 'buy'">
@@ -117,6 +129,31 @@ const { accInfo } = toRefs(state)
             font-family: Helvetica;
             font-size: 18px;
             color: #fff;
+        }
+
+        .purchaseAmount {
+            @include flex(flex-start);
+
+            .avatar {
+                width: 28px;
+                height: 28px;
+                border-radius: 50%;
+                margin-right: 8px;
+                background-color: red;
+            }
+
+            div {
+                .name {
+                    font-size: 11px;
+                    color: #fff;
+
+                }
+
+                .num {
+                    font-size: 12px;
+                    color: #69cfb5;
+                }
+            }
         }
     }
 
