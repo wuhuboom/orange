@@ -12,7 +12,7 @@
                 <!-- 金额 -->
                 <div class="money" v-if="header.isShowRightMoney">
                     <img :src="getImg('header', 'mIcon')" class="mIcon" alt="">
-                    <span class="moneyNum">{{ accInfo?.currRate || '0.0' }}</span>
+                    <span class="moneyNum">{{ accInfo?.currRate || '0.0' }}</span>  
                 </div>
                 <!-- buy页面 -->
                 <div class="hbuy" v-if="route.name == 'buy'">

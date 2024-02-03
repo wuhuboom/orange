@@ -1,56 +1,72 @@
 @import './base.css';
 
-@font-face{
+@font-face {
   font-family: Roboto;
-  src:url('../assets/font/Roboto-Black.ttf') format('truetype'),
-  url('../assets/font/Roboto-BlackItalic.ttf') format('truetype'),
-  url('../assets/font/Roboto-Bold.ttf') format('truetype'),
-  url('../assets/font/Roboto-BoldItalic.ttf') format('truetype'),
-  url('../assets/font/Roboto-Italic') format('truetype'),
-  url('../assets/font/Roboto-Light.ttf') format('truetype'),
-  url('../assets/font/Roboto-LightItalic.ttf') format('truetype'),
-  url('../assets/font/Roboto-Roboto-Medium.ttf') format('truetype'),
-  url('../assets/font/Roboto-Roboto-MediumItalic.ttf') format('truetype'),
-  url('../assets/font/Roboto-Roboto-Regular.ttf') format('truetype'),
-  url('../assets/font/Roboto-Roboto-Thin.ttf') format('truetype'),
-  url('../assets/font/Roboto-Roboto-ThinItalic.ttf') format('truetype'),
+  src: url('../assets/font/Roboto-Black.ttf') format('truetype'),
+    url('../assets/font/Roboto-BlackItalic.ttf') format('truetype'),
+    url('../assets/font/Roboto-Bold.ttf') format('truetype'),
+    url('../assets/font/Roboto-BoldItalic.ttf') format('truetype'),
+    url('../assets/font/Roboto-Italic') format('truetype'),
+    url('../assets/font/Roboto-Light.ttf') format('truetype'),
+    url('../assets/font/Roboto-LightItalic.ttf') format('truetype'),
+    url('../assets/font/Roboto-Roboto-Medium.ttf') format('truetype'),
+    url('../assets/font/Roboto-Roboto-MediumItalic.ttf') format('truetype'),
+    url('../assets/font/Roboto-Roboto-Regular.ttf') format('truetype'),
+    url('../assets/font/Roboto-Roboto-Thin.ttf') format('truetype'),
+    url('../assets/font/Roboto-Roboto-ThinItalic.ttf') format('truetype'),
 }
-html ,body , #app{
+
+html,
+body,
+#app {
   font-family: Roboto;
   height: 100%;
-  
+
 }
-.maxWidth{
+
+.maxWidth {
   width: 100%;
   max-width: 400px;
   margin: 0 auto;
 }
-.serviceLink{
-  img{
+
+.serviceLink {
+  img {
     width: 32px;
     height: 32px;
   }
 }
+
 .lrPadding {
   padding: 0 12px;
 }
-.relative{
+
+.relative {
   position: relative;
 
 }
-.flex{
+
+.flex {
   display: flex;
 }
-.flex_fd{
+
+.flex_fd {
   flex-direction: column;
 }
-.van-popup{
+
+.wrap {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.van-popup {
   max-width: 335px !important;
   flex-wrap: wrap;
-  background-color: rgba(0, 0, 0, 0.7)  !important;
+  background-color: rgba(0, 0, 0, 0.7) !important;
 }
- .van-toast--text  .van-toast__text {
+
+.van-toast--text .van-toast__text {
   font-family: 'Roboto' !important;
 }
-
-
