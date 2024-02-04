@@ -10,7 +10,8 @@
                     <p class="desc apostrophe">{{ item.desc }}</p>
                 </div>
             </div>
-            <div class="orderSummary">
+            <!-- step === 0 -->
+            <div class="orderSummary" v-if="stepIndex === 0">
                 <P class="title">Order summary</P>
                 <div class="orderBox">
                     <p class="paymentTime">
@@ -32,7 +33,7 @@
                     </div>
                 </div>
             </div>
-            <div class="buyUsdt">
+            <div class="buyUsdt" v-if="stepIndex === 0 || stepIndex === 2">
                 <P class="title">
                     <img src="../assets/images/common/usdt.webp" alt="">Order summary
                 </P>
@@ -55,21 +56,99 @@
                     </p>
                 </div>
             </div>
-            <div class="Instructions">
+            <div class="Instructions" v-if="stepIndex === 0">
                 If you agree to use C2C transactions, it means you accept <span>C2C Transaction Legal Disclaimer</span>
             </div>
+            <!-- step === 1 -->
+            <div class="orderSummary" v-if="stepIndex === 1">
+                <P class="title">Please make payment to the seller</P>
+                <div class="orderBox setp1">
+                    <div class="order_left">
+                        <p>100.000.00 <img src="../assets/images/common/copy.webp" class="copyImg" alt=""></p>
+                        <p>payment time：<span class="tangerine">14:59</span></p>
+                    </div>
+                    <div class="order_right">
+                        <img src="../assets/images/common/contact.webp" class="contact" alt="">
+                        Contact
+                    </div>
+                </div>
+            </div>
+
+            <div class="buyUsdt" v-if="stepIndex === 1 || stepIndex === 2">
+                <div class="buyInfo">
+                    <p>
+                        <span>name of the bank</span>
+                        <span>100.00
+                            <img src="../assets/images/common/copy.webp" alt="">
+                        </span>
+                    </p>
+                    <p>
+                        <span>payment method</span>
+                        <span style="padding-right: 30px;">
+                            7.23
+                        </span>
+                    </p>
+                    <p>
+                        <span>name</span>
+                        <span>
+                            5656565565656
+                            <img src="../assets/images/common/copy.webp" alt="">
+                        </span>
+                    </p>
+                    <p>
+                        <span>Bank Account Number</span>
+                        <span>
+                            17:43:16 2023-12-13
+                            <img src="../assets/images/common/copy.webp" alt="">
+                        </span>
+                    </p>
+                    <p>
+                        <span>order number</span>
+                        <span style="padding-right: 30px;">
+                            17:43:16 2023-12-13
+                        </span>
+                    </p>
+                </div>
+            </div>
+            <div class="friendly" v-if="stepIndex === 1">
+                <p class="ftitle">Friendly reminder</p>
+                <p class="ftext">Please ensure that the name on the payment card matches the real-name information on the
+                    platform. If
+                    they don’t match, the seller has the right not to release the coins.</p>
+                <p class="ftext">Please confirm that you have transferred the payment to the other party. If you click
+                    ‘Paid’ without
+                    completing the transfer, it may result in your account being frozen!</p>
+            </div>
             <div class="btn">
-                <div class="cancel">Cancel</div>
-                <div class="confirm">Confirm</div>
+                <div class="cancel" v-if="stepIndex === 0 || stepIndex === 1">Cancel</div>
+                <div class="cancel" v-if="stepIndex === 2">Customer service</div>
+                <div class="confirm" @click="selectPayMet" v-if="stepIndex === 0">Confirm</div>
+                <div class="confirm" v-if="stepIndex === 1">Payment made</div>
             </div>
         </div>
+        <van-popup class="buyPop" position="bottom" v-model:show="showPayMethod">
+            <template #default>
+                <div class="content">
+                    <div class="line"></div>
+                    <p class="title">payment method</p>
+                    <van-divider style="margin: 0;" />
+                    <div class="pList">
+                        <p class="pActive" @click="clickPayMet">MasterCard</p>
+                        <p>American Express</p>
+                        <p>VISA</p>
+                        <p>RuPay</p>
+                        <p>Paytm</p>
+                    </div>
+                </div>
+            </template>
+        </van-popup>
     </div>
 </template>
 <script setup >
 import { reactive, toRefs } from 'vue'
 import { getImg } from '@/utils/utils'
 const state = reactive({
-    stepIndex: 1,
+    stepIndex: 2,
     stepList: [{
         icon: 'step1',
         iconActive: 'step1',
@@ -87,10 +166,16 @@ const state = reactive({
         desc: "waiting for the funds to arrive"
     },],
     countDownTime: 15 * 60 * 1000,
-    keywords: ''
+    showPayMethod: false
 })
-
-const { stepList, stepIndex, countDownTime } = toRefs(state)
+function selectPayMet() {
+    state.showPayMethod = true
+}
+function clickPayMet() {
+    console.log(12);
+    state.showPayMethod = false
+}
+const { stepList, stepIndex, countDownTime, showPayMethod } = toRefs(state)
 </script>
 <style scoped lang='scss'>
 .confirmBuy {
@@ -160,11 +245,59 @@ const { stepList, stepIndex, countDownTime } = toRefs(state)
                 color: #fff;
             }
 
+            .setp1 {
+                @include flex(space-between);
+
+                .order_left {
+                    p {
+                        font-size: 16px;
+                        font-weight: bold;
+                        letter-spacing: -0.48px;
+                        color: #eee;
+
+                        .copyImg {
+                            width: 20px;
+                            height: 20px;
+                        }
+
+                        .tangerine {
+                            font-size: 12px;
+                            font-weight: bold;
+                            letter-spacing: -0.36px;
+                            color: #ff713b;
+                        }
+                    }
+
+                    p:first-child {
+                        margin-bottom: 9px;
+                    }
+                }
+
+                .order_right {
+                    height: 27px;
+                    border-radius: 11px;
+                    background-color: #ff7e46;
+                    @include flex();
+                    font-size: 12px;
+                    color: #fff;
+                    padding: 0 25px;
+
+                    img {
+                        width: 16px;
+                        height: 16px;
+                        margin-right: 4px;
+                    }
+                }
+
+            }
+
             .orderBox {
                 padding: 12px 10px 11px 16px;
                 border-radius: 11px;
                 background-color: #202020;
                 margin-top: 12px;
+
+
 
                 p {
                     @include flex(space-between);
@@ -242,7 +375,6 @@ const { stepList, stepIndex, countDownTime } = toRefs(state)
                 padding: 13px 15px 13px 16px;
                 background-color: #202020;
                 border-radius: 11px;
-
                 margin-top: 7px;
 
                 p {
@@ -260,12 +392,39 @@ const { stepList, stepIndex, countDownTime } = toRefs(state)
                         font-family: Helvetica;
                         letter-spacing: -0.36px;
                         color: #eee;
+                        @include flex();
+
+                        img {
+                            width: 20px;
+                            height: 20px;
+                            margin-left: 10px;
+                        }
+
+
                     }
+
+
                 }
 
                 p:last-child {
                     margin-bottom: 0;
                 }
+            }
+        }
+
+        .friendly {
+            margin-top: 30px;
+
+            .ftitle {
+                font-size: 18px;
+                color: #fff;
+            }
+
+            .ftext {
+                font-size: 12px;
+                line-height: 1.33;
+                color: #a6a6a6;
+                margin-top: 10px;
             }
         }
 
@@ -286,6 +445,7 @@ const { stepList, stepIndex, countDownTime } = toRefs(state)
             display: flex;
             margin-top: 20px;
 
+
             div {
                 text-align: center;
                 border-radius: 14px;
@@ -303,5 +463,58 @@ const { stepList, stepIndex, countDownTime } = toRefs(state)
             }
         }
     }
+
+    :deep(.buyPop) {
+        width: 100%;
+
+        .content {
+            width: 100%;
+            background-color: #202020;
+            padding-top: 8px;
+
+            .line {
+                width: 35px;
+                height: 5px;
+                border-radius: 3px;
+                background-color: #3b3a42;
+                margin: 0px auto 18px;
+            }
+
+            .title {
+                font-size: 16px;
+                font-weight: bold;
+                color: #fff;
+                text-align: center;
+                padding-bottom: 20px;
+            }
+
+            .pList {
+                padding: 0 28px;
+
+                p {
+                    text-align: left;
+                    height: 56px;
+                    line-height: 56px;
+                    font-size: 17px;
+                    letter-spacing: -0.17px;
+                    color: #fff;
+                    border-bottom: 1px solid #313038;
+                    padding-left: 24px;
+                }
+
+                .pActive {
+                    border-radius: 8px;
+                    background-color: #ff7c43;
+                }
+            }
+        }
+    }
+}
+
+.w20 {
+    width: 20px;
+    height: 20px;
+    margin-left: 10px;
+
 }
 </style>

@@ -13,28 +13,56 @@
         </div>
         <div class="balance">
             <p>
-                balance: <span class="money">56556.3</span>
+                balance: <span class="money">{{ balance }}</span>
             </p>
-            <span class="all">
+            <span class="all cursor" @click="setAllAmount">
                 All
             </span>
         </div>
         <div class="sendBox">
             <div class="title">payment password</div>
-            <input type="text" v-model="payPwd" placeholder="please enter payment password">
+            <input type="password" v-model="payPwd" placeholder="please enter payment password">
         </div>
-        <div class="confirm">
+        <div class="confirm" @click="confirmTransfer">
             Confirm
         </div>
     </div>
 </template>
 <script setup>
 import { reactive, toRefs, } from 'vue'
+import http from '@/utils/axios'
+import { useStore } from '@/stores/index'
+import { storeToRefs } from 'pinia'
+import { showToast } from 'vant'
+const store = useStore()
+let { balance } = storeToRefs(store)
 const state = reactive({
     useName: '',
-    amount: '0.0',
+    amount: 0,
     payPwd: ''
 })
+function setAllAmount() {
+    state.amount = balance.value
+}
+async function confirmTransfer() {
+    let url = '/player/safe/transfer'
+    let data = {
+        aimName: state.useName,
+        money: state.amount,
+        payPwd: state.payPwd
+    }
+    try {
+        const res = await http.post(url, data)
+        if (res == null) {
+            state.useName = ''
+            state.amount = 0
+            state.payPwd = ''
+            showToast('success')
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
 const { useName, amount, payPwd } = toRefs(state)
 </script>
 <style scoped lang='scss'>

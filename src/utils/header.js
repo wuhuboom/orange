@@ -103,6 +103,17 @@ const headerConf = {
     isShowRightMoney: false,
     bgColor: "#0b0b0b",
   },
+  successfulArrival: {
+    leftIcon: "back",
+    leftIconWidth: "32px",
+    leftIconHeight: "32px",
+    center: "",
+    rightIcon: "",
+    rightIconWidth: "",
+    rightIconHeight: "",
+    isShowRightMoney: false,
+    bgColor: "#0b0b0b",
+  },
   buy: {
     leftIcon: "back",
     leftIconWidth: "32px",

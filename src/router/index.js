@@ -117,6 +117,14 @@ const router = createRouter({
           component: () => import("../views/confirmBuy.vue"),
         },
         {
+          path: "successfulArrival",
+          name: "successfulArrival",
+          meta: {
+            parentName: "safe",
+          },
+          component: () => import("../views/successfulArrival.vue"),
+        },
+        {
           path: "recharge",
           name: "recharge",
           meta: {

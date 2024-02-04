@@ -6,12 +6,12 @@
         </div>
         <div class="balance">
             <p>
-                Current exchang rate:: <span class="money">56556.3</span>
+                Current exchang rate: <span class="money">{{ rechargeInfo?.rate }}</span>
             </p>
         </div>
         <div class="balance">
             <p>
-                Actual receivedamount：: <span class="money">56556.3</span>
+                Actual receivedamount: <span class="money">{{ amount * rechargeInfo?.rate }}</span>
             </p>
         </div>
         <div class="sendBox">
@@ -33,18 +33,38 @@
 <script setup>
 import { reactive, toRefs, } from 'vue'
 import { useRouter } from "vue-router";
+import http from '@/utils/axios'
+
 const router = useRouter()
 const state = reactive({
     useName: '',
     amount: '0.0',
-    payPwd: ''
+    payPwd: '',
+    rechargeInfo: {}
 })
 function toPage() {
     router.push({
         path: '/swapInfo'
     })
 }
-const { useName, amount, payPwd } = toRefs(state)
+reachargePre()
+async function reachargePre() {
+    let url = '/player/safe/recharge_pre'
+    try {
+        const res = await http.get(url)
+        console.log(
+            '%c res: ',
+            'background-color: #3756d4; padding: 4px 8px; border-radius: 2px; font-size: 14px; color: #fff; font-weight: 700;',
+            res
+        )
+        if (res?.id) {
+            state.rechargeInfo = res
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
+const { useName, amount, payPwd, rechargeInfo } = toRefs(state)
 </script>
 <style scoped lang='scss'>
 .send {
@@ -151,7 +171,7 @@ const { useName, amount, payPwd } = toRefs(state)
         @include flex(center);
         font-size: 14px;
         color: #fff;
-        margin: 40vh auto 0;
+        margin: 30vh auto 0;
     }
 }
 </style>

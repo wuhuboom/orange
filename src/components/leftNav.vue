@@ -63,7 +63,7 @@ import { storeToRefs } from 'pinia'
 
 const store = useStore()
 const { showLeftNav } = storeToRefs(store)
-console.log(showLeftNav);
+// console.log(showLeftNav);
 const { t, locale } = useI18n()
 const router = useRouter()
 

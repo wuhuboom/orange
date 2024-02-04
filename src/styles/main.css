@@ -64,7 +64,7 @@ body,
   cursor: pointer;
 }
 .van-popup {
-  max-width: 335px !important;
+  /* max-width: 335px !important; */
   flex-wrap: wrap;
   background-color: rgba(0, 0, 0, 0.7) !important;
 }

@@ -41,7 +41,7 @@ const state = reactive({
         },
         {
             icon: 'funds',
-            name: 'safe',
+            name: 'Safe',
             link: '/safe'
         },
         // {
