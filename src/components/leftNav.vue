@@ -323,6 +323,7 @@ const { listArr, perInfo, showLangOpt, langTarget, langList } = toRefs(state)
                         width: 100%;
                         @include flex();
                         cursor: pointer;
+                        padding-left: 13px;
 
                         .li_left {
                             @include flex();
@@ -383,7 +384,7 @@ const { listArr, perInfo, showLangOpt, langTarget, langList } = toRefs(state)
             @include flex(flex-start);
             position: relative;
             box-sizing: border-box;
-            padding: 30px 16px 16px 12px;
+            padding: 20px 16px 16px 24px;
 
             .langSelect {
                 @include flex();
@@ -451,7 +452,7 @@ const { listArr, perInfo, showLangOpt, langTarget, langList } = toRefs(state)
         .logout {
             width: 117px;
             height: 43px;
-            margin: 77.4px 107px 0 15px;
+            margin: 20px 107px 0 24px;
             padding: 9px 16px 8px 9px;
             border-radius: 25px;
             background-color: #ff7c43;
