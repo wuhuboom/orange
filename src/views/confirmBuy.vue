@@ -21,7 +21,7 @@
                     <p class="merchant">
                         <span>merchant</span>
                         <span class="mbox">
-                            <img src="" alt="">
+                            <img src="../assets/images/common/avatar.webp" alt="">
                             <span class="name">name</span>
                             <van-icon name="arrow" color="#fff" size="20" />
                         </span>
@@ -33,7 +33,7 @@
                     </div>
                 </div>
             </div>
-            <div class="buyUsdt" v-if="stepIndex === 0 || stepIndex === 2">
+            <div class="buyUsdt step0" v-if="stepIndex === 0 || stepIndex === 2">
                 <P class="title">
                     <img src="../assets/images/common/usdt.webp" alt="">Order summary
                 </P>
@@ -59,13 +59,19 @@
             <div class="Instructions" v-if="stepIndex === 0">
                 If you agree to use C2C transactions, it means you accept <span>C2C Transaction Legal Disclaimer</span>
             </div>
-            <!-- step === 1 -->
-            <div class="orderSummary" v-if="stepIndex === 1">
+            <!-- step ===  -->
+            <div class="orderSummary step1" v-if="stepIndex === 1 || stepIndex === 2">
                 <P class="title">Please make payment to the seller</P>
                 <div class="orderBox setp1">
-                    <div class="order_left">
+                    <div class="order_left" v-if="stepIndex === 1">
                         <p>100.000.00 <img src="../assets/images/common/copy.webp" class="copyImg" alt=""></p>
                         <p>payment time：<span class="tangerine">14:59</span></p>
+                    </div>
+                    <div class="order_left" v-if="stepIndex === 2">
+                        <div class="flex" style="align-items: center;">
+                            <img src="../assets/images/common/avatar.webp" style="width: 45px; height: 45px;" alt="">
+                            <span style="color: #fff;margin-left: 11px;font-size: 12px;">Name</span>
+                        </div>
                     </div>
                     <div class="order_right">
                         <img src="../assets/images/common/contact.webp" class="contact" alt="">
@@ -73,8 +79,8 @@
                     </div>
                 </div>
             </div>
-
-            <div class="buyUsdt" v-if="stepIndex === 1 || stepIndex === 2">
+            <!-- step 2 -->
+            <div class="buyUsdt step2" v-if="stepIndex === 1 || stepIndex === 2">
                 <div class="buyInfo">
                     <p>
                         <span>name of the bank</span>
