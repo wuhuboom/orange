@@ -109,6 +109,14 @@ const router = createRouter({
           component: () => import("../views/purchaseAmount.vue"),
         },
         {
+          path: "confirmBuy",
+          name: "confirmBuy",
+          meta: {
+            parentName: "safe",
+          },
+          component: () => import("../views/confirmBuy.vue"),
+        },
+        {
           path: "recharge",
           name: "recharge",
           meta: {

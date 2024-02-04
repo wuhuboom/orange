@@ -54,7 +54,7 @@ body,
   flex-direction: column;
 }
 
-.wrap {
+.apostrophe {
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;

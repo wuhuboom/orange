@@ -395,4 +395,24 @@ const { activeNames, list, teamName, loading, finished, refreshing, dateIndex, t
         }
     }
 }
+
+.contest::-webkit-scrollbar {
+    width: 0px;
+    /* 设置滚动条宽度 */
+}
+
+.contest::-webkit-scrollbar-track {
+    background-color: rgb(0, 0, 0);
+    /* 设置滚动条轨道背景色 */
+}
+
+.contest::-webkit-scrollbar-thumb {
+    background-color: rgb(0, 0, 0);
+    /* 设置滚动条滑块颜色 */
+}
+
+.contest::-webkit-scrollbar-thumb:hover {
+    background-color: rgb(0, 0, 0);
+    /* 设置滚动条滑块在鼠标悬停时的颜色 */
+}
 </style>

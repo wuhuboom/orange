@@ -132,7 +132,7 @@ const { menu, safeData } = toRefs(state)
         }
 
         .card {
-            width: 350px;
+            width: 100%;
             height: 186px;
             position: absolute;
             top: 47px;

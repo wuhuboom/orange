@@ -14,17 +14,24 @@
             </div>
             <input type="number" v-model="money">
         </div>
-        <div class="buy" :class="{ isDisabled: money <= 0 }">
+        <div class="buy" :class="{ isDisabled: money <= 0 }" @click="toPage">
             BUY
         </div>
     </div>
 </template>
 <script setup >
 import { reactive, toRefs } from 'vue'
+import { useRouter } from 'vue-router'
+const router = useRouter()
 const state = reactive({
     money: 0,
     isError: false,
 })
+function toPage() {
+    router.push({
+        path: '/confirmBuy'
+    })
+}
 const { money, isError } = toRefs(state)
 </script>
 <style scoped lang='scss'>
