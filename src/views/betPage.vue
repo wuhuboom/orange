@@ -160,7 +160,7 @@ function quickBets(params) {
     } else {
         state.betNum = Number(params)
     }
-    state.potentialWinnings = (state.betPreData?.lossPerCent?.antiPerCent * state.betNum / 100).toFixed(4)
+    state.potentialWinnings = getPotentialWin()
 }
 async function betSubmit() {
     let url = '/player/bet'
@@ -191,12 +191,19 @@ async function betSubmit() {
         console.log(error);
     }
 }
+function getPotentialWin() {
+    // 赔率
+    let antiPerCent = state.betPreData?.lossPerCent?.antiPerCent
+    // 手续费
+    let serviceFee = state.betPreData?.betHandMoneyRate
+    return (antiPerCent * state.betNum / 100 - serviceFee).toFixed(4)
+}
 function subtraction() {
     state.betNum -= 1
     if (state.betNum <= 0) {
         state.betNum = 0
     }
-    state.potentialWinnings = (state.betPreData?.lossPerCent?.antiPerCent * state.betNum / 100).toFixed(4)
+    state.potentialWinnings = getPotentialWin()
 }
 function add() {
     if (state.betNum >= accountInfo?.value.currRate) {
@@ -204,10 +211,13 @@ function add() {
         return
     }
     state.betNum += 1
-    state.potentialWinnings = (state.betPreData?.lossPerCent?.antiPerCent * state.betNum / 100).toFixed(4)
+    state.potentialWinnings = getPotentialWin()
 }
 function closePanel() {
     state.isShowBetPanel = false
+    state.betNum = 0
+    state.potentialWinnings = 0
+    state.betIndex = -1
 }
 function handleBetClick(item, index) {
     state.targetBetOpt = item

@@ -20,11 +20,11 @@
         </div>
         <van-divider style="margin-top: 0;" />
         <div class="list lrPadding">
-            <div class="list-item">
+            <div class="list-item" v-for="(item, index) in saleList" :key="index">
                 <div class="top">
                     <div class="user">
                         <div class="avatar"></div>
-                        <div class="name wrap">name</div>
+                        <div class="name wrap">{{ item.merName }}</div>
                     </div>
                     <div class="price">
                         <p>price</p>
@@ -50,16 +50,46 @@
 <script setup>
 import { reactive, toRefs } from "vue";
 import { useRouter } from 'vue-router'
+import http from '@/utils/axios'
+
 const router = useRouter()
 const state = reactive({
-    showSelect: false
+    showSelect: false,
+    page: {
+        pageNo: 1,
+        pageSize: 10,
+        hasNext: false
+    },
+    saleList: []
 })
 function toPurchaseAmount() {
     router.push({
         path: '/purchaseAmount'
     })
 }
-const { showSelect } = toRefs(state)
+getMerchantList()
+function getMerchantList() {
+    let url = '/player/fb/sale_list'
+    let data = {
+        bmin: '',
+        type: '',
+        sort: '',
+        pageNo: state.page.pageNo,
+        pageSize: state.page.pageSize,
+    }
+    http.post(url, data).then(res => {
+        console.log(
+            '%c res: ',
+            'background-color: #3756d4; padding: 4px 8px; border-radius: 2px; font-size: 14px; color: #fff; font-weight: 700;',
+            res
+        )
+        state.saleList = res.results
+        state.page.pageNo = res.pageNo
+        state.page.pageSize = res.pageSize
+        state.page.hasNext = res.hasNext
+    })
+}
+const { showSelect, saleList } = toRefs(state)
 </script>
 <style scoped lang='scss'>
 .buy {
