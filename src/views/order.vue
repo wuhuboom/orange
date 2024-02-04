@@ -84,7 +84,7 @@
                 <div class="rowDiv">
                     <span>Type</span>
                     <!-- 下注类型1正波2反波, -->
-                    <span>{{ orderInfo?.betinfo?.betType === 1 ? '正波' : '反波' }}</span>
+                    <span>{{ orderInfo?.betinfo?.betType }}</span>
                 </div>
                 <div class="rowDiv">
                     <span>Score</span>
@@ -109,7 +109,7 @@
                 <div class="rowDiv">
                     <span>Status</span>
                     <!--  结算状态 0未结算 1已结算, -->
-                    <span>{{ orderInfo?.betinfo?.statusSettlement === 1 ? '已结算' : '未结算' }}</span>
+                    <span>{{ orderInfo?.betinfo?.statusSettlement }}</span>
                 </div>
                 <van-divider :style="{ backgroundColor: '#363636' }" />
             </template>
