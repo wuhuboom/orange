@@ -23,8 +23,10 @@
             <div class="list-item" v-for="(item, index) in saleList" :key="index">
                 <div class="top">
                     <div class="user">
-                        <div class="avatar"></div>
-                        <div class="name wrap">{{ item.merName }}</div>
+                        <div class="avatar">
+                            <img src="../assets/images/common/avatar.webp" alt="">
+                        </div>
+                        <div class="name apostrophe">{{ item.merName }}</div>
                     </div>
                     <div class="price">
                         <p>price</p>
@@ -183,7 +185,6 @@ const { showSelect, saleList } = toRefs(state)
                     .avatar {
                         width: 28px;
                         height: 28px;
-                        background-color: red;
                         border-radius: 50%;
                     }
 

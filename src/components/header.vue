@@ -11,7 +11,7 @@
                 </div>
                 <!-- 购买数量 -->
                 <div class="purchaseAmount" v-if="route.name == 'purchaseAmount'">
-                    <img src="" class="avatar" alt="">
+                    <img src="../assets/images/common/avatar.webp" class="avatar" alt="">
                     <div>
                         <p class="name">name name</p>
                         <p class="num">$7.821</p>
@@ -122,7 +122,6 @@ onMounted(() => {
                 height: 28px;
                 border-radius: 50%;
                 margin-right: 8px;
-                background-color: red;
             }
 
             div {
