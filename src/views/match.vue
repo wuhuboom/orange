@@ -21,10 +21,10 @@
 
         <div class="list">
             <div class="list-item">
-                <van-pull-refresh v-model="refreshing" @refresh="onRefresh" loading-text="loading"
+                <van-pull-refresh v-model="refreshing" :immediate-disable="true" @refresh="onRefresh" loading-text="loading"
                     loosing-text="Release to refresh">
                     <van-list v-model:loading="loading" :finished="finished" loading-text="loading" finished-text="no more"
-                        @load="onLoad" :immediate-check="false">
+                        @load="onLoad" :immediate-check="true">
                         <van-cell v-for="(item, index) in list" :key="index">
                             <van-collapse v-model="activeNames" accordion @change="handleCollapse">
                                 <van-collapse-item :name="index">
@@ -131,7 +131,7 @@ async function getGameList(val) {
         pageSize: state.page.pageSize
     }
     state.loading = true
-    state.refreshing = true
+    // state.refreshing = true
     try {
         const res = await http.post(url, data)
         if (res && res.results.length > 0) {
