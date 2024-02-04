@@ -14,6 +14,17 @@
                 Actual receivedamount：: <span class="money">56556.3</span>
             </p>
         </div>
+        <div class="sendBox">
+            <div class="title" style="margin-bottom: 15px;">Payment Method</div>
+            <div class="bankList">
+                <div class="left">
+                    <img src="../assets/images/common/bankIcon.jpg" alt="">
+                    <div class="cardName">Zalo Pay</div>
+                </div>
+                <van-icon name="arrow" color="#fff" />
+            </div>
+        </div>
+
         <div class="confirm" @click="toPage">
             Confirm
         </div>
@@ -71,6 +82,33 @@ const { useName, amount, payPwd } = toRefs(state)
             margin-top: 8px;
             box-sizing: border-box;
             padding-left: 15px;
+        }
+
+        .bankList {
+            width: 100%;
+            @include flex(space-between);
+            border-radius: 12px;
+            background-color: #1c1c1c;
+            padding: 12px 7px 12px 12px;
+            margin-bottom: 12px;
+            box-sizing: border-box;
+
+            .left {
+                display: flex;
+                align-items: center;
+
+                img {
+                    width: 63px;
+                    height: 35px;
+                    border-radius: 8px;
+                }
+
+                .cardName {
+                    font-size: 12px;
+                    color: #fff;
+                    margin-left: 32px;
+                }
+            }
         }
     }
 

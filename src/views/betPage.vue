@@ -388,7 +388,7 @@ $bgHeight: 280px;
         color: #fff;
 
         .betItem {
-            width: 108px;
+            width: calc((100% - 26px) / 3);
             margin-right: 13px;
 
             .score {
@@ -399,7 +399,8 @@ $bgHeight: 280px;
             }
 
             .odds {
-                padding: 10px 40px 11px 41px;
+                padding: 10px 0px 11px 0px;
+                text-align: center;
                 border-radius: 7.5px;
                 background-color: #3d3d3d;
                 margin-bottom: 14px;
