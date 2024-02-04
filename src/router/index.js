@@ -125,6 +125,14 @@ const router = createRouter({
           component: () => import("../views/successfulArrival.vue"),
         },
         {
+          path: "cancelOrder",
+          name: "cancelOrder",
+          meta: {
+            parentName: "safe",
+          },
+          component: () => import("../views/cancelOrder.vue"),
+        },
+        {
           path: "recharge",
           name: "recharge",
           meta: {

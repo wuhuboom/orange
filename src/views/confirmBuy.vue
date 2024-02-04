@@ -126,7 +126,7 @@
                     completing the transfer, it may result in your account being frozen!</p>
             </div>
             <div class="btn">
-                <div class="cancel" v-if="stepIndex === 0 || stepIndex === 1">Cancel</div>
+                <div class="cancel" v-if="stepIndex === 0 || stepIndex === 1" @click="toCancelOrder">Cancel</div>
                 <div class="cancel" v-if="stepIndex === 2">Customer service</div>
                 <div class="confirm" @click="selectPayMet" v-if="stepIndex === 0">Confirm</div>
                 <div class="confirm" v-if="stepIndex === 1">Payment made</div>
@@ -153,8 +153,10 @@
 <script setup >
 import { reactive, toRefs } from 'vue'
 import { getImg } from '@/utils/utils'
+import { useRouter } from 'vue-router'
+const router = useRouter()
 const state = reactive({
-    stepIndex: 2,
+    stepIndex: 0,
     stepList: [{
         icon: 'step1',
         iconActive: 'step1',
@@ -180,6 +182,11 @@ function selectPayMet() {
 function clickPayMet() {
     console.log(12);
     state.showPayMethod = false
+}
+function toCancelOrder() {
+    router.push({
+        path: '/cancelOrder'
+    })
 }
 const { stepList, stepIndex, countDownTime, showPayMethod } = toRefs(state)
 </script>
