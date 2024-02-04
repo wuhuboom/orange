@@ -13,7 +13,7 @@
         </div>
         <div class="balance">
             <p>
-                balance: <span class="money">{{ balance }}</span>
+                balance: <span class="money">{{ accountInfo?.currRate || 0 }}</span>
             </p>
             <span class="all cursor" @click="setAllAmount">
                 All
@@ -23,26 +23,27 @@
             <div class="title">payment password</div>
             <input type="password" v-model="payPwd" placeholder="please enter payment password">
         </div>
-        <div class="confirm" @click="confirmTransfer">
+        <div class="confirm cursor" @click="confirmTransfer">
             Confirm
         </div>
     </div>
 </template>
 <script setup>
-import { reactive, toRefs, } from 'vue'
+import { reactive, toRefs, computed } from 'vue'
 import http from '@/utils/axios'
 import { showToast } from 'vant'
 import { useStore } from '@/stores/index'
-import { storeToRefs } from 'pinia'
 const store = useStore()
-let { balance } = storeToRefs(store)
+
+const accountInfo = computed(() => store.accountInfo)
+
 const state = reactive({
     useName: '',
     amount: 0,
     payPwd: ''
 })
 function setAllAmount() {
-    state.amount = balance.value
+    state.amount = accountInfo?.value.currRate
 }
 async function confirmTransfer() {
     let url = '/player/safe/transfer'

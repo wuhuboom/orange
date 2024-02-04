@@ -1,7 +1,7 @@
 <template>
     <div class="send maxWidth lrPadding">
-        <div class="sendBox">
-            <input type="text" v-model="useName" placeholder="safe box">
+        <div class="sendBox safeBox">
+            {{ accountInfo.currRate }}
         </div>
         <div class="arrow-down">
             <img src="../assets/images/common/arrow-down.webp" alt="">
@@ -22,47 +22,45 @@
             <div class="title">payment password</div>
             <input type="text" v-model="payPwd" placeholder="please enter payment password">
         </div>
-        <div class="confirm" @click="confirmTransfer">
+        <div class="confirm cursor" @click="confirmTransfer">
             Confirm
         </div>
     </div>
 </template>
 <script setup>
-import { reactive, toRefs, } from 'vue'
+import { reactive, toRefs, computed } from 'vue'
 import http from '@/utils/axios'
 import { showToast } from 'vant'
 import { useStore } from '@/stores/index'
-import { storeToRefs } from 'pinia'
 const store = useStore()
-let { balance } = storeToRefs(store)
+const accountInfo = computed(() => store.accountInfo)
 const state = reactive({
-    useName: '',
     amount: 0,
     payPwd: ''
 })
 function setAllAmount() {
-    state.amount = balance.value
+    state.amount = accountInfo?.value.currRate
 }
 async function confirmTransfer() {
     let url = '/player/safe/toBalance'
     let data = {
-        aimName: state.useName,
         money: state.amount,
         payPwd: state.payPwd
     }
-    try {
-        const res = await http.post(url, data)
-        if (res == null) {
-            state.useName = ''
-            state.amount = 0
-            state.payPwd = ''
-            showToast('success')
-        }
-    } catch (error) {
-        console.log(error);
-    }
+    http.post(url, data).then(res => {
+        console.log(
+            '%c res: ',
+            'background-color: #3756d4; padding: 4px 8px; border-radius: 2px; font-size: 14px; color: #fff; font-weight: 700;',
+            res
+        )
+
+        state.amount = 0
+        state.payPwd = ''
+        showToast('success')
+    })
+
 }
-const { useName, amount, payPwd } = toRefs(state)
+const { amount, payPwd } = toRefs(state)
 </script>
 <style scoped lang='scss'>
 .send {
@@ -101,6 +99,20 @@ const { useName, amount, payPwd } = toRefs(state)
             box-sizing: border-box;
             padding-left: 15px;
         }
+    }
+
+    .safeBox {
+        width: 350px;
+        height: 49px;
+        border-radius: 10px;
+        border: solid 1px #ff7c43;
+        background-color: #333;
+        color: #fff;
+        margin-top: 8px;
+        box-sizing: border-box;
+        padding-left: 15px;
+        margin: 0 auto;
+        align-items: flex-start;
     }
 
     .arrow-down {

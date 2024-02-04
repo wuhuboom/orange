@@ -24,7 +24,7 @@
                 <!-- 金额 -->
                 <div class="money" v-if="header.isShowRightMoney">
                     <img :src="getImg('header', 'mIcon')" class="mIcon" alt="">
-                    <span class="moneyNum">{{ accInfo?.currRate || '0.0' }}</span>
+                    <span class="moneyNum">{{ accountInfo?.currRate || '0.0' }}</span>
                 </div>
                 <!-- buy页面 -->
                 <div class="hbuy" v-if="route.name == 'buy'">
@@ -43,27 +43,24 @@
     </div>
 </template>
 <script setup >
-import { toRefs, defineProps, reactive, onMounted } from 'vue'
+import { toRefs, defineProps, reactive, onMounted, computed } from 'vue'
 import { getImg } from '@/utils/utils'
 import { useRouter, useRoute } from 'vue-router'
-import http from '@/utils/axios'
 import { useStore } from '@/stores/index'
 
 const store = useStore()
+const accountInfo = computed(() => store.accountInfo)
 const router = useRouter()
 const route = useRoute()
 const props = defineProps(['header'])
 const { header } = toRefs(props)
 
-const state = reactive({
-    accInfo: {}
-})
+
 function handleHeaderClick() {
     if (header.value.leftIcon == 'back') {
         router.go(-1)
     }
     let showLeftArr = ['home', 'safe']
-    console.log(route.name);
     if (showLeftArr.includes(route.name)) {
         store.showLeftNav = true
     }
@@ -75,23 +72,9 @@ function handleRightIcon() {
         })
     }
 }
-// getBalance()
-async function getBalance() {
-    let url = '/player/player_info'
-    try {
-        const res = await http.get(url)
-        if (res?.currRate) {
-            state.accInfo = res
-            store.balance = res.currRate
-        }
-    } catch (error) {
-        console.log(error);
-    }
-}
 onMounted(() => {
     store.getUserInfo()
 })
-const { accInfo } = toRefs(state)
 </script>
 <style scoped lang='scss'>
 .header {

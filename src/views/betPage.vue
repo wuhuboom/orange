@@ -80,7 +80,7 @@
                             @click="subtraction">
                         <img src="../assets/images/betpage/add.webp" class="add" alt="" @click="add">
                     </div>
-                    <div class="betBtn" @click="betSubmit">Confirm</div>
+                    <div class="betBtn cursor" @click="betSubmit">Confirm</div>
                 </div>
                 <p class="serviceFee">Service Fee：<span class="num">{{ betPreData?.betHandMoneyRate }}</span></p>
                 <p class="quickBet">Quick bets</p>
@@ -93,16 +93,15 @@
     </div>
 </template>
 <script setup>
-import { reactive, toRefs, watchEffect } from 'vue'
+import { reactive, toRefs, computed } from 'vue'
 import { getImg, getSplitName, getAmOrPm, formatDate } from '@/utils/utils'
 import { showToast } from 'vant'
 import { useRoute } from 'vue-router'
 import http from '@/utils/axios'
 import { useStore } from '@/stores/index'
-import { storeToRefs } from 'pinia'
 const store = useStore()
 
-let { accountInfo } = storeToRefs(store)
+const accountInfo = computed(() => store.accountInfo)
 const successIcon = getImg('betpage', 'successIcon')
 
 const route = useRoute()
@@ -192,9 +191,6 @@ async function betSubmit() {
         console.log(error);
     }
 }
-watchEffect(() => {
-    console.log(accountInfo?.value.currRate);
-})
 function subtraction() {
     state.betNum -= 1
     if (state.betNum <= 0) {
