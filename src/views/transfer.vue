@@ -12,7 +12,7 @@
         </div>
         <div class="balance">
             <p>
-                balance: <span class="money">56556.3</span>
+                balance: <span class="money">{{ accountInfo.currRate }}</span>
             </p>
             <span class="all cursor" @click="setAllAmount">
                 All
@@ -20,7 +20,7 @@
         </div>
         <div class="sendBox">
             <div class="title">payment password</div>
-            <input type="text" v-model="payPwd" placeholder="please enter payment password">
+            <input type="password" v-model="payPwd" placeholder="please enter payment password">
         </div>
         <div class="confirm cursor" @click="confirmTransfer">
             Confirm
@@ -56,6 +56,7 @@ async function confirmTransfer() {
 
         state.amount = 0
         state.payPwd = ''
+        // store.getUserInfo()
         showToast('success')
     })
 
