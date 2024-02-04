@@ -31,6 +31,9 @@
 <script setup >
 import { reactive, toRefs } from "vue";
 import { getImg } from '@/utils/utils'
+import http from '@/utils/axios'
+import { useRouter } from 'vue-router'
+const router = useRouter()
 const state = reactive({
     reasonsIndex: -1,
     listData: [
@@ -70,6 +73,9 @@ const state = reactive({
 })
 function selectReasons(index) {
     state.reasonsIndex = index
+    router.push({
+        path: '/orderStatus'
+    })
 }
 const { listData, reasonsIndex } = toRefs(state)
 </script>

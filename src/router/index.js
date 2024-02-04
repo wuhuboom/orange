@@ -133,6 +133,14 @@ const router = createRouter({
           component: () => import("../views/cancelOrder.vue"),
         },
         {
+          path: "orderStatus",
+          name: "orderStatus",
+          meta: {
+            parentName: "safe",
+          },
+          component: () => import("../views/orderStatus.vue"),
+        },
+        {
           path: "recharge",
           name: "recharge",
           meta: {
