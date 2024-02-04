@@ -39,7 +39,7 @@
                 <div class="flex left_box">
                     <div class="money">
                         <img :src="getImg('header', 'mIcon')" class="mIcon" alt="">
-                        <span class="moneyNum">{{ balance }}</span>
+                        <span class="moneyNum">{{ accountInfo?.currRate }}</span>
                     </div>
                     <div class="panel_tit">Create Order</div>
                 </div>
@@ -93,7 +93,7 @@
     </div>
 </template>
 <script setup>
-import { reactive, toRefs } from 'vue'
+import { reactive, toRefs, watchEffect } from 'vue'
 import { getImg, getSplitName, getAmOrPm, formatDate } from '@/utils/utils'
 import { showToast } from 'vant'
 import { useRoute } from 'vue-router'
@@ -102,8 +102,7 @@ import { useStore } from '@/stores/index'
 import { storeToRefs } from 'pinia'
 const store = useStore()
 
-let { balance } = storeToRefs(store)
-// console.log('balance', balance);
+let { accountInfo } = storeToRefs(store)
 const successIcon = getImg('betpage', 'successIcon')
 
 const route = useRoute()
@@ -130,11 +129,6 @@ async function getGameInfo() {
         const res = await http.get(url)
         if (res?.game && res?.lossPerCent) {
             state.gameInfo = res
-            // console.log(
-            //     '%c state.gameInfo: ',
-            //     'background-color: #3756d4; padding: 4px 8px; border-radius: 2px; font-size: 14px; color: #fff; font-weight: 700;',
-            //     state.gameInfo
-            // )
             // gameType 比赛类型 1上半场 2全场,
             // 上半场得分
             state.firstHalfScore = res?.lossPerCent.filter(item => item.gameType == 1)
@@ -163,17 +157,11 @@ async function betPrepare() {
 }
 function quickBets(params) {
     if (params === 'all') {
-        state.betNum = Number(balance.value)
+        state.betNum = Number(accountInfo?.value.currRate)
     } else {
         state.betNum = Number(params)
     }
     state.potentialWinnings = (state.betPreData?.lossPerCent?.antiPerCent * state.betNum / 100).toFixed(4)
-    // console.log(
-    //     '%c state.potentialWinnings: ',
-    //     'background-color: #3756d4; padding: 4px 8px; border-radius: 2px; font-size: 14px; color: #fff; font-weight: 700;',
-    //     state.potentialWinnings
-    // )
-
 }
 async function betSubmit() {
     let url = '/player/bet'
@@ -185,11 +173,6 @@ async function betSubmit() {
     }
     try {
         const res = await http.post(url, data)
-        console.log(
-            '%c res: ',
-            'background-color: #3756d4; padding: 4px 8px; border-radius: 2px; font-size: 14px; color: #fff; font-weight: 700;',
-            res
-        )
         if (res?.id) {
             showToast({
                 icon: successIcon,
@@ -197,6 +180,8 @@ async function betSubmit() {
                 message: 'successfully',
                 position: 'bottom',
             })
+
+            store.getUserInfo()
             state.betIndex = -1
             state.isShowBetPanel = false
             state.betNum = 0
@@ -207,6 +192,9 @@ async function betSubmit() {
         console.log(error);
     }
 }
+watchEffect(() => {
+    console.log(accountInfo?.value.currRate);
+})
 function subtraction() {
     state.betNum -= 1
     if (state.betNum <= 0) {
@@ -215,8 +203,8 @@ function subtraction() {
     state.potentialWinnings = (state.betPreData?.lossPerCent?.antiPerCent * state.betNum / 100).toFixed(4)
 }
 function add() {
-    if (state.betNum >= balance.value) {
-        state.betNum = Number(balance.value)
+    if (state.betNum >= accountInfo?.value.currRate) {
+        state.betNum = Number(accountInfo?.value.currRate)
         return
     }
     state.betNum += 1

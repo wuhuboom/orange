@@ -43,7 +43,7 @@
     </div>
 </template>
 <script setup >
-import { toRefs, defineProps, reactive } from 'vue'
+import { toRefs, defineProps, reactive, onMounted } from 'vue'
 import { getImg } from '@/utils/utils'
 import { useRouter, useRoute } from 'vue-router'
 import http from '@/utils/axios'
@@ -59,9 +59,6 @@ const state = reactive({
     accInfo: {}
 })
 function handleHeaderClick() {
-    // router.push({
-    //     path: header.value.link
-    // })
     if (header.value.leftIcon == 'back') {
         router.go(-1)
     }
@@ -78,7 +75,7 @@ function handleRightIcon() {
         })
     }
 }
-getBalance()
+// getBalance()
 async function getBalance() {
     let url = '/player/player_info'
     try {
@@ -91,6 +88,9 @@ async function getBalance() {
         console.log(error);
     }
 }
+onMounted(() => {
+    store.getUserInfo()
+})
 const { accInfo } = toRefs(state)
 </script>
 <style scoped lang='scss'>

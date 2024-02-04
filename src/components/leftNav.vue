@@ -53,7 +53,7 @@
     </div>
 </template>
 <script setup >
-import { reactive, defineProps, ref, toRefs } from 'vue'
+import { reactive, onMounted, ref, toRefs, watchEffect } from 'vue'
 import http from '@/utils/axios'
 import { getImg } from '@/utils/utils'
 import { useRouter } from 'vue-router'
@@ -62,7 +62,7 @@ import { useStore } from '@/stores/index'
 import { storeToRefs } from 'pinia'
 
 const store = useStore()
-const { showLeftNav } = storeToRefs(store)
+const { showLeftNav, accountInfo } = storeToRefs(store)
 // console.log(showLeftNav);
 const { t, locale } = useI18n()
 const router = useRouter()
@@ -213,19 +213,11 @@ function selectList(k, index) {
     })
     k.highlight = true
 }
-getUserInfo()
-async function getUserInfo() {
-    let url = '/player/player_info'
-    try {
-        const res = await http.get(url)
-        if (res?.id) {
-            state.perInfo = res
-            state.listArr[0].name = res.currRate
-        }
-    } catch (error) {
-        console.log(error);
-    }
-}
+watchEffect(() => {
+    // console.log('leftName', accountInfo);
+    state.perInfo = accountInfo.value
+    state.listArr[0].name = accountInfo.value.currRate
+})
 function showSelect() {
     state.showLangOpt = !state.showLangOpt
 }

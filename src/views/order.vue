@@ -233,7 +233,7 @@ async function cancelOrder() {
     let url = `/player/unbet?betId=${state.targetItem.id}`
     try {
         const res = await http.get(url)
-        if (res == null && res != undefined) {
+        if (res == null) {
             orderList('refresh')
             showToast('cancel success')
             state.cancelShow = false
@@ -241,6 +241,7 @@ async function cancelOrder() {
     } catch (error) {
         console.log(error);
     }
+    state.cancelShow = false
     // state.targetItem
 }
 function cancelCurrOrder(item) {

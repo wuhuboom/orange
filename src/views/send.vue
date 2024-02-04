@@ -31,9 +31,9 @@
 <script setup>
 import { reactive, toRefs, } from 'vue'
 import http from '@/utils/axios'
+import { showToast } from 'vant'
 import { useStore } from '@/stores/index'
 import { storeToRefs } from 'pinia'
-import { showToast } from 'vant'
 const store = useStore()
 let { balance } = storeToRefs(store)
 const state = reactive({
