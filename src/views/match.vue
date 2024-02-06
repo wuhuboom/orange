@@ -24,7 +24,7 @@
                 <van-pull-refresh v-model="refreshing" :immediate-disable="true" @refresh="onRefresh"
                     :loading-text="$t('load.loading.text')" :loosing-text="$t('match.loosing.text')">
                     <van-list v-model:loading="loading" :finished="finished" :loading-text="$t('load.loading.text')"
-                        finished-text="no more" @load="onLoad" :immediate-check="true">
+                        :finished-text="$t('load.no.more.text')" @load="onLoad" :immediate-check="true">
                         <van-cell v-for="(item, index) in list" :key="index">
                             <van-collapse v-model="activeNames" accordion @change="handleCollapse">
                                 <van-collapse-item :name="index">

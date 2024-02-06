@@ -6,10 +6,10 @@
                 {{ item.name }}
             </div>
         </div>
-        <van-pull-refresh v-model="listStatus.refreshing" @refresh="onRefresh" loosing-text="Release to refresh">
-            <van-list v-model:loading="listStatus.loading" loading-text="loading" :finished="listStatus.finished"
-                :finished-text="listStatus.finishedText" @load="onLoad">
-                <div class="lItem" v-for="(item, index) in    dataList   " :key="index">
+        <van-pull-refresh v-model="listStatus.refreshing" @refresh="onRefresh" :loosing-text="$t('match.loosing.text')">
+            <van-list v-model:loading="listStatus.loading" :loading-text="$t('load.loading.text')"
+                :finished="$t('load.no.more.text')" :finished-text="$t('load.no.more.text')" @load="onLoad">
+                <div class="lItem" v-for="(item, index) in dataList" :key="index">
                     <div class="lTop">
                         <div class="topBox">
                             <div class="name">{{ item.allianceName }}</div>
@@ -17,18 +17,19 @@
                         </div>
                         <div class="statusBox">
                             <div class="statusLeft">
-                                <p class="trading">Trading：{{ getAmount(item.betMoney) }}</p>
-                                <p class="profit">Profit：<span class="num">{{ getAmount(item.winningAmount) }}</span></p>
+                                <p class="trading">{{ $t('order.trading.text') }}: {{ getAmount(item.betMoney) }}</p>
+                                <p class="profit">{{ $t('order.profit.text') }}: <span class="num">{{
+                                    getAmount(item.winningAmount) }}</span></p>
                             </div>
                             <div class="statusRight">
                                 <!-- statusOpen 0未开奖 1已中奖 2未中奖, -->
                                 <!-- "status": 状态0.未确认 1已确认 2已取消 3 已撤消 4已回滚, -->
                                 <div class="cancel" v-if="item.statusOpen === 0">
                                     <span class="canceled" v-if="item.status === 3 || item.status === 2">
-                                        Canceled
+                                        {{ $t('wallet.index.order.state.cancel.text1') }}
                                     </span>
                                     <span class="cancelspan" v-else @click="cancelCurrOrder(item)">
-                                        Cancel
+                                        {{ $t('cancel.btn.text') }}
                                     </span>
                                 </div>
                                 <div :style="{ color: item.statusOpen === 1 ? '#ff7c43' : '#10ab61' }"
@@ -40,11 +41,11 @@
                     </div>
                     <div class="lBottom">
                         <div class="orderNo">
-                            NO.{{ item.orderNo }}
+                            {{ $t('order.no.text') }} {{ item.orderNo }}
                         </div>
                         <div class="btn" @click="getOrderDetails(item)">
-                            {{ item.statusSettlement === 0 ? 'in Progress' : 'details' }} <img
-                                v-if="item.statusSettlement === 1" src="../assets/images/common/arrow_right.webp" alt=""
+                            {{ item.statusSettlement === 0 ? $t('order.inProgress.text') : $t('table.head.detail.text') }}
+                            <img v-if="item.statusSettlement === 1" src="../assets/images/common/arrow_right.webp" alt=""
                                 style="width: 14px;height: 14px;">
                         </div>
                     </div>
@@ -52,14 +53,14 @@
             </van-list>
         </van-pull-refresh>
         <!-- 是否取消订单 -->
-        <van-dialog v-model:show="cancelShow" title="You sure you want to cancel the game?" className="cancelModal">
+        <van-dialog v-model:show="cancelShow" :title="$t('order.dialog.title.text')" className="cancelModal">
             <template #footer>
                 <div class="fBtn">
                     <div class="cancelBtn" @click="cancelShow = false">
-                        Cancel
+                        {{ $t('cancel.btn.text') }}
                     </div>
                     <div class="yesBtn" @click="cancelOrder">
-                        Yes
+                        {{ $t('index.editor.psd.modal.confirm.btn') }}
                     </div>
                 </div>
             </template>
@@ -82,32 +83,32 @@
                 </div>
                 <van-divider :style="{ backgroundColor: '#363636' }" />
                 <div class="rowDiv">
-                    <span>Type</span>
+                    <span>{{ $t('rebate.center.list.nav.type.text') }}</span>
                     <!-- 下注类型1正波2反波, -->
                     <span>{{ orderInfo?.betinfo?.betType }}</span>
                 </div>
                 <div class="rowDiv">
-                    <span>Score</span>
+                    <span>{{ $t('bet.detail.score.text') }}</span>
                     <span>{{ orderInfo?.betinfo?.betScore }}</span>
                 </div>
                 <div class="rowDiv">
-                    <span>odds</span>
+                    <span>{{ $t('match.cmopetition.list.odd.text') }}</span>
                     <span>{{ orderInfo?.betinfo?.betOdds }}</span>
                 </div>
                 <div class="rowDiv">
-                    <span>money</span>
+                    <span>{{ $t('order.dialog.money.text') }}</span>
                     <span>{{ getAmount(orderInfo?.betinfo?.betMoney) }}</span>
                 </div>
                 <div class="rowDiv">
-                    <span>WinAmount</span>
+                    <span>{{ $t('order.dialog.winAmount.text') }}</span>
                     <span>{{ getAmount(orderInfo?.betinfo?.winningAmount) }}</span>
                 </div>
                 <div class="rowDiv">
-                    <span>Start</span>
+                    <span>{{ $t('order.dialog.start.text') }}</span>
                     <span>{{ formatDate(orderInfo?.betinfo?.createdAt) }}</span>
                 </div>
                 <div class="rowDiv">
-                    <span>Status</span>
+                    <span>{{ $t('order.dialog.status.text') }}</span>
                     <!--  结算状态 0未结算 1已结算, -->
                     <span>{{ orderInfo?.betinfo?.statusSettlement }}</span>
                 </div>
@@ -116,7 +117,7 @@
             <template #footer>
                 <div class="fBtn">
                     <div class="closeDialog" @click="orderShow = false">
-                        Close
+                        {{ $t('order.dialog.close.btn.text') }}
                     </div>
                 </div>
             </template>
@@ -129,23 +130,26 @@ import { reactive, toRefs } from 'vue'
 import http from '@/utils/axios'
 import { formatDate, getAmount } from '@/utils/utils'
 import { showToast } from 'vant'
+import { useI18n } from 'vue-i18n'
+
+const { t, locale } = useI18n()
 const state = reactive({
     tabIndex: 0,
     tabsArr: [
         {
-            name: 'Today',
+            name: t('match.today.text'),
             time: 1
         },
         {
-            name: 'Yesterday',
+            name: t('match.records.yes.text'),
             time: 2
         },
         {
-            name: 'week',
+            name: t('match.week.text'),
             time: 3
         },
         {
-            name: 'All',
+            name: t('match.all.text'),
             time: ''
         },
     ],
@@ -158,7 +162,6 @@ const state = reactive({
         loading: false,
         finished: false,
         refreshing: false,
-        finishedText: 'no more'
     },
     dataList: [],
     timer: null,
@@ -202,11 +205,6 @@ async function getOrderDetails(item) {
     let url = `/player/betInfo?betId=${item.id}`
     try {
         const res = await http.get(url)
-        console.log(
-            '%c res: ',
-            'background-color: #3756d4; padding: 4px 8px; border-radius: 2px; font-size: 14px; color: #fff; font-weight: 700;',
-            res
-        )
         if (typeof (res) === 'object') {
             state.orderInfo = res
             state.orderShow = true
@@ -235,7 +233,7 @@ async function cancelOrder() {
         const res = await http.get(url)
         if (res == null) {
             orderList('refresh')
-            showToast('cancel success')
+            showToast(t('wallet.index.order.state.cancel.text1'))
             state.cancelShow = false
         }
     } catch (error) {
