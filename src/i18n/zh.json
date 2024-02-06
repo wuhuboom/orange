@@ -250,6 +250,8 @@
   "match.all.text": "全部",
   "match.today.text": "今天",
   "match.tomorrow.text": "明天",
+  "match.search.text": "输入以搜索",
+  "match.loosing.text": "释放即可刷新...",
   "wallet.index.explanation.text": "说明",
   "wallet.index.balance.text": "余额",
   "wallet.index.transfer.text": "转账",

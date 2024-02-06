@@ -494,6 +494,8 @@
   "match.all.text": "All",
   "match.today.text": "Today",
   "match.tomorrow.text": "Tomorrow",
+  "match.search.text": "Type to search",
+  "match.loosing.text": "Release to refresh",
   "wallet.index.explanation.text": "Explanation",
   "wallet.index.balance.text": "Balance",
   "wallet.index.transfer.text": "Transfer",

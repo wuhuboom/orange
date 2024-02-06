@@ -1,6 +1,6 @@
 <template>
     <div class="contest maxWidth lrPadding">
-        <van-search v-model="teamName" placeholder="Type to search" clearable background="#252528"
+        <van-search v-model="teamName" :placeholder="$t('match.search.text')" clearable background="#252528"
             @update:model-value="getSearchGameRes">
             <template #left-icon>
                 <img src="../assets/images/match/searchIcon.webp" class="searchIcon" alt="">
@@ -8,23 +8,23 @@
         </van-search>
 
         <div class="dateOption">
-            <p @click="selectDate(0)" :class="{ dateActive: dateIndex === 0 }">ALL <span
+            <p @click="selectDate(0)" :class="{ dateActive: dateIndex === 0 }">{{ $t('match.all.text') }} <span
                     v-if="dateIndex === 0 && totalCount > 0">({{
                         totalCount }})</span></p>
-            <p @click="selectDate(1)" :class="{ dateActive: dateIndex === 1 }">Today <span
+            <p @click="selectDate(1)" :class="{ dateActive: dateIndex === 1 }">{{ $t('match.today.text') }} <span
                     v-if="dateIndex === 1 && totalCount > 0">({{
                         totalCount }})</span></p>
-            <p @click="selectDate(2)" :class="{ dateActive: dateIndex === 2 }">Tomorrow
+            <p @click="selectDate(2)" :class="{ dateActive: dateIndex === 2 }">{{ $t('match.tomorrow.text') }}
                 <span v-if="dateIndex === 2 && totalCount > 0">({{ totalCount }})</span>
             </p>
         </div>
 
         <div class="list">
             <div class="list-item">
-                <van-pull-refresh v-model="refreshing" :immediate-disable="true" @refresh="onRefresh" loading-text="loading"
-                    loosing-text="Release to refresh">
-                    <van-list v-model:loading="loading" :finished="finished" loading-text="loading" finished-text="no more"
-                        @load="onLoad" :immediate-check="true">
+                <van-pull-refresh v-model="refreshing" :immediate-disable="true" @refresh="onRefresh"
+                    :loading-text="$t('load.loading.text')" :loosing-text="$t('match.loosing.text')">
+                    <van-list v-model:loading="loading" :finished="finished" :loading-text="$t('load.loading.text')"
+                        finished-text="no more" @load="onLoad" :immediate-check="true">
                         <van-cell v-for="(item, index) in list" :key="index">
                             <van-collapse v-model="activeNames" accordion @change="handleCollapse">
                                 <van-collapse-item :name="index">
