@@ -9,24 +9,32 @@
     </div>
 </template>
 <script setup>
-import { reactive, toRefs, onMounted, watchEffect } from 'vue'
+import { reactive, toRefs, onMounted, watchEffect, computed } from 'vue'
 import { getImg } from '@/utils/utils'
 import { useRouter, useRoute } from 'vue-router'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
 
 const router = useRouter()
 const route = useRoute()
 
 const state = reactive({
     activeIndex: 0,
-    list: [
+})
+const list = computed(() => {
+
+    let list = [
         {
             icon: 'home',
-            name: 'Home',
+            name: t('footer.home'),
+            fname: 'home',
             link: '/home'
         },
         {
             icon: 'match',
-            name: 'Match',
+            name: t('footer.match'),
+            fname: 'match',
             link: '/Match'
         },
         // {
@@ -36,12 +44,14 @@ const state = reactive({
         // },
         {
             icon: 'partner',
-            name: 'Order',
+            name: t('footer.order'),
+            fname: 'order',
             link: '/order'
         },
         {
             icon: 'funds',
-            name: 'Safe',
+            name: t('footer.safe'),
+            fname: 'funds',
             link: '/safe'
         },
         // {
@@ -53,6 +63,7 @@ const state = reactive({
         //     name: 'Profile',
         // },
     ]
+    return list
 })
 function changeFooterIndex(item, index) {
     state.activeIndex = index
@@ -63,9 +74,9 @@ function changeFooterIndex(item, index) {
 function currentHighlight() {
     let pageName = route.name
     if (route.meta?.parentName) {
-        state.activeIndex = state.list.findIndex(item => item.name.toLocaleLowerCase() === route.meta?.parentName) || 0
+        state.activeIndex = list.value.findIndex(item => item.fname.toLocaleLowerCase() === route.meta?.parentName) || 0
     } else {
-        state.activeIndex = state.list.findIndex(item => item.name.toLocaleLowerCase() === pageName) || 0
+        state.activeIndex = list.value.findIndex(item => item.fname.toLocaleLowerCase() === pageName) || 0
     }
 }
 watchEffect(() => {
@@ -74,7 +85,7 @@ watchEffect(() => {
 onMounted(() => {
     currentHighlight()
 })
-const { list, activeIndex } = toRefs(state)
+const { activeIndex } = toRefs(state)
 </script>
 <style scoped lang='scss'>
 .footer {

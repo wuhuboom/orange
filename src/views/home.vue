@@ -8,11 +8,12 @@
             </Swiper>
             <div class="fTips lrPadding">
                 <div class="tips_left">
-                    <van-notice-bar scrollable background="#1F1F21" text="Welcome to CTER Football!">
+                    <van-notice-bar scrollable background="#1F1F21" :text="$t('home.wellcome')">
                         <template #left-icon>
                             <img src="../assets/images/home/notice.webp" class="notice" alt="">
                         </template>
                     </van-notice-bar>
+
                 </div>
                 <img src="../assets/images/home/listIcon.webp" class="listIcon" alt="" @click="toNotice">
             </div>
@@ -20,8 +21,8 @@
         <div class="main">
             <div>
                 <div class="title lrPadding">
-                    <span class="t_left">Upcoming</span>
-                    <span class="t_right">See All</span>
+                    <span class="t_left">{{ $t('home.upcoming') }}</span>
+                    <span class="t_right">{{ $t('home.seeAll') }}</span>
                 </div>
                 <div class="foretell">
                     <Swiper slides-per-view="auto" :freeMode="true" :space-between="12">
@@ -48,8 +49,8 @@
             </div>
             <div class="list">
                 <div class="title lrPadding">
-                    <span class="t_left">Top events</span>
-                    <span class="t_right">See All</span>
+                    <span class="t_left">{{ $t('home.topEvevnts') }}</span>
+                    <span class="t_right">{{ $t('home.seeAll') }}</span>
                 </div>
                 <div class="e_lists lrPadding">
                     <div class="item cursor" v-for="(item, index) in gameList" :key="index" @click="toBetPage(item)">
@@ -73,10 +74,11 @@
     </div>
 </template>
 <script setup >
-import { reactive, toRefs } from 'vue'
+import { reactive, toRefs, computed } from 'vue'
 import { formatDate } from '@/utils/utils'
 import http from '@/utils/axios'
 import { useRouter } from 'vue-router'
+
 
 const router = useRouter()
 import { Swiper, SwiperSlide } from 'swiper/vue';

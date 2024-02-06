@@ -1,37 +1,41 @@
 {
-  "login.title":"欢迎来到",
+  "login.title": "欢迎来到",
   "login.loginBtn": "登录",
   "login.create.accTips": "创建一个账户来探索令人惊叹的功能",
-  "login.remember":"记住我",
-  "login.forgotPwd":"忘记密码",
-  "login.notAcc":"没有账户",
-  "login.goRegister":"立即注册",
-  "login.service":"在线客服",
-  "login.username":"用户名",
-  "login.uErrorText":"用户名不能为空",
-  "login.password":"密码",
-  "login.pErrorText":"密码不能为空",
-  "login.verificationCode":"验证码",
-  "login.vErrorText":"验证码不能为空",
-
-  "register.confirmPwd":"确认密码",
-  "register.confirmErrorText":"确认密码不能为空",
-  "register.referralCode":"推荐码",
-  "register.referralErrorText":"您必须输入邀请码",
-  "register.email":"邮箱地址",
-  "register.emailErrorText":"邮箱不能为空",
-  "register.phone":"手机号码",
-  "register.phoneErrorText":"手机号码不能为空",
-  "register.instructions":"我已年满18岁，并同意交易相关的规定和条款",
-  "register.registerBtn":"注册",
-  "forget.title":"忘记密码",
-  "forget.phoneVerifiCode":"手机验证码",
-  "forget.emailVerifiCode":"邮箱验证码",
-  "forget.continue":"确认",
-  "forget.send":"发送",
-
-
-
+  "login.remember": "记住我",
+  "login.forgotPwd": "忘记密码",
+  "login.notAcc": "没有账户",
+  "login.goRegister": "立即注册",
+  "login.service": "在线客服",
+  "login.username": "用户名",
+  "login.uErrorText": "用户名不能为空",
+  "login.password": "密码",
+  "login.pErrorText": "密码不能为空",
+  "login.verificationCode": "验证码",
+  "login.vErrorText": "验证码不能为空",
+  "home.upcoming": "即将开始",
+  "home.seeAll": "查看全部",
+  "home.topEvevnts": "重要事件",
+  "home.wellcome": "欢迎来到CTER足球！",
+  "footer.home": "首页",
+  "footer.match": "赛事",
+  "footer.order": "订单",
+  "footer.safe": "保险柜",
+  "register.confirmPwd": "确认密码",
+  "register.confirmErrorText": "确认密码不能为空",
+  "register.referralCode": "推荐码",
+  "register.referralErrorText": "您必须输入邀请码",
+  "register.email": "邮箱地址",
+  "register.emailErrorText": "邮箱不能为空",
+  "register.phone": "手机号码",
+  "register.phoneErrorText": "手机号码不能为空",
+  "register.instructions": "我已年满18岁，并同意交易相关的规定和条款",
+  "register.registerBtn": "注册",
+  "forget.title": "忘记密码",
+  "forget.phoneVerifiCode": "手机验证码",
+  "forget.emailVerifiCode": "邮箱验证码",
+  "forget.continue": "确认",
+  "forget.send": "发送",
   "backapi.maxCards": "收款账号已达上限",
   "betRange": "投注范围：最低 {min}-{max}",
   "version.update": "版本更新",
@@ -400,7 +404,6 @@
   "recharge.record.status.pay.timeout.text": "支付超时",
   "recharge.record.filter.text": "筛选",
   "recharge.record.reset.text": "重置",
-
   "form.recharge.amount.place": "请输入充值金额",
   "form.account.place": "请输入账号",
   "form.password.place": "请输入密码",
@@ -422,12 +425,10 @@
   "form.verift.end.text": "倒计时结束后再发送",
   "form.verift.send.text": "验证码已发送",
   "form.pwd2.text": "资金密码",
-
   "login.btn.text": "登录",
   "reg.btn.text": "注册",
   "cancel.btn.text": "取消",
   "confirm.btn.text": "确认",
-
   "ruls.trc.length": "请输入正确的钱包地址",
   "ruls.xxx.please": "请输入{name}",
   "ruls.xxx.empty": "{type}不能为空",
@@ -445,7 +446,6 @@
   "ruls.pwd2.length": "请输入六位纯数字密码",
   "ruls.amount.length": "请输入金额",
   "ruls.amoun.null.length": "金额不能为空",
-
   "dropdown.billing.all.title.text": "全部",
   "dropdown.billing.income.withdraw.text": "提现",
   "dropdown.billing.income.online.recharge.text": "线上充值",
@@ -482,14 +482,11 @@
   "dropdown.billing.recharge.compensation.text": "充值补偿",
   "dropdown.billing.transaction.fee.text": "手续费",
   "dropdown.billing.bonus.text": "奖金",
-
   "backapi.success.bet.text": "订单已成功下单",
-
   "backapi.codeTimeOut": "验证码已过期",
   "backapi.codeError": "验证码不正确",
   "backapi.pwdErrorMax": "密码输入错误次数已达上限",
   "backapi.pwdErrorCount": "密码错误次数{N}次",
-
   "backapi.usernameIsEmpty": "用户名不能为空",
   "backapi.usernameSizeError": "用户名长度为5-16",
   "backapi.usernameFormatError": "用户名必须是字母数字",
@@ -502,14 +499,12 @@
   "backapi.passwordDiff": "两次密码不对",
   "backapi.invitationCodeIsEmpty": "必须输入邀请码",
   "backapi.invitationCodeError": "邀请码不正确",
-
   "backapi.originIsEmpty": "原密码不能为空",
   "backapi.originError": "原密码不正确",
   "backapi.newpwdIsEmpty": "新密码不能为空",
   "backapi.confirmedIsEmpty": "确认密码不能为空",
   "backapi.confirmedError": "两次密码不一致",
   "backapi.updateFailed": "密码修改失败",
-
   "backapi.gameIdIsNull": "游戏ID不能为空",
   "backapi.oddsIdIsNull": "赔率ID不能为空",
   "backapi.moneyIsNull": "下注金额不能为空",
@@ -520,9 +515,7 @@
   "backapi.gameClosed": "赛事已关闭",
   "backapi.gameStarted": "赛事已开始",
   "backapi.gameFinished": "赛事已结束",
-
   "backapi.alreadyExtracted": "返佣已经领取",
-
   "backapi.orderCatUnbet": "无法取消订单。比赛正在进行中",
   "backapi.orderNotFound": "订单不存在",
   "backapi.bankCardExists": "银行卡个数超过次数 - 最大卡数为1",
@@ -534,18 +527,14 @@
   "backapi.delFailed": "删除失败",
   "backapi.walletExists": "钱包已被绑定",
   "backapi.walletNotExists": "未绑定钱包",
-
   "backapi.ltMinMoney": "提现金额低于最低提现金额",
   "backapi.dayMaxTimes": "已达到每日提取上限",
-
   "backapi.setPaySuccess": "设置资金密码成功",
-
   "backapi.cumulativeNotEnough": "打码量不足",
   "backapi.rechargeUnfinished": "充值还未完成",
   "backapi.rechargeUrlError": "获取充值地址失败",
   "backapi.payTypeNotUse": "支付类型不可用",
   "backapi.noServiceAddr": "未发现客服地址",
-
   "backapi.phoneIsEmpty": "手机号不能为空",
   "backapi.phoneCodeTimeout": "验证码已过期",
   "backapi.phoneCodeError": "验证码不正确",
@@ -554,11 +543,9 @@
   "backapi.smsCodeIsEmpty": "短信验证码不能为空",
   "backapi.phoneNotBind": "还未绑定手机",
   "backapi.originNotSet": "未设置资金密码",
-
   "backapi.areaCodeIsEmpty": "手机区号不能为空",
   "backapi.betTotalExceed": "超过本期总投注限额",
   "backapi.payMoneyTooMinOrMax": "支付金额过小或过大",
-
   "backapi.provinceTooLong": "省份过长",
   "backapi.cityTooLong": "城市过长",
   "backapi.subBranchTooLong": "支行过长",
@@ -581,7 +568,6 @@
   "backapi.maxDaySms": "验证码已达日上限",
   "backapi.payFrequently": "单位时间内充值次数上限",
   "backapi.phoneExsit": "手机号已注册",
-
   "backapi.simExists": "sim号已存在",
   "backapi.simAlreadyBind": "已绑定sim号",
   "backapi.simCurrencyEditError": "sim号修改失败",
@@ -591,13 +577,10 @@
   "backapi.editedIn24": "修改手机/各种卡后24小时内不能提现",
   "backapi.eventSettlement": "当前功能未开放!",
   "backapi.phoneLenghError": "手机号码的长度不对!",
-
   "backapi.notEnoughTimes": "No number of draws",
   "backapi.unLotteryDraw": "当前抽奖不可用",
-
   "backapi.usdtHasBeenAdd": "USDT只允许添加1个",
   "backapi.editBy48": "修改卡号后48小时内不能提现",
-
   "backapi.payNotExist": "转账不可用",
   "backapi.transferTooFast": "重复提交",
   "backapi.transferFail": "转账失败",
@@ -609,14 +592,12 @@
   "backapi.phoneLenghError10": "请输入正确的10位手机号",
   "backapi.phoneLenghError11": "请输入正确的11位手机号",
   "backapi.cannotTransferToSelf": "不能给自己转账",
-
   "backapi.emailIsNull": "邮箱不能为空",
   "backapi.emailNotExists": "电子邮件地址未链接",
   "backapi.emailNotValid": "电子邮件无效",
   "backapi.emailNotMatchPhone": "邮箱与账户不匹配",
   "backapi.emailChangePwdError": "无法通过电子邮件更改密码",
   "backapi.emailExsit": "电子邮件已注册",
-
   "backapi.self.editStr": "修改",
   "backapi.self.creatimer": "添加日期",
   "backapi.self.edit.bankcard": "编辑银行卡",
@@ -632,23 +613,19 @@
   "backapi.self.add.bank.phone.text": "预留手机号",
   "backapi.self.add.bank.phone.input.text": "请输入预留手机号",
   "backapi.self.add.bank.phone.empty.text": "预留手机号不能为空",
-
   "backapi.self.user.info.accumulativeBet.text": "累计投注",
   "backapi.self.user.info.frozenBet.text": "投注冻结",
   "backapi.self.user.info.frozenWithdrawal.text": "提现冻结",
-
   "backapi.self.withdraw.add.sim.text": "添加SIM",
   "backapi.self.withdraw.bind.sim.text": "绑定SIM",
   "backapi.self.withdraw.edit.sim.text": "编辑SIM",
   "backapi.self.withdraw.edit.form.sim.number.text": "SIM号",
   "backapi.self.withdraw.edit.form.sim.name.text": "名字",
   "backapi.self.sim.list.title.text": "SIM列表",
-
   "backapi.self.rebate.top.content.total.text": "总返佣",
   "backapi.self.rebate.top.content.week.text": "本周返佣",
   "backapi.self.rebate.top.content.today.text": "今日返佣",
   "backapi.self.rebate.top.content.lastweek.text": "上次返佣",
-
   "backapi.self.statistics.top.title.text": "未达标列表",
   "backapi.self.statistics.top.content.monthAim.text": "本月达标",
   "backapi.self.statistics.top.content.monthUnAim.text": "本月未达标",
@@ -666,20 +643,16 @@
   "backapi.self.account.list.sort.swith.desc.text": "降序",
   "backapi.self.account.list.sort.swith.asc.text": "升序",
   "backapi.self.change.ua.and.phonecard.text": "先生,您的账号最近24小时内修改过手机号码/或者进行银行卡操作,请确实是否是本人,如果不是请尽快联系客服!",
-
   "backapi.self.need.money.text": "未补交税金",
   "backapi.self.already.money.text": "已补交税金",
   "backapi.self.already.money.time.text": "倒计时",
   "backapi.self.need.paid.text": "未交费用",
   "backapi.self.already.paid.text": "已交费用",
-
   "backapi.self.notice.alert.tip.text": "温馨提醒",
   "backapi.self.notice.alert.okbtn.text": "确认",
-
   "backapi.report.account.change.query.type.team.motivation.text": "团队激励",
   "backapi.report.account.change.query.type.turntable.lottery.text": "转盘抽奖",
   "backapi.report.account.change.query.type.turntable.jackpot.text": "转盘中奖",
-
   "backapi.self.safe.text": "保险柜",
   "backapi.self.safe.balance.text": "余额",
   "backapi.self.safe.today.cumulative .text": "昨日奖励金额",
@@ -694,7 +667,6 @@
   "backapi.self.safe.bill.detail.order.num.text": "单号",
   "backapi.self.safe.bill.detail.order.money.text": "金额",
   "backapi.self.safe.bill.detail.confirm.date.text": "确认日期",
-
   "backapi.self.safe.bill.data.text": "账单明细",
   "backapi.self.safe.bill.data.date.text": "日期",
   "backapi.self.safe.bill.data.type.text": "类型",
@@ -720,32 +692,25 @@
   "backapi.self.safe.huaz.transfer.func.pass.place.text": "请输入支付密码",
   "backapi.self.safe.huaz.transfer.funcpass.not.allow.null.text": "支付密码不允许为空!",
   "backapi.self.safe.rule.desc.text": "说明",
-
   "backapi.self.safe.rule.content1.text": "1.保险柜独立于足球账户之外,足球账户的余额不可以划转到保险柜中",
   "backapi.self.safe.rule.content2.text": "2.划转功能:将保险柜中的钱划转至足球账户",
   "backapi.self.safe.rule.content3.text": "3.转账功能是你可以输入玩家用户名对其转账",
   "backapi.self.safe.rule.content4.text": "",
-
   "backapi.self.safe.recharge.text": "充值",
   "backapi.self.safe.recharge.money.not.allow.null.text": "充值金额不允许为空!",
   "backapi.self.safe.recharge.input.money.title.text": "请输入充值金额",
   "backapi.self.safe.recharge.curr.rate.text": "当前汇率",
   "backapi.self.safe.recharge.actual.received.text": "实际到账金额",
   "backapi.self.safe.recharge.get.rate.err.text": "获取汇率错误",
-
   "backapi.self.safe.account.change.type.recharge.offer.text": "充值优惠",
-
   "backapi.self.bet.today.num.text": "今日下注",
-
   "backapi.self.30day.bet.num.text": "30天内总投注金额",
   "backapi.self.30day.bet.person.num.text": "30天内总投注人数",
-
   "backapi.self.safe.team.motivation.text": "团队激励达标人数",
   "backapi.self.safe.team.motivation.not.text": "团队激励未达标人数",
   "backapi.self.safe.team.motivation.not.list.text": "团队激励未达标列表",
   "backapi.self.safe.team.motivation.not.list.account.name.text": "会员账号",
   "backapi.self.safe.team.motivation.not.list.aim.count.text": "下注天数",
-
   "backapi.self.wheel.rules.Leaderboard.text": "排名",
   "backapi.self.wheel.activity.rules.text": "Activity Rulus",
   "backapi.self.wheel.rules.ranking.text": "Ranking",
@@ -753,17 +718,12 @@
   "backapi.self.wheel.rules.get.amount.text": "Get amount",
   "backapi.self.wheel.rules.congratual.content.text": "Congratulations you have successfully obtained the reward",
   "backapi.self.wheel.rules.congratual.btn.ok.text": "OK",
-
   "backapi.self.wheel.rules.content1.text": "1. Recharge over ₹2000 to get a lucky draw chance.",
-
   "backapi.self.wheel.rules.content2.text": "2. Invite friends to recharge successfully to get a lucky draw chance.",
-
   "backapi.self.wheel.rules.content3.text": "3. After betting on a game end, get a lucky draw chance excluding (guaranteed score betting and experience coupon betting) ",
-
   "backapi.self.home.tool.wheel.text": "抽奖",
   "backapi.self.home.tool.safebox.text": "保险柜",
   "backapi.self.home.tool.online.ser.text": "客服",
-
   "backapi.self.wheel.load.err.alert.text": "数据获取错误，请刷新页面!",
   "backapi.self.whitdraw.type.ewallet.title.text": "E-wallet",
   "backapi.self.whitdraw.type.ewallet.form.type.text": "类型",
@@ -778,11 +738,9 @@
   "backapi.self.whitdraw.type.ewallet.form.wallet.list.title.text": "钱包列表",
   "backapi.self.whitdraw.type.ewallet.form.wallet.add.center.title.text": "添加钱包",
   "backapi.self.whitdraw.type.ewallet.form.wallet.add.choose.placehole.public.text": " Number",
-
   "backapi.self.recharge.tip.content1.text": "1. Please obtain the latest payment account every time you recharge, and it is forbidden to save the payment account information.",
   "backapi.self.recharge.tip.content2.text": "2. It is forbidden to save the previous collection account for payment, and the platform is not responsible for the loss caused by the recharge of the previous collection account.",
   "backapi.self.recharge.tip.content3.text": "3. Using this platform for money laundering fraud, the company reserves the right to terminate membership services and freeze their accounts.",
-
   "backapi.serviceUnhold": "客服系统维护中",
   "deal.userProfile5": "卖家已出款，请核对款项",
   "deal.userProfile4": "买家已付款，请核对款项",
