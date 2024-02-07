@@ -178,6 +178,7 @@ async function betSubmit() {
                 iconSize: '46px',
                 message: 'successfully',
                 position: 'bottom',
+                className: 'betPageToast'
             })
 
             store.getUserInfo()

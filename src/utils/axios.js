@@ -44,7 +44,10 @@ http.interceptors.response.use(
     } else if (code === 103) {
       if (data.length > 0) {
         msgKey = `backapi.${data[0].msgKey}`;
-        showToast(t(msgKey));
+        showToast({
+          message: t(msgKey),
+          wordBreak: "break-word",
+        });
       }
       if (data[0].msgKey == "codeTimeOut") {
         return code;
@@ -65,13 +68,19 @@ http.interceptors.response.use(
           timeStr +
           " " +
           t(`backapi.waittime2`);
-        showToast(showMsg);
+        showToast({
+          message: showMsg,
+          wordBreak: "break-word",
+        });
       } else if (data.length === 2) {
         msgKey = `backapi.${data[0].msgKey}`;
         if (data[1].name === "failCount") {
           count = data[1].value;
         }
-        showToast(t(msgKey, { N: count }));
+        showToast({
+          message: t(msgKey, { N: count }),
+          wordBreak: "break-word",
+        });
       }
     } else if (code === 402) {
       showToast(msg);
