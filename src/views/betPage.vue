@@ -71,11 +71,14 @@
                         <span>{{ targetBetOpt.antiPerCent }}</span>
                     </p>
                 </div>
-                <p class="betRange">Betting Range: Minimum {{ gameInfo?.game?.minBet }} - {{ gameInfo?.game?.maxBet }}</p>
+                <p class="betRange"
+                    :class="{ errorStyle: (errorTips?.code === 103 && errorTips?.msgkey === 'betMoneyTooMuch') }">Betting
+                    Range:
+                    Minimum {{ gameInfo?.game?.minBet }} - {{ gameInfo?.game?.maxBet }}</p>
                 <p class="betWinNum">Potential winnings: <span>{{ potentialWinnings }}</span></p>
                 <div class="counter">
                     <div class="count-left flex">
-                        <input type="number" v-model="betNum">
+                        <input type="number" v-model="betNum" @input="getWinMoney">
                         <img src="../assets/images/betpage/subtraction.webp" class="subtraction" alt=""
                             @click="subtraction">
                         <img src="../assets/images/betpage/add.webp" class="add" alt="" @click="add">
@@ -118,7 +121,8 @@ const state = reactive({
     secondHalfScore: [],
     targetBetOpt: {}, //投注项
     betPreData: {},
-    potentialWinnings: 0,//预估盈利
+    potentialWinnings: 0,//
+    errorTips: {}
 })
 getGameInfo()
 async function getGameInfo() {
@@ -187,6 +191,9 @@ async function betSubmit() {
             state.betNum = 0
             state.potentialWinnings = 0
 
+        } else {
+            state.errorTips = res
+            console.log(state.errorTips);
         }
     } catch (error) {
         console.log(error);
@@ -199,7 +206,19 @@ function getPotentialWin() {
     let serviceFee = state.betPreData?.betHandMoneyRate
     return (antiPerCent * state.betNum / 100 - serviceFee).toFixed(4)
 }
+function getWinMoney() {
+    state.errorTips = {}
+    if (state.betNum < 0) {
+        state.betNum = 0
+    }
+    if (state.betNum >= accountInfo?.value.currRate) {
+        state.betNum = Number(accountInfo?.value.currRate)
+        return
+    }
+    state.potentialWinnings = getPotentialWin()
+}
 function subtraction() {
+    state.errorTips = {}
     state.betNum -= 1
     if (state.betNum <= 0) {
         state.betNum = 0
@@ -207,6 +226,7 @@ function subtraction() {
     state.potentialWinnings = getPotentialWin()
 }
 function add() {
+    state.errorTips = {}
     if (state.betNum >= accountInfo?.value.currRate) {
         state.betNum = Number(accountInfo?.value.currRate)
         return
@@ -230,7 +250,7 @@ function handleClickTab(index) {
     state.betIndex = -1
     state.betData = state.tabIndex == 0 ? state.secondHalfScore : state.firstHalfScore
 }
-const { tabIndex, tabArr, betData, betIndex, betNum, isShowBetPanel, gameInfo, targetBetOpt, betPreData, potentialWinnings } = toRefs(state)
+const { tabIndex, tabArr, betData, betIndex, betNum, isShowBetPanel, gameInfo, targetBetOpt, betPreData, potentialWinnings, errorTips } = toRefs(state)
 </script>
 <style scoped lang='scss'>
 $bgHeight: 280px;
@@ -547,6 +567,10 @@ $bgHeight: 280px;
                 font-size: 14px;
                 color: #9f9f9f;
                 margin-top: 16px;
+            }
+
+            .errorStyle {
+                color: red;
             }
 
             .betWinNum {

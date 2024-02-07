@@ -42,6 +42,12 @@ http.interceptors.response.use(
     if (code === 200) {
       return data;
     } else if (code === 103) {
+      if (data[0].msgKey == "betMoneyTooMuch") {
+        return {
+          code,
+          msgkey: "betMoneyTooMuch",
+        };
+      }
       if (data.length > 0) {
         msgKey = `backapi.${data[0].msgKey}`;
         showToast({
