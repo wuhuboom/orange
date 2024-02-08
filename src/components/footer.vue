@@ -51,7 +51,7 @@ const list = computed(() => {
         {
             icon: 'funds',
             name: t('footer.safe'),
-            fname: 'funds',
+            fname: 'safe',
             link: '/safe'
         },
         // {

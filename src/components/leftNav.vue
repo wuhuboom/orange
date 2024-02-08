@@ -5,7 +5,7 @@
                 <img src="../assets/images/leftNav/avatar.webp" class="avatar" alt="">
                 <div class="user">
                     <p class="name">{{ perInfo?.username }}</p>
-                    <p class="vip">VIP{{ perInfo?.vipLevel }}</p>
+                    <p class="vip">{{ $t('leftNav.vip.text') }}{{ perInfo?.vipLevel }}</p>
                 </div>
             </div>
             <div class="van-hairline--bottom"></div>
@@ -47,7 +47,7 @@
                 <div class="dot">
                     <img src="../assets/images/leftNav/logIcon.webp" alt="">
                 </div>
-                Log Out
+                {{ $t('leftNav.logOut.text') }}
             </div>
         </van-popup>
     </div>
@@ -80,12 +80,12 @@ const state = reactive({
             isArrow: true,
             menu: [
                 {
-                    name: 'Deposit',
+                    name: t('leftNav.deposit.text'),
                     link: '',
                     highlight: false
                 },
                 {
-                    name: 'withdrawal',
+                    name: t('leftNav.withdrawal.text'),
                     link: '',
                     highlight: false
                 },
@@ -93,31 +93,31 @@ const state = reactive({
         },
         {
             icon: 'order',
-            name: 'My Order',
+            name: t('leftNav.myOrder.text'),
             isOpen: false,
             isArrow: false,
             link: '/order'
         },
         {
             icon: 'partners',
-            name: 'Partners',
+            name: t('leftNav.partners.text'),
             isOpen: false,
             isArrow: false,
             link: '/partner'
         },
         {
             icon: 'tournaments',
-            name: 'Tournaments',
+            name: t('leftNav.tournaments.text'),
             isOpen: false,
             isArrow: true,
             menu: [
                 {
-                    name: 'Market list',
+                    name: t('leftNav.marketList.text'),
                     link: '',
                     highlight: false
                 },
                 {
-                    name: 'Result',
+                    name: t('leftNav.result.text'),
                     link: '',
                     highlight: false
                 },
@@ -125,27 +125,27 @@ const state = reactive({
         },
         {
             icon: 'acc',
-            name: 'My account',
+            name: t('leftNav.myAccount.text'),
             isOpen: false,
             isArrow: true,
             menu: [
                 {
-                    name: 'history',
+                    name: t('leftNav.history.text'),
                     link: '',
                     highlight: false
                 },
                 {
-                    name: 'Trading',
+                    name: t('leftNav.trading.text'),
                     link: '',
                     highlight: false
                 },
                 {
-                    name: 'Personal Information',
+                    name: t('leftNav.personalInformation.text'),
                     link: '',
                     highlight: false
                 },
                 {
-                    name: 'Card Management',
+                    name: t('leftNav.cardManagement.text'),
                     link: '',
                     highlight: false
                 },
@@ -153,13 +153,13 @@ const state = reactive({
         },
         {
             icon: 'invite',
-            name: 'Invite',
+            name: t('leftNav.invite.text'),
             isOpen: false,
             isArrow: false
         },
         {
             icon: 'msg',
-            name: 'About CTER.ONLINE',
+            name: t('leftNav.aboutCTER.ONLINE.text'),
             isOpen: false,
             isArrow: false
         },

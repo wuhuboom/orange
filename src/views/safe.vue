@@ -5,8 +5,8 @@
             <div class="cardBg2"></div>
             <div class="card">
                 <div class="cb">
-                    balance
-                    <img src="../assets/images/safe/refresh.webp" class="refresh" alt="">
+                    {{ $t('wallet.index.balance.text') }}
+                    <img src="../assets/images/safe/refresh.webp" class="refresh cursor" @click="getSafeInfo" alt="">
                 </div>
                 <div class="moneyusd">
                     {{ getAmount(safeData?.money) || 0 }} <span class="usd">{{ safeData?.symbol ||
@@ -14,8 +14,8 @@
                 </div>
                 <div class="Cbottom">
                     <p>
-                        <span>Today’s amount</span>
-                        <span>Cumulative amount</span>
+                        <span>{{ $t('safe.todayIsAmount.text') }}</span>
+                        <span>{{ $t('safe.cumulativeAmount.text') }}</span>
                     </p>
                     <p class="num">
                         <span>{{ getAmount(safeData?.todayIncome) || 0 }}</span>
@@ -26,23 +26,22 @@
         </div>
         <div class="menubox">
             <div class="item" v-for="(item, index) in menu" :key="index" @click="toPage(item)">
-                <img :src="getImg('safe', item.name.toLocaleLowerCase())" alt="">
+                <img :src="getImg('safe', item.imgName)" alt="">
                 <p>{{ item.name }}</p>
             </div>
         </div>
-        <p class="title">illustrate</p>
+        <p class="title">{{ $t('safe.illustrate.text') }}</p>
         <p class="text">
-            1. The safe is independent of the footballaccount, and the balance of the footballaccount cannot be transferred
-            to the safe
+            {{ $t('safe.illustrate.one.text') }}
         </p>
         <p class="text">
-            2. Transfer function: transfer the money in thesafe to the football account
+            {{ $t('safe.illustrate.two.text') }}
         </p>
         <p class="text">
-            3. Get the latest payment account for eachrecharge
+            {{ $t('safe.illustrate.three.text') }}
         </p>
         <p class="text">
-            4. The transfer function is that you can enterthe player’s username to transfer money to it
+            {{ $t('safe.illustrate.four.text') }}
         </p>
     </div>
 </template>
@@ -51,23 +50,29 @@ import { toRefs, reactive } from 'vue'
 import { getImg, getAmount } from '@/utils/utils'
 import { useRouter } from 'vue-router'
 import http from '@/utils/axios'
+import { useI18n } from 'vue-i18n'
+const { t, locale } = useI18n()
 const router = useRouter()
 const state = reactive({
     menu: [
         {
-            name: 'Send',
+            imgName: 'send',
+            name: t('forget.send'),
             link: '/send'
         },
         {
-            name: 'Recharge',
+            imgName: 'recharge',
+            name: t('home.index.recharge.text'),
             link: '/recharge'
         },
         {
-            name: 'Buy',
+            imgName: 'buy',
+            name: t('deal.orderDetail.197148-2'),
             link: '/buy'
         },
         {
-            name: 'Transfer',
+            imgName: 'transfer',
+            name: t('wallet.index.transfer.text'),
             link: '/transfer'
         },
     ],

@@ -1,8 +1,8 @@
 <template>
     <div class="order maxWidth lrPadding">
         <div class="o_tabs">
-            <div class="item" :class="{ itemActive: index === tabIndex }" v-for="(item, index) in tabsArr" :key="index"
-                @click="changeTabs(item, index)">
+            <div class="item cursor" :class="{ itemActive: index === tabIndex }" v-for="(item, index) in tabsArr"
+                :key="index" @click="changeTabs(item, index)">
                 {{ item.name }}
             </div>
         </div>
