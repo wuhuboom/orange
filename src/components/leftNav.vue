@@ -442,7 +442,7 @@ const { listArr, perInfo, showLangOpt, langTarget, langList } = toRefs(state)
         }
 
         .logout {
-            width: 117px;
+            // width: 125px;
             height: 43px;
             margin: 20px 107px 0 24px;
             padding: 9px 16px 8px 9px;
