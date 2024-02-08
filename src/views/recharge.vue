@@ -1,21 +1,21 @@
 <template>
     <div class="send maxWidth lrPadding">
         <div class="sendBox">
-            <div class="title">please enter the amount</div>
-            <input type="text" v-model="amount" placeholder="please enter amount">
+            <div class="title">{{ $t('send.amount.placeholder.text') }}</div>
+            <input type="text" v-model="amount" :placeholder="$t('send.amount.placeholder.text')">
         </div>
         <div class="balance">
             <p>
-                Current exchang rate: <span class="money">{{ rechargeInfo?.rate }}</span>
+                {{ $t('recharge.current.exchang.rate') }}: <span class="money">{{ rechargeInfo?.rate }}</span>
             </p>
         </div>
         <div class="balance">
             <p>
-                Actual receivedamount: <span class="money">{{ amount * rechargeInfo?.rate }}</span>
+                {{ $t('recharge.actual.receivedamount') }}: <span class="money">{{ amount * rechargeInfo?.rate }}</span>
             </p>
         </div>
         <div class="sendBox">
-            <div class="title" style="margin-bottom: 15px;">Payment Method</div>
+            <div class="title" style="margin-bottom: 15px;">{{ $t('recharge.pay.method') }}</div>
             <div class="bankList">
                 <div class="left">
                     <img src="../assets/images/common/bankIcon.jpg" alt="">
@@ -26,7 +26,7 @@
         </div>
 
         <div class="confirm" @click="toPage">
-            Confirm
+            {{ $t('modal.confirm.text') }}
         </div>
     </div>
 </template>
