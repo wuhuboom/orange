@@ -6,7 +6,8 @@
             <div class="card">
                 <div class="cb">
                     {{ $t('wallet.index.balance.text') }}
-                    <img src="../assets/images/safe/refresh.webp" class="refresh cursor" @click="getSafeInfo" alt="">
+                    <img src="../assets/images/safe/refresh.webp" ref="refreshRef" class="refresh cursor"
+                        @click="getbalance" alt="">
                 </div>
                 <div class="moneyusd">
                     {{ getAmount(safeData?.money) || 0 }} <span class="usd">{{ safeData?.symbol ||
@@ -46,13 +47,14 @@
     </div>
 </template>
 <script setup >
-import { toRefs, reactive } from 'vue'
+import { toRefs, reactive, ref } from 'vue'
 import { getImg, getAmount } from '@/utils/utils'
 import { useRouter } from 'vue-router'
 import http from '@/utils/axios'
 import { useI18n } from 'vue-i18n'
 const { t, locale } = useI18n()
 const router = useRouter()
+const refreshRef = ref(null)
 const state = reactive({
     menu: [
         {
@@ -76,7 +78,8 @@ const state = reactive({
             link: '/transfer'
         },
     ],
-    safeData: {}
+    safeData: {},
+    angle: 0
 })
 getSafeInfo()
 async function getSafeInfo() {
@@ -90,10 +93,16 @@ async function getSafeInfo() {
         )
         if (res?.id) {
             state.safeData = res
+            refreshRef.value.style.transform = "none"
         }
     } catch (error) {
         console.log(error);
     }
+}
+function getbalance() {
+    console.log(refreshRef.value.style);
+    state.angle -= 360
+    refreshRef.value.style.transform = `rotate(${state.angle}deg)`
 }
 function toPage(item) {
     router.push(item.link)
@@ -156,6 +165,7 @@ const { menu, safeData } = toRefs(state)
                 .refresh {
                     width: 35px;
                     height: 35px;
+                    transition: transform 1s ease;
                 }
             }
 
