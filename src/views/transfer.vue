@@ -7,23 +7,23 @@
             <img src="../assets/images/common/arrow-down.webp" alt="">
         </div>
         <div class="sendBox">
-            <div class="title">football balance</div>
+            <div class="title">{{ $t('transfer.football.balance') }}</div>
             <input type="text" v-model="amount" placeholder="please enter amount">
         </div>
         <div class="balance">
             <p>
-                balance: <span class="money">{{ accountInfo.currRate }}</span>
+                {{ $t('send.balance.text') }}: <span class="money">{{ accountInfo.currRate }}</span>
             </p>
             <span class="all cursor" @click="setAllAmount">
-                All
+                {{ $t('send.all.text') }}
             </span>
         </div>
         <div class="sendBox">
-            <div class="title">payment password</div>
-            <input type="password" v-model="payPwd" placeholder="please enter payment password">
+            <div class="title">{{ $t('send.paymentPassword.text') }}</div>
+            <input type="password" v-model="payPwd" :placeholder="$t('send.payment.placeholder.text')">
         </div>
         <div class="confirm cursor" @click="confirmTransfer">
-            Confirm
+            {{ $t('modal.confirm.text') }}
         </div>
     </div>
 </template>

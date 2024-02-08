@@ -79,6 +79,7 @@
   "recharge.current.exchang.rate": "当前汇率",
   "recharge.actual.receivedamount": "实际收到金额",
   "recharge.pay.method": "支付方式",
+  "transfer.football.balance": "足球余额",
   "backapi.maxCards": "收款账号已达上限",
   "betRange": "投注范围：最低 {min}-{max}",
   "version.update": "版本更新",

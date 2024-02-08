@@ -79,6 +79,7 @@
   "recharge.current.exchang.rate": "Current exchang rate",
   "recharge.actual.receivedamount": "Actual receivedamount",
   "recharge.pay.method": "Payment Method",
+  "transfer.football.balance": "football balance",
   "backapi.maxCards": "Maximum number of recipient accounts reached",
   "betRange": "Trading Range: Minimum {min}-{max}",
   "version.update": "Version Update",
