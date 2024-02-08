@@ -1,30 +1,30 @@
 <template>
     <div class="send maxWidth lrPadding">
         <div class="sendBox">
-            <div class="title">username</div>
-            <input type="text" v-model="useName" placeholder="please enter username">
+            <div class="title">{{ $t('login.username') }}</div>
+            <input type="text" v-model="useName" :placeholder="$t('send.username.placeholder.text')">
         </div>
         <div class="arrow-down">
             <img src="../assets/images/common/arrow-down.webp" alt="">
         </div>
         <div class="sendBox">
-            <div class="title">amount</div>
-            <input type="text" v-model="amount" placeholder="please enter amount">
+            <div class="title">{{ $t('send.amount.text') }}</div>
+            <input type="text" v-model="amount" :placeholder="$t('send.amount.placeholder.text')">
         </div>
         <div class="balance">
             <p>
-                balance: <span class="money">{{ accountInfo?.currRate || 0 }}</span>
+                {{ $t('send.balance.text') }}: <span class="money">{{ accountInfo?.currRate || 0 }}</span>
             </p>
             <span class="all cursor" @click="setAllAmount">
-                All
+                {{ $t('send.all.text') }}
             </span>
         </div>
         <div class="sendBox">
-            <div class="title">payment password</div>
-            <input type="password" v-model="payPwd" placeholder="please enter payment password">
+            <div class="title">{{ $t('send.paymentPassword.text') }}</div>
+            <input type="password" v-model="payPwd" :placeholder="$t('send.payment.placeholder.text')">
         </div>
         <div class="confirm cursor" @click="confirmTransfer">
-            Confirm
+            {{ $t('modal.confirm.text') }}
         </div>
     </div>
 </template>
