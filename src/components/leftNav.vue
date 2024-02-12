@@ -219,6 +219,24 @@ watchEffect(() => {
     state.listArr[0].name = accountInfo.value.currRate
 })
 function showSelect() {
+    let langList = [
+        {
+            name: 'EN'
+        },
+        {
+            name: 'DE'
+        },
+        {
+            name: 'ES'
+        },
+        {
+            name: 'FR'
+        },
+        {
+            name: 'INS'
+        },
+    ]
+    state.langList = langList.filter(item => item.name != state.langTarget)
     state.showLangOpt = !state.showLangOpt
 }
 function selectLang(item) {

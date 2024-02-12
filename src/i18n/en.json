@@ -82,6 +82,8 @@
   "recharge.actual.receivedamount": "Actual receivedamount",
   "recharge.pay.method": "Payment Method",
   "sysNotice.title": "Message Center",
+  "sysNotice.System.Notice.text": "System Notice",
+  "sysNotice.Personal.Notice.text": "Personal Notice",
   "transfer.title": "Transfer",
   "transfer.football.balance": "football balance",
   "backapi.maxCards": "Maximum number of recipient accounts reached",

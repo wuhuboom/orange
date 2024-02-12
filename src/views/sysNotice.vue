@@ -24,14 +24,17 @@
 import { reactive, toRefs } from 'vue'
 import http from '@/utils/axios'
 import { formatDate } from '@/utils/utils'
+import { useI18n } from 'vue-i18n'
+
+const { t, locale } = useI18n()
 const state = reactive({
     tabIndex: 0,
     tabArr: [
         {
-            name: 'System Notice'
+            name: t('sysNotice.System.Notice.text')
         },
         {
-            name: 'Personal Notice'
+            name: t('sysNotice.Personal.Notice.text')
         },
     ],
     list: []
