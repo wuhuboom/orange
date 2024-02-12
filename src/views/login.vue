@@ -130,6 +130,24 @@ const userInfo = computed(() => {
   return user
 })
 function showSelect() {
+  let langList = [
+    {
+      name: 'EN'
+    },
+    {
+      name: 'DE'
+    },
+    {
+      name: 'ES'
+    },
+    {
+      name: 'FR'
+    },
+    {
+      name: 'INS'
+    },
+  ]
+  state.langList = langList.filter(item => item.name != state.langTarget)
   state.showLangOpt = !state.showLangOpt
 }
 function selectLang(item) {
