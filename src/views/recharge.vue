@@ -6,12 +6,13 @@
         </div>
         <div class="balance">
             <p>
-                {{ $t('recharge.current.exchang.rate') }}: <span class="money">{{ rechargeInfo?.rate }}</span>
+                {{ $t('recharge.current.exchang.rate') }}: <span class="money">{{ rechargeInfo?.rate || 0 }}</span>
             </p>
         </div>
         <div class="balance">
             <p>
-                {{ $t('recharge.actual.receivedamount') }}: <span class="money">{{ amount * rechargeInfo?.rate }}</span>
+                {{ $t('recharge.actual.receivedamount') }}: <span class="money">{{ amount * rechargeInfo?.rate || 0
+                }}</span>
             </p>
         </div>
         <div class="sendBox">
