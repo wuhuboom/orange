@@ -41,7 +41,7 @@
                         <img :src="getImg('header', 'mIcon')" class="mIcon" alt="">
                         <span class="moneyNum">{{ accountInfo?.currRate }}</span>
                     </div>
-                    <div class="panel_tit">Create Order</div>
+                    <div class="panel_tit">{{ $t('betPage.create.order.text') }}</div>
                 </div>
                 <van-icon name="cross" color="#fff" @click="closePanel" />
             </div>
@@ -63,19 +63,20 @@
                 </div>
                 <div class="betDetal">
                     <p class="betScore">
-                        <span>Events</span>
+                        <span>{{ $t('betPage.panel.events.text') }}</span>
                         <span>{{ betPreData?.lossPerCent?.scoreHome }}-{{ betPreData?.lossPerCent?.scoreAway }}</span>
                     </p>
                     <p class="betOdds">
-                        <span>Odds</span>
+                        <span>{{ $t('bet.detail.odds.text') }}</span>
                         <span>{{ targetBetOpt.antiPerCent }}</span>
                     </p>
                 </div>
                 <p class="betRange"
-                    :class="{ errorStyle: (errorTips?.code === 103 && errorTips?.msgkey === 'betMoneyTooMuch') }">Betting
-                    Range:
-                    Minimum {{ gameInfo?.game?.minBet }} - {{ gameInfo?.game?.maxBet }}</p>
-                <p class="betWinNum">Potential winnings: <span>{{ potentialWinnings }}</span></p>
+                    :class="{ errorStyle: (errorTips?.code === 103 && errorTips?.msgkey === 'betMoneyTooMuch') }">
+                    {{ $t('betPage.betting.range.minimum.text') }} {{ gameInfo?.game?.minBet }} - {{ gameInfo?.game?.maxBet
+                    }}
+                </p>
+                <p class="betWinNum">{{ $t('betPage.potential.winnings.text') }}: <span>{{ potentialWinnings }}</span></p>
                 <div class="counter">
                     <div class="count-left flex">
                         <input type="number" v-model="betNum" @input="getWinMoney">
@@ -83,13 +84,14 @@
                             @click="subtraction">
                         <img src="../assets/images/betpage/add.webp" class="add" alt="" @click="add">
                     </div>
-                    <div class="betBtn cursor" @click="betSubmit">Confirm</div>
+                    <div class="betBtn cursor" @click="betSubmit">{{ $t('modal.confirm.text') }}</div>
                 </div>
-                <p class="serviceFee">Service Fee：<span class="num">{{ betPreData?.betHandMoneyRate }}</span></p>
-                <p class="quickBet">Quick bets</p>
+                <p class="serviceFee">{{ $t('match.order.detail.proce.fee.text') }}：<span class="num">{{
+                    betPreData?.betHandMoneyRate }}</span></p>
+                <p class="quickBet">{{ $t('betPage.quick.bets.text') }}</p>
                 <div class="betButton">
                     <div @click="quickBets(betPreData?.fastMoney)">{{ betPreData?.fastMoney }}</div>
-                    <div @click="quickBets('all')">ALL</div>
+                    <div @click="quickBets('all')">{{ $t('order.search.all.text') }}</div>
                 </div>
             </div>
         </div>
@@ -102,9 +104,18 @@ import { showToast } from 'vant'
 import { useRoute } from 'vue-router'
 import http from '@/utils/axios'
 import { useStore } from '@/stores/index'
+
+import { useI18n } from 'vue-i18n'
+const { t, locale } = useI18n()
 const store = useStore()
 
 const accountInfo = computed(() => store.accountInfo)
+const tabArr = computed(() => {
+    return [
+        t('match.cmopetition.score.text'),
+        t('match.cmopetition.half.score.text')
+    ]
+})
 const successIcon = getImg('betpage', 'successIcon')
 
 const route = useRoute()
@@ -112,7 +123,6 @@ const route = useRoute()
 const state = reactive({
     tabIndex: 0,
     betIndex: -1,
-    tabArr: ['Inverse Score', 'First Half Counter Score'],
     betData: [],
     betNum: 0,
     isShowBetPanel: false,
@@ -180,7 +190,7 @@ async function betSubmit() {
             showToast({
                 icon: successIcon,
                 iconSize: '46px',
-                message: 'successfully',
+                message: t('betPage.successfully.text'),
                 position: 'bottom',
                 className: 'betPageToast'
             })
@@ -250,7 +260,7 @@ function handleClickTab(index) {
     state.betIndex = -1
     state.betData = state.tabIndex == 0 ? state.secondHalfScore : state.firstHalfScore
 }
-const { tabIndex, tabArr, betData, betIndex, betNum, isShowBetPanel, gameInfo, targetBetOpt, betPreData, potentialWinnings, errorTips } = toRefs(state)
+const { tabIndex, betData, betIndex, betNum, isShowBetPanel, gameInfo, targetBetOpt, betPreData, potentialWinnings, errorTips } = toRefs(state)
 </script>
 <style scoped lang='scss'>
 $bgHeight: 280px;
@@ -490,7 +500,6 @@ $bgHeight: 280px;
                     font-weight: 600;
                     letter-spacing: -0.17px;
                     color: #fff;
-                    margin-left: 15px;
                 }
 
             }
