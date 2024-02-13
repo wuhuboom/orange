@@ -53,7 +53,7 @@
     </div>
 </template>
 <script setup >
-import { reactive, computed, ref, toRefs, watchEffect } from 'vue'
+import { reactive, computed, watchEffect, toRefs, watch } from 'vue'
 import http from '@/utils/axios'
 import { getImg } from '@/utils/utils'
 import { useRouter } from 'vue-router'
@@ -92,9 +92,11 @@ const state = reactive({
             name: 'INS'
         },
     ],
+    cList: [],
 })
 const listArr = computed(() => {
-    return [
+    // state.cList解决listArr不会响应式
+    state.cList = [
         {
             icon: 'money',
             name: '0.00',
@@ -186,6 +188,7 @@ const listArr = computed(() => {
             isArrow: false
         },
     ]
+    return state.cList
 })
 function showSecondList(item, index) {
     state.menuIndex = index
