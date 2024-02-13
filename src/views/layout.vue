@@ -207,7 +207,7 @@ const state = reactive({
 
 })
 watchEffect(() => {
-    console.log(route.name);
+    // console.log(route.name);
     state.pageName = route.name
 
 })

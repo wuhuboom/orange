@@ -3,24 +3,24 @@
         <div class="totalData">
             <div class="left">
                 <img src="../assets/images/partner/totalIcon.webp" class="totalIcon" alt="">
-                <span>Total Data Summary</span>
+                <span>{{ $t('partner.total.data.summary.text') }}</span>
             </div>
             <img src="../assets/images/partner/arrow-right.webp" class="arrow-right" alt="">
         </div>
         <div class="balanceBox">
             <div class="item balance">
                 <img :src="getImg('partner', 'balance')" alt="">
-                <p class="name">Balance</p>
+                <p class="name">{{ $t('send.balance.text') }}</p>
                 <p class="num"><span>$ </span>{{ partnerObj.totalBalance || 0 }}</p>
             </div>
             <div class="item trade">
                 <img :src="getImg('partner', 'trade')" alt="">
-                <p class="name">Trade User</p>
+                <p class="name">{{ $t('partner.trade.user.text') }}</p>
                 <p class="num">{{ partnerObj.playerCount || 0 }}</p>
             </div>
             <div class="item win">
                 <img :src="getImg('partner', 'win')" alt="">
-                <p class="name">Winning</p>
+                <p class="name">{{ $t('partner.winning.text') }}</p>
                 <p class="num"><span>$ {{ partnerObj?.netProfit || 0 }} </span></p>
             </div>
         </div>
@@ -30,13 +30,13 @@
                 {{ item.name }}
             </div>
         </div>
-        <p class="teamReport">Team Report: <span> Not up to standard</span></p>
+        <p class="teamReport">{{ $t('agency.center.title.text') }}: <span> {{ $t('partner.not.up.to.standard.text') }}</span></p>
         <div class="progressBar">
             <div class="p_left">
-                <p>Team Motivation</p>
-                <p>Achievement: <span class="tangerine">{{ partnerObj?.groupAim || 0 }}</span></p>
-                <p class="mt">Team incentives</p>
-                <p>not up to par: <span class="blue">{{ partnerObj?.groupUnAim || 0 }}</span></p>
+                <p>{{ $t('backapi.report.account.change.query.type.team.motivation.text') }} </p>
+                <p>{{ $t('partner.achievement.text') }}: <span class="tangerine">{{ partnerObj?.groupAim || 0 }}</span></p>
+                <p class="mt">{{ $t('partner.team.incentives.text') }}</p>
+                <p>{{ $t('partner.not.up.to.par') }}: <span class="blue">{{ partnerObj?.groupUnAim || 0 }}</span></p>
             </div>
             <div class="p_right">
                 <van-circle v-model:current-rate="groupUnAim" :speed="100" :rate="groupAim" color="#0b4de6"
@@ -44,11 +44,11 @@
             </div>
         </div>
         <div class="teamList">
-            <p class="title">Team list</p>
+            <p class="title">{{ $t('partner.team.list.text') }}</p>
             <div class="item" v-for="(item, index) in userArr" :key="index">
                 <p>
                     <span class="name">{{ item.username }}</span>
-                    <span>Logir Time</span>
+                    <span>{{ $t('partner.login.time.text') }}</span>
                 </p>
                 <p>
                     <span>id:{{ item.id }}</span>
@@ -59,25 +59,13 @@
     </div>
 </template>
 <script setup >
-import { reactive, toRefs } from 'vue'
+import { reactive, toRefs, computed } from 'vue'
 import { getImg, formatDate } from '@/utils/utils'
 import http from '@/utils/axios'
+import { useI18n } from 'vue-i18n'
+const { t, locale } = useI18n()
 const state = reactive({
     tabsIndex: 0,
-    tabArr: [
-        {
-            name: 'Today',
-            time: 1
-        },
-        {
-            name: 'Week',
-            time: 3
-        },
-        {
-            name: 'Last Ten days',
-            time: 4
-        },
-    ],
     partnerObj: {},
     groupUnAim: 0,
     groupAim: 0,
@@ -88,11 +76,27 @@ const state = reactive({
     },
     userArr: []
 })
+const tabArr = computed(() => {
+    return [
+        {
+            name: t('match.today.text'),
+            time: 1
+        },
+        {
+            name: t('match.week.text'),
+            time: 3
+        },
+        {
+            name: t('partner.last.ten.days'),
+            time: 4
+        },
+    ]
+})
 getTeamData(1)
 async function getTeamData(index, key = '') {
     let url = `/player/data_center/${index}`
     let data = {
-        time: state.tabArr[state.tabsIndex].time,
+        time: tabArr.value[state.tabsIndex].time,
         index: index,
         key
     }
@@ -144,7 +148,7 @@ function handleClickTab(item, index) {
     state.tabsIndex = index
     getTeamData(1)
 }
-const { tabsIndex, tabArr, groupUnAim, groupAim, partnerObj, passRate, userArr } = toRefs(state)
+const { tabsIndex, groupUnAim, groupAim, partnerObj, passRate, userArr } = toRefs(state)
 </script>
 <style scoped lang='scss'>
 .partner {

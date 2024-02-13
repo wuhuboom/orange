@@ -227,18 +227,13 @@ function onRefresh() {
     state.page.pageSize = 10
     orderList('refresh')
 }
-async function cancelOrder() {
+function cancelOrder() {
     let url = `/player/unbet?betId=${state.targetItem.id}`
-    try {
-        const res = await http.get(url)
-        if (res == null) {
-            orderList('refresh')
-            showToast(t('wallet.index.order.state.cancel.text1'))
-            state.cancelShow = false
-        }
-    } catch (error) {
-        console.log(error);
-    }
+    http.get(url).then(res => {
+        orderList('refresh')
+        // showToast(t('wallet.index.order.state.cancel.text1'))
+        state.cancelShow = false
+    })
     state.cancelShow = false
     // state.targetItem
 }
