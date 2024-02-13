@@ -8,18 +8,202 @@
     </div>
 </template>
 <script setup>
-import { reactive, toRefs, watchEffect } from 'vue'
+import { reactive, toRefs, watchEffect, computed } from 'vue'
 import { useRoute } from 'vue-router'
 
 import Header from '@/components/header.vue'
 import Footer from '@/components/footer.vue'
 import LeftNav from '@/components/leftNav.vue'
-import headerConf from '@/utils/header'
+// import headerConf from '@/utils/header'
 
+import { useI18n } from 'vue-i18n'
+const { t, locale } = useI18n()
 const route = useRoute()
+const headerObj = computed(() => {
+    let header = {
+        home: {
+            leftIcon: "hleftIcon",
+            leftIconWidth: "32px",
+            leftIconHeight: "32px",
+            center: "",
+            rightIcon: "hRightIcon",
+            isShowRightMoney: true,
+            bgColor: "#202020",
+        },
+        match: {
+            leftIcon: "boldCter",
+            leftIconWidth: "58px",
+            leftIconHeight: "19px",
+            center: "",
+            rightIcon: "hRightIcon",
+            isShowRightMoney: true,
+            bgColor: "#202020",
+        },
+        order: {
+            leftIcon: "boldCter",
+            leftIconWidth: "58px",
+            leftIconHeight: "19px",
+            center: "",
+            rightIcon: "hRightIcon",
+            isShowRightMoney: true,
+            bgColor: "#202020",
+        },
+        safe: {
+            leftIcon: "hleftIcon",
+            leftIconWidth: "32px",
+            leftIconHeight: "32px",
+            center: t("safe.title"),
+            rightIcon: "hRightSafe",
+            rightIconWidth: "18px",
+            rightIconHeight: "18px",
+            isShowRightMoney: false,
+            bgColor: "#0b0b0b",
+        },
+        send: {
+            leftIcon: "back",
+            leftIconWidth: "32px",
+            leftIconHeight: "32px",
+            center: t("send.title"),
+            rightIcon: "hRightSafe",
+            rightIconWidth: "18px",
+            rightIconHeight: "18px",
+            isShowRightMoney: false,
+            bgColor: "#0b0b0b",
+        },
+        transfer: {
+            leftIcon: "back",
+            leftIconWidth: "32px",
+            leftIconHeight: "32px",
+            center: t("transfer.title"),
+            rightIcon: "hRightSafe",
+            rightIconWidth: "18px",
+            rightIconHeight: "18px",
+            isShowRightMoney: false,
+            bgColor: "#0b0b0b",
+        },
+        recharge: {
+            leftIcon: "back",
+            leftIconWidth: "32px",
+            leftIconHeight: "32px",
+            center: t("recharge.title"),
+            rightIcon: "hRightSafe",
+            rightIconWidth: "18px",
+            rightIconHeight: "18px",
+            isShowRightMoney: false,
+            bgColor: "#0b0b0b",
+        },
+        swapInfo: {
+            leftIcon: "back",
+            leftIconWidth: "32px",
+            leftIconHeight: "32px",
+            center: "Confirm Swap Info",
+            rightIcon: "",
+            rightIconWidth: "",
+            rightIconHeight: "",
+            isShowRightMoney: false,
+            bgColor: "#0b0b0b",
+        },
+        purchaseAmount: {
+            leftIcon: "back",
+            leftIconWidth: "32px",
+            leftIconHeight: "32px",
+            center: "",
+            rightIcon: "",
+            rightIconWidth: "",
+            rightIconHeight: "",
+            isShowRightMoney: false,
+            bgColor: "#0b0b0b",
+        },
+        confirmBuy: {
+            leftIcon: "back",
+            leftIconWidth: "32px",
+            leftIconHeight: "32px",
+            center: "",
+            rightIcon: "",
+            rightIconWidth: "",
+            rightIconHeight: "",
+            isShowRightMoney: false,
+            bgColor: "#0b0b0b",
+        },
+        successfulArrival: {
+            leftIcon: "back",
+            leftIconWidth: "32px",
+            leftIconHeight: "32px",
+            center: "",
+            rightIcon: "",
+            rightIconWidth: "",
+            rightIconHeight: "",
+            isShowRightMoney: false,
+            bgColor: "#0b0b0b",
+        },
+        cancelOrder: {
+            leftIcon: "back",
+            leftIconWidth: "32px",
+            leftIconHeight: "32px",
+            center: "",
+            rightIcon: "",
+            rightIconWidth: "",
+            rightIconHeight: "",
+            isShowRightMoney: false,
+            bgColor: "#0b0b0b",
+        },
+        orderStatus: {
+            leftIcon: "back",
+            leftIconWidth: "32px",
+            leftIconHeight: "32px",
+            center: "",
+            rightIcon: "",
+            rightIconWidth: "",
+            rightIconHeight: "",
+            isShowRightMoney: false,
+            bgColor: "#0b0b0b",
+        },
+        buy: {
+            leftIcon: "back",
+            leftIconWidth: "32px",
+            leftIconHeight: "32px",
+            center: "",
+            rightIcon: "",
+            rightIconWidth: "",
+            rightIconHeight: "",
+            isShowRightMoney: false,
+            bgColor: "#0b0b0b",
+        },
+        betPage: {
+            leftIcon: "back",
+            leftIconWidth: "32px",
+            leftIconHeight: "32px",
+            center: t("betPage.title"),
+            rightIcon: "bell",
+            noticeLink: "/sysNotice",
+            isShowRightMoney: false,
+            bgColor: "transparent",
+            link: "/contest",
+        },
+        sysNotice: {
+            leftIcon: "back",
+            leftIconWidth: "32px",
+            leftIconHeight: "32px",
+            center: t("sysNotice.title"),
+            rightIcon: "",
+            isShowRightMoney: false,
+            bgColor: "#202020",
+            link: "/home",
+        },
+        partner: {
+            leftIcon: "cter",
+            leftIconWidth: "58px",
+            leftIconHeight: "19px",
+            center: "",
+            rightIcon: "bell",
+            isShowRightMoney: true,
+            bgColor: "#202020",
+        },
+    }
+    return header
+})
 const state = reactive({
     pageName: route.name,
-    headerObj: headerConf
 
 })
 watchEffect(() => {
@@ -27,7 +211,7 @@ watchEffect(() => {
     state.pageName = route.name
 
 })
-const { headerObj, pageName } = toRefs(state)
+const { pageName } = toRefs(state)
 </script>
 <style scoped lang='scss'>
 .layout {

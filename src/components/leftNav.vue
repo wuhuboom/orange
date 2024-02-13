@@ -53,7 +53,7 @@
     </div>
 </template>
 <script setup >
-import { reactive, onMounted, ref, toRefs, watchEffect } from 'vue'
+import { reactive, computed, ref, toRefs, watchEffect } from 'vue'
 import http from '@/utils/axios'
 import { getImg } from '@/utils/utils'
 import { useRouter } from 'vue-router'
@@ -72,7 +72,29 @@ const state = reactive({
     showLangOpt: false,
     langTarget: 'EN',
     menuIndex: -1,
-    listArr: [
+    langList: [
+        // {
+        //     name: 'ZH'
+        // },
+        {
+            name: 'EN'
+        },
+        {
+            name: 'DE'
+        },
+        {
+            name: 'ES'
+        },
+        {
+            name: 'FR'
+        },
+        {
+            name: 'INS'
+        },
+    ],
+})
+const listArr = computed(() => {
+    return [
         {
             icon: 'money',
             name: '0.00',
@@ -163,29 +185,11 @@ const state = reactive({
             isOpen: false,
             isArrow: false
         },
-    ],
-    langList: [
-        {
-            name: 'EN'
-        },
-        {
-            name: 'DE'
-        },
-        {
-            name: 'ES'
-        },
-        {
-            name: 'FR'
-        },
-        {
-            name: 'INS'
-        },
-    ],
+    ]
 })
-
 function showSecondList(item, index) {
     state.menuIndex = index
-    state.listArr.forEach((j, i) => {
+    listArr.value.forEach((j, i) => {
         if (i != state.menuIndex) {
             j.isOpen = false
         }
@@ -204,7 +208,7 @@ function showSecondList(item, index) {
     }
 }
 function selectList(k, index) {
-    state.listArr.forEach(item => {
+    listArr.value.forEach(item => {
         if (item.hasOwnProperty('menu')) {
             item.menu.forEach(j => {
                 j.highlight = false
@@ -216,7 +220,7 @@ function selectList(k, index) {
 watchEffect(() => {
     // console.log('leftName', accountInfo);
     state.perInfo = accountInfo.value
-    state.listArr[0].name = accountInfo.value.currRate
+    listArr.value[0].name = accountInfo.value.currRate
 })
 function showSelect() {
     let langList = [
@@ -263,7 +267,7 @@ async function logOut() {
         console.log(error);
     }
 }
-const { listArr, perInfo, showLangOpt, langTarget, langList } = toRefs(state)
+const { perInfo, showLangOpt, langTarget, langList } = toRefs(state)
 </script>
 <style scoped lang='scss'>
 .leftNav {

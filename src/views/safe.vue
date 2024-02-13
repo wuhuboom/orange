@@ -47,7 +47,7 @@
     </div>
 </template>
 <script setup >
-import { toRefs, reactive, ref } from 'vue'
+import { toRefs, reactive, ref, computed } from 'vue'
 import { getImg, getAmount } from '@/utils/utils'
 import { useRouter } from 'vue-router'
 import http from '@/utils/axios'
@@ -55,29 +55,33 @@ import { useI18n } from 'vue-i18n'
 const { t, locale } = useI18n()
 const router = useRouter()
 const refreshRef = ref(null)
+const menu = computed(() => {
+    let menuArr =
+        [
+            {
+                imgName: 'send',
+                name: t('forget.send'),
+                link: '/send'
+            },
+            {
+                imgName: 'recharge',
+                name: t('home.index.recharge.text'),
+                link: '/recharge'
+            },
+            {
+                imgName: 'buy',
+                name: t('deal.orderDetail.197148-2'),
+                link: '/buy'
+            },
+            {
+                imgName: 'transfer',
+                name: t('wallet.index.transfer.text'),
+                link: '/transfer'
+            },
+        ]
+    return menuArr
+})
 const state = reactive({
-    menu: [
-        {
-            imgName: 'send',
-            name: t('forget.send'),
-            link: '/send'
-        },
-        {
-            imgName: 'recharge',
-            name: t('home.index.recharge.text'),
-            link: '/recharge'
-        },
-        {
-            imgName: 'buy',
-            name: t('deal.orderDetail.197148-2'),
-            link: '/buy'
-        },
-        {
-            imgName: 'transfer',
-            name: t('wallet.index.transfer.text'),
-            link: '/transfer'
-        },
-    ],
     safeData: {},
     angle: 0
 })
@@ -107,7 +111,7 @@ function getbalance() {
 function toPage(item) {
     router.push(item.link)
 }
-const { menu, safeData } = toRefs(state)
+const { safeData } = toRefs(state)
 </script>
 <style scoped lang='scss'>
 .safe {
