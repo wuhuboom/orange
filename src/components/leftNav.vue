@@ -462,7 +462,7 @@ const { perInfo, showLangOpt, langTarget, langList } = toRefs(state)
 
             .showOpt {
                 transition: height .5s ease-out;
-                height: 185px;
+                height: 160px;
             }
         }
 

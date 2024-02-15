@@ -85,7 +85,7 @@
                 <div class="rowDiv">
                     <span>{{ $t('rebate.center.list.nav.type.text') }}</span>
                     <!-- 下注类型1正波2反波, -->
-                    <span>{{ orderInfo?.betinfo?.betType }}</span>
+                    <span>{{ $t('order.search.fbd.text') }} </span>
                 </div>
                 <div class="rowDiv">
                     <span>{{ $t('bet.detail.score.text') }}</span>
@@ -109,8 +109,7 @@
                 </div>
                 <div class="rowDiv">
                     <span>{{ $t('order.dialog.status.text') }}</span>
-                    <!--  结算状态 0未结算 1已结算, -->
-                    <span>{{ orderInfo?.betinfo?.statusSettlement }}</span>
+                    <span>{{ $t(`order.orderInfo.statusOpen${orderInfo?.betinfo?.statusSettlement}`) }}</span>
                 </div>
                 <van-divider :style="{ backgroundColor: '#363636' }" />
             </template>

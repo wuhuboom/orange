@@ -358,7 +358,7 @@ const { langList, showLangOpt, langTarget, isRemember, isReadPwd, inputIndex, ve
 
   .showOpt {
     transition: height .5s ease-out;
-    height: 185px;
+    height: 160px;
   }
 }
 
