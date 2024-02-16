@@ -270,7 +270,7 @@ function handleClickTab(index) {
     state.betData = state.tabIndex == 0 ? state.secondHalfScore : state.firstHalfScore
 }
 function getErrorStyle(val) {
-    let errorMsgKey = ["betMoneyTooLittle", "betMoneyTooMuch", 'moneyMustThanZero'];
+    let errorMsgKey = ["betMoneyTooLittle", 'moneyMustThanZero'];
     return state.errorTips?.code === 103 && errorMsgKey.includes(state.errorTips?.msgkey)
 }
 const { tabIndex, betData, betIndex, betNum, isShowBetPanel, gameInfo, targetBetOpt, betPreData, potentialWinnings, betRangeMistake } = toRefs(state)

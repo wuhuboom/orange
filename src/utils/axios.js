@@ -42,11 +42,7 @@ http.interceptors.response.use(
     if (code === 200) {
       return data;
     } else if (code === 103) {
-      let errorMsgKey = [
-        "betMoneyTooLittle",
-        "betMoneyTooMuch",
-        "moneyMustThanZero",
-      ];
+      let errorMsgKey = ["betMoneyTooLittle", "moneyMustThanZero"];
       if (errorMsgKey.includes(data[0].msgKey)) {
         return {
           code,

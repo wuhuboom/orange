@@ -105,7 +105,7 @@ const listArr = computed(() => {
             menu: [
                 {
                     name: t('leftNav.deposit.text'),
-                    link: '',
+                    link: '/recharge',
                     highlight: false
                 },
                 {
