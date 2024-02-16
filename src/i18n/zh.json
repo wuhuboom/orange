@@ -86,6 +86,7 @@
   "withdraw.type.text": "提现方式",
   "withdraw.password.text": "提现密码",
   "withdraw.placeholder.text": "请输入提现密码",
+  "withdraw.add.newWallet.text": "添加新钱包",
   "transfer.title": "转账",
   "sysNotice.title": "消息中心",
   "sysNotice.System.Notice.text": "系统公告",

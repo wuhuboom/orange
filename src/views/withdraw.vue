@@ -24,11 +24,11 @@
                     <div class="cardName">{{ item.addr }}</div>
                 </div>
                 <img src="../assets/images/common/check.webp" class="checkIcon" alt="" v-if="index === channelIndex">
-                <van-icon name="arrow" color="#fff" v-else />
+                <!-- <van-icon name="arrow" color="#fff" v-else /> -->
             </div>
         </div>
         <div class="addWallet">
-            Add New Wallet
+            {{ $t('withdraw.add.newWallet.text') }}
             <div class="addIcon">
                 <van-icon name="plus" />
             </div>
@@ -189,6 +189,7 @@ const { amount, channelIndex, rechargeInfo, virtualCurrencyList, payPwd } = toRe
 
         .bankListActive {
             border: solid 1px #ff7c43;
+            background-color: #261d08;
         }
     }
 

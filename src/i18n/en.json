@@ -86,6 +86,7 @@
   "withdraw.type.text": "withdrawal type",
   "withdraw.password.text": "withdrawal password",
   "withdraw.placeholder.text": "please enter withdrawal password",
+  "withdraw.add.newWallet.text":"Add New Wallet",
   "sysNotice.title": "Message Center",
   "sysNotice.System.Notice.text": "System Notice",
   "sysNotice.Personal.Notice.text": "Personal Notice",
