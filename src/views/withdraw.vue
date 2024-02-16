@@ -27,8 +27,18 @@
                 <van-icon name="arrow" color="#fff" v-else />
             </div>
         </div>
+        <div class="addWallet">
+            Add New Wallet
+            <div class="addIcon">
+                <van-icon name="plus" />
+            </div>
+        </div>
+        <div class="sendBox">
+            <div class="title">{{ $t('withdraw.password.text') }}</div>
+            <input type="number" v-model="payPwd" :placeholder="$t('withdraw.placeholder.text')">
+        </div>
 
-        <div class="confirm" :class="{ confirmMt: virtualCurrencyList.length > 0 }" @click="toPage">
+        <div class="confirm" :class="{ confirmMt: virtualCurrencyList.length > 0 }" @click="submitWithdraw">
             {{ $t('modal.confirm.text') }}
         </div>
     </div>
@@ -48,33 +58,26 @@ const state = reactive({
     rechargeInfo: {},
     virtualCurrencyList: [],
     channelIndex: -1,
+    payPwd: ''
 })
-async function toPage() {
-    let url = '/player/safe/recharge'
-    if (state.channelIndex < 0) {
-        showToast(t('recharge.confirm.notSelectPayMet.text'))
+async function submitWithdraw() {
+    let url = '/player/withdrawal'
+    if (state.payPwd.length <= 0) {
+        showToast(t('withdraw.placeholder.text'))
         return
     }
-    let payId = state.virtualCurrencyList[state.channelIndex]?.id
     let data = {
+        type: '',
         money: state.amount,
-        payId
+        payPwd: state.payPwd
     }
     try {
         const res = await http.post(url, data)
         // console.log(res);
-        if (res?.UrlAddress) {
-            location.href = res?.UrlAddress
-        }
+
     } catch (error) {
 
     }
-}
-function getInputAmount() {
-    if (state.amount < 0) {
-        state.amount = 0
-    }
-
 }
 reachargePre()
 async function reachargePre() {
@@ -103,7 +106,7 @@ async function getVirtualList() {
 function selectBank(index) {
     state.channelIndex = index
 }
-const { amount, channelIndex, rechargeInfo, virtualCurrencyList } = toRefs(state)
+const { amount, channelIndex, rechargeInfo, virtualCurrencyList, payPwd } = toRefs(state)
 </script>
 <style scoped lang='scss'>
 .send {
@@ -189,6 +192,34 @@ const { amount, channelIndex, rechargeInfo, virtualCurrencyList } = toRefs(state
         }
     }
 
+    .addWallet {
+        height: 58px;
+        border-radius: 12px;
+        background-color: #1c1c1c;
+        @include flex(center);
+        font-size: 12px;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: normal;
+        letter-spacing: normal;
+        text-align: left;
+        color: #fff;
+        margin-bottom: 24px;
+
+        .addIcon {
+            width: 20px;
+            height: 20px;
+            margin: 0 0 0 13px;
+            border: solid 1px #fff;
+            color: #fff;
+            border-radius: 4px;
+            @include flex(center);
+            font-size: 14px;
+
+        }
+    }
+
     .arrow-down {
         width: 50px;
         height: 50px;
@@ -232,7 +263,7 @@ const { amount, channelIndex, rechargeInfo, virtualCurrencyList } = toRefs(state
     }
 
     .confirmMt {
-        margin-top: 10px;
+        margin-top: 20px;
     }
 }
 </style>
