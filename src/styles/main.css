@@ -78,3 +78,7 @@ body,
 .betPageToast {
   top: unset !important;
 }
+
+.textColorRed {
+  color: red !important;
+}

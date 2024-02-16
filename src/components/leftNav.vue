@@ -110,7 +110,7 @@ const listArr = computed(() => {
                 },
                 {
                     name: t('leftNav.withdrawal.text'),
-                    link: '',
+                    link: '/withdraw',
                     highlight: false
                 },
             ]
@@ -219,6 +219,12 @@ function selectList(k, index) {
         }
     })
     k.highlight = true
+    if (k.link) {
+        store.showLeftNav = false
+        router.push({
+            path: k.link
+        })
+    }
 }
 watchEffect(() => {
     // console.log('leftName', accountInfo);

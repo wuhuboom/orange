@@ -42,10 +42,15 @@ http.interceptors.response.use(
     if (code === 200) {
       return data;
     } else if (code === 103) {
-      if (data[0].msgKey == "betMoneyTooMuch") {
+      let errorMsgKey = [
+        "betMoneyTooLittle",
+        "betMoneyTooMuch",
+        "moneyMustThanZero",
+      ];
+      if (errorMsgKey.includes(data[0].msgKey)) {
         return {
           code,
-          msgkey: "betMoneyTooMuch",
+          msgkey: errorMsgKey.find((item) => item == data[0].msgKey),
         };
       }
       if (data.length > 0) {
@@ -53,6 +58,7 @@ http.interceptors.response.use(
         showToast({
           message: t(msgKey),
           wordBreak: "break-word",
+          className: "textColorRed",
         });
       }
       if (data[0].msgKey == "codeTimeOut") {
@@ -77,6 +83,7 @@ http.interceptors.response.use(
         showToast({
           message: showMsg,
           wordBreak: "break-word",
+          className: "textColorRed",
         });
       } else if (data.length === 2) {
         msgKey = `backapi.${data[0].msgKey}`;
@@ -86,10 +93,11 @@ http.interceptors.response.use(
         showToast({
           message: t(msgKey, { N: count }),
           wordBreak: "break-word",
+          className: "textColorRed",
         });
       }
     } else if (code === 402) {
-      showToast(msg);
+      showToast({ message: msg, className: "textColorRed" });
       setTimeout(() => {
         window.location.href = "/login";
       }, 500);

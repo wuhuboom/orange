@@ -22,7 +22,7 @@
             <div>
                 <div class="title lrPadding">
                     <span class="t_left">{{ $t('home.upcoming') }}</span>
-                    <span class="t_right">{{ $t('home.seeAll') }}</span>
+                    <span class="t_right" @click="toMatch">{{ $t('home.seeAll') }}</span>
                 </div>
                 <div class="foretell">
                     <Swiper slides-per-view="auto" :freeMode="true" :space-between="12">
@@ -50,7 +50,7 @@
             <div class="list">
                 <div class="title lrPadding">
                     <span class="t_left">{{ $t('home.topEvevnts') }}</span>
-                    <span class="t_right">{{ $t('home.seeAll') }}</span>
+                    <span class="t_right" @click="toMatch">{{ $t('home.seeAll') }}</span>
                 </div>
                 <div class="e_lists lrPadding">
                     <div class="item cursor" v-for="(item, index) in gameList" :key="index" @click="toBetPage(item)">
@@ -184,7 +184,11 @@ function toBetPage(item) {
         }
     })
 }
-
+function toMatch() {
+    router.push({
+        path: '/match'
+    })
+}
 const { swiper, upcomingSwiper, upcomingIndex, gameList, swiperAutoPlay } = toRefs(state)
 </script>
 <style scoped lang='scss'>

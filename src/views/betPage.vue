@@ -71,15 +71,16 @@
                         <span>{{ targetBetOpt.antiPerCent }}</span>
                     </p>
                 </div>
-                <p class="betRange"
-                    :class="{ errorStyle: (errorTips?.code === 103 && errorTips?.msgkey === 'betMoneyTooMuch') }">
-                    {{ $t('betPage.betting.range.minimum.text') }} {{ gameInfo?.game?.minBet }} - {{ gameInfo?.game?.maxBet
+                <p class="betRange" :class="{ errorStyle: (getErrorStyle() || betRangeMistake) }">
+                    {{ $t('betPage.betting.range.minimum.text') }} {{ betPreData?.game?.minBet }} - {{
+                        betPreData?.game?.maxBet
                     }}
                 </p>
                 <p class="betWinNum">{{ $t('betPage.potential.winnings.text') }}: <span>{{ potentialWinnings }}</span></p>
                 <div class="counter">
                     <div class="count-left flex">
-                        <input type="number" v-model="betNum" @input="getWinMoney">
+                        <input type="number" :class="{ errorStyle: (getErrorStyle() || betRangeMistake) }" v-model="betNum"
+                            @input="getWinMoney">
                         <img src="../assets/images/betpage/subtraction.webp" class="subtraction" alt=""
                             @click="subtraction">
                         <img src="../assets/images/betpage/add.webp" class="add" alt="" @click="add">
@@ -132,7 +133,8 @@ const state = reactive({
     targetBetOpt: {}, //投注项
     betPreData: {},
     potentialWinnings: 0,//
-    errorTips: {}
+    errorTips: {},
+    betRangeMistake: false
 })
 getGameInfo()
 async function getGameInfo() {
@@ -177,6 +179,10 @@ function quickBets(params) {
     state.potentialWinnings = getPotentialWin()
 }
 async function betSubmit() {
+    if (state.betNum < state.betPreData?.game?.minBet || state.betNum > state.betPreData?.game?.maxBet) {
+        state.betRangeMistake = true
+        return
+    }
     let url = '/player/bet'
     let data = {
         gameId: route?.query?.gameId,
@@ -217,6 +223,7 @@ function getPotentialWin() {
     return (antiPerCent * state.betNum / 100 - serviceFee).toFixed(4)
 }
 function getWinMoney() {
+    state.betRangeMistake = false
     state.errorTips = {}
     if (state.betNum < 0) {
         state.betNum = 0
@@ -228,6 +235,7 @@ function getWinMoney() {
     state.potentialWinnings = getPotentialWin()
 }
 function subtraction() {
+    state.betRangeMistake = false
     state.errorTips = {}
     state.betNum -= 1
     if (state.betNum <= 0) {
@@ -236,6 +244,7 @@ function subtraction() {
     state.potentialWinnings = getPotentialWin()
 }
 function add() {
+    state.betRangeMistake = false
     state.errorTips = {}
     if (state.betNum >= accountInfo?.value.currRate) {
         state.betNum = Number(accountInfo?.value.currRate)
@@ -260,7 +269,11 @@ function handleClickTab(index) {
     state.betIndex = -1
     state.betData = state.tabIndex == 0 ? state.secondHalfScore : state.firstHalfScore
 }
-const { tabIndex, betData, betIndex, betNum, isShowBetPanel, gameInfo, targetBetOpt, betPreData, potentialWinnings, errorTips } = toRefs(state)
+function getErrorStyle(val) {
+    let errorMsgKey = ["betMoneyTooLittle", "betMoneyTooMuch", 'moneyMustThanZero'];
+    return state.errorTips?.code === 103 && errorMsgKey.includes(state.errorTips?.msgkey)
+}
+const { tabIndex, betData, betIndex, betNum, isShowBetPanel, gameInfo, targetBetOpt, betPreData, potentialWinnings, betRangeMistake } = toRefs(state)
 </script>
 <style scoped lang='scss'>
 $bgHeight: 280px;
@@ -612,6 +625,10 @@ $bgHeight: 280px;
                         background-color: #24232a;
                         color: #fff;
                         padding-left: 12px;
+                    }
+
+                    .errorStyle {
+                        color: red;
                     }
 
                     img {
