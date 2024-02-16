@@ -83,6 +83,7 @@
   "recharge.current.exchang.rate": "Current exchang rate",
   "recharge.actual.receivedamount": "Actual receivedamount",
   "recharge.pay.method": "Payment Method",
+  "withdraw.page.title.text": "withdrawal",
   "withdraw.type.text": "withdrawal type",
   "withdraw.password.text": "withdrawal password",
   "withdraw.placeholder.text": "please enter withdrawal password",

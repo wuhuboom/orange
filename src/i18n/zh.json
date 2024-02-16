@@ -83,6 +83,7 @@
   "recharge.current.exchang.rate": "当前汇率",
   "recharge.actual.receivedamount": "实际收到金额",
   "recharge.pay.method": "支付方式",
+  "withdraw.page.title.text":"提现",
   "withdraw.type.text": "提现方式",
   "withdraw.password.text": "提现密码",
   "withdraw.placeholder.text": "请输入提现密码",

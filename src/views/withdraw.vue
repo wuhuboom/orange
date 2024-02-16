@@ -27,7 +27,7 @@
                 <!-- <van-icon name="arrow" color="#fff" v-else /> -->
             </div>
         </div>
-        <div class="addWallet">
+        <div class="addWallet" @click="addWalletPage">
             {{ $t('withdraw.add.newWallet.text') }}
             <div class="addIcon">
                 <van-icon name="plus" />
@@ -105,6 +105,11 @@ async function getVirtualList() {
 }
 function selectBank(index) {
     state.channelIndex = index
+}
+function addWalletPage() {
+    router.push({
+        path: '/addWalletAddress'
+    })
 }
 const { amount, channelIndex, rechargeInfo, virtualCurrencyList, payPwd } = toRefs(state)
 </script>
