@@ -92,6 +92,17 @@ const headerObj = computed(() => {
             isShowRightMoney: false,
             bgColor: "#0b0b0b",
         },
+        withdraw: {
+            leftIcon: "back",
+            leftIconWidth: "32px",
+            leftIconHeight: "32px",
+            center: 'withdrawal',
+            rightIcon: "hRightSafe",
+            rightIconWidth: "18px",
+            rightIconHeight: "18px",
+            isShowRightMoney: false,
+            bgColor: "#0b0b0b",
+        },
         swapInfo: {
             leftIcon: "back",
             leftIconWidth: "32px",

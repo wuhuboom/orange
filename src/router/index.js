@@ -157,6 +157,14 @@ const router = createRouter({
           component: () => import("../views/swapInfo.vue"),
         },
         {
+          path: "withdraw",
+          name: "withdraw",
+          meta: {
+            parentName: "",
+          },
+          component: () => import("../views/withdraw.vue"),
+        },
+        {
           path: "partner",
           name: "partner",
           meta: {
