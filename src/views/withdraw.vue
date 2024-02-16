@@ -265,7 +265,7 @@ const { amount, channelIndex, rechargeInfo, virtualCurrencyList, payPwd } = toRe
         @include flex(center);
         font-size: 14px;
         color: #fff;
-        margin: 30vh auto 0;
+        margin: 20vh auto 0;
     }
 
     .confirmMt {
