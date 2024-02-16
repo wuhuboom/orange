@@ -18,13 +18,14 @@
                         <div class="statusBox">
                             <div class="statusLeft">
                                 <p class="trading">{{ $t('order.trading.text') }}: {{ getAmount(item.betMoney) }}</p>
-                                <p class="profit">{{ $t('order.profit.text') }}: <span class="num">{{
-                                    getAmount(item.winningAmount) }}</span></p>
+                                <p class="profit">{{ $t('order.profit.text') }}: <span class="num"
+                                        :class="item.winningAmount > 0 ? 'winMoney' : (item.winningAmount < 0 ? 'lostMoney' : '')">{{
+                                            getAmount(item.winningAmount) }}</span></p>
                             </div>
                             <div class="statusRight">
                                 <!-- statusOpen 0未开奖 1已中奖 2未中奖, -->
                                 <!-- "status": 状态0.未确认 1已确认 2已取消 3 已撤消 4已回滚, -->
-                                <div class="cancel" v-if="item.statusOpen === 0">
+                                <div class="cancel cursor" v-if="item.statusOpen === 0">
                                     <span class="canceled" v-if="item.status === 3 || item.status === 2">
                                         {{ $t('wallet.index.order.state.cancel.text1') }}
                                     </span>
@@ -34,7 +35,8 @@
                                 </div>
                                 <div :style="{ color: item.statusOpen === 1 ? '#ff7c43' : '#10ab61' }"
                                     v-if="item.statusOpen !== 0">
-                                    {{ item.statusOpen === 1 ? 'WIN' : 'LOSE' }}
+                                    {{ item.statusOpen === 1 ? $t('order.statusOpen.win.text') :
+                                        $t('order.statusOpen.lose.text') }}
                                 </div>
                             </div>
                         </div>
@@ -43,7 +45,7 @@
                         <div class="orderNo">
                             {{ $t('order.no.text') }} {{ item.orderNo }}
                         </div>
-                        <div class="btn" @click="getOrderDetails(item)">
+                        <div class="btn cursor" @click="getOrderDetails(item)">
                             {{ item.statusSettlement === 0 ? $t('order.inProgress.text') : $t('table.head.detail.text') }}
                             <img v-if="item.statusSettlement === 1" src="../assets/images/common/arrow_right.webp" alt=""
                                 style="width: 14px;height: 14px;">
@@ -69,7 +71,7 @@
         <van-dialog v-model:show="orderShow" className="orderModal">
             <template #default>
                 <div class="header">
-                    <div class="h_left">
+                    <div class="h_left apostrophe">
                         {{ orderInfo?.game?.mainName }}
                     </div>
                     <div class="h_center">
@@ -77,7 +79,7 @@
                         <p v-if="orderInfo?.game?.score">{{ orderInfo?.game?.score }}</p>
                         <p class="date">{{ orderInfo?.game?.startTimeStr }}</p>
                     </div>
-                    <div class="h_right">
+                    <div class="h_right apostrophe">
                         {{ orderInfo?.game?.guestName }}
                     </div>
                 </div>
@@ -101,7 +103,9 @@
                 </div>
                 <div class="rowDiv">
                     <span>{{ $t('order.dialog.winAmount.text') }}</span>
-                    <span>{{ getAmount(orderInfo?.betinfo?.winningAmount) }}</span>
+                    <span
+                        :class="orderInfo?.betinfo?.winningAmount > 0 ? 'winMoney' : (orderInfo?.betinfo?.winningAmount < 0 ? 'lostMoney' : '')">{{
+                            getAmount(orderInfo?.betinfo?.winningAmount) }}</span>
                 </div>
                 <div class="rowDiv">
                     <span>{{ $t('order.dialog.start.text') }}</span>
@@ -109,7 +113,8 @@
                 </div>
                 <div class="rowDiv">
                     <span>{{ $t('order.dialog.status.text') }}</span>
-                    <span>{{ $t(`order.orderInfo.statusOpen${orderInfo?.betinfo?.statusSettlement}`) }}</span>
+                    <span class="dot" :class='`winOrLoseDot${orderInfo?.betinfo?.statusOpen}`'>{{
+                        getCurrOrderStatus(orderInfo?.betinfo?.statusOpen) }}</span>
                 </div>
                 <van-divider :style="{ backgroundColor: '#363636' }" />
             </template>
@@ -244,6 +249,15 @@ function changeTabs(item, index) {
     state.tabIndex = index
     orderList('refresh')
 }
+function getCurrOrderStatus(status) {
+    if (status === 0) {
+        return t('order.orderInfo.statusOpen0')
+    } else if (status === 1) {
+        return t('order.statusOpen.win.text')
+    } else if (status === 2) {
+        return t('order.statusOpen.lose.text')
+    }
+}
 const { tabsArr, tabIndex, dataList, listStatus, cancelShow, orderShow, orderInfo } = toRefs(state)
 </script>
 <style scoped lang='scss'>
@@ -253,6 +267,14 @@ const { tabsArr, tabIndex, dataList, listStatus, cancelShow, orderShow, orderInf
     box-sizing: border-box;
     padding-top: 10px;
     overflow: auto;
+
+    .winMoney {
+        color: #ff7c43 !important;
+    }
+
+    .lostMoney {
+        color: #10ab61 !important;
+    }
 
     .o_tabs {
         @include flex();
@@ -302,6 +324,9 @@ const { tabsArr, tabIndex, dataList, listStatus, cancelShow, orderShow, orderInf
                     font-size: 14px;
                     font-weight: 500;
                     color: #fff;
+                    width: 250px;
+                    display: flex;
+                    flex-wrap: wrap;
                 }
 
                 .date {
@@ -349,6 +374,7 @@ const { tabsArr, tabIndex, dataList, listStatus, cancelShow, orderShow, orderInf
                     .canceled {
                         color: #8d8d8d;
                     }
+
                 }
             }
         }
@@ -432,6 +458,7 @@ const { tabsArr, tabIndex, dataList, listStatus, cancelShow, orderShow, orderInf
                 color: #fff;
 
                 .h_left {
+                    width: 30%;
                     text-align: center;
                     font-size: 12px;
                     padding-right: 8px;
@@ -462,6 +489,7 @@ const { tabsArr, tabIndex, dataList, listStatus, cancelShow, orderShow, orderInf
                 }
 
                 .h_right {
+                    width: 30%;
                     font-size: 12px;
                     text-align: center;
                     padding-left: 8px;
@@ -492,6 +520,30 @@ const { tabsArr, tabIndex, dataList, listStatus, cancelShow, orderShow, orderInf
                 span:last-child {
                     text-align: center;
                     margin-left: 0px;
+                }
+
+                .dot {
+                    @include flex(center);
+                }
+
+                .winOrLoseDot1::before {
+                    content: '';
+                    width: 8px;
+                    height: 8px;
+                    display: block;
+                    border-radius: 50%;
+                    background-color: #ff7c43;
+                    margin-right: 4px;
+                }
+
+                .winOrLoseDot2::before {
+                    content: '';
+                    width: 8px;
+                    height: 8px;
+                    display: block;
+                    border-radius: 50%;
+                    background-color: #10ab61;
+                    margin-right: 4px;
                 }
             }
 

@@ -47,6 +47,8 @@
   "order.profit.text": "Profit",
   "order.inProgress.text": "in Progress",
   "order.no.text": "No.",
+  "order.statusOpen.win.text": "WIN",
+  "order.statusOpen.lose.text": "LOSE",
   "register.confirmPwd": "Confirm Password",
   "register.confirmErrorText": "The Confirm password cannot be empty",
   "register.referralCode": "Referral code",
