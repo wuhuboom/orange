@@ -478,6 +478,7 @@
   "recharge.record.status.pay.timeout.text": "支付超时",
   "recharge.record.filter.text": "筛选",
   "recharge.record.reset.text": "重置",
+  "recharge.confirm.notSelectPayMet.text": "请选择支付方式",
   "form.recharge.amount.place": "请输入充值金额",
   "form.account.place": "请输入账号",
   "form.password.place": "请输入密码",

@@ -720,6 +720,7 @@
   "recharge.record.status.pay.timeout.text": "payment timeout",
   "recharge.record.filter.text": "Filter",
   "recharge.record.reset.text": "Reset",
+  "recharge.confirm.notSelectPayMet.text": "Please select a payment method.",
   "form.recharge.amount.place": "Please enter the recharge amount",
   "form.account.place": "Please enter the username",
   "form.password.place": "Please enter the password",

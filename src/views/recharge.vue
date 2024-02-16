@@ -2,7 +2,7 @@
     <div class="send maxWidth lrPadding">
         <div class="sendBox">
             <div class="title">{{ $t('send.amount.placeholder.text') }}</div>
-            <input type="text" v-model="amount" :placeholder="$t('send.amount.placeholder.text')">
+            <input type="number" v-model="amount" @input="getInputAmount" :placeholder="$t('send.amount.placeholder.text')">
         </div>
         <div class="balance">
             <p>
@@ -17,16 +17,17 @@
         </div>
         <div class="sendBox">
             <div class="title" style="margin-bottom: 15px;">{{ $t('recharge.pay.method') }}</div>
-            <div class="bankList">
+            <div class="bankList cursor" v-for="(item, index) in channelList" :key="index"
+                :class="{ bankListActive: index === channelIndex }" @click="selectBank(index)">
                 <div class="left">
-                    <img src="../assets/images/common/bankIcon.jpg" alt="">
-                    <div class="cardName">Zalo Pay</div>
+                    <img :src="item.img" alt="">
+                    <div class="cardName">{{ item.name }}</div>
                 </div>
                 <van-icon name="arrow" color="#fff" />
             </div>
         </div>
 
-        <div class="confirm" @click="toPage">
+        <div class="confirm" :class="{ confirmMt: channelList.length > 0 }" @click="toPage">
             {{ $t('modal.confirm.text') }}
         </div>
     </div>
@@ -35,29 +36,54 @@
 import { reactive, toRefs, } from 'vue'
 import { useRouter } from "vue-router";
 import http from '@/utils/axios'
+import { showToast } from 'vant'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
 
 const router = useRouter()
 const state = reactive({
-    useName: '',
-    amount: '0.0',
-    payPwd: '',
-    rechargeInfo: {}
+    amount: '0',
+    rechargeInfo: {},
+    channelList: [],
+    channelIndex: -1,
 })
-function toPage() {
-    router.push({
-        path: '/swapInfo'
-    })
+async function toPage() {
+    let url = '/player/safe/recharge'
+    if (state.channelIndex < 0) {
+        showToast(t('recharge.confirm.notSelectPayMet.text'))
+        return
+    }
+    let payId = state.channelList[state.channelIndex]?.id
+    let data = {
+        money: state.amount,
+        payId
+    }
+    try {
+        const res = await http.post(url, data)
+        // console.log(res);
+        if (res?.UrlAddress) {
+            location.href = res?.UrlAddress
+            // router.push({
+            //     path: '/swapInfo'
+            // })
+
+        }
+    } catch (error) {
+
+    }
+}
+function getInputAmount() {
+    if (state.amount < 0) {
+        state.amount = 0
+    }
+
 }
 reachargePre()
 async function reachargePre() {
     let url = '/player/safe/recharge_pre'
     try {
         const res = await http.get(url)
-        console.log(
-            '%c res: ',
-            'background-color: #3756d4; padding: 4px 8px; border-radius: 2px; font-size: 14px; color: #fff; font-weight: 700;',
-            res
-        )
         if (res?.id) {
             state.rechargeInfo = res
         }
@@ -65,7 +91,22 @@ async function reachargePre() {
         console.log(error);
     }
 }
-const { useName, amount, payPwd, rechargeInfo } = toRefs(state)
+getMultiChannel()
+// 充值多渠道列表
+async function getMultiChannel() {
+    let url = '/player/safe/recharge_pre_mult'
+    try {
+        const res = await http.get(url)
+        console.log(res);
+        state.channelList = res
+    } catch (error) {
+        console.log(error);
+    }
+}
+function selectBank(index) {
+    state.channelIndex = index
+}
+const { amount, channelIndex, rechargeInfo, channelList } = toRefs(state)
 </script>
 <style scoped lang='scss'>
 .send {
@@ -113,6 +154,7 @@ const { useName, amount, payPwd, rechargeInfo } = toRefs(state)
             padding: 12px 7px 12px 12px;
             margin-bottom: 12px;
             box-sizing: border-box;
+            border: solid 1px;
 
             .left {
                 display: flex;
@@ -130,6 +172,10 @@ const { useName, amount, payPwd, rechargeInfo } = toRefs(state)
                     margin-left: 32px;
                 }
             }
+        }
+
+        .bankListActive {
+            border: solid 1px #ff7c43;
         }
     }
 
@@ -173,6 +219,10 @@ const { useName, amount, payPwd, rechargeInfo } = toRefs(state)
         font-size: 14px;
         color: #fff;
         margin: 30vh auto 0;
+    }
+
+    .confirmMt {
+        margin-top: 10px;
     }
 }
 </style>
