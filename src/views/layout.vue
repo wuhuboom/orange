@@ -114,6 +114,17 @@ const headerObj = computed(() => {
             isShowRightMoney: false,
             bgColor: "#0b0b0b",
         },
+        addBankCard: {
+            leftIcon: "back",
+            leftIconWidth: "32px",
+            leftIconHeight: "32px",
+            center: t('addBankCard.title.text'),
+            rightIcon: "",
+            rightIconWidth: "18px",
+            rightIconHeight: "18px",
+            isShowRightMoney: false,
+            bgColor: "#0b0b0b",
+        },
         swapInfo: {
             leftIcon: "back",
             leftIconWidth: "32px",

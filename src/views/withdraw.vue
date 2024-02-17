@@ -18,10 +18,10 @@
         <div class="sendBox">
             <div class="title" style="margin-bottom: 15px;">{{ $t('withdraw.type.text') }}</div>
             <div class="bankList cursor" v-for="(item, index) in virtualCurrencyList" :key="index"
-                :class="{ bankListActive: index === channelIndex }" @click="selectBank(index)">
+                :class="{ bankListActive: index === channelIndex }" @click="selectBank(item, index)">
                 <div class="left">
                     <img :src="item.img" alt="">
-                    <div class="cardName">{{ item.addr }}</div>
+                    <div class="cardName">{{ item.name }}</div>
                 </div>
                 <img src="../assets/images/common/check.webp" class="checkIcon" alt="" v-if="index === channelIndex">
                 <!-- <van-icon name="arrow" color="#fff" v-else /> -->
@@ -54,7 +54,7 @@ const { t } = useI18n()
 
 const router = useRouter()
 const state = reactive({
-    amount: '0',
+    amount: '',
     rechargeInfo: {},
     virtualCurrencyList: [],
     channelIndex: -1,
@@ -67,7 +67,7 @@ async function submitWithdraw() {
         return
     }
     let data = {
-        type: '',
+        type: state.virtualCurrencyList[state.channelIndex].currencySymbol,
         money: state.amount,
         payPwd: state.payPwd
     }
@@ -81,30 +81,18 @@ async function submitWithdraw() {
 }
 reachargePre()
 async function reachargePre() {
-    let url = '/player/safe/recharge_pre'
+    let url = '/player/withdrawal_pre'
     try {
         const res = await http.get(url)
-        if (res?.id) {
-            state.rechargeInfo = res
-        }
-    } catch (error) {
-        console.log(error);
-    }
-}
-getVirtualList()
-// 充值多渠道列表
-async function getVirtualList() {
-    let url = '/player/virtual_currency_list'
-    try {
-        const res = await http.post(url)
-        console.log(res);
         state.virtualCurrencyList = res
     } catch (error) {
         console.log(error);
     }
 }
-function selectBank(index) {
+
+function selectBank(item, index) {
     state.channelIndex = index
+    state.rechargeInfo = item
 }
 function addWalletPage() {
     router.push({

@@ -100,11 +100,11 @@ const listArr = computed(() => {
         {
             icon: 'money',
             name: '0.00',
-            isOpen: false,
+            isOpen: true,
             isArrow: true,
             menu: [
                 {
-                    name: t('leftNav.deposit.text'),
+                    name: t('leftNav.recharge.text'),
                     link: '/recharge',
                     highlight: false
                 },
