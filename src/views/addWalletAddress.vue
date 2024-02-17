@@ -1,33 +1,33 @@
 <template>
     <div class="addWalletAddress maxWidth lrPadding">
         <div class="sendBox">
-            <div class="title">Type</div>
-            <input type="number" v-model="walletType" placeholder="请输入钱包类型">
+            <div class="title">{{ $t('addWalletAddress.type.text') }}</div>
+            <input type="number" v-model="walletType" :placeholder="$t('addWalletAddress.walletType.plaaceholder.text')">
         </div>
         <div class="sendBox">
-            <div class="title">Wallet ID</div>
-            <input type="number" v-model="walletId" placeholder="请输入钱包id">
+            <div class="title">{{ $t('addWalletAddress.walletId.text') }}</div>
+            <input type="number" v-model="walletId" :placeholder="$t('addWalletAddress.walletId.plaaceholder.text')">
         </div>
         <div class="sendBox relative" @click="showSelectOpt">
-            <div class="title">Please select verification method</div>
+            <div class="title">{{ $t('addWalletAddress.verify.methods.text') }}</div>
             <div class="verifyOpt cursor " :class="{ hideBr: isShowVerifyMet }">
-                <input type="number" v-model="walletId" disabled placeholder="Email verification method">
+                <div class="vmType">{{ verifyMetVal }}</div>
                 <div class="arrowBox">
                     <van-icon :name="isShowVerifyMet ? 'arrow-up' : 'arrow-down'" />
                 </div>
             </div>
             <div class="verifyMethods" :class="{ showVMOpt: isShowVerifyMet }">
-                <div class="itemOpt" :class="{ ioAcitve: verifyMetIndex === 0 }" @click="selectVerifyOpt(0)">Phone
-                    Verification</div>
-                <div class="itemOpt" :class="{ ioAcitve: verifyMetIndex === 1 }" @click="selectVerifyOpt(1)">Email
-                    verification method</div>
+                <div class="itemOpt" :class="{ ioAcitve: verifyMetIndex === 0 }" @click="selectVerifyOpt(0)">{{
+                    $t('addWalletAddress.verify.phone.text') }}</div>
+                <div class="itemOpt" :class="{ ioAcitve: verifyMetIndex === 1 }" @click="selectVerifyOpt(1)">{{
+                    $t('addWalletAddress.verify.email.text') }}</div>
             </div>
         </div>
         <div class="sendBox">
             <div class="verifyOpt cursor">
-                <input type="number" v-model="walletId" placeholder="Enter Verification Code">
+                <input type="number" v-model="walletId" :placeholder="$t('addWalletAddress.verify.code.text')">
                 <div class="sendBtn">
-                    Send
+                    {{ $t('forget.send') }}
                 </div>
             </div>
         </div>
@@ -38,7 +38,7 @@
     </div>
 </template>
 <script setup >
-import { reactive, toRefs, } from 'vue'
+import { reactive, toRefs, onMounted } from 'vue'
 import { useRouter } from "vue-router";
 import http from '@/utils/axios'
 import { showToast } from 'vant'
@@ -49,15 +49,28 @@ const state = reactive({
     walletType: '',
     walletId: '',
     isShowVerifyMet: false,
-    verifyMetIndex: 0,
+    verifyMetIndex: 1,
+    verifyMetVal: ''
 })
 function selectVerifyOpt(index) {
     state.verifyMetIndex = index
+    if (index === 0) {
+        state.verifyMetVal = t('addWalletAddress.verify.phone.text')
+    } else {
+        state.verifyMetVal = t('addWalletAddress.verify.email.text')
+    }
 }
 function showSelectOpt() {
     state.isShowVerifyMet = !state.isShowVerifyMet
 }
-const { walletType, walletId, isShowVerifyMet, verifyMetIndex } = toRefs(state)
+onMounted(() => {
+    if (state.verifyMetIndex === 0) {
+        state.verifyMetVal = t('addWalletAddress.verify.phone.text')
+    } else {
+        state.verifyMetVal = t('addWalletAddress.verify.email.text')
+    }
+})
+const { walletType, walletId, isShowVerifyMet, verifyMetIndex, verifyMetVal } = toRefs(state)
 </script>
 <style scoped lang='scss'>
 .addWalletAddress {
@@ -106,6 +119,11 @@ const { walletType, walletId, isShowVerifyMet, verifyMetIndex } = toRefs(state)
             input {
                 width: 90%;
                 margin: 0;
+            }
+
+            .vmType {
+                @extend input;
+                @include flex(flex-start);
             }
 
             .arrowBox {
