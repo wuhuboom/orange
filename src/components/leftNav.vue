@@ -221,9 +221,18 @@ function selectList(k, index) {
     k.highlight = true
     if (k.link) {
         store.showLeftNav = false
-        router.push({
-            path: k.link
-        })
+        if (k.link === '/recharge') {
+            router.push({
+                path: k.link,
+                query: {
+                    rechargeType: 'football'
+                }
+            })
+        } else {
+            router.push({
+                path: k.link
+            })
+        }
     }
 }
 watchEffect(() => {

@@ -8,13 +8,19 @@
             <div class="title">Wallet ID</div>
             <input type="number" v-model="walletId" placeholder="请输入钱包id">
         </div>
-        <div class="sendBox">
+        <div class="sendBox relative" @click="showSelectOpt">
             <div class="title">Please select verification method</div>
-            <div class="verifyOpt cursor">
-                <input type="number" v-model="walletId" placeholder="Email verification method">
+            <div class="verifyOpt cursor " :class="{ hideBr: isShowVerifyMet }">
+                <input type="number" v-model="walletId" disabled placeholder="Email verification method">
                 <div class="arrowBox">
-                    <van-icon name="arrow-down" />
+                    <van-icon :name="isShowVerifyMet ? 'arrow-up' : 'arrow-down'" />
                 </div>
+            </div>
+            <div class="verifyMethods" :class="{ showVMOpt: isShowVerifyMet }">
+                <div class="itemOpt" :class="{ ioAcitve: verifyMetIndex === 0 }" @click="selectVerifyOpt(0)">Phone
+                    Verification</div>
+                <div class="itemOpt" :class="{ ioAcitve: verifyMetIndex === 1 }" @click="selectVerifyOpt(1)">Email
+                    verification method</div>
             </div>
         </div>
         <div class="sendBox">
@@ -41,9 +47,17 @@ import { useI18n } from 'vue-i18n'
 const { t } = useI18n()
 const state = reactive({
     walletType: '',
-    walletId: ''
+    walletId: '',
+    isShowVerifyMet: false,
+    verifyMetIndex: 0,
 })
-const { walletType, walletId } = toRefs(state)
+function selectVerifyOpt(index) {
+    state.verifyMetIndex = index
+}
+function showSelectOpt() {
+    state.isShowVerifyMet = !state.isShowVerifyMet
+}
+const { walletType, walletId, isShowVerifyMet, verifyMetIndex } = toRefs(state)
 </script>
 <style scoped lang='scss'>
 .addWalletAddress {
@@ -113,6 +127,41 @@ const { walletType, walletId } = toRefs(state)
                 color: #fff;
 
             }
+        }
+
+        .hideBr {
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+
+        .verifyMethods {
+            width: 100%;
+            position: absolute;
+            top: 73px;
+            background-color: #333;
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+            height: 0;
+            transition: height .5s ease-out;
+            overflow: hidden;
+
+            .itemOpt {
+                height: 50px;
+                line-height: 50px;
+                padding-left: 15px;
+                font-family: SFProText;
+                font-size: 14px;
+                color: #fff;
+
+            }
+
+            .ioAcitve {
+                background-color: rgba(255, 124, 67, 0.18);
+            }
+        }
+
+        .showVMOpt {
+            height: 100px;
         }
     }
 

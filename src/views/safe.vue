@@ -90,11 +90,6 @@ async function getSafeInfo() {
     let url = '/player/safe/info'
     try {
         const res = await http.get(url)
-        console.log(
-            '%c res : ',
-            'background-color: #3756d4; padding: 4px 8px; border-radius: 2px; font-size: 14px; color: #fff; font-weight: 700;',
-            res
-        )
         if (res?.id) {
             state.safeData = res
             refreshRef.value.style.transform = "none"
@@ -104,12 +99,22 @@ async function getSafeInfo() {
     }
 }
 function getbalance() {
-    console.log(refreshRef.value.style);
     state.angle -= 360
     refreshRef.value.style.transform = `rotate(${state.angle}deg)`
 }
 function toPage(item) {
-    router.push(item.link)
+    if (item.link === '/recharge') {
+        router.push({
+            path: item.link,
+            query: {
+                rechargeType: 'safe'
+            }
+        })
+
+    } else {
+        router.push(item.link)
+
+    }
 }
 const { safeData } = toRefs(state)
 </script>

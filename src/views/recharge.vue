@@ -18,7 +18,7 @@
         <div class="sendBox">
             <div class="title" style="margin-bottom: 15px;">{{ $t('recharge.pay.method') }}</div>
             <div class="bankList cursor" v-for="(item, index) in channelList" :key="index"
-                :class="{ bankListActive: index === channelIndex }" @click="selectBank(index)">
+                :class="{ bankListActive: index === channelIndex }" @click="selectBank(item, index)">
                 <div class="left">
                     <img :src="item.img" alt="">
                     <div class="cardName">{{ item.name }}</div>
@@ -34,7 +34,7 @@
 </template>
 <script setup>
 import { reactive, toRefs, } from 'vue'
-import { useRouter } from "vue-router";
+import { useRouter, useRoute } from "vue-router";
 import http from '@/utils/axios'
 import { showToast } from 'vant'
 import { useI18n } from 'vue-i18n'
@@ -42,6 +42,9 @@ import { useI18n } from 'vue-i18n'
 const { t } = useI18n()
 
 const router = useRouter()
+const route = useRoute()
+const { rechargeType } = route.query
+
 const state = reactive({
     amount: '0',
     rechargeInfo: {},
@@ -49,7 +52,9 @@ const state = reactive({
     channelIndex: -1,
 })
 async function toPage() {
-    let url = '/player/safe/recharge'
+    let safeUrl = '/player/safe/recharge'
+    let footballUrl = '/player/recharge'
+    let url = rechargeType === 'football' ? footballUrl : safeUrl
     if (state.channelIndex < 0) {
         showToast(t('recharge.confirm.notSelectPayMet.text'))
         return
@@ -79,9 +84,13 @@ function getInputAmount() {
     }
 
 }
-reachargePre()
+if (rechargeType === 'safe') {
+    reachargePre()
+}
 async function reachargePre() {
     let url = '/player/safe/recharge_pre'
+    // let footballUrl = '/player/recharge_pre'
+    // let url = rechargeType === 'football' ? footballUrl : safeUrl
     try {
         const res = await http.get(url)
         if (res?.id) {
@@ -94,17 +103,21 @@ async function reachargePre() {
 getMultiChannel()
 // 充值多渠道列表
 async function getMultiChannel() {
-    let url = '/player/safe/recharge_pre_mult'
+    let safeUrl = '/player/safe/recharge_pre_mult'
+    let footballUrl = '/player/recharge_pre'
+    let url = rechargeType === 'football' ? footballUrl : safeUrl
     try {
         const res = await http.get(url)
-        console.log(res);
         state.channelList = res
     } catch (error) {
         console.log(error);
     }
 }
-function selectBank(index) {
+function selectBank(item, index) {
     state.channelIndex = index
+    if (rechargeType === 'football') {
+        state.rechargeInfo = item
+    }
 }
 const { amount, channelIndex, rechargeInfo, channelList } = toRefs(state)
 </script>
