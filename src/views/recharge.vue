@@ -28,7 +28,7 @@
             </div>
         </div>
 
-        <div class="confirm" :class="{ confirmMt: channelList.length > 0 }" @click="toPage">
+        <div class="confirm cursor" :class="{ confirmMt: channelList.length > 0 }" @click="toPage">
             {{ $t('modal.confirm.text') }}
         </div>
     </div>
