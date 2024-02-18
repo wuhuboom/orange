@@ -34,7 +34,7 @@
                 </div>
             </div>
         </div>
-        <div class="addWallet" @click="addWalletPage">
+        <div class="addWallet cursor" @click="addWalletPage">
             {{ $t('withdraw.add.newWallet.text') }}
             <div class="addIcon">
                 <van-icon name="plus" />
@@ -64,7 +64,7 @@ const state = reactive({
     amount: '',
     rechargeInfo: {},
     virtualCurrencyList: [],
-    channelIndex: -1,
+    channelIndex: 0,
     payPwd: '',
     usdtWallet: [],//usdt地址列表
     eWallet: [],//E-Wallet地址列表
@@ -79,10 +79,9 @@ async function submitWithdraw() {
         return
     }
     if (state.channelIndex < 0) {
-        showToast(t('请选择提现方式'))
+        showToast(t('withdraw.withdrawType.text'))
         return
     }
-    console.log(state.virtualCurrencyList);
     let data = {
         type: state.virtualCurrencyList[state.channelIndex].type,
         usdtId: state.currentWAList[state.walletAddrIndex].id,
@@ -195,7 +194,10 @@ function selectWallet(k, j, item) {
 }
 function addWalletPage() {
     router.push({
-        path: '/addWalletAddress'
+        path: '/addWalletAddress',
+        query: {
+            addType: state.virtualCurrencyList[state.channelIndex].type
+        }
     })
 }
 watchEffect(() => {

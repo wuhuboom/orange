@@ -2,11 +2,13 @@
     <div class="addWalletAddress maxWidth lrPadding">
         <div class="sendBox">
             <div class="title">{{ $t('addWalletAddress.type.text') }}</div>
-            <input type="number" v-model="walletType" :placeholder="$t('addWalletAddress.walletType.plaaceholder.text')">
+            <input type="number" class="hideInputBtn" v-model="walletType"
+                :placeholder="$t('addWalletAddress.walletType.plaaceholder.text')">
         </div>
         <div class="sendBox">
             <div class="title">{{ $t('addWalletAddress.walletId.text') }}</div>
-            <input type="number" v-model="walletId" :placeholder="$t('addWalletAddress.walletId.plaaceholder.text')">
+            <input type="number" class="hideInputBtn" v-model="walletId"
+                :placeholder="$t('addWalletAddress.walletId.plaaceholder.text')">
         </div>
         <div class="sendBox relative" @click="showSelectOpt">
             <div class="title">{{ $t('addWalletAddress.verify.methods.text') }}</div>
@@ -87,7 +89,7 @@ const { walletType, walletId, isShowVerifyMet, verifyMetIndex, verifyMetVal } = 
         margin-top: 20px;
 
         .title {
-            width: 350px;
+            width: 100%;
             display: block;
             margin: 0 auto;
             font-family: SFProText;
@@ -96,7 +98,7 @@ const { walletType, walletId, isShowVerifyMet, verifyMetIndex, verifyMetVal } = 
         }
 
         input {
-            width: 350px;
+            width: 100%;
             height: 49px;
             border-radius: 10px;
             border: none;

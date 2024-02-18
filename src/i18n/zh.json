@@ -89,6 +89,7 @@
   "withdraw.placeholder.text": "请输入提现密码",
   "withdraw.add.newWallet.text": "添加新钱包",
   "withdraw.success.text": "提现成功",
+  "withdraw.withdrawType.text": "请选择提现方式",
   "addWalletAddress.type.text": "类型",
   "addWalletAddress.walletId.text": "钱包 ID",
   "addWalletAddress.walletType.plaaceholder.text": "请输入钱包类型",
