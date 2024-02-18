@@ -60,6 +60,10 @@ async function toPage() {
         showToast(t('recharge.confirm.notSelectPayMet.text'))
         return
     }
+    if (state.amount <= 4) {
+        showToast(t('backapi.payMoneyTooMinOrMax'))
+        return
+    }
     let payId = state.channelList[state.channelIndex]?.id
     let data = {
         money: state.amount,
