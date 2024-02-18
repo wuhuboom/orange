@@ -233,6 +233,8 @@ function selectList(k, index) {
                 path: k.link
             })
         }
+
+        k.highlight = false
     }
 }
 watchEffect(() => {

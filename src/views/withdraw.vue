@@ -58,6 +58,36 @@
         <div class="confirm cursor" :class="{ confirmMt: virtualCurrencyList.length > 0 }" @click="submitWithdraw">
             {{ $t('modal.confirm.text') }}
         </div>
+
+        <div class="tip_mod_container">
+            <div class="tip_mod">
+                <div class="tip_title">{{ $t("recharge.tip.title.text") }}</div>
+                <div class="tip_item">
+                    1、{{ $t('withdraw.desc.list1') }} {{ rechargeInfo.everydayWithdrawFree }}
+                </div>
+                <div class="tip_item">
+                    2、{{ $t('withdraw.desc.list2') }} {{ rechargeInfo.everydayWithdrawTimes }}
+                </div>
+                <div class="tip_item">
+                    3、{{ $t('withdraw.desc.list3') }} {{ rechargeInfo.withdrawalRate }}%
+                </div>
+                <div class="tip_item">
+                    4、{{ $t('withdraw.desc.list4') }} {{ rechargeInfo.withdrawMax }},{{ $t('withdraw.desc.list5') }} {{
+                        rechargeInfo.withdrawMin }}
+                </div>
+                <div class="tip_item">
+                    5、{{ $t('withdraw.desc.list6') }} {{ rechargeInfo.withdrawalToday }}
+                </div>
+                <div class="tip_item">
+                    6、{{ $t('withdraw.desc.list7') }} {{ rechargeInfo.withdrawalRateMin }},{{ $t('withdraw.desc.list8') }}
+                    {{
+                        rechargeInfo.withdrawalRateMax }}
+                </div>
+                <div class="tip_item">
+                    7、{{ $t('withdraw.desc.list9') }} {{ rechargeInfo.usdtWithdrawPer }}
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 <script setup>
@@ -81,7 +111,7 @@ const state = reactive({
     bankList: [],//bank地址列表
     currentWAList: [],
     walletAddrIndex: 0,
-    isShowWalletOpt: false
+    isShowWalletOpt: false,
 })
 async function submitWithdraw() {
     let url = '/player/withdrawal'
@@ -111,7 +141,6 @@ async function submitWithdraw() {
     }
 }
 function getAddText() {
-    console.log(state.rechargeInfo);
     if (state.rechargeInfo.name == 'E-Wallet') {
         return t('withdraw.add.eWallet.text')
     } else if (state.rechargeInfo.name === 'Bank') {
@@ -133,7 +162,9 @@ async function reachargePre() {
         }
         state.virtualCurrencyList = res
         state.rechargeInfo = state.virtualCurrencyList[state.channelIndex]
-
+        if (!localStorage.getItem('toaddFlag')) {
+            localStorage.setItem('toaddFlag', 0)
+        }
         if (state.rechargeInfo.name == 'E-Wallet') {
             eWalletList()
         } else if (state.rechargeInfo.name === 'Bank') {
@@ -151,9 +182,11 @@ async function getUsdtWalletList() {
     let url = '/player/virtual_currency_list'
     try {
         const res = await http.post(url)
-        // console.log(res);
         state.usdtWallet = res || []
         state.currentWAList = state.usdtWallet
+        if (state.currentWAList.length == 0 && localStorage.getItem('toaddFlag') == 0) {
+            addWalletPage()
+        }
     } catch (error) {
         console.log(error);
     }
@@ -174,6 +207,9 @@ async function getBankList() {
             state.bankList.push(res)
         }
         state.currentWAList = state.bankList
+        if (state.currentWAList.length == 0 && localStorage.getItem('toaddFlag') == 0) {
+            addWalletPage()
+        }
     } catch (error) {
         console.log(error);
     }
@@ -190,6 +226,9 @@ async function eWalletList() {
             })
             state.eWallet = res
             state.currentWAList = state.eWallet
+            if (state.currentWAList.length == 0 && localStorage.getItem('toaddFlag') == 0) {
+                addWalletPage()
+            }
         }
     } catch (error) {
         console.log(error);
@@ -215,6 +254,7 @@ function selectBank(item, index) {
     } else if (item.name === 'USDT') {
         state.currentWAList = state.usdtWallet
     }
+    console.log(item);
     state.rechargeInfo = item
     state.channelIndex = index
     item.showCurrWallet = !item.showCurrWallet
@@ -225,10 +265,11 @@ function selectWallet(k, j,) {
     state.isShowWalletOpt = false
 }
 function addWalletPage() {
+    localStorage.setItem('toaddFlag', 1)
     router.push({
         path: '/addWalletAddress',
         query: {
-            addType: state.virtualCurrencyList[state.channelIndex].type
+            addType: state.virtualCurrencyList[state.channelIndex].name
         }
     })
 }
@@ -454,7 +495,7 @@ const { amount, channelIndex, rechargeInfo, virtualCurrencyList, payPwd, current
     }
 
     .confirm {
-        width: 351px;
+        width: 100%;
         height: 48px;
         border-radius: 14px;
         background-color: #ff7c43;
@@ -468,5 +509,29 @@ const { amount, channelIndex, rechargeInfo, virtualCurrencyList, payPwd, current
     .confirmMt {
         margin-top: 20px;
     }
+
+    .tip_mod_container {
+        margin-top: 20px;
+        color: #c4c4c4;
+        font-size: 12px;
+
+        .tip_mod {
+            // @include bg-24232A;
+            margin-bottom: 48px;
+
+            .tip_title {
+                margin-bottom: 24px;
+                // @include font-se-28;
+                // @include color-B5DB1C;
+            }
+
+            .tip_item {
+                margin-bottom: 16px;
+                // @include font-se-24;
+                // @include color-C4C4C4;
+            }
+        }
+    }
+
 }
 </style>
