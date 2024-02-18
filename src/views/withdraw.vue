@@ -45,7 +45,7 @@
             </div>
         </div>
         <div class="addWallet cursor" @click="addWalletPage">
-            {{ $t('withdraw.add.newWallet.text') }}
+            {{ getAddText() }}
             <div class="addIcon">
                 <van-icon name="plus" />
             </div>
@@ -110,6 +110,16 @@ async function submitWithdraw() {
 
     }
 }
+function getAddText() {
+    console.log(state.rechargeInfo);
+    if (state.rechargeInfo.name == 'E-Wallet') {
+        return t('withdraw.add.eWallet.text')
+    } else if (state.rechargeInfo.name === 'Bank') {
+        return t('withdraw.add.bankCard.text')
+    } else if (state.rechargeInfo.name === 'USDT') {
+        return t('withdraw.add.usdt.text')
+    }
+}
 // 提现准备
 reachargePre()
 async function reachargePre() {
@@ -123,7 +133,6 @@ async function reachargePre() {
         }
         state.virtualCurrencyList = res
         state.rechargeInfo = state.virtualCurrencyList[state.channelIndex]
-        console.log(state.rechargeInfo);
 
         if (state.rechargeInfo.name == 'E-Wallet') {
             eWalletList()
