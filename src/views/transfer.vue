@@ -33,6 +33,8 @@ import { getAmount } from '@/utils/utils'
 import http from '@/utils/axios'
 import { showToast } from 'vant'
 import { useStore } from '@/stores/index'
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
 const store = useStore()
 const accountInfo = computed(() => store.accountInfo)
 const state = reactive({
@@ -61,6 +63,14 @@ async function confirmTransfer() {
     let data = {
         money: state.amount,
         payPwd: state.payPwd
+    }
+    if (state.payPwd === '') {
+        showToast(t('backapi.payPwdIsEmpty'))
+        return
+    }
+    if (state.amount <= 4) {
+        showToast(t('backapi.payMoneyTooMinOrMax'))
+        return
     }
     http.post(url, data).then(res => {
         if (res === null) {

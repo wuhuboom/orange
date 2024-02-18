@@ -71,7 +71,7 @@ async function confirmTransfer() {
         showToast(t('backapi.usernameIsEmpty'))
         return
     }
-    if (state.money <= 4) {
+    if (state.amount <= 4) {
         showToast(t('backapi.payMoneyTooMinOrMax'))
         return
     }
