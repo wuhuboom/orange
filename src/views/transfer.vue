@@ -53,11 +53,11 @@ async function confirmTransfer() {
             'background-color: #3756d4; padding: 4px 8px; border-radius: 2px; font-size: 14px; color: #fff; font-weight: 700;',
             res
         )
-
-        state.amount = 0
-        state.payPwd = ''
-        // store.getUserInfo()
-        showToast('success')
+        if (res === null) {
+            state.amount = 0
+            state.payPwd = ''
+            showToast('success')
+        }
     })
 
 }
