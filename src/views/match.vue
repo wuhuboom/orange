@@ -346,7 +346,7 @@ const { activeNames, list, teamName, loading, finished, refreshing, dateIndex, t
                                     padding: 10px 15px 10px 11px;
 
                                     .main_left {
-                                        width: calc(100% - 71px);
+                                        width: calc(100% - 75px);
                                         @include flex(flex-start);
 
                                         .date {
@@ -378,7 +378,7 @@ const { activeNames, list, teamName, loading, finished, refreshing, dateIndex, t
                                     }
 
                                     .main_right {
-                                        width: 71px;
+                                        width: 75px;
                                         height: 32px;
                                         padding: 8px 10px;
                                         border-radius: 16px;

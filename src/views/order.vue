@@ -46,9 +46,10 @@
                             {{ $t('order.no.text') }} {{ item.orderNo }}
                         </div>
                         <div class="btn cursor" @click="getOrderDetails(item)">
-                            {{ item.statusSettlement === 0 ? $t('order.inProgress.text') : $t('table.head.detail.text') }}
+                            <!-- {{ item.statusSettlement === 0 ? $t('order.inProgress.text') : $t('table.head.detail.text') }}
                             <img v-if="item.statusSettlement === 1" src="../assets/images/common/arrow_right.webp" alt=""
-                                style="width: 14px;height: 14px;">
+                                style="width: 14px;height: 14px;"> -->
+                            {{ $t(`order.orderInfo.statusOpen${item.statusOpen}`) }}
                         </div>
                     </div>
                 </div>
