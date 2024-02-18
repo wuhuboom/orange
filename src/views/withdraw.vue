@@ -25,12 +25,22 @@
                     <div class="cardName">{{ item.name }}</div>
                 </div>
                 <img src="../assets/images/common/check.webp" class="checkIcon" alt="" v-if="index === channelIndex">
-                <div class="currentWalletList"
+                <!-- <div class="currentWalletList"
                     :class="{ showCurrentWallet: item.showCurrWallet && index === channelIndex }">
                     <div class="wItem" v-for="(k, j) in currentWAList" :class="{ wItActive: walletAddrIndex === j }"
                         :key="j" @click.stop="selectWallet(k, j, item)">
                         {{ k.addr }}
                     </div>
+                </div> -->
+            </div>
+        </div>
+        <div class="WAddress cursor relative" @click="showADList" v-if="currentWAList[walletAddrIndex]?.addr">
+            {{ currentWAList[walletAddrIndex].addr }}
+            <van-icon :name="isShowWalletOpt ? 'arrow-up' : 'arrow-down'" size="18" />
+            <div class="currentWalletList" :class="{ showCurrentWallet: isShowWalletOpt }">
+                <div class="wItem" v-for="(k, j) in currentWAList" :class="{ wItActive: walletAddrIndex === j }" :key="j"
+                    @click.stop="selectWallet(k, j,)">
+                    {{ k.addr }}
                 </div>
             </div>
         </div>
@@ -51,7 +61,7 @@
     </div>
 </template>
 <script setup>
-import { reactive, toRefs, watchEffect } from 'vue'
+import { reactive, toRefs, } from 'vue'
 import { useRouter } from "vue-router";
 import http from '@/utils/axios'
 import { showToast } from 'vant'
@@ -71,6 +81,7 @@ const state = reactive({
     bankList: [],//bank地址列表
     currentWAList: [],
     walletAddrIndex: 0,
+    isShowWalletOpt: false
 })
 async function submitWithdraw() {
     let url = '/player/withdrawal'
@@ -112,6 +123,15 @@ async function reachargePre() {
         }
         state.virtualCurrencyList = res
         state.rechargeInfo = state.virtualCurrencyList[state.channelIndex]
+        console.log(state.rechargeInfo);
+
+        if (state.rechargeInfo.name == 'E-Wallet') {
+            eWalletList()
+        } else if (state.rechargeInfo.name === 'Bank') {
+            getBankList()
+        } else if (state.rechargeInfo.name === 'USDT') {
+            getUsdtWalletList()
+        }
     } catch (error) {
         console.log(error);
     }
@@ -124,6 +144,7 @@ async function getUsdtWalletList() {
         const res = await http.post(url)
         // console.log(res);
         state.usdtWallet = res || []
+        state.currentWAList = state.usdtWallet
     } catch (error) {
         console.log(error);
     }
@@ -138,10 +159,12 @@ async function getBankList() {
             res.forEach(item => {
                 item.addr = maskString(item.cardNumber)
             })
+            state.bankList = res
         } else if (typeof res === 'object' && res !== null) {
             res.addr = maskString(res.cardNumber)
             state.bankList.push(res)
         }
+        state.currentWAList = state.bankList
     } catch (error) {
         console.log(error);
     }
@@ -152,12 +175,12 @@ async function eWalletList() {
     let url = '/player/wallet_info'
     try {
         const res = await http.get(url)
-        console.log('====', res);
         if (Array.isArray(res) && res.length > 0) {
             res.forEach(item => {
                 item.addr = item.address
             })
             state.eWallet = res
+            state.currentWAList = state.eWallet
         }
     } catch (error) {
         console.log(error);
@@ -188,9 +211,9 @@ function selectBank(item, index) {
     item.showCurrWallet = !item.showCurrWallet
 }
 // 选择钱包地址
-function selectWallet(k, j, item) {
+function selectWallet(k, j,) {
     state.walletAddrIndex = j
-    item.showCurrWallet = false
+    state.isShowWalletOpt = false
 }
 function addWalletPage() {
     router.push({
@@ -200,10 +223,10 @@ function addWalletPage() {
         }
     })
 }
-watchEffect(() => {
-    // conole.log('');
-})
-const { amount, channelIndex, rechargeInfo, virtualCurrencyList, payPwd, currentWAList, walletAddrIndex } = toRefs(state)
+function showADList() {
+    state.isShowWalletOpt = !state.isShowWalletOpt
+}
+const { amount, channelIndex, rechargeInfo, virtualCurrencyList, payPwd, currentWAList, walletAddrIndex, isShowWalletOpt } = toRefs(state)
 </script>
 <style scoped lang='scss'>
 .withdraw {
@@ -224,7 +247,7 @@ const { amount, channelIndex, rechargeInfo, virtualCurrencyList, payPwd, current
         flex-direction: column;
 
         .title {
-            width: 350px;
+            width: 100%;
             text-align: left;
             font-size: 14px;
             color: #fff;
@@ -233,7 +256,7 @@ const { amount, channelIndex, rechargeInfo, virtualCurrencyList, payPwd, current
         }
 
         input {
-            width: 350px;
+            width: 100%;
             height: 49px;
             border-radius: 10px;
             border: solid 1px #ff7c43;
@@ -350,6 +373,47 @@ const { amount, channelIndex, rechargeInfo, virtualCurrencyList, payPwd, current
         }
     }
 
+    .WAddress {
+        height: 50px;
+        color: #fff;
+        line-height: 50px;
+        background-color: #1c1c1c;
+        margin-bottom: 12px;
+        text-align: center;
+        font-size: 14px;
+
+        .currentWalletList {
+            width: 100%;
+            max-height: 0;
+            position: absolute;
+            top: 60px;
+            left: 0;
+            right: 0;
+            background-color: #1c1c1c;
+            z-index: 10;
+            font-family: Roboto;
+            font-size: 12px;
+            color: #fff;
+            overflow: hidden;
+            transition: max-height .5s ease-out;
+            border-radius: 12px;
+
+            .wItem {
+                height: 60px;
+                text-align: center;
+                line-height: 60px;
+            }
+
+            .wItActive {
+                background-color: #4e3700;
+            }
+        }
+
+        .showCurrentWallet {
+            max-height: 100px;
+        }
+    }
+
     .arrow-down {
         width: 50px;
         height: 50px;
@@ -359,7 +423,7 @@ const { amount, channelIndex, rechargeInfo, virtualCurrencyList, payPwd, current
     }
 
     .balance {
-        width: 350px;
+        width: 100%;
         font-size: 14px;
         font-weight: normal;
         font-stretch: normal;

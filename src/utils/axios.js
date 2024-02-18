@@ -51,7 +51,7 @@ http.interceptors.response.use(
       }
       if (data.length > 0) {
         msgKey = `backapi.${data[0].msgKey}`;
-        console.log(data, msgKey, "=======");
+        // console.log(data, msgKey, "=======");
         showToast({
           message: t(msgKey),
           wordBreak: "break-word",
