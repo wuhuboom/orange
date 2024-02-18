@@ -836,6 +836,7 @@
   "backapi.self.recharge.tip.content1.text": "1. Please obtain the latest payment account every time you recharge, and it is forbidden to save the payment account information.",
   "backapi.self.recharge.tip.content2.text": "2. It is forbidden to save the previous collection account for payment, and the platform is not responsible for the loss caused by the recharge of the previous collection account.",
   "backapi.self.recharge.tip.content3.text": "3. Using this platform for money laundering fraud, the company reserves the right to terminate membership services and freeze their accounts.",
+  "backapi.payPwdIsEmpty":"请输入支付密码",
   "backapi.serviceUnhold": "客服系统维护中",
   "deal.userProfile5": "卖家已出款，请核对款项",
   "deal.userProfile4": "买家已付款，请核对款项",

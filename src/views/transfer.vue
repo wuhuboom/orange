@@ -1,7 +1,7 @@
 <template>
     <div class="send maxWidth lrPadding">
         <div class="sendBox safeBox">
-            {{ accountInfo.currRate }}
+            {{ getAmount(safeData?.money) || 0 }}
         </div>
         <div class="arrow-down">
             <img src="../assets/images/common/arrow-down.webp" alt="">
@@ -12,7 +12,7 @@
         </div>
         <div class="balance">
             <p>
-                {{ $t('send.balance.text') }}: <span class="money">{{ accountInfo.currRate }}</span>
+                {{ $t('send.balance.text') }}: <span class="money">{{ getAmount(safeData?.money) || 0 }}</span>
             </p>
             <span class="all cursor" @click="setAllAmount">
                 {{ $t('send.all.text') }}
@@ -29,6 +29,7 @@
 </template>
 <script setup>
 import { reactive, toRefs, computed } from 'vue'
+import { getAmount } from '@/utils/utils'
 import http from '@/utils/axios'
 import { showToast } from 'vant'
 import { useStore } from '@/stores/index'
@@ -36,10 +37,24 @@ const store = useStore()
 const accountInfo = computed(() => store.accountInfo)
 const state = reactive({
     amount: 0,
-    payPwd: ''
+    payPwd: '',
+    safeData: {}
 })
 function setAllAmount() {
-    state.amount = accountInfo?.value.currRate
+    state.amount = getAmount(state.safeData?.money)
+}
+
+getSafeInfo()
+async function getSafeInfo() {
+    let url = '/player/safe/info'
+    try {
+        const res = await http.get(url)
+        if (res?.id) {
+            state.safeData = res
+        }
+    } catch (error) {
+        console.log(error);
+    }
 }
 async function confirmTransfer() {
     let url = '/player/safe/toBalance'
@@ -48,11 +63,6 @@ async function confirmTransfer() {
         payPwd: state.payPwd
     }
     http.post(url, data).then(res => {
-        console.log(
-            '%c res: ',
-            'background-color: #3756d4; padding: 4px 8px; border-radius: 2px; font-size: 14px; color: #fff; font-weight: 700;',
-            res
-        )
         if (res === null) {
             state.amount = 0
             state.payPwd = ''
@@ -61,7 +71,7 @@ async function confirmTransfer() {
     })
 
 }
-const { amount, payPwd } = toRefs(state)
+const { amount, payPwd, safeData } = toRefs(state)
 </script>
 <style scoped lang='scss'>
 .send {

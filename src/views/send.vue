@@ -13,7 +13,7 @@
         </div>
         <div class="balance">
             <p>
-                {{ $t('send.balance.text') }}: <span class="money">{{ accountInfo?.currRate || 0 }}</span>
+                {{ $t('send.balance.text') }}: <span class="money"> {{ getAmount(safeData?.money) || 0 }}</span>
             </p>
             <span class="all cursor" @click="setAllAmount">
                 {{ $t('send.all.text') }}
@@ -30,20 +30,35 @@
 </template>
 <script setup>
 import { reactive, toRefs, computed } from 'vue'
+import { getAmount } from '@/utils/utils'
 import http from '@/utils/axios'
 import { showToast } from 'vant'
 import { useStore } from '@/stores/index'
+import { useI18n } from 'vue-i18n'
 const store = useStore()
-
+const { t } = useI18n()
 const accountInfo = computed(() => store.accountInfo)
 
 const state = reactive({
     useName: '',
     amount: 0,
-    payPwd: ''
+    payPwd: '',
+    safeData: {}
 })
 function setAllAmount() {
-    state.amount = accountInfo?.value.currRate
+    state.amount = getAmount(state.safeData?.money)
+}
+getSafeInfo()
+async function getSafeInfo() {
+    let url = '/player/safe/info'
+    try {
+        const res = await http.get(url)
+        if (res?.id) {
+            state.safeData = res
+        }
+    } catch (error) {
+        console.log(error);
+    }
 }
 async function confirmTransfer() {
     let url = '/player/safe/transfer'
@@ -51,6 +66,18 @@ async function confirmTransfer() {
         aimName: state.useName,
         money: state.amount,
         payPwd: state.payPwd
+    }
+    if (state.useName === '') {
+        showToast(t('backapi.usernameIsEmpty'))
+        return
+    }
+    if (state.money <= 4) {
+        showToast(t('backapi.payMoneyTooMinOrMax'))
+        return
+    }
+    if (state.payPwd === '') {
+        showToast(t('backapi.payPwdIsEmpty'))
+        return
     }
     try {
         const res = await http.post(url, data)
@@ -64,7 +91,7 @@ async function confirmTransfer() {
         console.log(error);
     }
 }
-const { useName, amount, payPwd } = toRefs(state)
+const { useName, amount, payPwd, safeData } = toRefs(state)
 </script>
 <style scoped lang='scss'>
 .send {

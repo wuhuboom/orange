@@ -26,7 +26,7 @@
             </div>
         </div>
         <div class="menubox">
-            <div class="item" v-for="(item, index) in menu" :key="index" @click="toPage(item)">
+            <div class="item cursor" v-for="(item, index) in menu" :key="index" @click="toPage(item)">
                 <img :src="getImg('safe', item.imgName)" alt="">
                 <p>{{ item.name }}</p>
             </div>
