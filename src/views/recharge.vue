@@ -2,7 +2,8 @@
     <div class="send maxWidth lrPadding">
         <div class="sendBox">
             <div class="title">{{ $t('send.amount.placeholder.text') }}</div>
-            <input type="number" v-model="amount" @input="getInputAmount" :placeholder="$t('send.amount.placeholder.text')">
+            <input type="number" class="hideInputBtn" v-model="amount" @input="getInputAmount"
+                :placeholder="$t('send.amount.placeholder.text')">
         </div>
         <div class="balance">
             <p>
@@ -140,7 +141,7 @@ const { amount, channelIndex, rechargeInfo, channelList } = toRefs(state)
         flex-direction: column;
 
         .title {
-            width: 350px;
+            width: 100%;
             text-align: left;
             font-size: 14px;
             color: #fff;
@@ -149,7 +150,7 @@ const { amount, channelIndex, rechargeInfo, channelList } = toRefs(state)
         }
 
         input {
-            width: 350px;
+            width: 100%;
             height: 49px;
             border-radius: 10px;
             border: solid 1px #ff7c43;
@@ -202,7 +203,7 @@ const { amount, channelIndex, rechargeInfo, channelList } = toRefs(state)
     }
 
     .balance {
-        width: 350px;
+        width: 100%;
         font-size: 14px;
         font-weight: normal;
         font-stretch: normal;
