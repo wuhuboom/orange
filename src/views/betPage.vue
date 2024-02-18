@@ -29,7 +29,7 @@
         <div class="betMain">
             <div class="betItem" v-for="(item, index) in betData" :key="index" @click="handleBetClick(item, index)">
                 <p class="score">{{ item.scoreHome }}-{{ item.scoreAway }}</p>
-                <div class="odds" :class="{ oddsActive: betIndex === index }">{{ item.antiPerCent }}</div>
+                <div class="odds cursor" :class="{ oddsActive: betIndex === index }">{{ item.antiPerCent }}</div>
             </div>
         </div>
         <!-- 投注面板 -->
@@ -79,11 +79,14 @@
                 <p class="betWinNum">{{ $t('betPage.potential.winnings.text') }}: <span>{{ potentialWinnings }}</span></p>
                 <div class="counter">
                     <div class="count-left flex">
-                        <input type="number" :class="{ errorStyle: (getErrorStyle() || betRangeMistake) }" v-model="betNum"
+                        <input type="number" class="hideInputBtn"
+                            :class="{ errorStyle: (getErrorStyle() || betRangeMistake) }" v-model="betNum"
                             @input="getWinMoney">
-                        <img src="../assets/images/betpage/subtraction.webp" class="subtraction" alt=""
-                            @click="subtraction">
-                        <img src="../assets/images/betpage/add.webp" class="add" alt="" @click="add">
+                        <div class="flex computedBtn">
+                            <img src="../assets/images/betpage/subtraction.webp" class="subtraction cursor" alt=""
+                                @click="subtraction">
+                            <img src="../assets/images/betpage/add.webp" class="add cursor" alt="" @click="add">
+                        </div>
                     </div>
                     <div class="betBtn cursor" @click="betSubmit">{{ $t('modal.confirm.text') }}</div>
                 </div>
@@ -91,8 +94,8 @@
                     betPreData?.betHandMoneyRate }}</span></p>
                 <p class="quickBet">{{ $t('betPage.quick.bets.text') }}</p>
                 <div class="betButton">
-                    <div @click="quickBets(betPreData?.fastMoney)">{{ betPreData?.fastMoney }}</div>
-                    <div @click="quickBets('all')">{{ $t('order.search.all.text') }}</div>
+                    <div class="cursor" @click="quickBets(betPreData?.fastMoney)">{{ betPreData?.fastMoney }}</div>
+                    <div class="cursor" @click="quickBets('all')">{{ $t('order.search.all.text') }}</div>
                 </div>
             </div>
         </div>
@@ -625,9 +628,10 @@ $bgHeight: 280px;
                     align-items: center;
                     padding-right: 5px;
                     border-radius: 8px;
+                    box-sizing: border-box;
 
                     input {
-                        width: 150px;
+                        // width: 150px;
                         border: none;
                         outline: none;
                         background-color: #24232a;
@@ -639,15 +643,20 @@ $bgHeight: 280px;
                         color: red;
                     }
 
-                    img {
-                        width: 28px;
-                        height: 28px;
-                    }
+                    .computedBtn {
+                        // width: 45px;
 
-                    .subtraction {}
+                        img {
+                            width: 28px;
+                            height: 28px;
+                        }
 
-                    .add {
-                        margin-left: 8px;
+                        .subtraction {}
+
+                        .add {
+                            margin-left: 8px;
+                        }
+
                     }
                 }
 
@@ -705,4 +714,5 @@ $bgHeight: 280px;
     .showBetPanel {
         height: 475px;
     }
-}</style>
+}
+</style>

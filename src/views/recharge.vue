@@ -49,7 +49,7 @@ const state = reactive({
     amount: '0',
     rechargeInfo: {},
     channelList: [],
-    channelIndex: -1,
+    channelIndex: 0,
 })
 async function toPage() {
     let safeUrl = '/player/safe/recharge'
@@ -109,15 +109,16 @@ async function getMultiChannel() {
     try {
         const res = await http.get(url)
         state.channelList = res
+        if (rechargeType === 'football') {
+            state.rechargeInfo = state.channelList[state.channelIndex]
+        }
     } catch (error) {
         console.log(error);
     }
 }
 function selectBank(item, index) {
     state.channelIndex = index
-    if (rechargeType === 'football') {
-        state.rechargeInfo = item
-    }
+    state.rechargeInfo = item
 }
 const { amount, channelIndex, rechargeInfo, channelList } = toRefs(state)
 </script>

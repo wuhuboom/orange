@@ -57,7 +57,7 @@ const state = reactive({
     amount: '',
     rechargeInfo: {},
     virtualCurrencyList: [],
-    channelIndex: -1,
+    channelIndex: 0,
     payPwd: ''
 })
 async function submitWithdraw() {
@@ -85,6 +85,7 @@ async function reachargePre() {
     try {
         const res = await http.get(url)
         state.virtualCurrencyList = res
+        state.rechargeInfo = state.virtualCurrencyList[state.channelIndex]
     } catch (error) {
         console.log(error);
     }

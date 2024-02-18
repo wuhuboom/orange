@@ -346,7 +346,8 @@ const { activeNames, list, teamName, loading, finished, refreshing, dateIndex, t
                                     padding: 10px 15px 10px 11px;
 
                                     .main_left {
-                                        @include flex();
+                                        width: calc(100% - 71px);
+                                        @include flex(flex-start);
 
                                         .date {
                                             border-right: 1px solid rgba(255, 255, 255, 0.1);
@@ -369,11 +370,15 @@ const { activeNames, list, teamName, loading, finished, refreshing, dateIndex, t
                                                     margin-right: 4px;
                                                 }
 
+                                                span {
+                                                    text-align: left;
+                                                }
                                             }
                                         }
                                     }
 
                                     .main_right {
+                                        width: 71px;
                                         height: 32px;
                                         padding: 8px 10px;
                                         border-radius: 16px;
