@@ -278,6 +278,7 @@ async function logOut() {
             localStorage.removeItem('userInfo')
             store.showLeftNav = false
             setTimeout(() => {
+                localStorage.removeItem('toaddFlag')
                 router.push({
                     path: '/login'
                 })

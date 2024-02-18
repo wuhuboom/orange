@@ -96,6 +96,7 @@ http.interceptors.response.use(
     } else if (code === 402) {
       showToast({ message: msg, className: "textColorRed" });
       setTimeout(() => {
+        localStorage.removeItem("toaddFlag");
         window.location.href = "/login";
       }, 500);
     }
