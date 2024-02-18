@@ -51,12 +51,12 @@
                     <p>{{ gameInfo?.game?.allianceName }}</p>
                 </div>
                 <div class="team flex">
-                    <p class="flex">
+                    <p class="flex teamleft">
                         <img :src="gameInfo?.game?.mainLogo" alt="">
                         {{ gameInfo?.game?.mainName }}
                     </p>
                     <span>vs</span>
-                    <p class="flex">
+                    <p class="flex teamRight">
                         <img :src="gameInfo?.game?.guestLogo" alt="">
                         {{ gameInfo?.game?.guestName }}
                     </p>
@@ -542,6 +542,14 @@ $bgHeight: 280px;
                 align-items: center;
                 margin-top: 15px;
 
+                .teamleft {
+                    width: 48%;
+                }
+
+                .teamRight {
+                    width: 48%;
+                }
+
                 p {
                     align-items: center;
                     font-size: 14px;
@@ -695,7 +703,6 @@ $bgHeight: 280px;
     }
 
     .showBetPanel {
-        height: 460px;
+        height: 475px;
     }
-}
-</style>
+}</style>
