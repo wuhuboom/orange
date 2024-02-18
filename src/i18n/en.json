@@ -88,6 +88,7 @@
   "withdraw.password.text": "withdrawal password",
   "withdraw.placeholder.text": "please enter withdrawal password",
   "withdraw.add.newWallet.text": "Add New Wallet",
+  "withdraw.success.text": "Withdrawal successful",
   "addWalletAddress.type.text": "Type",
   "addWalletAddress.walletId.text": "Wallet ID",
   "addWalletAddress.walletType.plaaceholder.text": "Please enter the wallet type",

@@ -66,9 +66,13 @@ body,
 }
 
 .van-popup {
-  /* max-width: 335px !important; */
+  /* max-width: 60% !important; */
   flex-wrap: wrap;
   background-color: rgba(0, 0, 0, 0.7) !important;
+}
+
+.textColorRed {
+  max-width: 60% !important;
 }
 
 .van-toast--text .van-toast__text {
@@ -81,15 +85,4 @@ body,
 
 .textColorRed {
   color: red !important;
-}
-
-.hideInputBtn[type="number"]::-webkit-inner-spin-button,
-.hideInputBtn[type="number"]::-webkit-outer-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-
-.hideInputBtn[type="number"] {
-  -moz-appearance: textfield;
-  /* Firefox 兼容性 */
 }

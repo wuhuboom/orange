@@ -165,3 +165,14 @@ div {
 	background-color: rgb(0, 0, 0);
 	/* 设置滚动条滑块在鼠标悬停时的颜色 */
 }
+
+.hideInputBtn[type="number"]::-webkit-inner-spin-button,
+.hideInputBtn[type="number"]::-webkit-outer-spin-button {
+	-webkit-appearance: none;
+	margin: 0;
+}
+
+.hideInputBtn[type="number"] {
+	-moz-appearance: textfield;
+	/* Firefox 兼容性 */
+}

@@ -1,8 +1,9 @@
 <template>
-    <div class="send maxWidth lrPadding">
+    <div class="withdraw maxWidth lrPadding hideScrollbar">
         <div class="sendBox">
             <div class="title">{{ $t('send.amount.placeholder.text') }}</div>
-            <input type="number" v-model="amount" @input="getInputAmount" :placeholder="$t('send.amount.placeholder.text')">
+            <input type="number" class="hideInputBtn" v-model="amount" @input="getInputAmount"
+                :placeholder="$t('send.amount.placeholder.text')">
         </div>
         <div class="balance">
             <p>
@@ -17,14 +18,20 @@
         </div>
         <div class="sendBox">
             <div class="title" style="margin-bottom: 15px;">{{ $t('withdraw.type.text') }}</div>
-            <div class="bankList cursor" v-for="(item, index) in virtualCurrencyList" :key="index"
+            <div class="bankList cursor relative" v-for="(item, index) in virtualCurrencyList" :key="index"
                 :class="{ bankListActive: index === channelIndex }" @click="selectBank(item, index)">
                 <div class="left">
                     <img :src="item.img" alt="">
                     <div class="cardName">{{ item.name }}</div>
                 </div>
                 <img src="../assets/images/common/check.webp" class="checkIcon" alt="" v-if="index === channelIndex">
-                <!-- <van-icon name="arrow" color="#fff" v-else /> -->
+                <div class="currentWalletList"
+                    :class="{ showCurrentWallet: item.showCurrWallet && index === channelIndex }">
+                    <div class="wItem" v-for="(k, j) in currentWAList" :class="{ wItActive: walletAddrIndex === j }"
+                        :key="j" @click.stop="selectWallet(k, j, item)">
+                        {{ k.addr }}
+                    </div>
+                </div>
             </div>
         </div>
         <div class="addWallet" @click="addWalletPage">
@@ -35,16 +42,16 @@
         </div>
         <div class="sendBox">
             <div class="title">{{ $t('withdraw.password.text') }}</div>
-            <input type="number" v-model="payPwd" :placeholder="$t('withdraw.placeholder.text')">
+            <input type="password" class="hideInputBtn" v-model="payPwd" :placeholder="$t('withdraw.placeholder.text')">
         </div>
 
-        <div class="confirm" :class="{ confirmMt: virtualCurrencyList.length > 0 }" @click="submitWithdraw">
+        <div class="confirm cursor" :class="{ confirmMt: virtualCurrencyList.length > 0 }" @click="submitWithdraw">
             {{ $t('modal.confirm.text') }}
         </div>
     </div>
 </template>
 <script setup>
-import { reactive, toRefs, } from 'vue'
+import { reactive, toRefs, watchEffect } from 'vue'
 import { useRouter } from "vue-router";
 import http from '@/utils/axios'
 import { showToast } from 'vant'
@@ -57,8 +64,13 @@ const state = reactive({
     amount: '',
     rechargeInfo: {},
     virtualCurrencyList: [],
-    channelIndex: 0,
-    payPwd: ''
+    channelIndex: -1,
+    payPwd: '',
+    usdtWallet: [],//usdt地址列表
+    eWallet: [],//E-Wallet地址列表
+    bankList: [],//bank地址列表
+    currentWAList: [],
+    walletAddrIndex: 0,
 })
 async function submitWithdraw() {
     let url = '/player/withdrawal'
@@ -66,50 +78,140 @@ async function submitWithdraw() {
         showToast(t('withdraw.placeholder.text'))
         return
     }
+    if (state.channelIndex < 0) {
+        showToast(t('请选择提现方式'))
+        return
+    }
+    console.log(state.virtualCurrencyList);
     let data = {
-        type: state.virtualCurrencyList[state.channelIndex].currencySymbol,
+        type: state.virtualCurrencyList[state.channelIndex].type,
+        usdtId: state.currentWAList[state.walletAddrIndex].id,
         money: state.amount,
         payPwd: state.payPwd
     }
     try {
         const res = await http.post(url, data)
-        // console.log(res);
-
+        if (res === null) {
+            state.payPwd = ''
+            state.money = ''
+            showToast(t('withdraw.success.text'))
+        }
     } catch (error) {
 
     }
 }
+// 提现准备
 reachargePre()
 async function reachargePre() {
     let url = '/player/withdrawal_pre'
     try {
         const res = await http.get(url)
+        if (res?.length > 0) {
+            res.forEach(item => {
+                item.showCurrWallet = false
+            });
+        }
         state.virtualCurrencyList = res
         state.rechargeInfo = state.virtualCurrencyList[state.channelIndex]
     } catch (error) {
         console.log(error);
     }
 }
+// 获取usdt提现的钱包地址
+getUsdtWalletList()
+async function getUsdtWalletList() {
+    let url = '/player/virtual_currency_list'
+    try {
+        const res = await http.post(url)
+        // console.log(res);
+        state.usdtWallet = res || []
+    } catch (error) {
+        console.log(error);
+    }
+}
+// 获取银行卡提现的地址
+getBankList()
+async function getBankList() {
+    let url = '/player/bank_card_info'
+    try {
+        const res = await http.get(url)
+        if (Array.isArray(res)) {
+            res.forEach(item => {
+                item.addr = maskString(item.cardNumber)
+            })
+        } else if (typeof res === 'object' && res !== null) {
+            res.addr = maskString(res.cardNumber)
+            state.bankList.push(res)
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
+// E-wallet 钱包
+eWalletList()
+async function eWalletList() {
+    let url = '/player/wallet_info'
+    try {
+        const res = await http.get(url)
+        console.log('====', res);
+        if (Array.isArray(res) && res.length > 0) {
+            res.forEach(item => {
+                item.addr = item.address
+            })
+            state.eWallet = res
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
+function maskString(str) {
+    if (str.length <= 4) {
+        return str;
+    }
+    const maskedPart = '*'.repeat(str.length - 4);
+    const visiblePart = str.slice(-4);
+    return maskedPart + visiblePart;
+}
 
 function selectBank(item, index) {
-    state.channelIndex = index
+    state.virtualCurrencyList.forEach(item => {
+        item.showCurrWallet = false
+    })
+    if (item.name == 'E-Wallet') {
+        state.currentWAList = state.eWallet
+    } else if (item.name === 'Bank') {
+        state.currentWAList = state.bankList
+    } else if (item.name === 'USDT') {
+        state.currentWAList = state.usdtWallet
+    }
     state.rechargeInfo = item
+    state.channelIndex = index
+    item.showCurrWallet = !item.showCurrWallet
+}
+// 选择钱包地址
+function selectWallet(k, j, item) {
+    state.walletAddrIndex = j
+    item.showCurrWallet = false
 }
 function addWalletPage() {
     router.push({
         path: '/addWalletAddress'
     })
 }
-const { amount, channelIndex, rechargeInfo, virtualCurrencyList, payPwd } = toRefs(state)
+watchEffect(() => {
+    // conole.log('');
+})
+const { amount, channelIndex, rechargeInfo, virtualCurrencyList, payPwd, currentWAList, walletAddrIndex } = toRefs(state)
 </script>
 <style scoped lang='scss'>
-.send {
+.withdraw {
     height: 100%;
     background-color: #0b0b0b;
     overflow: auto;
     box-sizing: border-box;
 
     padding-top: 20px;
+    padding-bottom: 20px;
 
     // @include flex();
     // flex-direction: column;
@@ -178,6 +280,37 @@ const { amount, channelIndex, rechargeInfo, virtualCurrencyList, payPwd } = toRe
             .checkIcon {
                 width: 28px;
                 height: 28px;
+            }
+
+            .currentWalletList {
+                width: 100%;
+                max-height: 0;
+                position: absolute;
+                top: 60px;
+                left: 0;
+                right: 0;
+                background-color: #1c1c1c;
+                z-index: 10;
+                font-family: Roboto;
+                font-size: 12px;
+                color: #fff;
+                overflow: hidden;
+                transition: max-height .5s ease-out;
+                border-radius: 12px;
+
+                .wItem {
+                    height: 60px;
+                    text-align: center;
+                    line-height: 60px;
+                }
+
+                .wItActive {
+                    background-color: #4e3700;
+                }
+            }
+
+            .showCurrentWallet {
+                max-height: 100px;
             }
         }
 
