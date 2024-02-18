@@ -54,7 +54,7 @@ async function confirmTransfer() {
     }
     try {
         const res = await http.post(url, data)
-        if (res == null || res != undefined) {
+        if (res === null) {
             state.useName = ''
             state.amount = 0
             state.payPwd = ''
