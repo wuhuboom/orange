@@ -1,5 +1,5 @@
 <template>
-    <div class="betPage maxWidth lrPadding">
+    <div class="betPage maxWidth lrPadding hideScrollbar">
         <div class="top_container maxWidth">
             <div class="parallelogram_wrapper">
                 <span v-if="gameInfo?.game"> <img :src="gameInfo?.game?.mainLogo" class="mainIcon" alt=""></span>
@@ -22,11 +22,11 @@
                 }}</span>
             </div>
         </div>
-        <div class="tab">
+        <div class="tab maxWidth">
             <div :class="{ tabActive: tabIndex === index }" v-for="(item, index) in tabArr" @click="handleClickTab(index)">
                 {{ item }}</div>
         </div>
-        <div class="betMain">
+        <div class="betMain hideScrollbar" :style="{ height: `${pageHeight - 340}px` }">
             <div class="betItem" v-for="(item, index) in betData" :key="index" @click="handleBetClick(item, index)">
                 <p class="score">{{ item.scoreHome }}-{{ item.scoreAway }}</p>
                 <div class="odds cursor" :class="{ oddsActive: betIndex === index }">{{ item.antiPerCent }}</div>
@@ -102,7 +102,7 @@
     </div>
 </template>
 <script setup>
-import { reactive, toRefs, computed } from 'vue'
+import { reactive, toRefs, computed, ref } from 'vue'
 import { getImg, getSplitName, getAmOrPm, formatDate } from '@/utils/utils'
 import { showToast } from 'vant'
 import { useRoute } from 'vue-router'
@@ -112,7 +112,8 @@ import { useStore } from '@/stores/index'
 import { useI18n } from 'vue-i18n'
 const { t, locale } = useI18n()
 const store = useStore()
-
+const pageHeight = ref(document.body.scrollHeight - 4)
+console.log(pageHeight);
 const accountInfo = computed(() => store.accountInfo)
 const tabArr = computed(() => {
     return [
@@ -279,13 +280,13 @@ function getErrorStyle(val) {
 const { tabIndex, betData, betIndex, betNum, isShowBetPanel, gameInfo, targetBetOpt, betPreData, potentialWinnings, betRangeMistake } = toRefs(state)
 </script>
 <style scoped lang='scss'>
-$bgHeight: 280px;
+$bgHeight: 300px;
 
 .betPage {
     height: 100%;
     background-color: #100f13;
     // 减去header的高度
-    padding-top: calc($bgHeight - 44px);
+    padding-top: $bgHeight;
     overflow: auto;
     box-sizing: border-box;
 
@@ -400,17 +401,25 @@ $bgHeight: 280px;
     }
 
     .tab {
-        margin-top: 26px;
+        // margin-top: 20px;
         @include flex(space-between);
         font-size: 14px;
         color: #fff;
         cursor: pointer;
+        width: 100%;
+        height: 50px;
+        position: fixed;
+        top: 280px;
+        left: 0;
+        right: 0;
+        background-color: #100f13;
 
         div {
+            height: 100%;
             flex: 1;
             @include flex(center, center);
             border-bottom: 1px solid #404247;
-            padding-bottom: 12px;
+            // padding-bottom: 12px;
         }
 
         .tabActive {
@@ -421,12 +430,13 @@ $bgHeight: 280px;
     }
 
     .betMain {
-        margin-top: 24px;
-        // height: calc(100% - 357px);
+        // margin-top: 60px;
+        height: calc(100% - 330px);
         @include flex(flex-start);
         flex-wrap: wrap;
         font-size: 14px;
         color: #fff;
+        // background-color: red;
 
         .betItem {
             width: calc((100% - 26px) / 3);
