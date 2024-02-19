@@ -203,11 +203,22 @@ async function registerAcc() {
   }
   try {
     const res = await http.post(url, data)
-    if (res.token) {
-      localStorage.setItem('remember', state.userInfo)
+    if (res == 103) {
+      getVerifyCode()
+    }
+    if (res?.token) {
+      let reStoreage = {
+        isremember: false,
+        user: state.userInfo
+      }
+      if (localStorage.getItem('remember')) {
+        let storage = JSON.parse(localStorage.getItem('remember'))
+        reStoreage.isremember = storage.isremember
+      }
+      localStorage.setItem('remember', JSON.stringify(reStoreage))
       setTimeout(() => {
         router.push({
-          pathh: '/'
+          path: '/login'
         })
       }, 500);
     }
@@ -215,9 +226,9 @@ async function registerAcc() {
   } catch (error) {
     console.log(error);
   }
-  console.log(data);
 }
 async function getVerifyCode() {
+  state.userInfo[6].val = ''
   let url = '/player/auth/verify_code'
   try {
     const res = await http.get(url)
@@ -485,7 +496,7 @@ const { userInfo, isReadPwd, areaCode, showAreaCodeOpt, codeList, checked, verif
     }
 
     .desc {
-      @include flex('', flex-start);
+      @include flex(flex-start);
       width: 335px;
       margin-top: 18px;
 

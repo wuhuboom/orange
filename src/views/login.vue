@@ -95,10 +95,11 @@ const state = reactive({
   isReadPwd: false,
   inputIndex: -1,
   verificationObj: {},
-  serviceUrl: ''
+  serviceUrl: '',
+  lUser: []
 })
 const userInfo = computed(() => {
-  let user = [
+  state.lUser = [
     {
       name: 'account',
       imgIcon: 'acc',
@@ -127,7 +128,7 @@ const userInfo = computed(() => {
       placeholder: t('login.verificationCode')
     },
   ]
-  return user
+  return state.lUser
 })
 function showSelect() {
   let langList = [
@@ -196,20 +197,23 @@ function jumpRegisterPage() {
 }
 async function login() {
   let url = '/player/auth/login'
-  for (let i in userInfo.value) {
-    userInfo.value[i].error = userInfo.value[i].val == '' ? true : false
-    if (userInfo.value[i].error) {
-      return
-    }
-  }
+  // for (let i in userInfo.value) {
+  //   userInfo.value[i].error = userInfo.value[i].val == '' ? true : false
+  //   if (userInfo.value[i].error) {
+  //     return
+  //   }
+  // }
+  // if(userInfo.)
   let data = {
     username: userInfo.value[0].val,
     password: userInfo.value[1].val,
     code: userInfo.value[2].val,
     verifyKey: state.verificationObj.verifyKey
   }
+  console.log(data);
   try {
     const res = await http.post(url, data)
+    console.log(res);
     if (res == 103) {
       getVerifyCode()
     }
@@ -267,9 +271,10 @@ onMounted(() => {
   }
   if (localStorage.getItem('remember')) {
     let storeage = JSON.parse(localStorage.getItem('remember'))
+    console.log(storeage);
     state.isRemember = storeage.isremember
-    userInfo.value[0] = storeage.user[0]
-    userInfo.value[1] = storeage.user[1]
+    userInfo.value[0].val = storeage.user[0]?.val
+    userInfo.value[1].val = storeage.user[1]?.val
   }
 })
 const { langList, showLangOpt, langTarget, isRemember, isReadPwd, inputIndex, verificationObj } = toRefs(state)
