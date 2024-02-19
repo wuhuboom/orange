@@ -25,24 +25,17 @@
                     <div class="cardName">{{ item.name }}</div>
                 </div>
                 <img src="../assets/images/common/check.webp" class="checkIcon" alt="" v-if="index === channelIndex">
-                <!-- <div class="currentWalletList"
-                    :class="{ showCurrentWallet: item.showCurrWallet && index === channelIndex }">
-                    <div class="wItem" v-for="(k, j) in currentWAList" :class="{ wItActive: walletAddrIndex === j }"
-                        :key="j" @click.stop="selectWallet(k, j, item)">
-                        {{ k.addr }}
-                    </div>
-                </div> -->
             </div>
         </div>
-        <div class="WAddress cursor relative" @click="showADList" v-if="currentWAList[walletAddrIndex]?.addr">
+        <div class="WAddress cursor relative" v-if="currentWAList[walletAddrIndex]?.addr">
             {{ currentWAList[walletAddrIndex].addr }}
-            <van-icon :name="isShowWalletOpt ? 'arrow-up' : 'arrow-down'" size="18" />
-            <div class="currentWalletList" :class="{ showCurrentWallet: isShowWalletOpt }">
+            <!-- <van-icon :name="isShowWalletOpt ? 'arrow-up' : 'arrow-down'" size="18" /> -->
+            <!-- <div class="currentWalletList" :class="{ showCurrentWallet: isShowWalletOpt }">
                 <div class="wItem" v-for="(k, j) in currentWAList" :class="{ wItActive: walletAddrIndex === j }" :key="j"
                     @click.stop="selectWallet(k, j,)">
                     {{ k.addr }}
                 </div>
-            </div>
+            </div> -->
         </div>
         <div class="addWallet cursor" @click="addWalletPage">
             {{ getAddText() }}
@@ -88,6 +81,21 @@
                 </div>
             </div>
         </div>
+        <div class="betPanel maxWidth" :class="{ showBetPanel: isShowWalletPanel }">
+            <div class="panelBar"></div>
+            <div class="panel_top relative">
+                <div class="flex left_box">
+                    选择usdt地址
+                </div>
+                <van-icon name="cross" class="closeIcon" color="#fff" @click="closePanel" />
+            </div>
+            <div class="addlist">
+                <div class="wItem cursor" v-for="(k, j) in currentWAList" :class="{ wItActive: walletAddrIndex === j }"
+                    :key="j" @click.stop="selectWallet(k, j,)">
+                    {{ k.addr }}
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 <script setup>
@@ -112,6 +120,7 @@ const state = reactive({
     currentWAList: [],
     walletAddrIndex: 0,
     isShowWalletOpt: false,
+    isShowWalletPanel: false,
 })
 async function submitWithdraw() {
     let url = '/player/withdrawal'
@@ -182,6 +191,12 @@ async function getUsdtWalletList() {
     let url = '/player/virtual_currency_list'
     try {
         const res = await http.post(url)
+        if (res.length > 0) {
+            console.log(res);
+            res.forEach(item => {
+                item.addr = item.addr.slice(0, 4) + '****' + item.addr.slice(-4)
+            })
+        }
         state.usdtWallet = res || []
         state.currentWAList = state.usdtWallet
         if (state.currentWAList.length == 0 && localStorage.getItem('toaddFlag') == 0) {
@@ -191,6 +206,7 @@ async function getUsdtWalletList() {
         console.log(error);
     }
 }
+
 // 获取银行卡提现的地址
 getBankList()
 async function getBankList() {
@@ -203,6 +219,7 @@ async function getBankList() {
             })
             state.bankList = res
         } else if (typeof res === 'object' && res !== null) {
+            state.bankList = []
             res.addr = maskString(res.cardNumber)
             state.bankList.push(res)
         }
@@ -244,6 +261,7 @@ function maskString(str) {
 }
 
 function selectBank(item, index) {
+    console.log(item);
     state.virtualCurrencyList.forEach(item => {
         item.showCurrWallet = false
     })
@@ -254,7 +272,7 @@ function selectBank(item, index) {
     } else if (item.name === 'USDT') {
         state.currentWAList = state.usdtWallet
     }
-    console.log(item);
+    state.isShowWalletPanel = true
     state.rechargeInfo = item
     state.channelIndex = index
     item.showCurrWallet = !item.showCurrWallet
@@ -262,7 +280,9 @@ function selectBank(item, index) {
 // 选择钱包地址
 function selectWallet(k, j,) {
     state.walletAddrIndex = j
-    state.isShowWalletOpt = false
+    // state.isShowWalletOpt = false
+    console.log(k);
+    state.isShowWalletPanel = false
 }
 function addWalletPage() {
     localStorage.setItem('toaddFlag', 1)
@@ -273,10 +293,13 @@ function addWalletPage() {
         }
     })
 }
-function showADList() {
-    state.isShowWalletOpt = !state.isShowWalletOpt
+// function showADList() {
+//     state.isShowWalletOpt = !state.isShowWalletOpt
+// }
+function closePanel() {
+    state.isShowWalletPanel = false
 }
-const { amount, channelIndex, rechargeInfo, virtualCurrencyList, payPwd, currentWAList, walletAddrIndex, isShowWalletOpt } = toRefs(state)
+const { amount, channelIndex, rechargeInfo, virtualCurrencyList, payPwd, currentWAList, walletAddrIndex, isShowWalletOpt, isShowWalletPanel } = toRefs(state)
 </script>
 <style scoped lang='scss'>
 .withdraw {
@@ -533,5 +556,70 @@ const { amount, channelIndex, rechargeInfo, virtualCurrencyList, payPwd, current
         }
     }
 
+    .betPanel {
+        position: fixed;
+        left: 50%;
+        bottom: 0;
+        height: 0;
+        background-color: #1c1b20;
+        box-sizing: border-box;
+        border-top-left-radius: 15px;
+        border-top-right-radius: 15px;
+        transition: height .5s ease-out;
+        transform: translateX(-50%);
+
+        .panelBar {
+            width: 35px;
+            height: 5px;
+            margin: 8px auto 10px;
+            border-radius: 3px;
+            background-color: #3b3a42;
+        }
+
+        .panel_top {
+            padding: 0 16px;
+            @include flex(center);
+            border-bottom: 1px solid #313038;
+            padding-bottom: 15px;
+
+            .left_box {
+                align-items: center;
+                font-family: SegoeUI;
+                font-size: 17px;
+                font-weight: 600;
+                letter-spacing: -0.17px;
+                color: #fff;
+
+            }
+
+            .closeIcon {
+                position: absolute;
+                right: 15px;
+            }
+        }
+
+        .addlist {
+            padding: 0 20px;
+
+            .wItem {
+                height: 60px;
+                text-align: center;
+                line-height: 60px;
+                border-radius: 10px;
+                border-bottom: 1px solid #313131;
+            }
+
+            .wItActive {
+                background-color: #ed8251;
+                color: #fff;
+                border-bottom: 1px solid #ed8251;
+            }
+        }
+
+    }
+
+    .showBetPanel {
+        height: 250px;
+    }
 }
 </style>

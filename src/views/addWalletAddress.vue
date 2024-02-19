@@ -18,7 +18,7 @@
         </div>
         <div class="sendBox">
             <div class="title">{{ $t('user.security.center.bankcard.bankadd.input.pay.pass.text') }}</div>
-            <input type="text" class="hideInputBtn" v-model="payPwd" :placeholder="$t('send.payment.placeholder.text')">
+            <input type="password" class="hideInputBtn" v-model="payPwd" :placeholder="$t('send.payment.placeholder.text')">
         </div>
 
         <div class="confirm cursor" @click="submit">
