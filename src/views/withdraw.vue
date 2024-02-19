@@ -85,7 +85,7 @@
             <div class="panelBar"></div>
             <div class="panel_top relative">
                 <div class="flex left_box">
-                    {{ $t('withdraw.usdt.panel.title.text') }}
+                    {{ getPanelTitle() }}
                 </div>
                 <van-icon name="cross" class="closeIcon" color="#fff" @click="closePanel" />
             </div>
@@ -307,6 +307,16 @@ function addWalletPage() {
 // function showADList() {
 //     state.isShowWalletOpt = !state.isShowWalletOpt
 // }
+function getPanelTitle() {
+
+    if (state.rechargeInfo.name == 'E-Wallet') {
+        return t('withdraw.add.eWallet.text')
+    } else if (state.rechargeInfo.name === 'Bank') {
+        return t('withdraw.add.bankCard.text')
+    } else if (state.rechargeInfo.name === 'USDT') {
+        return t('withdraw.usdt.panel.title.text')
+    }
+}
 function closePanel() {
     state.isShowWalletPanel = false
 }
