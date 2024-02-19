@@ -24,7 +24,7 @@
         <Select :selectedObj="verifyObj" @sendSelectVal="sendSelectVal" />
         <div class="sendBox">
             <div class="verifyOpt cursor">
-                <input type="text" class="hideInputBtn" v-model="code"
+                <input type="text" class="hideInputBtn" v-model="code" @input="getVerifyCode"
                     :placeholder="$t('addWalletAddress.verify.code.text')">
                 <div class="sendBtn" @click="sendVerify">
                     {{ sendBtn }} <span v-if="showSeconds">s</span>
@@ -177,6 +177,9 @@ function selectNewAddress(k, j) {
 }
 function showNewAddPanel() {
     state.isShowNewAddBool = !state.isShowNewAddBool
+}
+function getVerifyCode() {
+    state.code = state.code.replace(/\D/g, '')
 }
 async function submit() {
     if (state.cardNumber === '') {

@@ -9,7 +9,7 @@
         <Select :selectedObj="verifyObj" @sendSelectVal="sendSelectVal" />
         <div class="sendBox">
             <div class="verifyOpt cursor">
-                <input type="text" class="hideInputBtn" v-model="verifyCode"
+                <input type="text" class="hideInputBtn" @input="getVerifyCode" v-model="verifyCode"
                     :placeholder="$t('addWalletAddress.verify.code.text')">
                 <div class="sendBtn" @click="sendVerify">
                     {{ sendBtn }} <span v-if="showSeconds">s</span>
@@ -159,6 +159,9 @@ function startCountdown() {
             state.sendBtn = t('forget.send')
         }
     }, 1000)
+}
+function getVerifyCode() {
+    state.verifyCode = state.verifyCode.replace(/\D/g, '')
 }
 onMounted(() => {
     if (state.verifyObj.optIndex === 0) {
