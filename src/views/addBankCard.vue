@@ -217,14 +217,16 @@ async function submit() {
         const res = await http.post(url, data)
         console.log(res);
         if (res === null) {
-            showToast('tips.success.text')
+            showToast(t('tips.success.text'))
             state.subBranch = ''
             state.cardName = ''
             state.cardNumber = ''
             state.cardNumberTwice = ''
             state.payPwd = ''
             state.code = ''
-            router.go(-1)
+            setTimeout(() => {
+                router.go(-1)
+            }, 500);
         }
     } catch (error) {
         console.log(error);
