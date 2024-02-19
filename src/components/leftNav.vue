@@ -142,7 +142,7 @@ const listArr = computed(() => {
                 },
                 {
                     name: t('leftNav.result.text'),
-                    link: '',
+                    link: '/result',
                     highlight: false
                 },
             ]

@@ -1,9 +1,15 @@
 <template>
     <div class="contest maxWidth lrPadding">
-        <van-search v-model="teamName" :placeholder="$t('match.search.text')" clearable background="#252528"
-            @update:model-value="getSearchGameRes">
+        <van-search v-model="teamName" @blur="inputBlur" @focus="showClearIcon = true"
+            :placeholder="$t('match.search.text')" :clearable="false" background="#252528"
+            @update:model-value="getSearchGameRes" @clear="clearContent">
             <template #left-icon>
                 <img src="../assets/images/match/searchIcon.webp" class="searchIcon" alt="">
+            </template>
+            <template #right-icon>
+                <div @click="clearContent" v-if="showClearIcon">
+                    <van-icon name="cross" />
+                </div>
             </template>
         </van-search>
 
@@ -82,7 +88,7 @@
     </div>
 </template>
 <script setup >
-import { reactive, toRefs, onMounted } from 'vue'
+import { reactive, toRefs, onMounted, watchEffect } from 'vue'
 import { showToast } from 'vant'
 import { getImg, getSplitName, formatDate, getAmOrPm, getENMonth } from '@/utils/utils'
 import { useRouter } from 'vue-router'
@@ -112,7 +118,8 @@ const state = reactive({
     refreshing: false,
     timer: null,
     refreshTimer: null,
-    loadTime: null
+    loadTime: null,
+    showClearIcon: false
 })
 function getSearchGameRes() {
     state.timer && clearTimeout(state.timer)
@@ -147,6 +154,9 @@ async function getGameList(val) {
                 state.page.hasNext = true
             } else {
                 state.page.hasNext = false
+                state.finished = true
+            }
+            if (!res.hasNext) {
                 state.finished = true
             }
             state.page.totalPage = res.totalPage
@@ -201,6 +211,21 @@ async function copyBtn(item) {
         console.log(error);
     }
 }
+
+function clearContent() {
+    state.teamName = ''
+    state.showClearIcon = false
+}
+function inputBlur() {
+    if (state.teamName == '') {
+        state.showClearIcon = false
+    }
+}
+watchEffect(() => {
+    if (state.teamName == '') {
+        state.showClearIcon = false
+    }
+})
 const { activeNames, list, teamName, loading, finished, refreshing, dateIndex, totalCount } = toRefs(state)
 </script>
 <style scoped lang='scss'>

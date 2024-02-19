@@ -165,6 +165,14 @@ const router = createRouter({
           component: () => import("../views/withdraw.vue"),
         },
         {
+          path: "result",
+          name: "result",
+          meta: {
+            parentName: "",
+          },
+          component: () => import("../views/result.vue"),
+        },
+        {
           path: "addWalletAddress",
           name: "addWalletAddress",
           meta: {
