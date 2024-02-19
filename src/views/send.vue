@@ -85,7 +85,7 @@ async function confirmTransfer() {
             state.useName = ''
             state.amount = 0
             state.payPwd = ''
-            showToast('success')
+            showToast(t('tips.success.text'))
         }
     } catch (error) {
         console.log(error);

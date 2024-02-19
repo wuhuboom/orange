@@ -76,7 +76,7 @@ async function confirmTransfer() {
         if (res === null) {
             state.amount = 0
             state.payPwd = ''
-            showToast('success')
+            showToast(t('tips.success.text'))
         }
     })
 

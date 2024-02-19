@@ -1,4 +1,5 @@
 {
+  "tips.success.text": "成功",
   "login.title": "欢迎来到",
   "login.loginBtn": "登录",
   "login.create.accTips": "创建一个账户来探索令人惊叹的功能",
@@ -109,6 +110,7 @@
   "sysNotice.System.Notice.text": "系统公告",
   "sysNotice.Personal.Notice.text": "个人通知",
   "transfer.football.balance": "足球余额",
+  "transfer.copy.success.text":"复制成功",
   "backapi.maxCards": "收款账号已达上限",
   "betRange": "投注范围：最低 {min}-{max}",
   "version.update": "版本更新",

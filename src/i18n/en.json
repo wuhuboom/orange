@@ -1,4 +1,5 @@
 {
+  "tips.success.text": "success",
   "login.title": "Welcome to",
   "login.loginBtn": "Login",
   "login.create.accTips": "Create an account to explore amazing feature",
@@ -110,6 +111,7 @@
   "sysNotice.Personal.Notice.text": "Personal Notice",
   "transfer.title": "Transfer",
   "transfer.football.balance": "football balance",
+  "transfer.copy.success.text": "copy success",
   "backapi.maxCards": "Maximum number of recipient accounts reached",
   "betRange": "Trading Range: Minimum {min}-{max}",
   "version.update": "Version Update",

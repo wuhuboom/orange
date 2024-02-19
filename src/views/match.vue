@@ -89,6 +89,8 @@ import { useRouter } from 'vue-router'
 import http from '@/utils/axios'
 
 import useClipboard from "vue-clipboard3";
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
 
 const { toClipboard } = useClipboard()
 const router = useRouter()
@@ -194,7 +196,7 @@ async function copyBtn(item) {
     let copyText = item.id.toString()
     try {
         await toClipboard(copyText)
-        showToast('copy Success')
+        showToast(t('transfer.copy.success.text'))
     } catch (error) {
         console.log(error);
     }
