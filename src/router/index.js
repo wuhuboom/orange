@@ -189,6 +189,14 @@ const router = createRouter({
           component: () => import("../views/addBankCard.vue"),
         },
         {
+          path: "addWallet",
+          name: "addWallet",
+          meta: {
+            parentName: "",
+          },
+          component: () => import("../views/addWallet.vue"),
+        },
+        {
           path: "partner",
           name: "partner",
           meta: {

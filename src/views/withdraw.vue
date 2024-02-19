@@ -289,7 +289,9 @@ function addWalletPage() {
     console.log(getAddText());
 
     if (state.rechargeInfo.name == 'E-Wallet') {
-        return t('withdraw.add.eWallet.text')
+        router.push({
+            path: '/addWallet'
+        })
     } else if (state.rechargeInfo.name === 'Bank') {
         router.push({
             path: '/addBankCard',

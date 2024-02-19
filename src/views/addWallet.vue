@@ -1,46 +1,28 @@
 <template>
     <div class="addBankCard hideScrollbar maxWidth lrPadding">
         <div class="sendBox">
-            <div class="title">{{ $t('user.security.center.bankcard.bankadd.input.address.text') }}</div>
-            <div class="bankIDBox cursor" @click="showNewAddPanel">{{ bankId }}</div>
+            <div class="title">{{ $t('deal.createOrder.354499-13') }}</div>
+            <input type="text" class="hideInputBtn" v-model="account"
+                :placeholder="$t('backapi.self.whitdraw.type.ewallet.form.name.placehole.text')">
         </div>
         <div class="sendBox">
-            <div class="title">{{ $t('addBankCard.card.number.text') }}</div>
-            <input type="number" class="hideInputBtn" v-model="cardNumber" :placeholder="$t('deal_enter_bank_card_number')">
+            <div class="title">{{ $t('addWalletAddress.type.text') }}</div>
+            <div class="bankIDBox cursor" @click="showNewAddPanel">{{ walltyName }}</div>
         </div>
         <div class="sendBox">
-            <div class="title">{{ $t('addBankCard.cardNumberTwice.text') }}</div>
-            <input type="number" class="hideInputBtn" v-model="cardNumberTwice"
-                :placeholder="$t('addBankCard.cardNumberTwice.placeholder.text')">
-        </div>
-        <div class="sendBox">
-            <div class="title">{{ $t('user.security.center.bankcard.bankadd.input.branch.text') }}</div>
-            <input type="text" v-model="subBranch" :placeholder="$t('addBankCard.bankcard.name.placeholder.text')">
-        </div>
-        <div class="sendBox">
-            <div class="title">{{ $t('addBankCard.Holder.name.text') }}</div>
-            <input type="text" v-model="cardName" :placeholder="$t('addBankCard.Holder.name.placeholder.text')">
+            <div class="title">{{ $t('backapi.self.whitdraw.type.ewallet.form.wallet.addr.text') }}</div>
+            <input type="text" v-model="address"
+                :placeholder="$t('backapi.self.whitdraw.type.ewallet.form.wallet.addr.placehole.text')">
         </div>
         <Select :selectedObj="verifyObj" @sendSelectVal="sendSelectVal" />
         <div class="sendBox">
             <div class="verifyOpt cursor">
-                <input type="text" class="hideInputBtn" v-model="code"
-                    :placeholder="$t('addWalletAddress.verify.code.text')">
+                <input type="text" v-model="code" :placeholder="$t('addWalletAddress.verify.code.text')">
                 <div class="sendBtn" @click="sendVerify">
                     {{ sendBtn }} <span v-if="showSeconds">s</span>
                 </div>
             </div>
         </div>
-        <!-- <div class="sendBox date">
-            <div class="leftBox">
-                <div class="title">{{ $t('addBankCard.month.text') }}</div>
-                <div class="month">MM</div>
-            </div>
-            <div class="rightBox">
-                <div class="title">{{ $t('addBankCard.year.text') }}</div>
-                <div class="year">YY</div>
-            </div>
-        </div> -->
         <div class="sendBox">
             <div class="title">{{ $t('user.security.center.bankcard.bankadd.input.pay.pass.text') }}</div>
             <input type="password" class="hideInputBtn" v-model="payPwd" :placeholder="$t('send.payment.placeholder.text')">
@@ -48,6 +30,7 @@
         <div class="confirm cursor" @click="submit">
             {{ $t('modal.confirm.text') }}
         </div>
+        <!-- 弹窗面板 -->
         <div class="betPanel maxWidth" :class="{ showBetPanel: isShowNewAddBool }">
             <div class="panelBar"></div>
             <div class="panel_top relative">
@@ -57,17 +40,17 @@
                 <van-icon name="cross" class="closeIcon cursor" color="#fff" @click="closePanel" />
             </div>
             <div class="addlist">
-                <div class="wItem cursor" v-for="(k, j) in state.bankObj?.banks" :class="{
-                    wItActive: bankListIndex === j
+                <div class="wItem cursor" v-for="(k, j) in wtList" :class="{
+                    wItActive: walletTyIndex === j
                 }" :key="j" @click.stop="selectNewAddress(k, j,)">
-                    {{ k.bankCname }}
+                    {{ k }}
                 </div>
             </div>
         </div>
     </div>
 </template>
 <script setup >
-import { reactive, toRefs, onMounted } from 'vue'
+import { reactive, toRefs, onMounted, ref } from 'vue'
 import Select from '@/components/select.vue'
 import { useRouter } from "vue-router";
 import http from '@/utils/axios'
@@ -77,15 +60,11 @@ import { useI18n } from 'vue-i18n'
 const { t } = useI18n()
 const router = useRouter()
 const state = reactive({
-    verifyMetIndex: 1,
-    verifyCode: '',
-    bankListIndex: 0,
-    bankId: '',
-    bankObj: {},
-    cardNumber: '',
-    cardNumberTwice: '',
+    walletTyIndex: 0,
+    walltyName: '',
+    account: '',
+    address: '',
     cardName: '',
-    subBranch: '',
     payPwd: '',
     code: '',
     isShowNewAddBool: false,
@@ -106,24 +85,13 @@ const state = reactive({
         optIndex: 0,
     },
     sendBtn: t('forget.send'),
-    showSeconds: false
+    showSeconds: false,
+    wtList: []
 })
 function sendSelectVal(data) {
     if (data.type === 'verify') {
         state.verifyObj.selectedVal = data.val.label
         state.verifyObj.optIndex = state.verifyObj.options.find(item => item.label == data.val.label)?.value
-    }
-}
-getBankIdList()
-async function getBankIdList() {
-    let url = '/player/banks'
-    try {
-        const res = await http.get(url)
-        console.log(res);
-        state.bankId = res.banks[state.bankListIndex]?.bankCname
-        state.bankObj = res
-    } catch (error) {
-        console.log(error);
     }
 }
 function closePanel() {
@@ -170,33 +138,32 @@ function startCountdown() {
     }, 1000)
 }
 function selectNewAddress(k, j) {
-    state.bankListIndex = j
-    state.bankId = k.bankCname
+    state.walletTyIndex = j
+    state.walltyName = k
     state.isShowNewAddBool = false
-    console.log(k, j);
 }
 function showNewAddPanel() {
     state.isShowNewAddBool = !state.isShowNewAddBool
 }
+getWalletType() //获取钱包类型
+async function getWalletType() {
+    let url = '/player/wallet_type'
+    try {
+        const res = await http.get(url)
+        state.walltyName = res[state.walletTyIndex]
+        state.wtList = res
+        console.log(state.wtList);
+    } catch (error) {
+        console.log(error);
+    }
+}
 async function submit() {
-    if (state.cardNumber === '') {
-        showToast(t('deal_enter_bank_card_number'))
+    if (state.account === '') {
+        showToast(t('backapi.self.whitdraw.type.ewallet.form.name.placehole.text'))
         return
     }
-    if (state.cardNumber != state.cardNumberTwice) {
-        showToast(t('backapi.cardNumberTwiceDiff'))
-        return
-    }
-    if (state.cardNumberTwice === '') {
-        showToast(t('addBankCard.cardNumberTwice.placeholder.text'))
-        return
-    }
-    if (state.subBranch === '') {
-        showToast(t('addBankCard.bankcard.name.placeholder.text'))
-        return
-    }
-    if (state.cardName === '') {
-        showToast(t('addBankCard.Holder.name.placeholder.text'))
+    if (state.address === '') {
+        showToast(t('backapi.self.whitdraw.type.ewallet.form.wallet.addr.placehole.text'))
         return
     }
     if (state.code === '') {
@@ -207,26 +174,21 @@ async function submit() {
         showToast(t('send.payment.placeholder.text'))
         return
     }
-    let url = '/player/bind_bank_card'
+    let url = '/player/wallet'
     let data = {
-        bankId: state.bankObj.banks[state.bankListIndex]?.id,
-        subBranch: state.subBranch,
-        cardName: state.cardName,
-        cardNumber: state.cardNumber,
-        cardNumberTwice: state.cardNumberTwice,
+        type: state.wtList[state.walletTyIndex],
+        account: state.account,
+        address: state.address,
         payPwd: state.payPwd,
         code: state.code
     }
     try {
         const res = await http.post(url, data)
-        console.log(res);
         if (res === null) {
             showToast(t('tips.success.text'))
-            state.subBranch = ''
-            state.cardName = ''
-            state.cardNumber = ''
-            state.cardNumberTwice = ''
+            state.address = ''
             state.payPwd = ''
+            state.account = ''
             state.code = ''
             setTimeout(() => {
                 router.go(-1)
@@ -236,7 +198,7 @@ async function submit() {
         console.log(error);
     }
 }
-const { verifyCode, cardNumber, verifyObj, sendBtn, showSeconds, cardNumberTwice, subBranch, bankId, bankObj, bankListIndex, cardName, code, isShowNewAddBool, payPwd } = toRefs(state)
+const { account, verifyObj, sendBtn, showSeconds, address, wtList, walltyName, walletTyIndex, isShowNewAddBool, payPwd, code } = toRefs(state)
 </script>
 <style scoped lang='scss'>
 .addBankCard {
