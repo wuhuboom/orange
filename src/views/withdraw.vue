@@ -85,7 +85,7 @@
             <div class="panelBar"></div>
             <div class="panel_top relative">
                 <div class="flex left_box">
-                    选择usdt地址
+                    {{ $t('withdraw.usdt.panel.title.text') }}
                 </div>
                 <van-icon name="cross" class="closeIcon" color="#fff" @click="closePanel" />
             </div>
@@ -286,12 +286,23 @@ function selectWallet(k, j,) {
 }
 function addWalletPage() {
     localStorage.setItem('toaddFlag', 1)
-    router.push({
-        path: '/addWalletAddress',
-        query: {
-            addType: state.virtualCurrencyList[state.channelIndex].name
-        }
-    })
+    console.log(getAddText());
+
+    if (state.rechargeInfo.name == 'E-Wallet') {
+        return t('withdraw.add.eWallet.text')
+    } else if (state.rechargeInfo.name === 'Bank') {
+        router.push({
+            path: '/addBankCard',
+        })
+    } else if (state.rechargeInfo.name === 'USDT') {
+        router.push({
+            path: '/addWalletAddress',
+            query: {
+                addType: state.virtualCurrencyList[state.channelIndex].name
+            }
+        })
+    }
+    return
 }
 // function showADList() {
 //     state.isShowWalletOpt = !state.isShowWalletOpt

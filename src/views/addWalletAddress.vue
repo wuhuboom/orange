@@ -148,7 +148,8 @@ async function sendVerify() {
     } catch (error) {
         console.log(error);
     }
-} function startCountdown() {
+}
+function startCountdown() {
     state.showSeconds = true
     let timer = setInterval(function () {
         state.sendBtn--
