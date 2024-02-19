@@ -1,78 +1,172 @@
 <template>
     <div class="addWalletAddress maxWidth lrPadding">
-        <div class="sendBox">
-            <div class="title">{{ $t('addWalletAddress.type.text') }}</div>
-            <input type="number" class="hideInputBtn" v-model="walletType"
-                :placeholder="$t('addWalletAddress.walletType.plaaceholder.text')">
-        </div>
+        <Select :selectedObj="walletTypeObj" />
         <div class="sendBox">
             <div class="title">{{ $t('addWalletAddress.walletId.text') }}</div>
-            <input type="number" class="hideInputBtn" v-model="walletId"
+            <input type="text" class="hideInputBtn" v-model="walletId"
                 :placeholder="$t('addWalletAddress.walletId.plaaceholder.text')">
         </div>
-        <div class="sendBox relative" @click="showSelectOpt">
-            <div class="title">{{ $t('addWalletAddress.verify.methods.text') }}</div>
-            <div class="verifyOpt cursor " :class="{ hideBr: isShowVerifyMet }">
-                <div class="vmType">{{ verifyMetVal }}</div>
-                <div class="arrowBox">
-                    <van-icon :name="isShowVerifyMet ? 'arrow-up' : 'arrow-down'" />
+        <Select :selectedObj="verifyObj" @sendSelectVal="sendSelectVal" />
+        <div class="sendBox">
+            <div class="verifyOpt cursor">
+                <input type="number" class="hideInputBtn" v-model="verifyCode"
+                    :placeholder="$t('addWalletAddress.verify.code.text')">
+                <div class="sendBtn" @click="sendVerify">
+                    {{ sendBtn }} <span v-if="showSeconds">s</span>
                 </div>
-            </div>
-            <div class="verifyMethods" :class="{ showVMOpt: isShowVerifyMet }">
-                <div class="itemOpt" :class="{ ioAcitve: verifyMetIndex === 0 }" @click="selectVerifyOpt(0)">{{
-                    $t('addWalletAddress.verify.phone.text') }}</div>
-                <div class="itemOpt" :class="{ ioAcitve: verifyMetIndex === 1 }" @click="selectVerifyOpt(1)">{{
-                    $t('addWalletAddress.verify.email.text') }}</div>
             </div>
         </div>
         <div class="sendBox">
-            <div class="verifyOpt cursor">
-                <input type="number" v-model="walletId" :placeholder="$t('addWalletAddress.verify.code.text')">
-                <div class="sendBtn">
-                    {{ $t('forget.send') }}
-                </div>
-            </div>
+            <div class="title">{{ $t('user.security.center.bankcard.bankadd.input.pay.pass.text') }}</div>
+            <input type="text" class="hideInputBtn" v-model="payPwd" :placeholder="$t('send.payment.placeholder.text')">
         </div>
 
-        <div class="confirm">
+        <div class="confirm cursor" @click="submit">
             {{ $t('modal.confirm.text') }}
         </div>
     </div>
 </template>
 <script setup >
 import { reactive, toRefs, onMounted } from 'vue'
-import { useRouter } from "vue-router";
+import { useRouter, useRoute } from "vue-router";
 import http from '@/utils/axios'
 import { showToast } from 'vant'
+import Select from '@/components/select.vue'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
+const router = useRouter()
+const route = useRoute()
 const state = reactive({
-    walletType: '',
+    walletType: 'USDT',
     walletId: '',
     isShowVerifyMet: false,
-    verifyMetIndex: 1,
-    verifyMetVal: ''
+    verifyCode: '',
+    payPwd: '',
+    walletTypeObj: {
+        title: t('addWalletAddress.type.text'),
+        dataType: 'type',
+        options: [
+            {
+                label: 'TRC20',
+                value: 1
+            }
+        ],
+        selectedVal: 'USDT',
+        optIndex: 0,
+    },
+    verifyObj: {
+        title: t('addWalletAddress.verify.methods.text'),
+        dataType: 'verify',
+        options: [
+            {
+                label: t('addWalletAddress.verify.phone.text'),
+                value: 0
+            },
+            {
+                label: t('addWalletAddress.verify.email.text'),
+                value: 1
+            },
+        ],
+        selectedVal: t('addWalletAddress.verify.phone.text'),
+        optIndex: 0,
+    },
+    sendBtn: t('forget.send'),
+    showSeconds: false
 })
-function selectVerifyOpt(index) {
-    state.verifyMetIndex = index
-    if (index === 0) {
-        state.verifyMetVal = t('addWalletAddress.verify.phone.text')
-    } else {
-        state.verifyMetVal = t('addWalletAddress.verify.email.text')
+function sendSelectVal(data) {
+    if (data.type === 'verify') {
+        state.verifyObj.selectedVal = data.val.label
+        state.verifyObj.optIndex = state.verifyObj.options.find(item => item.label == data.val.label)?.value
     }
 }
-function showSelectOpt() {
-    state.isShowVerifyMet = !state.isShowVerifyMet
+async function submit() {
+    let url = '/player/virtual_currency_add'
+    let data = {
+        type: "1",
+        subType: '11',
+        addr: state.walletId,
+        payPwd: state.payPwd,
+        code: state.verifyCode,
+    }
+    if (state.walletId === '') {
+        showToast(t('addWalletAddress.walletAddr.notEmpty.text'))
+        return
+    }
+    if (state.walletId.length != 34 || !state.walletId.startsWith('T')) {
+        showToast(t('ruls.trc.length'))
+        return
+    }
+    if (state.code === '') {
+        showToast(t('backapi.codeIsEmpty'))
+        return
+    }
+    if (state.payPwd === '') {
+        showToast(t('addWalletAddress.walletAddr.payPwd.text'))
+        return
+    }
+    try {
+        const res = await http.post(url, data)
+        console.log(res);
+        if (res === null) {
+            showToast('success')
+            state.code = ''
+            state.walletId = ''
+            state.payPwd = ''
+            setTimeout(() => {
+                router.go(-1)
+            }, 500);
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
+async function sendVerify() {
+    if (state.showSeconds) {
+        showToast(t('addWalletAddress.countDown.tips.text'))
+        return
+    }
+    if (state.walletId === '') {
+        showToast(t('addWalletAddress.walletAddr.notEmpty.text'))
+        return
+    }
+    let urlObj = {
+        0: '/player/v2/phone_code/online',
+        1: '/player/mail/code'
+    }
+    let url = urlObj[state.verifyObj.optIndex]
+    try {
+        const res = state.verifyObj.optIndex === 0 ? await http.post(url) : await http.get(url)
+        // console.log(res);
+        if (res.hasOwnProperty('hasSend')) {
+            if (!state.showSeconds) {
+                state.sendBtn = 60
+                startCountdown()
+            }
+            showToast(t('form.verift.send.text'))
+            return
+        }
+    } catch (error) {
+        console.log(error);
+    }
+} function startCountdown() {
+    state.showSeconds = true
+    let timer = setInterval(function () {
+        state.sendBtn--
+        if (state.sendBtn <= 0) {
+            state.showSeconds = false
+            state.sendBtn = t('forget.send')
+        }
+    }, 1000)
 }
 onMounted(() => {
-    if (state.verifyMetIndex === 0) {
-        state.verifyMetVal = t('addWalletAddress.verify.phone.text')
+    if (state.verifyObj.optIndex === 0) {
+        state.verifyObj.selectedVal = t('addWalletAddress.verify.phone.text')
     } else {
-        state.verifyMetVal = t('addWalletAddress.verify.email.text')
+        state.verifyObj.selectedVal = t('addWalletAddress.verify.email.text')
     }
 })
-const { walletType, walletId, isShowVerifyMet, verifyMetIndex, verifyMetVal } = toRefs(state)
+const { walletId, verifyObj, walletTypeObj, verifyCode, payPwd, sendBtn, showSeconds } = toRefs(state)
 </script>
 <style scoped lang='scss'>
 .addWalletAddress {
@@ -107,6 +201,11 @@ const { walletType, walletId, isShowVerifyMet, verifyMetIndex, verifyMetVal } = 
             margin-top: 8px;
             box-sizing: border-box;
             padding-left: 15px;
+        }
+
+        .wtStyle {
+            @extend input;
+            @include flex(flex-start);
         }
 
         .verifyOpt {
@@ -194,7 +293,7 @@ const { walletType, walletId, isShowVerifyMet, verifyMetIndex, verifyMetVal } = 
         @include flex(center);
         font-size: 14px;
         color: #fff;
-        margin: 20vh auto 0;
+        margin: 10vh auto 0;
     }
 }
 </style>

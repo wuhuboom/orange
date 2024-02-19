@@ -101,7 +101,7 @@ const { amount, payPwd, safeData } = toRefs(state)
         flex-direction: column;
 
         .title {
-            width: 350px;
+            width: 100%;
             text-align: left;
             font-size: 14px;
             color: #fff;
@@ -110,7 +110,7 @@ const { amount, payPwd, safeData } = toRefs(state)
         }
 
         input {
-            width: 350px;
+            width: 100%;
             height: 49px;
             border-radius: 10px;
             border: solid 1px #ff7c43;
@@ -123,7 +123,7 @@ const { amount, payPwd, safeData } = toRefs(state)
     }
 
     .safeBox {
-        width: 350px;
+        width: 100%;
         height: 49px;
         border-radius: 10px;
         border: solid 1px #ff7c43;
@@ -145,7 +145,7 @@ const { amount, payPwd, safeData } = toRefs(state)
     }
 
     .balance {
-        width: 350px;
+        width: 100%;
         font-size: 14px;
         font-weight: normal;
         font-stretch: normal;
