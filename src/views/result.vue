@@ -26,7 +26,7 @@
             <van-pull-refresh class="pageRefresh" :immediate-disable="true" v-model="refreshing" @refresh="onRefresh"
                 :loading-text="$t('load.loading.text')">
                 <van-list v-model:loading="loading" :finished="finished" :finished-text="$t('load.no.more.text')"
-                    :loading-text="$t('load.loading.text')" @load="onLoad" :immediate-check="true">
+                    :loading-text="$t('load.loading.text')" @load="onLoad" :immediate-check="true" :offset='50'>
                     <template #default>
                         <div class="listContent" v-for="(item, index) in grList" :key="index">
                             <div class="cLeft">
