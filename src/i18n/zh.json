@@ -89,6 +89,7 @@
   "withdraw.type.text": "提现方式",
   "withdraw.password.text": "提现密码",
   "withdraw.placeholder.text": "请输入提现密码",
+  "withdraw.add.newWallet.text": "添加钱包地址",
   "withdraw.add.bankCard.text": "添加银行卡",
   "withdraw.add.usdt.text": "添加USDT",
   "withdraw.add.eWallet.text": "添加钱包",

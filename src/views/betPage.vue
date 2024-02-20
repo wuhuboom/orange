@@ -138,7 +138,8 @@ const state = reactive({
     betPreData: {},
     potentialWinnings: 0,//
     errorTips: {},
-    betRangeMistake: false
+    betRangeMistake: false,
+    betTimer: null
 })
 getGameInfo()
 async function getGameInfo() {
@@ -194,30 +195,34 @@ async function betSubmit() {
         type: '2',
         money: state.betNum
     }
-    try {
-        const res = await http.post(url, data)
-        if (res?.id) {
-            showToast({
-                icon: successIcon,
-                iconSize: '46px',
-                message: t('betPage.successfully.text'),
-                position: 'bottom',
-                className: 'betPageToast'
-            })
+    state.betTimer && clearTimeout(state.betTimer)
+    state.betTimer = setTimeout(async () => {
+        try {
+            const res = await http.post(url, data)
+            if (res?.id) {
+                showToast({
+                    icon: successIcon,
+                    iconSize: '46px',
+                    message: t('betPage.successfully.text'),
+                    position: 'bottom',
+                    className: 'betPageToast'
+                })
 
-            store.getUserInfo()
-            state.betIndex = -1
-            state.isShowBetPanel = false
-            state.betNum = 0
-            state.potentialWinnings = 0
+                store.getUserInfo()
+                state.betIndex = -1
+                state.isShowBetPanel = false
+                state.betNum = 0
+                state.potentialWinnings = 0
 
-        } else {
-            state.errorTips = res
-            console.log(state.errorTips);
+            } else {
+                state.errorTips = res
+                console.log(state.errorTips);
+            }
+        } catch (error) {
+            console.log(error);
         }
-    } catch (error) {
-        console.log(error);
-    }
+
+    }, 500);
 }
 function getPotentialWin() {
     // 赔率
