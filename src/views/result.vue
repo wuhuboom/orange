@@ -66,7 +66,7 @@ const state = reactive({
     totalCount: 0,
     activeNames: ['1'],
     teamName: '',
-    dateIndex: 1,
+    dateIndex: 0,
     page: {
         pageNo: 1,
         pageSize: 10,
