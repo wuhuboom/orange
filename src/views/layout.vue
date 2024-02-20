@@ -151,7 +151,7 @@ const headerObj = computed(() => {
             leftIcon: "back",
             leftIconWidth: "32px",
             leftIconHeight: "32px",
-            center: t('leftNav.result.text'),
+            center: t('fuc.match.records'),
             rightIcon: "",
             rightIconWidth: "",
             rightIconHeight: "",
