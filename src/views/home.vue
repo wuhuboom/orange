@@ -107,8 +107,13 @@ import { Swiper, SwiperSlide } from 'swiper/vue';
 import {
     Autoplay, Navigation, Pagination, Scrollbar, A11y,
 } from "swiper/modules";
+import { showToast } from 'vant'
 // 在modules加入要使用的模块
 const modules = [Autoplay, Pagination, Navigation, Scrollbar];
+
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
 let swiperOption = {
     spaceBetween: '15',
     slidesPerView: 'auto', // 一屏显示的slide个数  'auto'
@@ -244,6 +249,7 @@ async function setPwdBtn() {
     let url = '/player/setPwdPay'
     try {
         const res = await http.post(url, data)
+        console.log(res);
         if (res === null) {
             showToast(t('tips.success.text'))
             state.tradingDialog = false
