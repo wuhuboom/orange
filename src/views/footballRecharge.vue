@@ -60,6 +60,10 @@ function changePayM(item, index) {
 async function toPage() {
     let url = '/player/recharge'
     console.log(state.amount);
+    if (state.amount === '') {
+        showToast(t('ruls.amoun.null.length'))
+        return
+    }
     if (state.amount <= 4) {
         showToast(t('backapi.payMoneyTooMinOrMax'))
         return
@@ -145,7 +149,7 @@ const { amount, channelIndex, rechargeInfo, channelList } = toRefs(state)
 
             .tips {
                 font-family: Roboto;
-                font-size: 14px;
+                font-size: 16px;
                 color: #fff;
             }
 
