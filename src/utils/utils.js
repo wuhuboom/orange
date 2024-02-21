@@ -54,6 +54,8 @@ export const getPercent = (numSuc, numCount) => {
   let percent = "";
   if (numSuc / numCount === 1) {
     percent = 100;
+  } else {
+    percent = numSuc / numCount;
   }
   return `${percent}%`;
 };

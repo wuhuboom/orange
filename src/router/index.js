@@ -69,6 +69,14 @@ const router = createRouter({
           component: () => import("../views/order.vue"),
         },
         {
+          path: "tradingOrder",
+          name: "tradingOrder",
+          meta: {
+            parentName: "tradingOrder",
+          },
+          component: () => import("../views/tradingOrder.vue"),
+        },
+        {
           path: "safe",
           name: "safe",
           meta: {
@@ -147,6 +155,14 @@ const router = createRouter({
             parentName: "safe",
           },
           component: () => import("../views/recharge.vue"),
+        },
+        {
+          path: "frecharge",
+          name: "frecharge",
+          meta: {
+            parentName: "safe",
+          },
+          component: () => import("../views/footballRecharge.vue"),
         },
         {
           path: "swapInfo",

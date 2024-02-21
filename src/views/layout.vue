@@ -48,6 +48,15 @@ const headerObj = computed(() => {
             isShowRightMoney: true,
             bgColor: "#202020",
         },
+        tradingOrder: {
+            leftIcon: "back",
+            leftIconWidth: "32px",
+            leftIconHeight: "32px",
+            center: t("safe.trading.order.title"),
+            rightIcon: "",
+            isShowRightMoney: false,
+            bgColor: "#000",
+        },
         safe: {
             leftIcon: "hleftIcon",
             leftIconWidth: "32px",
@@ -82,6 +91,17 @@ const headerObj = computed(() => {
             bgColor: "#0b0b0b",
         },
         recharge: {
+            leftIcon: "back",
+            leftIconWidth: "32px",
+            leftIconHeight: "32px",
+            center: t("recharge.title"),
+            rightIcon: "hRightSafe",
+            rightIconWidth: "18px",
+            rightIconHeight: "18px",
+            isShowRightMoney: false,
+            bgColor: "#0b0b0b",
+        },
+        frecharge: {
             leftIcon: "back",
             leftIconWidth: "32px",
             leftIconHeight: "32px",

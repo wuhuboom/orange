@@ -30,7 +30,8 @@
                 {{ item.name }}
             </div>
         </div>
-        <p class="teamReport">{{ $t('agency.center.title.text') }}: <span> {{ $t('partner.not.up.to.standard.text') }}</span></p>
+        <p class="teamReport">{{ $t('agency.center.title.text') }}: <span> {{ $t('partner.not.up.to.standard.text')
+        }}</span></p>
         <div class="progressBar">
             <div class="p_left">
                 <p>{{ $t('backapi.report.account.change.query.type.team.motivation.text') }} </p>
@@ -39,7 +40,7 @@
                 <p>{{ $t('partner.not.up.to.par') }}: <span class="blue">{{ partnerObj?.groupUnAim || 0 }}</span></p>
             </div>
             <div class="p_right">
-                <van-circle v-model:current-rate="groupUnAim" :speed="100" :rate="groupAim" color="#0b4de6"
+                <van-circle v-model:current-rate="groupAim" :speed="100" :rate="groupUnAim" color="#0b4de6"
                     layer-color="#ff7c43" :stroke-width="80" :text="passRate" />
             </div>
         </div>
@@ -62,6 +63,7 @@
 import { reactive, toRefs, computed } from 'vue'
 import { getImg, formatDate } from '@/utils/utils'
 import http from '@/utils/axios'
+import { getPercent } from '@/utils/utils'
 import { useI18n } from 'vue-i18n'
 const { t, locale } = useI18n()
 const state = reactive({
@@ -105,18 +107,19 @@ async function getTeamData(index, key = '') {
         res = await http.post(url, data)
         if (res?.key) {
             index += 1
-            if (index < 8) {
+            if (index < 7) {
                 console.log(index);
                 getTeamData(index, res.key)
             }
         }
         state.partnerObj = { ...state.partnerObj, ...res }
+        console.log(state.partnerObj);
         if (state.partnerObj.hasOwnProperty('groupUnAim')) {
             state.groupUnAim = state.partnerObj.groupUnAim
         }
         if (state.partnerObj.hasOwnProperty('groupAim')) {
             state.groupAim = state.partnerObj.groupAim
-            state.passRate = state.partnerObj.groupAim / 100 + '%'
+            state.passRate = getPercent(state.partnerObj.groupAim, 100)
         }
     } catch (error) {
         console.log(error);

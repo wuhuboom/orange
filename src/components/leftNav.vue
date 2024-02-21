@@ -23,7 +23,7 @@
                     <div class="btn">
                         <router-link @click="toPage" to="/withdraw">{{ $t('leftNav.withdrawal.text') }}</router-link>
                         <router-link @click="toPage" class="rechargeBtn"
-                            :to="{ path: '/recharge', query: { rechargeType: 'football' } }">{{
+                            :to="{ path: '/frecharge', query: { rechargeType: 'football' } }">{{
                                 $t('leftNav.recharge.text') }}</router-link>
                     </div>
                 </div>
