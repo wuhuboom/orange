@@ -21,8 +21,10 @@
 </template>
 <script setup >
 import { reactive, toRefs } from 'vue'
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
+import http from '@/utils/axios'
 const router = useRouter()
+const route = useRoute()
 const state = reactive({
     money: 0,
     isError: false,
@@ -31,6 +33,19 @@ function toPage() {
     router.push({
         path: '/confirmBuy'
     })
+}
+getPageInfo()
+async function getPageInfo() {
+    let url = '/player/fb/info/saler'
+    let data = {
+        id: route.query.id
+    }
+    try {
+        const res = await http.post(url, data)
+        console.log(res);
+    } catch (error) {
+        console.log(error);
+    }
 }
 const { money, isError } = toRefs(state)
 </script>

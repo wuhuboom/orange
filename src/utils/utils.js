@@ -49,3 +49,11 @@ export const getAmount = (money) => {
   let res = (Number(money) / window?.config?.UNIFIED_NUMBER).toFixed(4);
   return Number(res);
 };
+// 获取百分比
+export const getPercent = (numSuc, numCount) => {
+  let percent = "";
+  if (numSuc / numCount === 1) {
+    percent = 100;
+  }
+  return `${percent}%`;
+};

@@ -30,10 +30,10 @@
                 <div class="hbuy" v-if="route.name == 'buy'">
                     <div class="money buyMoney">
                         <img :src="getImg('header', 'buy')" class="mIcon" alt="">
-                        <span class="moneyNum bOrder">Order</span>
+                        <span class="moneyNum bOrder">{{ $t('safe.buy.header.order.text') }}</span>
                     </div>
                     <div class="myAssets">
-                        My Assets
+                        {{ $t('safe.buy.header.myAsseets.text') }}
                     </div>
                 </div>
                 <img :src="getImg('header', header.rightIcon)" class="rightIcon" alt="" v-if="header.rightIcon"

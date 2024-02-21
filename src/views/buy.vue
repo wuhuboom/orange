@@ -2,13 +2,13 @@
     <div class="buy maxWidth">
         <div class="sort">
             <div class="text">
-                buy
+                {{ $t('deal_buy') }}
             </div>
             <div class="buySort relative">
-                <span>Sort By</span>
+                <span>{{ $t('safe.buy.sortBy.text') }}</span>
                 <div class="Transaction" @click="showSelect = !showSelect">
                     Transaction Rate
-                    <img src="../assets/images/buy/arrowBuy.webp" alt="">
+                    <img src="../assets/images/buy/arrowBuy.webp" :class="{ rotateImg: showSelect }" alt="">
                 </div>
                 <div class="select" :class="{ addSelectClass: showSelect }">
                     <p>trade volume</p>
@@ -19,40 +19,49 @@
             </div>
         </div>
         <van-divider style="margin-top: 0;" />
-        <div class="list lrPadding">
-            <div class="list-item" v-for="(item, index) in saleList" :key="index">
-                <div class="top">
-                    <div class="user">
-                        <div class="avatar">
-                            <img src="../assets/images/common/avatar.webp" alt="">
+
+        <van-pull-refresh class="pageRefresh" :immediate-disable="true" v-model="listObj.refreshing" @refresh="onRefresh"
+            :loading-text="$t('load.loading.text')">
+            <van-list v-model:loading="listObj.loading" :finished="listObj.finished"
+                :finished-text="$t('load.no.more.text')" :loading-text="$t('load.loading.text')" @load="onLoad"
+                :immediate-check="true" :offset='50'>
+                <div class="list lrPadding">
+                    <div class="list-item" v-for="(item, index) in saleList" :key="index">
+                        <div class="top">
+                            <div class="user">
+                                <div class="avatar">
+                                    <img src="../assets/images/common/avatar.webp" alt="">
+                                </div>
+                                <div class="name">{{ item.merName }}</div>
+                            </div>
+                            <div class="price">
+                                <p>price</p>
+                                <p class="num">7.12</p>
+                            </div>
+                            <div class="quantity">
+                                <p>quantity</p>
+                                <p class="num">2,061.00</p>
+                            </div>
+                            <div class="transaction">
+                                <p>transaction</p>
+                                <p class="num">{{ getPercent(item.cumulativeSucc, item.cumulativeCount) }}</p>
+                            </div>
                         </div>
-                        <div class="name apostrophe">{{ item.merName }}</div>
-                    </div>
-                    <div class="price">
-                        <p>price</p>
-                        <p class="num">7.12</p>
-                    </div>
-                    <div class="quantity">
-                        <p>quantity</p>
-                        <p class="num">2,061.00</p>
-                    </div>
-                    <div class="transaction">
-                        <p>transaction</p>
-                        <p class="num">90%</p>
+                        <div class="bottom">
+                            <div>{{ $t('deal.orderDetail.197148-6') }}：{{ item.payTypes }}</div>
+                            <div class="cursor" @click="toPurchaseAmount(item)">{{ $t('deal_buy_in') }}</div>
+                        </div>
                     </div>
                 </div>
-                <div class="bottom">
-                    <div>payment：Adapay VISA</div>
-                    <div class="cursor" @click="toPurchaseAmount">buy</div>
-                </div>
-            </div>
-        </div>
+            </van-list>
+        </van-pull-refresh>
     </div>
 </template>
 <script setup>
 import { reactive, toRefs } from "vue";
 import { useRouter } from 'vue-router'
 import http from '@/utils/axios'
+import { getPercent } from "@/utils/utils";
 
 const router = useRouter()
 const state = reactive({
@@ -62,15 +71,24 @@ const state = reactive({
         pageSize: 10,
         hasNext: false
     },
+    listObj: {
+        loading: false,
+        finished: false,
+        refreshing: false,
+    },
     saleList: []
 })
-function toPurchaseAmount() {
+function toPurchaseAmount(item) {
     router.push({
-        path: '/purchaseAmount'
+        path: '/purchaseAmount',
+        query: {
+            id: item.id,
+            payTypes: item.payTypes
+        }
     })
 }
 getMerchantList()
-function getMerchantList() {
+function getMerchantList(val) {
     let url = '/player/fb/sale_list'
     let data = {
         bmin: '',
@@ -79,19 +97,39 @@ function getMerchantList() {
         pageNo: state.page.pageNo,
         pageSize: state.page.pageSize,
     }
+    state.listObj.loading = true
     http.post(url, data).then(res => {
-        console.log(
-            '%c res: ',
-            'background-color: #3756d4; padding: 4px 8px; border-radius: 2px; font-size: 14px; color: #fff; font-weight: 700;',
-            res
-        )
-        state.saleList = res.results
-        state.page.pageNo = res.pageNo
-        state.page.pageSize = res.pageSize
-        state.page.hasNext = res.hasNext
+        if (res?.results) {
+            if (val == 'refresh' || val == 'search') {
+                state.saleList = []
+            }
+            state.saleList = [...state.saleList, ...res.results]
+            state.page.pageNo = res.pageNo
+            state.page.pageSize = res.pageSize
+            state.page.hasNext = res.hasNext
+            if (!res.hasNext) {
+                state.listObj.finished = true
+            }
+            state.listObj.loading = false
+            state.listObj.refreshing = false
+        }
     })
 }
-const { showSelect, saleList } = toRefs(state)
+function onLoad() {
+    state.loadTime && clearTimeout(state.loadTime)
+    state.loadTime = setTimeout(() => {
+        if (state.page.hasNext) {
+            state.page.pageNo += 1
+        }
+        getMerchantList()
+    }, 1000);
+}
+function onRefresh() {
+    console.log(11123);
+    state.page.pageNo = 1
+    getMerchantList('refresh')
+}
+const { showSelect, saleList, listObj } = toRefs(state)
 </script>
 <style scoped lang='scss'>
 .buy {
@@ -129,6 +167,10 @@ const { showSelect, saleList } = toRefs(state)
                     width: 14px;
                     height: 14px;
                     margin-left: 4px;
+                }
+
+                .rotateImg {
+                    transform: rotate(180deg);
                 }
             }
 
@@ -190,10 +232,11 @@ const { showSelect, saleList } = toRefs(state)
 
                     .name {
                         width: 40px;
-                        height: 26px;
                         font-size: 11px;
                         color: #fff;
                         margin-left: 3px;
+                        white-space: normal;
+                        // overflow: hidden;
                     }
                 }
 
