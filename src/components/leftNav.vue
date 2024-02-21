@@ -5,11 +5,28 @@
                 <img src="../assets/images/leftNav/avatar.webp" class="avatar" alt="">
                 <div class="user">
                     <p class="name">{{ perInfo?.username }}</p>
-                    <p class="vip">{{ $t('leftNav.vip.text') }}{{ perInfo?.vipLevel }}</p>
+                    <p class="vip">
+                        <img src="../assets/images/leftNav/vipIcon.webp" alt="">
+                        {{ $t('leftNav.vip.text') }}{{ perInfo?.vipLevel }}
+                    </p>
                 </div>
             </div>
             <div class="van-hairline--bottom"></div>
             <div class="list">
+                <div class="assetsBox">
+                    <p>{{ $t('wallet.index.balance.text') }}</p>
+                    <div class="money cb">
+                        {{ accountInfo.currRate || 0 }}
+                        <img src="../assets/images/leftNav/refresh.webp" ref="refreshRef" class="refresh cursor"
+                            @click="getbalance" alt="">
+                    </div>
+                    <div class="btn">
+                        <router-link @click="toPage" to="/withdraw">{{ $t('leftNav.withdrawal.text') }}</router-link>
+                        <router-link @click="toPage" class="rechargeBtn"
+                            :to="{ path: '/recharge', query: { rechargeType: 'football' } }">{{
+                                $t('leftNav.recharge.text') }}</router-link>
+                    </div>
+                </div>
                 <ul>
                     <li v-for="(item, index) in listArr" :key="index">
                         <div class="li_top" @click="showSecondList(item, index)">
@@ -53,13 +70,14 @@
     </div>
 </template>
 <script setup >
-import { reactive, computed, watchEffect, toRefs, watch } from 'vue'
+import { reactive, computed, watchEffect, toRefs, ref } from 'vue'
 import http from '@/utils/axios'
 import { getImg } from '@/utils/utils'
 import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { useStore } from '@/stores/index'
 import { storeToRefs } from 'pinia'
+const refreshRef = ref(null)
 
 const store = useStore()
 const { showLeftNav, accountInfo } = storeToRefs(store)
@@ -93,28 +111,29 @@ const state = reactive({
         },
     ],
     cList: [],
+    angle: 0
 })
 const listArr = computed(() => {
     // state.cList解决listArr不会响应式
     state.cList = [
-        {
-            icon: 'money',
-            name: '0.00',
-            isOpen: true,
-            isArrow: true,
-            menu: [
-                {
-                    name: t('leftNav.recharge.text'),
-                    link: '/recharge',
-                    highlight: false
-                },
-                {
-                    name: t('leftNav.withdrawal.text'),
-                    link: '/withdraw',
-                    highlight: false
-                },
-            ]
-        },
+        // {
+        //     icon: 'money',
+        //     name: '0.00',
+        //     isOpen: true,
+        //     isArrow: true,
+        //     menu: [
+        //         {
+        //             name: t('leftNav.recharge.text'),
+        //             link: '/recharge',
+        //             highlight: false
+        //         },
+        //         {
+        //             name: t('leftNav.withdrawal.text'),
+        //             link: '/withdraw',
+        //             highlight: false
+        //         },
+        //     ]
+        // },
         {
             icon: 'order',
             name: t('leftNav.myOrder.text'),
@@ -240,7 +259,7 @@ function selectList(k, index) {
 watchEffect(() => {
     // console.log('leftName', accountInfo);
     state.perInfo = accountInfo.value
-    listArr.value[0].name = accountInfo.value.currRate
+    // listArr.value[0].name = accountInfo.value.currRate
 })
 function showSelect() {
     let langList = [
@@ -287,6 +306,14 @@ async function logOut() {
     } catch (error) {
         console.log(error);
     }
+}
+function toPage() {
+    store.showLeftNav = false
+}
+function getbalance() {
+    state.angle -= 360
+    store.getUserInfo()
+    refreshRef.value.style.transform = `rotate(${state.angle}deg)`
 }
 const { perInfo, showLangOpt, langTarget, langList } = toRefs(state)
 </script>
@@ -338,12 +365,64 @@ const { perInfo, showLangOpt, langTarget, langList } = toRefs(state)
                     letter-spacing: 0.75px;
                     color: #ff7c43;
                     margin-top: 10px;
+                    @include flex();
+
+                    img {
+                        width: 21px;
+                        height: 21px;
+                    }
                 }
             }
         }
 
         .list {
             padding: 30px 16px 16px 12px;
+
+            .assetsBox {
+                width: 100%;
+                height: 135px;
+                background: url('../assets/images/leftNav/assetsbg.webp') no-repeat;
+                background-size: cover;
+                margin-bottom: 28px;
+                padding: 13px 20px 18px 13px;
+                box-sizing: border-box;
+
+                .cb {
+                    @include flex(flex-start);
+
+                    .refresh {
+                        width: 22px;
+                        height: 22px;
+                        transition: transform 1s ease;
+                    }
+                }
+
+                .money {
+                    font-size: 31px;
+                    font-weight: bold;
+                    color: #000;
+                    margin: 5px 0;
+                }
+
+                .btn {
+                    @include flex(space-between);
+                    margin-top: 16px;
+
+                    a {
+                        width: 102px;
+                        height: 31px;
+                        @include flex(center);
+                        border-radius: 15px;
+                        border: solid 1px #000;
+                        color: #000;
+                    }
+
+                    .rechargeBtn {
+                        background-color: #000;
+                        color: #fff;
+                    }
+                }
+            }
 
             ul {
                 li {

@@ -100,6 +100,7 @@ async function getSafeInfo() {
 }
 function getbalance() {
     state.angle -= 360
+    getSafeInfo()
     refreshRef.value.style.transform = `rotate(${state.angle}deg)`
 }
 function toPage(item) {
