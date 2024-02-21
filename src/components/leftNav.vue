@@ -484,7 +484,7 @@ const { perInfo, showLangOpt, langTarget, langList } = toRefs(state)
                 li:first-child {
                     .li_top {
                         border-radius: 12px;
-                        background-color: #ff7c43;
+                        //background-color: #ff7c43;
                         padding: 11px 10px 9px 13px;
 
                     }
