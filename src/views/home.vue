@@ -71,6 +71,27 @@
                 </div>
             </div>
         </div>
+        <!-- 设置资金密码弹窗 -->
+        <van-dialog v-model:show="tradingDialog" className="fundDialog" :showConfirmButton="false"
+            :showCancelButton="false">
+            <template #default>
+                <img src="../assets/images/common/dialogIcon.webp" class="dialogIcon" alt="">
+                <p class="title">{{ $t('home.dialog.trading.title.text') }}</p>
+                <div class="pwdBox">
+                    <input type="password" :maxlength="6"
+                        @input="() => { tradingObj.payPwd = tradingObj.payPwd.replace(/\D/g, '') }"
+                        v-model="tradingObj.payPwd" :placeholder="$t('form.pwd2.text')">
+                </div>
+                <div class="pwdBox">
+                    <input type="password" :maxlength="6"
+                        @input="() => { tradingObj.payPwdAgain = tradingObj.payPwdAgain.replace(/\D/g, '') }"
+                        v-model="tradingObj.payPwdAgain" :placeholder="$t('form.confirm.password.text')">
+                </div>
+                <div class="dialogBtn" @click="setPwdBtn">
+                    {{ $t('modal.confirm.text') }}
+                </div>
+            </template>
+        </van-dialog>
     </div>
 </template>
 <script setup >
@@ -107,6 +128,13 @@ const state = reactive({
     upcomingIndex: 0,
     upcomingSwiper: [],
     gameList: [],
+    tradingDialog: false,
+    tradingObj: {
+        payPwd: '',
+        payPwdAgain: '',
+        pwdErrTips: false,
+        pwdAgainErrTips: false
+    },
     swiperAutoPlay: {
         delay: 3000, // 自动播放间隔时间，单位为毫秒
         disableOnInteraction: false, // 用户操作后是否停止自动播放，默认为 true
@@ -189,7 +217,44 @@ function toMatch() {
         path: '/match'
     })
 }
-const { swiper, upcomingSwiper, upcomingIndex, gameList, swiperAutoPlay } = toRefs(state)
+// 是否设置资金密码
+isSetPwd()
+async function isSetPwd() {
+    let url = '/player/getPwdPay'
+    try {
+        const res = await http.get(url)
+        state.tradingDialog = res.paySet === 2
+    } catch (error) {
+        console.log(error);
+    }
+}
+async function setPwdBtn() {
+    if (state.tradingObj.payPwd == '') {
+        showToast(t('ruls.pwd2.empty'))
+        return
+    }
+    if (state.tradingObj.payPwdAgain == '') {
+        showToast(t('ruls.passtwo.empty'))
+        return
+    }
+    let data = {
+        payPwd: state.tradingObj.payPwd,
+        payPwdAgain: state.tradingObj.payPwdAgain,
+    }
+    let url = '/player/setPwdPay'
+    try {
+        const res = await http.post(url, data)
+        if (res === null) {
+            showToast(t('tips.success.text'))
+            state.tradingDialog = false
+            state.tradingObj.payPwd = ''
+            state.tradingObj.payPwdAgain = ''
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
+const { swiper, upcomingSwiper, upcomingIndex, gameList, swiperAutoPlay, tradingDialog, tradingObj } = toRefs(state)
 </script>
 <style scoped lang='scss'>
 .home {
@@ -475,6 +540,74 @@ const { swiper, upcomingSwiper, upcomingIndex, gameList, swiperAutoPlay } = toRe
                     }
                 }
             }
+        }
+    }
+
+    :deep(.fundDialog) {
+        background-color: #211f32 !important;
+
+        padding: 0 30px;
+
+        .van-dialog__header {
+            padding-top: 15px;
+            color: #fff;
+        }
+
+        .dialogIcon {
+            width: 54px;
+            height: 54px;
+            margin: 30px auto 0;
+        }
+
+        .title {
+            text-align: center;
+            color: #fff;
+            margin-top: 18px;
+            font-family: SegoeUI;
+            font-size: 13px;
+            font-weight: bold;
+            color: #fff;
+        }
+
+        .pwdBox {
+            margin-top: 18px;
+            @include flex(center);
+            background-color: #313038;
+            height: 48px;
+            border-radius: 10px;
+            box-sizing: border-box;
+            padding: 0 5px;
+
+            input {
+                height: 45px;
+                background-color: #313038;
+                outline: none;
+                border: none;
+                color: #fff;
+                flex: 1;
+                border-top-left-radius: 10px;
+                border-bottom-left-radius: 10px;
+            }
+
+            img {
+                width: 28px;
+                height: 28px;
+            }
+        }
+
+        .dialogBtn {
+            @include flex();
+            height: 48px;
+            justify-content: center;
+            flex: 1;
+            border-radius: 16px;
+            color: #000;
+            background-color: $btnBgColor;
+            margin: 18px 0 26px 0;
+        }
+
+        .van-dialog__footer {
+            background-color: #211f32 !important;
         }
     }
 }
