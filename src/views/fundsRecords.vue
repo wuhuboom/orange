@@ -35,18 +35,24 @@
                         </div>
                         <div class="row">
                             <span class="rLeft">{{ formatDate(item.createdAt) }}</span>
-                            <span v-if="typeIndex === 0">discount: {{ getAmount(item.moneyDiscount) }}</span>
-                            <span v-if="typeIndex === 1">commission: {{ getAmount(item.commission) }}</span>
-                            <span v-if="typeIndex === 2">Balance: {{ getAmount(item.dnedMoney) }}</span>
+                            <span v-if="typeIndex === 0">{{ $t('fundsRecords.discount.text') }}: {{
+                                getAmount(item.moneyDiscount) }}</span>
+                            <span v-if="typeIndex === 1">{{ $t('fundsRecords.commission.text') }}: {{
+                                getAmount(item.commission) }}</span>
+                            <span v-if="typeIndex === 2">{{ $t('fundsRecords.Balance.text') }}: {{ getAmount(item.dnedMoney)
+                            }}</span>
                         </div>
                         <div class="row">
-                            <span class="rLeft" v-if="typeIndex === 0 || typeIndex === 1">orderNo:{{ item.orderNo }}</span>
-                            <span class="rLeft" v-if="typeIndex === 2">type:{{ getTabName(item?.balanceChangeType) }}</span>
+                            <span class="rLeft" v-if="typeIndex === 0 || typeIndex === 1">{{ $t('fundsRecords.orderNo.text')
+                            }}:{{ item.orderNo }}</span>
+                            <span class="rLeft" v-if="typeIndex === 2">{{ $t('fundsRecords.type.text') }}:{{
+                                getTabName(item?.balanceChangeType) }}</span>
 
                             <span class="color10ab61" v-if="typeIndex === 0 || typeIndex === 1"
                                 :style="{ color: statusList[item.status]?.color }">{{ getStatus(item.status)
                                 }}</span>
-                            <span class="rLeft" v-if="typeIndex === 2">Init money:{{ getAmount(item?.initMoney) }}</span>
+                            <span class="rLeft" v-if="typeIndex === 2">{{ $t('fundsRecords.initMoney.text') }}:{{
+                                getAmount(item?.initMoney) }}</span>
                         </div>
                     </div>
                 </div>
@@ -533,5 +539,4 @@ const { tabArr, typeArr, typeIndex, tabIndex, recordList, statusList, typeList, 
             }
         }
     }
-}
-</style>
+}</style>
