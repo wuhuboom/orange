@@ -349,6 +349,7 @@ const { amount, channelIndex, rechargeInfo, virtualCurrencyList, payPwd, current
             color: #fff;
             display: block;
             margin: 0 auto;
+            font-family: $fontFamily;
         }
 
         input {

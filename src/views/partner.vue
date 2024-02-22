@@ -255,6 +255,7 @@ const { tabsIndex, groupUnAim, groupAim, partnerObj, passRate, userArr } = toRef
         font-size: 16px;
         color: #fff;
         margin: 15px 0;
+        font-family: $fontFamily;
 
         span {
             color: #ff7c43;

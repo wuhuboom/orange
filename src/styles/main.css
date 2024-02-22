@@ -3,17 +3,17 @@
 @font-face {
   font-family: SegoeUI;
   src: url('../assets/font/Roboto-Black.ttf') format('truetype'),
-    url('../assets/font/Roboto-BlackItalic.ttf') format('truetype'),
+    /* url('../assets/font/Roboto-BlackItalic.ttf') format('truetype'),
     url('../assets/font/Roboto-Bold.ttf') format('truetype'),
-    url('../assets/font/Roboto-BoldItalic.ttf') format('truetype'),
-    url('../assets/font/Roboto-Italic') format('truetype'),
+    url('../assets/font/Roboto-BoldItalic.ttf') format('truetype'), */
+    /* url('../assets/font/Roboto-Italic') format('truetype'),
     url('../assets/font/Roboto-Light.ttf') format('truetype'),
     url('../assets/font/Roboto-LightItalic.ttf') format('truetype'),
     url('../assets/font/Roboto-Roboto-Medium.ttf') format('truetype'),
-    url('../assets/font/Roboto-Roboto-MediumItalic.ttf') format('truetype'),
+    url('../assets/font/Roboto-Roboto-MediumItalic.ttf') format('truetype'), */
     url('../assets/font/Roboto-Roboto-Regular.ttf') format('truetype'),
-    url('../assets/font/Roboto-Roboto-Thin.ttf') format('truetype'),
-    url('../assets/font/Roboto-Roboto-ThinItalic.ttf') format('truetype'),
+    /* url('../assets/font/Roboto-Roboto-Thin.ttf') format('truetype'),
+    url('../assets/font/Roboto-Roboto-ThinItalic.ttf') format('truetype'), */
 }
 
 html,
@@ -22,6 +22,7 @@ body,
   min-height: 100vh;
   height: 100%;
   font-weight: normal !important;
+  font-family: Roboto;
 }
 
 .maxWidth {

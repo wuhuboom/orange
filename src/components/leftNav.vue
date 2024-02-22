@@ -337,6 +337,7 @@ const { perInfo, showLangOpt, langTarget, langList } = toRefs(state)
         height: 100%;
         width: 285px;
         background: #151515;
+        padding-bottom: 25px;
 
         .top {
             width: 100%;
