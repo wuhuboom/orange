@@ -153,10 +153,10 @@ const state = reactive({
             name: t('match.week.text'),
             time: 3
         },
-        {
-            name: t('match.all.text'),
-            time: ''
-        },
+        // {
+        //     name: t('match.all.text'),
+        //     time: ''
+        // },
     ],
     page: {
         pageNo: 1,
@@ -282,15 +282,15 @@ const { tabsArr, tabIndex, dataList, listStatus, cancelShow, orderShow, orderInf
         box-sizing: border-box;
 
         .item {
+            width: 30%;
             height: 30px;
-            line-height: 30px;
-            padding: 0 20px;
             border-radius: 5.5px;
             border: solid 1px #373737;
             background-color: #282828;
             box-sizing: border-box;
             font-size: 13px;
             color: #8d8d8d;
+            @include flex(center);
         }
 
         .itemActive {
