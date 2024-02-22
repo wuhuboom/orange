@@ -300,6 +300,7 @@ const state = reactive({
     loadTime: null,
 })
 onMounted(() => {
+    window.scrollTo(0, 0);
     getInit()
 })
 
