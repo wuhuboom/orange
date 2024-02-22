@@ -76,13 +76,16 @@
             :showCancelButton="false">
             <template #default>
                 <img src="../assets/images/common/dialogIcon.webp" class="dialogIcon" alt="">
-                <p class="title">{{ $t('home.dialog.trading.title.text') }}</p>
+                <p class="title">{{ $t('home.dialog.trading.title1.text') }}</p>
+                <p class="title mt4">{{ $t('home.dialog.trading.title.text') }}</p>
                 <div class="pwdBox">
+                    <img src="../assets/images/common/pwdIcon.webp" class="pwdIcon" alt="">
                     <input type="password" :maxlength="6"
                         @input="() => { tradingObj.payPwd = tradingObj.payPwd.replace(/\D/g, '') }"
-                        v-model="tradingObj.payPwd" :placeholder="$t('form.pwd2.text')">
+                        v-model="tradingObj.payPwd" :placeholder="$t('home.dialog.input.placeholder.text')">
                 </div>
                 <div class="pwdBox">
+                    <img src="../assets/images/common/pwdIcon.webp" class="pwdIcon" alt="">
                     <input type="password" :maxlength="6"
                         @input="() => { tradingObj.payPwdAgain = tradingObj.payPwdAgain.replace(/\D/g, '') }"
                         v-model="tradingObj.payPwdAgain" :placeholder="$t('form.confirm.password.text')">
@@ -558,8 +561,9 @@ const { swiper, upcomingSwiper, upcomingIndex, gameList, swiperAutoPlay, trading
     }
 
     :deep(.fundDialog) {
-        background-color: #211f32 !important;
-
+        // background-color: #211f32 !important;
+        border-radius: 16px;
+        background-image: linear-gradient(to bottom, #252531, rgba(24, 24, 38, 0.96));
         padding: 0 30px;
 
         .van-dialog__header {
@@ -583,6 +587,10 @@ const { swiper, upcomingSwiper, upcomingIndex, gameList, swiperAutoPlay, trading
             color: #fff;
         }
 
+        .mt4 {
+            margin-top: 4px;
+        }
+
         .pwdBox {
             margin-top: 18px;
             @include flex(center);
@@ -591,6 +599,12 @@ const { swiper, upcomingSwiper, upcomingIndex, gameList, swiperAutoPlay, trading
             border-radius: 10px;
             box-sizing: border-box;
             padding: 0 5px;
+
+            .pwdIcon {
+                width: 28px;
+                height: 28px;
+            }
+
 
             input {
                 height: 45px;
@@ -615,7 +629,7 @@ const { swiper, upcomingSwiper, upcomingIndex, gameList, swiperAutoPlay, trading
             justify-content: center;
             flex: 1;
             border-radius: 16px;
-            color: #000;
+            color: #fff;
             background-color: $btnBgColor;
             margin: 18px 0 26px 0;
         }

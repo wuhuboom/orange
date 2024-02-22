@@ -11,6 +11,7 @@
                     </div>
                 </div>
             </div>
+            <div class="title amounttips">{{ $t('ruls.amount.length') }}</div>
             <div class="money sendBox">
                 <div class="mtop">
                     <span class="rate">{{ $t('recharge.current.exchang.rate') }}: {{ rechargeInfo?.rate || 0 }}</span>
@@ -166,6 +167,18 @@ const { amount, channelIndex, rechargeInfo, channelList } = toRefs(state)
             }
         }
     }
+
+    .title {
+
+        width: 100%;
+        text-align: left;
+        font-size: 14px;
+        color: #fff;
+        display: block;
+        margin: 0 auto;
+    }
+
+    .amounttips {}
 
     .money {
         margin-top: 23px;
