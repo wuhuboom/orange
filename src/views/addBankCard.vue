@@ -120,7 +120,7 @@ async function getBankIdList() {
     try {
         const res = await http.get(url)
         console.log(res);
-        state.bankId = res.banks[state.bankListIndex]?.bankCname
+        state.bankId = res?.banks[state.bankListIndex]?.bankCname
         state.bankObj = res
     } catch (error) {
         console.log(error);

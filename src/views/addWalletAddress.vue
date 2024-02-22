@@ -108,7 +108,7 @@ async function submit() {
     try {
         const res = await http.post(url, data)
         if (res === null) {
-            showToast(t(tips.success.text))
+            showToast(t('tips.success.text'))
             state.code = ''
             state.walletId = ''
             state.payPwd = ''

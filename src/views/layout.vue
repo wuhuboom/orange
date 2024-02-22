@@ -178,6 +178,17 @@ const headerObj = computed(() => {
             isShowRightMoney: false,
             bgColor: "#0b0b0b",
         },
+        fundsRecords: {
+            leftIcon: "back",
+            leftIconWidth: "32px",
+            leftIconHeight: "32px",
+            center: t('fundsRecords.title.text'),
+            rightIcon: "",
+            rightIconWidth: "",
+            rightIconHeight: "",
+            isShowRightMoney: false,
+            bgColor: "#0b0b0b",
+        },
         purchaseAmount: {
             leftIcon: "back",
             leftIconWidth: "32px",

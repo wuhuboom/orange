@@ -116,24 +116,6 @@ const state = reactive({
 const listArr = computed(() => {
     // state.cList解决listArr不会响应式
     state.cList = [
-        // {
-        //     icon: 'money',
-        //     name: '0.00',
-        //     isOpen: true,
-        //     isArrow: true,
-        //     menu: [
-        //         {
-        //             name: t('leftNav.recharge.text'),
-        //             link: '/recharge',
-        //             highlight: false
-        //         },
-        //         {
-        //             name: t('leftNav.withdrawal.text'),
-        //             link: '/withdraw',
-        //             highlight: false
-        //         },
-        //     ]
-        // },
         {
             icon: 'order',
             name: t('leftNav.myOrder.text'),
@@ -173,8 +155,8 @@ const listArr = computed(() => {
             isArrow: true,
             menu: [
                 {
-                    name: t('leftNav.history.text'),
-                    link: '',
+                    name: t('leftNav.fundsRecords.text'),
+                    link: '/fundsRecords',
                     highlight: false
                 },
                 {

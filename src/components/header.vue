@@ -19,7 +19,7 @@
                 </div>
 
             </div>
-            <div class="center">{{ header.center }}</div>
+            <div class="center" :style="{ marginRight: header.leftIconWidth }">{{ header.center }}</div>
             <div class="right">
                 <!-- 金额 -->
                 <div class="money" v-if="header.isShowRightMoney">

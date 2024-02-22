@@ -312,6 +312,7 @@ const { langList, showLangOpt, langTarget, btnIndex, rCheckBool, isRegBtn, noChe
 
   .desc {
     @include flex(flex-start);
+    margin-top: 7px;
 
     img {
       width: 24px;

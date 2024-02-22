@@ -210,6 +210,7 @@ const { activeNames, grList, teamName, loading, finished, refreshing, dateIndex,
                 background-color: #24232a;
                 border-radius: 10px;
                 cursor: pointer;
+                font-size: 13px;
             }
 
             .dateActive {
