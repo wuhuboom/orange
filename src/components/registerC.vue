@@ -292,9 +292,9 @@ const { userInfo, isReadPwd, areaCode, showAreaCodeOpt, codeList, checked, verif
             .formItem {
                 width: $width;
                 height: 45px;
-                border-radius: 12px;
-                border: solid 1px #3f3f3f;
-                background-color: #2c2c2c;
+                border-radius: 22px;
+                border: solid 1px #11101c;
+                background-color: #11101c;
                 @include flex();
                 padding-left: 9px;
                 margin-bottom: 9px;
@@ -315,7 +315,7 @@ const { userInfo, isReadPwd, areaCode, showAreaCodeOpt, codeList, checked, verif
                     input {
                         // width: 100%;
                         // height: calc(100% - px);
-                        background-color: #2c2c2c;
+                        background-color: #11101c;
                         border: none;
                         font-family: $fontFamily;
                         font-size: 14px;

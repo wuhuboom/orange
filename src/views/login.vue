@@ -273,7 +273,7 @@ const { langList, showLangOpt, langTarget, btnIndex, rCheckBool, isRegBtn, noChe
 
 .loginBox {
   width: 100%;
-  background: rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.2);
   border-radius: 10px;
   /* 设置背景颜色为半透明白色 */
   backdrop-filter: blur(17px);
