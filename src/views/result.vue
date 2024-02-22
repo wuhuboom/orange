@@ -241,13 +241,13 @@ const { activeNames, grList, teamName, loading, finished, refreshing, dateIndex,
             flex-direction: column;
 
             .date {
-                font-family: SegoeUI;
+                font-family: $fontFamily;
                 font-size: 12px;
                 color: #fff;
             }
 
             .score {
-                font-family: SegoeUI;
+                font-family: $fontFamily;
                 font-size: 12px;
                 color: rgba(255, 255, 255, 0.48);
                 margin-top: 3px;
@@ -261,7 +261,7 @@ const { activeNames, grList, teamName, loading, finished, refreshing, dateIndex,
             box-sizing: border-box;
 
             .spanStyle {
-                font-family: Poppins;
+                font-family: $fontFamily;
                 font-size: 13px;
                 letter-spacing: 0.42px;
                 color: #fff;
@@ -306,7 +306,7 @@ const { activeNames, grList, teamName, loading, finished, refreshing, dateIndex,
                     }
 
                     span {
-                        font-family: Poppins;
+                        font-family: $fontFamily;
                         font-size: 13px;
                         letter-spacing: 0.42px;
                         color: #fff;

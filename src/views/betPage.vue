@@ -514,7 +514,7 @@ $bgHeight: 300px;
 
                     .moneyNum {
                         margin: 0px 0 0px 6px;
-                        font-family: Roboto;
+                        font-family: $fontFamily;
                         font-size: 14px;
                         color: #fff;
                     }
@@ -526,7 +526,7 @@ $bgHeight: 300px;
                 }
 
                 .panel_tit {
-                    font-family: SegoeUI;
+                    font-family: $fontFamily;
                     font-size: 17px;
                     font-weight: 600;
                     letter-spacing: -0.17px;
@@ -623,7 +623,7 @@ $bgHeight: 300px;
 
             .betWinNum {
                 margin: 7px 0 12px 0;
-                font-family: SegoeUI;
+                font-family: $fontFamily;
                 font-size: 14px;
                 letter-spacing: -0.14px;
                 color: #fff;

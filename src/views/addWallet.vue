@@ -223,7 +223,7 @@ const { account, verifyObj, sendBtn, showSeconds, address, wtList, walltyName, w
             width: 100%;
             display: block;
             margin: 0 auto;
-            font-family: SFProText;
+            font-family: $fontFamily;
             font-size: 14px;
             color: #9da4b4;
         }
@@ -280,7 +280,7 @@ const { account, verifyObj, sendBtn, showSeconds, address, wtList, walltyName, w
                 border-radius: 8px;
                 background-color: #ff7c43;
                 @include flex(center);
-                font-family: Helvetica;
+                font-family: $fontFamily;
                 font-size: 13px;
                 color: #fff;
 
@@ -307,7 +307,7 @@ const { account, verifyObj, sendBtn, showSeconds, address, wtList, walltyName, w
                 height: 50px;
                 line-height: 50px;
                 padding-left: 15px;
-                font-family: SFProText;
+                font-family: $fontFamily;
                 font-size: 14px;
                 color: #fff;
 
@@ -396,7 +396,7 @@ const { account, verifyObj, sendBtn, showSeconds, address, wtList, walltyName, w
 
             .left_box {
                 align-items: center;
-                font-family: SegoeUI;
+                font-family: $fontFamily;
                 font-size: 17px;
                 font-weight: 600;
                 letter-spacing: -0.17px;

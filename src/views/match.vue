@@ -252,6 +252,8 @@ const { activeNames, list, teamName, loading, finished, refreshing, dateIndex, t
             .van-cell {
                 .van-cell__value {
                     .van-field__body {
+                        font-family: $fontFamily;
+
                         .van-field__control {
                             color: #fff;
                         }
@@ -274,6 +276,7 @@ const { activeNames, list, teamName, loading, finished, refreshing, dateIndex, t
             font-size: 14px;
             color: #8d8d8d;
             text-align: center;
+            font-family: $fontFamily;
         }
 
         .dateActive {
@@ -321,6 +324,7 @@ const { activeNames, list, teamName, loading, finished, refreshing, dateIndex, t
                                         font-size: 14px;
                                         color: #fff;
                                         margin-left: 7px;
+                                        font-family: $fontFamily;
                                     }
 
                                     .fIcon {
@@ -344,6 +348,7 @@ const { activeNames, list, teamName, loading, finished, refreshing, dateIndex, t
                             .content {
                                 margin-bottom: 12px;
                                 cursor: pointer;
+                                font-family: $fontFamily;
 
                                 .c_header {
                                     height: 35px;
@@ -412,7 +417,7 @@ const { activeNames, list, teamName, loading, finished, refreshing, dateIndex, t
                                         box-sizing: border-box;
                                         background-color: #3d3d3d;
                                         @include flex();
-                                        font-family: SegoeUI;
+                                        font-family: $fontFamily;
                                         font-size: 12px;
                                         font-weight: 600;
                                         letter-spacing: -0.24px;

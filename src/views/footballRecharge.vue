@@ -13,8 +13,9 @@
             </div>
             <div class="money sendBox">
                 <div class="mtop">
-                    <span class="tips">{{ $t('ruls.amount.length') }}</span>
-                    <span class="rate">{{ $t('recharge.current.exchang.rate') }} ：{{ rechargeInfo?.rate || 0 }}</span>
+                    <span class="rate">{{ $t('recharge.current.exchang.rate') }}: {{ rechargeInfo?.rate || 0 }}</span>
+                    <span class="rate">{{ $t('recharge.real.amount.text') }}: {{ amount * rechargeInfo?.rate || 0
+                    }}</span>
                 </div>
                 <input type="number" v-model="amount" class="hideInputBtn" placeholder="0">
             </div>
@@ -56,6 +57,7 @@ async function getMultiChannel() {
 }
 function changePayM(item, index) {
     state.channelIndex = index
+    state.rechargeInfo = item
 }
 async function toPage() {
     let url = '/player/recharge'
@@ -101,6 +103,7 @@ const { amount, channelIndex, rechargeInfo, channelList } = toRefs(state)
         box-sizing: border-box;
         @include flex(center);
         flex-direction: column;
+        font-family: $fontFamily;
 
         .title {
             width: 100%;
@@ -109,12 +112,14 @@ const { amount, channelIndex, rechargeInfo, channelList } = toRefs(state)
             color: #fff;
             display: block;
             margin: 0 auto;
+
         }
 
         .payMet {
             width: 100%;
             @include flex(space-between);
             margin-top: 22px;
+            flex-wrap: wrap;
 
             .payList {
                 width: 30%;
@@ -124,6 +129,7 @@ const { amount, channelIndex, rechargeInfo, channelList } = toRefs(state)
                 @include flex(center);
                 flex-direction: column;
                 border: 1px solid;
+                margin-bottom: 15px;
 
                 img {
                     width: 35px;
@@ -131,7 +137,7 @@ const { amount, channelIndex, rechargeInfo, channelList } = toRefs(state)
                 }
 
                 p {
-                    font-family: Roboto;
+                    font-family: $fontFamily;
                     font-size: 12px;
                     color: #fff;
                 }
@@ -148,13 +154,13 @@ const { amount, channelIndex, rechargeInfo, channelList } = toRefs(state)
             @include flex(space-between);
 
             .tips {
-                font-family: Roboto;
+                font-family: $fontFamily;
                 font-size: 16px;
                 color: #fff;
             }
 
             .rate {
-                font-family: Roboto;
+                font-family: $fontFamily;
                 font-size: 14px;
                 color: #8a929a;
             }

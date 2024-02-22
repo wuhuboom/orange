@@ -412,7 +412,7 @@ const { amount, channelIndex, rechargeInfo, virtualCurrencyList, payPwd, current
                 right: 0;
                 background-color: #1c1c1c;
                 z-index: 10;
-                font-family: Roboto;
+                font-family: $fontFamily;
                 font-size: 12px;
                 color: #fff;
                 overflow: hidden;
@@ -487,7 +487,7 @@ const { amount, channelIndex, rechargeInfo, virtualCurrencyList, payPwd, current
             right: 0;
             background-color: #1c1c1c;
             z-index: 10;
-            font-family: Roboto;
+            font-family: $fontFamily;
             font-size: 12px;
             color: #fff;
             overflow: hidden;
@@ -607,7 +607,7 @@ const { amount, channelIndex, rechargeInfo, virtualCurrencyList, payPwd, current
 
             .left_box {
                 align-items: center;
-                font-family: SegoeUI;
+                font-family: $fontFamily;
                 font-size: 17px;
                 font-weight: 600;
                 letter-spacing: -0.17px;

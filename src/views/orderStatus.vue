@@ -101,7 +101,7 @@
     background-color: #111111;
 
     .title {
-        font-family: SegoeUI;
+        font-family: $fontFamily;
         font-size: 24px;
         font-weight: bold;
         color: #fff;
@@ -116,7 +116,7 @@
     }
 
     .text {
-        font-family: SegoeUI;
+        font-family: $fontFamily;
         font-size: 14px;
         color: #8d8d8d;
         margin: 13px 0;
@@ -131,13 +131,13 @@
         box-sizing: border-box;
 
         .reason {
-            font-family: SegoeUI;
+            font-family: $fontFamily;
             font-size: 14px;
             color: #9f9f9f;
         }
 
         .reasonText {
-            font-family: SegoeUI;
+            font-family: $fontFamily;
             font-size: 14px;
             color: #fff;
             margin-top: 19px;
@@ -145,7 +145,7 @@
     }
 
     .buyUsdt {
-        font-family: SegoeUI;
+        font-family: $fontFamily;
         font-size: 14px;
         color: #fff;
         @include flex(flex-start);
@@ -169,13 +169,13 @@
             margin-bottom: 24px;
 
             span:first-child {
-                font-family: SegoeUI;
+                font-family: $fontFamily;
                 font-size: 13px;
                 color: #9f9f9f;
             }
 
             span:last-child {
-                font-family: SegoeUI;
+                font-family: $fontFamily;
                 font-size: 13px;
                 color: #fff;
             }
@@ -193,7 +193,7 @@
         box-sizing: border-box;
 
         .Ctitle {
-            font-family: SegoeUI;
+            font-family: $fontFamily;
             font-size: 16px;
             font-weight: 600;
             letter-spacing: -0.16px;

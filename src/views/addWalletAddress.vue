@@ -190,7 +190,7 @@ const { walletId, verifyObj, walletTypeObj, verifyCode, payPwd, sendBtn, showSec
             width: 100%;
             display: block;
             margin: 0 auto;
-            font-family: SFProText;
+            font-family: $fontFamily;
             font-size: 14px;
             color: #9da4b4;
         }
@@ -245,7 +245,7 @@ const { walletId, verifyObj, walletTypeObj, verifyCode, payPwd, sendBtn, showSec
                 border-radius: 8px;
                 background-color: #ff7c43;
                 @include flex(center);
-                font-family: Helvetica;
+                font-family: $fontFamily;
                 font-size: 13px;
                 color: #fff;
 
@@ -272,7 +272,7 @@ const { walletId, verifyObj, walletTypeObj, verifyCode, payPwd, sendBtn, showSec
                 height: 50px;
                 line-height: 50px;
                 padding-left: 15px;
-                font-family: SFProText;
+                font-family: $fontFamily;
                 font-size: 14px;
                 color: #fff;
 

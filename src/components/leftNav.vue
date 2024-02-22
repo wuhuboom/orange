@@ -7,7 +7,7 @@
                     <p class="name">{{ perInfo?.username }}</p>
                     <p class="vip">
                         <img src="../assets/images/leftNav/vipIcon.webp" alt="">
-                        {{ $t('leftNav.vip.text') }}{{ perInfo?.vipLevel }}
+                        <span class="bg">{{ $t('leftNav.vip.text') }}{{ perInfo?.vipLevel }} </span>
                     </p>
                 </div>
             </div>
@@ -352,7 +352,7 @@ const { perInfo, showLangOpt, langTarget, langList } = toRefs(state)
 
             .user {
                 .name {
-                    font-family: DMSans;
+                    font-family: $fontFamily;
                     font-size: 18px;
                     font-weight: bold;
                     letter-spacing: 0.75px;
@@ -360,16 +360,30 @@ const { perInfo, showLangOpt, langTarget, langList } = toRefs(state)
                 }
 
                 .vip {
-                    font-family: DMSans;
+                    font-family: $fontFamily;
                     font-size: 14px;
                     letter-spacing: 0.75px;
                     color: #ff7c43;
                     margin-top: 10px;
-                    @include flex();
+                    @include flex(flex-start);
+
+                    .bg {
+                        width: 47px;
+                        height: 13px;
+                        text-align: center;
+                        background: url('../assets/images/leftNav/vipBg.webp')no-repeat;
+                        background-size: cover;
+                        font-size: 12px;
+                        padding-left: 5px;
+                        box-sizing: border-box;
+                    }
+
 
                     img {
                         width: 21px;
                         height: 21px;
+                        margin-right: -9px;
+                        z-index: 2;
                     }
                 }
             }
@@ -386,6 +400,7 @@ const { perInfo, showLangOpt, langTarget, langList } = toRefs(state)
                 margin-bottom: 28px;
                 padding: 13px 20px 18px 13px;
                 box-sizing: border-box;
+                font-family: $fontFamily;
 
                 .cb {
                     @include flex(flex-start);
@@ -409,12 +424,15 @@ const { perInfo, showLangOpt, langTarget, langList } = toRefs(state)
                     margin-top: 16px;
 
                     a {
+                        font-family: $fontFamily;
                         width: 102px;
                         height: 31px;
                         @include flex(center);
                         border-radius: 15px;
                         border: solid 1px #000;
                         color: #000;
+                        font-size: 12px;
+                        font-weight: normal;
                     }
 
                     .rechargeBtn {
@@ -443,6 +461,7 @@ const { perInfo, showLangOpt, langTarget, langList } = toRefs(state)
                             @include flex();
 
                             .name {
+                                font-family: $fontFamily;
                                 font-size: 16px;
                                 color: #fff;
                                 margin-left: 12px;

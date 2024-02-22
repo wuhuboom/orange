@@ -88,7 +88,7 @@ const { listData, reasonsIndex } = toRefs(state)
 
     .title {
         @include flex(flex-start);
-        font-family: SegoeUI;
+        font-family: $fontFamily;
         font-size: 14px;
         font-weight: bold;
         color: #fff;
@@ -108,7 +108,7 @@ const { listData, reasonsIndex } = toRefs(state)
     }
 
     h5 {
-        font-family: SegoeUI;
+        font-family: $fontFamily;
         font-size: 14px;
         font-weight: bold;
         color: #fff;
@@ -118,7 +118,7 @@ const { listData, reasonsIndex } = toRefs(state)
     .list {
         li {
             @include flex(flex-start);
-            font-family: SegoeUI;
+            font-family: $fontFamily;
             font-size: 13px;
             color: #fff;
             margin-bottom: 26px;

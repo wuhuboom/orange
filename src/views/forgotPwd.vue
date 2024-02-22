@@ -310,7 +310,7 @@ const { userInfo, inputIndex, areaCode, showAreaCodeOpt, codeList, showVerifyOpt
 
             .title {
                 margin: 4px 0 5px 12px;
-                font-family: Roboto;
+                font-family: $fontFamily;
                 font-size: 16px;
                 color: #fff;
             }
@@ -390,7 +390,7 @@ const { userInfo, inputIndex, areaCode, showAreaCodeOpt, codeList, showVerifyOpt
                         }
 
                         .l_name {
-                            font-family: normal;
+                            font-family: $fontFamily;
                             font-size: 14px;
                             color: #fff;
                             font-weight: normal;

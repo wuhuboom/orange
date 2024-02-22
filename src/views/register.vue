@@ -387,7 +387,7 @@ const { userInfo, isReadPwd, areaCode, showAreaCodeOpt, codeList, checked, verif
             }
 
             .l_name {
-              font-family: normal;
+              font-family: $fontFamily;
               font-size: 14px;
               color: #fff;
               font-weight: normal;
@@ -514,7 +514,7 @@ const { userInfo, isReadPwd, areaCode, showAreaCodeOpt, codeList, checked, verif
       }
 
       span {
-        font-family: normal;
+        font-family: $fontFamily;
         font-size: 14px;
         font-weight: normal;
         color: #fff;

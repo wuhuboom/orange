@@ -111,6 +111,7 @@ const { activeIndex } = toRefs(state)
             font-size: 10px;
             text-align: left;
             color: #8d8d8d;
+            font-family: $fontFamily;
 
             img {
                 width: 26px;

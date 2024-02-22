@@ -109,7 +109,7 @@ onMounted(() => {
 
         .buyC2C {
             color: #fff;
-            font-family: Helvetica;
+            font-family: $fontFamily;
             font-size: 18px;
             color: #fff;
         }
@@ -163,7 +163,7 @@ onMounted(() => {
 
             .moneyNum {
                 margin: 0px 0 0px 6px;
-                font-family: Roboto;
+                font-family: $fontFamily;
                 font-size: 14px;
                 color: #fff;
             }
@@ -188,7 +188,7 @@ onMounted(() => {
                 padding: 2.4px 9px 2.6px 10px;
                 border-radius: 8px;
                 background-image: linear-gradient(to bottom, #ff6c00, #ffa031);
-                font-family: SegoeUI;
+                font-family: $fontFamily;
                 font-size: 11px;
                 color: #fff;
             }

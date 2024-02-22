@@ -126,6 +126,7 @@ const { safeData } = toRefs(state)
     background-color: $mainBg;
     box-sizing: border-box;
     padding-top: 20px;
+    padding-bottom: 20px;
 
     .cardBox {
         width: 100%;
@@ -215,6 +216,7 @@ const { safeData } = toRefs(state)
         .item {
             @include flex();
             flex-direction: column;
+            font-family: $fontFamily;
 
             img {
                 width: 60px;

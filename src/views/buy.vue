@@ -142,13 +142,13 @@ const { showSelect, saleList, listObj } = toRefs(state)
         padding: 10px 12px 10px;
 
         .text {
-            font-family: SegoeUI;
+            font-family: $fontFamily;
             font-size: 13px;
             color: #fff;
         }
 
         .buySort {
-            font-family: SegoeUI;
+            font-family: $fontFamily;
             font-size: 11px;
             color: rgba(255, 255, 255, 0.48);
             @include flex();
@@ -260,7 +260,7 @@ const { showSelect, saleList, listObj } = toRefs(state)
                     color: rgba(255, 255, 255, 0.48);
 
                     .num {
-                        font-family: SegoeUI;
+                        font-family: $fontFamily;
                         font-size: 12px;
                         color: #f87871;
                         margin-top: 10px;
@@ -275,7 +275,7 @@ const { showSelect, saleList, listObj } = toRefs(state)
                     color: rgba(255, 255, 255, 0.48);
 
                     .num {
-                        font-family: SegoeUI;
+                        font-family: $fontFamily;
                         font-size: 12px;
                         color: #fff;
                         margin-top: 10px;
@@ -300,7 +300,7 @@ const { showSelect, saleList, listObj } = toRefs(state)
                     line-height: 23px;
                     border-radius: 8px;
                     background-color: #ff7c43;
-                    font-family: SegoeUI;
+                    font-family: $fontFamily;
                     font-size: 11px;
                     color: #fff;
                 }

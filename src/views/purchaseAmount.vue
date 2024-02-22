@@ -61,7 +61,7 @@ const { money, isError } = toRefs(state)
             height: 45px;
             line-height: 45px;
             padding-left: 12px;
-            font-family: SegoeUI;
+            font-family: $fontFamily;
             font-size: 13px;
             color: #fff;
         }
@@ -71,7 +71,7 @@ const { money, isError } = toRefs(state)
         }
 
         p:last-child {
-            font-family: SegoeUI;
+            font-family: $fontFamily;
             font-size: 12px;
             color: rgba(255, 255, 255, 0.48);
         }
@@ -94,7 +94,7 @@ const { money, isError } = toRefs(state)
                     padding: 0 9px;
                     border-radius: 10px;
                     background-color: rgba(93, 86, 105, 0.48);
-                    font-family: SegoeUI;
+                    font-family: $fontFamily;
                     font-size: 12px;
                     color: #dbd6e3;
                     margin-right: 5px;
@@ -102,7 +102,7 @@ const { money, isError } = toRefs(state)
             }
 
             .obtain {
-                font-family: SegoeUI;
+                font-family: $fontFamily;
                 font-size: 12px;
                 color: rgba(255, 255, 255, 0.48);
             }
@@ -112,7 +112,7 @@ const { money, isError } = toRefs(state)
             outline: none;
             background-color: #1e1e20;
             border: none;
-            font-family: SegoeUI;
+            font-family: $fontFamily;
             font-size: 24px;
             color: rgba(255, 255, 255, 0.36);
             margin-top: 15px;
@@ -141,7 +141,7 @@ const { money, isError } = toRefs(state)
         line-height: 40px;
         border-radius: 16px;
         background-color: #f87871;
-        font-family: SegoeUI;
+        font-family: $fontFamily;
         font-size: 14px;
         color: #fff;
         cursor: pointer;

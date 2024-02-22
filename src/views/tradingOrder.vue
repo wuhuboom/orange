@@ -102,7 +102,7 @@ const { optArr, dateIndex, statusArr, statusIndex } = toRefs(state)
                 border-radius: 7px;
                 background-color: rgba(255, 255, 255, 0.06);
                 @include flex(space-between);
-                font-family: Poppins;
+                font-family: $fontFamily;
                 font-size: 12px;
                 color: #9f9f9f;
             }
@@ -118,7 +118,7 @@ const { optArr, dateIndex, statusArr, statusIndex } = toRefs(state)
             margin-top: 24px;
 
             span {
-                font-family: SegoeUI;
+                font-family: $fontFamily;
                 font-size: 14px;
                 color: #8d8d8d;
                 margin-right: 23px;
@@ -156,14 +156,14 @@ const { optArr, dateIndex, statusArr, statusIndex } = toRefs(state)
             padding: 13px 13px 13px 12px;
 
             .top {
-                font-family: Roboto;
+                font-family: $fontFamily;
                 font-size: 14px;
                 color: #fff;
                 @include flex(space-between);
             }
 
             .bottom {
-                font-family: Roboto;
+                font-family: $fontFamily;
                 font-size: 12px;
                 color: #9f9f9f;
                 margin-top: 6px;

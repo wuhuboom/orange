@@ -320,6 +320,7 @@ const { swiper, upcomingSwiper, upcomingIndex, gameList, swiperAutoPlay, trading
                         margin-left: 13px;
                         display: flex;
                         align-items: center;
+                        font-family: $fontFamily;
                     }
                 }
             }
@@ -356,6 +357,7 @@ const { swiper, upcomingSwiper, upcomingIndex, gameList, swiperAutoPlay, trading
                 font-weight: 500;
                 letter-spacing: 0.26px;
                 color: #fff;
+                font-family: $fontFamily;
             }
 
             .t_right {
@@ -363,6 +365,7 @@ const { swiper, upcomingSwiper, upcomingIndex, gameList, swiperAutoPlay, trading
                 font-weight: 500;
                 letter-spacing: 0.26px;
                 color: #ff7c43;
+                font-family: $fontFamily;
             }
         }
 
@@ -410,6 +413,7 @@ const { swiper, upcomingSwiper, upcomingIndex, gameList, swiperAutoPlay, trading
                                     -webkit-line-clamp: 2;
                                     -webkit-box-orient: vertical;
                                     overflow: hidden;
+                                    font-family: $fontFamily;
                                 }
                             }
 
@@ -424,6 +428,7 @@ const { swiper, upcomingSwiper, upcomingIndex, gameList, swiperAutoPlay, trading
                                     -webkit-line-clamp: 2;
                                     -webkit-box-orient: vertical;
                                     overflow: hidden;
+                                    font-family: $fontFamily;
                                 }
                             }
 
@@ -501,6 +506,7 @@ const { swiper, upcomingSwiper, upcomingIndex, gameList, swiperAutoPlay, trading
                             -webkit-line-clamp: 2;
                             -webkit-box-orient: vertical;
                             overflow: hidden;
+                            font-family: $fontFamily;
                         }
 
                         .listlIcon {
@@ -514,6 +520,7 @@ const { swiper, upcomingSwiper, upcomingIndex, gameList, swiperAutoPlay, trading
 
                         @include flex();
                         flex-direction: column;
+                        font-family: $fontFamily;
 
                         .date {
                             text-align: center;
@@ -536,6 +543,7 @@ const { swiper, upcomingSwiper, upcomingIndex, gameList, swiperAutoPlay, trading
                             -webkit-line-clamp: 2;
                             -webkit-box-orient: vertical;
                             overflow: hidden;
+                            font-family: $fontFamily;
                         }
 
                         .listrIcon {
@@ -569,7 +577,7 @@ const { swiper, upcomingSwiper, upcomingIndex, gameList, swiperAutoPlay, trading
             text-align: center;
             color: #fff;
             margin-top: 18px;
-            font-family: SegoeUI;
+            font-family: $fontFamily;
             font-size: 13px;
             font-weight: bold;
             color: #fff;

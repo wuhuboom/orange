@@ -352,7 +352,7 @@ const { stepList, stepIndex, countDownTime, showPayMethod } = toRefs(state)
                     background-color: rgba(255, 126, 70, 0.29);
                     @include flex();
                     width: fit-content;
-                    font-family: Helvetica;
+                    font-family: $fontFamily;
                     font-size: 12px;
                     letter-spacing: -0.36px;
                     color: #ff7c43;
@@ -402,7 +402,7 @@ const { stepList, stepIndex, countDownTime, showPayMethod } = toRefs(state)
 
                     span:last-child {
                         font-size: 12px;
-                        font-family: Helvetica;
+                        font-family: $fontFamily;
                         letter-spacing: -0.36px;
                         color: #eee;
                         @include flex();

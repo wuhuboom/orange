@@ -1,7 +1,7 @@
 @import './base.css';
 
 @font-face {
-  font-family: Roboto;
+  font-family: SegoeUI;
   src: url('../assets/font/Roboto-Black.ttf') format('truetype'),
     url('../assets/font/Roboto-BlackItalic.ttf') format('truetype'),
     url('../assets/font/Roboto-Bold.ttf') format('truetype'),
@@ -19,9 +19,9 @@
 html,
 body,
 #app {
-  font-family: Roboto;
+  min-height: 100vh;
   height: 100%;
-
+  font-weight: normal !important;
 }
 
 .maxWidth {
@@ -75,9 +75,9 @@ body,
   max-width: 60% !important;
 }
 
-.van-toast--text .van-toast__text {
-  font-family: 'Roboto' !important;
-}
+/* .van-toast--text .van-toast__text {
+  font-family: 'SegoeUI' !important;
+} */
 
 .betPageToast {
   top: unset !important;

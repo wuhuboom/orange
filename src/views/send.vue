@@ -100,7 +100,7 @@ const { useName, amount, payPwd, safeData } = toRefs(state)
     overflow: auto;
     box-sizing: border-box;
     padding-top: 20px;
-
+    // padding-bottom: 20px;
 
     // @include flex();
     // flex-direction: column;

@@ -31,7 +31,7 @@ function goHome() {
 
     .usdtNum {
         text-align: center;
-        font-family: SegoeUI;
+        font-family: $fontFamily;
         font-size: 24px;
         letter-spacing: -0.3px;
         color: #fff;
@@ -45,7 +45,7 @@ function goHome() {
     }
 
     .backHome {
-        font-family: DMSans;
+        font-family: $fontFamily;
         font-size: 14px;
         font-weight: 500;
         letter-spacing: -0.14px;
