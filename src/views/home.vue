@@ -596,7 +596,7 @@ const { swiper, upcomingSwiper, upcomingIndex, gameList, swiperAutoPlay, trading
             @include flex(center);
             background-color: #313038;
             height: 48px;
-            border-radius: 10px;
+            border-radius: 22px;
             box-sizing: border-box;
             padding: 0 5px;
 
@@ -613,8 +613,7 @@ const { swiper, upcomingSwiper, upcomingIndex, gameList, swiperAutoPlay, trading
                 border: none;
                 color: #fff;
                 flex: 1;
-                border-top-left-radius: 10px;
-                border-bottom-left-radius: 10px;
+                border-radius: 22px;
             }
 
             img {
