@@ -50,7 +50,7 @@ import { useI18n } from 'vue-i18n'
 const { t } = useI18n()
 
 const router = useRouter()
-const props = defineProps(['isRegBtn'])
+const props = defineProps(['isRegBtn', 'btnIndex'])
 const emit = defineEmits('changeRegStatus', 'changeBtnIndex')
 const state = reactive({
     userInfo: [
@@ -154,11 +154,6 @@ function resetActive(item) {
         item.error = false
     }
 }
-watchEffect(() => {
-    if (props.isRegBtn) {
-        registerAcc()
-    }
-})
 async function registerAcc() {
     console.log('zhuce ');
     for (let i in state.userInfo) {
@@ -216,7 +211,16 @@ async function getVerifyCode() {
         console.log(error);
     }
 }
-getVerifyCode()
+// getVerifyCode()
+
+watchEffect(() => {
+    if (props.isRegBtn) {
+        registerAcc()
+    }
+    if (props.btnIndex === 1) {
+        getVerifyCode()
+    }
+})
 onMounted(() => {
     let codeList = [
         255,

@@ -177,7 +177,7 @@ async function getVerifyCode() {
         console.log(error);
     }
 }
-getVerifyCode()
+// getVerifyCode()
 async function getServiceLink() {
     let url = '/player/home/serv_tmp'
     try {
@@ -193,6 +193,7 @@ getServiceLink()
 watchEffect(() => {
     if (props.btnIndex === 0) {
         setAccPwd()
+        getVerifyCode()
     }
 })
 function setAccPwd() {
