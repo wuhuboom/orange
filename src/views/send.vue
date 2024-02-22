@@ -2,14 +2,17 @@
     <div class="send maxWidth lrPadding">
         <div class="sendBox">
             <div class="title">{{ $t('login.username') }}</div>
-            <input type="text" v-model="useName" :placeholder="$t('send.username.placeholder.text')">
+            <input type="text" v-model="useName" :class="{ inputAct: unInput }"
+                :placeholder="$t('send.username.placeholder.text')" @blur="unInput = false" @focus="hightBorder(`un`)">
         </div>
         <div class="arrow-down">
             <img src="../assets/images/common/arrow-down.webp" alt="">
         </div>
         <div class="sendBox">
             <div class="title">{{ $t('send.amount.text') }}</div>
-            <input type="text" v-model="amount" :placeholder="$t('send.amount.placeholder.text')">
+            <input type="text" v-model="amount" :class="{ inputAct: amountInput }"
+                :placeholder="$t('send.amount.placeholder.text')" @focus="hightBorder(`amount`)"
+                @blur="amountInput = false">
         </div>
         <div class="balance">
             <p>
@@ -21,7 +24,8 @@
         </div>
         <div class="sendBox">
             <div class="title">{{ $t('send.paymentPassword.text') }}</div>
-            <input type="password" v-model="payPwd" :placeholder="$t('send.payment.placeholder.text')">
+            <input type="password" v-model="payPwd" :class="{ inputAct: payInput }"
+                :placeholder="$t('send.payment.placeholder.text')" @blur="payInput = false" @focus="hightBorder(`pay`)">
         </div>
         <div class="confirm cursor" @click="confirmTransfer">
             {{ $t('modal.confirm.text') }}
@@ -43,7 +47,10 @@ const state = reactive({
     useName: '',
     amount: 0,
     payPwd: '',
-    safeData: {}
+    safeData: {},
+    amountInput: false,
+    payInput: false,
+    unInput: false
 })
 function setAllAmount() {
     state.amount = getAmount(state.safeData?.money)
@@ -91,7 +98,10 @@ async function confirmTransfer() {
         console.log(error);
     }
 }
-const { useName, amount, payPwd, safeData } = toRefs(state)
+function hightBorder(val) {
+    state[`${val}Input`] = true
+}
+const { useName, amount, payPwd, safeData, amountInput, payInput, unInput } = toRefs(state)
 </script>
 <style scoped lang='scss'>
 .send {
@@ -123,12 +133,16 @@ const { useName, amount, payPwd, safeData } = toRefs(state)
             width: 350px;
             height: 49px;
             border-radius: 10px;
-            border: solid 1px #ff7c43;
+            border: solid 1px #0a0b0b;
             background-color: #333;
             color: #fff;
             margin-top: 8px;
             box-sizing: border-box;
             padding-left: 15px;
+        }
+
+        .inputAct {
+            border-color: $btnBgColor;
         }
     }
 

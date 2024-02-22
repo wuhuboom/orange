@@ -8,7 +8,8 @@
         </div>
         <div class="sendBox">
             <div class="title">{{ $t('transfer.football.balance') }}</div>
-            <input type="text" v-model="amount" placeholder="please enter amount">
+            <input type="text" v-model="amount" :class="{ inputAct: amountInput }" @blur="amountInput = false"
+                @focus="hightBorder(`amount`)" placeholder="please enter amount">
         </div>
         <div class="balance">
             <p>
@@ -20,7 +21,8 @@
         </div>
         <div class="sendBox">
             <div class="title">{{ $t('send.paymentPassword.text') }}</div>
-            <input type="password" v-model="payPwd" :placeholder="$t('send.payment.placeholder.text')">
+            <input type="password" v-model="payPwd" :class="{ inputAct: payInput }" @blur="payInput = false"
+                @focus="hightBorder(`pay`)" :placeholder="$t('send.payment.placeholder.text')">
         </div>
         <div class="confirm cursor" @click="confirmTransfer">
             {{ $t('modal.confirm.text') }}
@@ -40,7 +42,9 @@ const accountInfo = computed(() => store.accountInfo)
 const state = reactive({
     amount: 0,
     payPwd: '',
-    safeData: {}
+    safeData: {},
+    amountInput: false,
+    payInput: false,
 })
 function setAllAmount() {
     state.amount = getAmount(state.safeData?.money)
@@ -57,6 +61,9 @@ async function getSafeInfo() {
     } catch (error) {
         console.log(error);
     }
+}
+function hightBorder(val) {
+    state[`${val}Input`] = true
 }
 async function confirmTransfer() {
     let url = '/player/safe/toBalance'
@@ -81,7 +88,7 @@ async function confirmTransfer() {
     })
 
 }
-const { amount, payPwd, safeData } = toRefs(state)
+const { amount, payPwd, safeData, amountInput, payInput } = toRefs(state)
 </script>
 <style scoped lang='scss'>
 .send {
@@ -113,12 +120,16 @@ const { amount, payPwd, safeData } = toRefs(state)
             width: 100%;
             height: 49px;
             border-radius: 10px;
-            border: solid 1px #ff7c43;
+            border: solid 1px #0a0b0b;
             background-color: #333;
             color: #fff;
             margin-top: 8px;
             box-sizing: border-box;
             padding-left: 15px;
+        }
+
+        .inputAct {
+            border-color: $btnBgColor;
         }
     }
 
@@ -126,7 +137,7 @@ const { amount, payPwd, safeData } = toRefs(state)
         width: 100%;
         height: 49px;
         border-radius: 10px;
-        border: solid 1px #ff7c43;
+        // border: solid 1px #ff7c43;
         background-color: #333;
         color: #fff;
         margin-top: 8px;

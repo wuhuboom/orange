@@ -2,8 +2,9 @@
     <div class="send maxWidth lrPadding">
         <div class="sendBox">
             <div class="title">{{ $t('send.amount.placeholder.text') }}</div>
-            <input type="number" class="hideInputBtn" v-model="amount" @input="getInputAmount"
-                :placeholder="$t('send.amount.placeholder.text')">
+            <input type="number" class="hideInputBtn" :class="{ inputAct: amountInput }" v-model="amount"
+                @input="getInputAmount" :placeholder="$t('send.amount.placeholder.text')" @blur="amountInput = false"
+                @focus="amountInput = true">
         </div>
         <div class="balance">
             <p>
@@ -51,6 +52,7 @@ const state = reactive({
     rechargeInfo: {},
     channelList: [],
     channelIndex: 0,
+    amountInput: false
 })
 async function toPage() {
     let safeUrl = '/player/safe/recharge'
@@ -125,7 +127,7 @@ function selectBank(item, index) {
     state.channelIndex = index
     state.rechargeInfo = item
 }
-const { amount, channelIndex, rechargeInfo, channelList } = toRefs(state)
+const { amount, channelIndex, rechargeInfo, channelList, amountInput } = toRefs(state)
 </script>
 <style scoped lang='scss'>
 .send {
@@ -157,12 +159,16 @@ const { amount, channelIndex, rechargeInfo, channelList } = toRefs(state)
             width: 100%;
             height: 49px;
             border-radius: 10px;
-            border: solid 1px #ff7c43;
+            border: solid 1px #0a0b0b;
             background-color: #333;
             color: #fff;
             margin-top: 8px;
             box-sizing: border-box;
             padding-left: 15px;
+        }
+
+        .inputAct {
+            border-color: $btnBgColor;
         }
 
         .bankList {

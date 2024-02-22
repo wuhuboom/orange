@@ -1,6 +1,6 @@
 <template>
     <div class="invite maxWidth lrPadding">
-        <div class="title">{{ $t('nvite.title1.text') }}</div>
+        <div class="title">{{ $t('invite.title1.text') }}</div>
         <div class="title">{{ $t('invite.title2.text') }}</div>
         <div class="qcBox">
             <div class="qrCodeBox">
@@ -8,11 +8,12 @@
             </div>
             <div class="btnBox">
                 {{ accountInfo.invitationCode }}
-                <img src="../assets/images/invite/copy.webp" class="copyImg" alt="" @click.stop="copyBtn()">
+                <img src="../assets/images/invite/copy.webp" class="copyImg" alt=""
+                    @click="copyBtn(accountInfo.invitationCode)">
             </div>
             <div class="btnBox">
                 <p class="shareUrl">{{ shareLink }}</p>
-                <img src="../assets/images/invite/copy.webp" class="copyImg" alt="" @click.stop="copyBtn(shareLink)">
+                <img src="../assets/images/invite/copy.webp" class="copyImg" alt="" @click="copyBtn(shareLink)">
             </div>
         </div>
     </div>
@@ -24,7 +25,11 @@ import { useRouter } from 'vue-router';
 import http from '@/utils/axios'
 import { useI18n } from 'vue-i18n'
 import { useStore } from '@/stores/index'
+import { showToast } from 'vant'
 import QRCode from 'qrcode';
+import useClipboard from "vue-clipboard3";
+
+const { toClipboard } = useClipboard()
 
 const store = useStore()
 const accountInfo = computed(() => store.accountInfo)
@@ -35,6 +40,7 @@ const state = reactive({
     qrCodeImg: ''
 })
 async function copyBtn(val) {
+    console.log(val);
     try {
         await toClipboard(val)
         showToast(t('transfer.copy.success.text'))
@@ -126,7 +132,7 @@ const { qrCodeImg, shareLink } = toRefs(state)
             }
 
             .shareUrl {
-                width: 80%;
+                width: 75%;
                 text-align: center;
                 // white-space: ;
             }

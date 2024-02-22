@@ -125,7 +125,7 @@ const { safeData } = toRefs(state)
     overflow: auto;
     background-color: $mainBg;
     box-sizing: border-box;
-    padding-top: 20px;
+    // padding-top: 20px;
     padding-bottom: 20px;
 
     .cardBox {
@@ -136,7 +136,7 @@ const { safeData } = toRefs(state)
             width: 276px;
             height: 147px;
             position: absolute;
-            top: 16px;
+            top: 5px;
             left: 50%;
             transform: translateX(-50%);
             opacity: 0.2;
@@ -148,7 +148,7 @@ const { safeData } = toRefs(state)
             width: 316px;
             height: 168px;
             position: absolute;
-            top: 32px;
+            top: 13px;
             left: 50%;
             transform: translateX(-50%);
             opacity: 0.2;
@@ -160,7 +160,7 @@ const { safeData } = toRefs(state)
             width: 100%;
             height: 186px;
             position: absolute;
-            top: 47px;
+            top: 21px;
             left: 50%;
             transform: translateX(-50%);
             border-radius: 12px;

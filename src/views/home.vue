@@ -72,7 +72,7 @@
             </div>
         </div>
         <!-- 设置资金密码弹窗 -->
-        <van-dialog v-model:show="tradingDialog" className="fundDialog maxWidth" :showConfirmButton="false"
+        <van-dialog v-model:show="tradingDialog" width="310px" className="fundDialog maxWidth" :showConfirmButton="false"
             :showCancelButton="false">
             <template #default>
                 <img src="../assets/images/common/dialogIcon.webp" class="dialogIcon" alt="">

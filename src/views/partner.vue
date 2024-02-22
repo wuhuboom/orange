@@ -1,12 +1,12 @@
 <template>
     <div class="partner maxWidth lrPadding">
-        <div class="totalData">
+        <!-- <div class="totalData">
             <div class="left">
                 <img src="../assets/images/partner/totalIcon.webp" class="totalIcon" alt="">
                 <span>{{ $t('partner.total.data.summary.text') }}</span>
             </div>
             <img src="../assets/images/partner/arrow-right.webp" class="arrow-right" alt="">
-        </div>
+        </div> -->
         <div class="balanceBox">
             <div class="item balance">
                 <img :src="getImg('partner', 'balance')" alt="">
