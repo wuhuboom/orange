@@ -197,6 +197,14 @@ const router = createRouter({
           component: () => import("../views/fundsRecords.vue"),
         },
         {
+          path: "invite",
+          name: "invite",
+          meta: {
+            parentName: "",
+          },
+          component: () => import("../views/invite.vue"),
+        },
+        {
           path: "addWalletAddress",
           name: "addWalletAddress",
           meta: {

@@ -189,6 +189,17 @@ const headerObj = computed(() => {
             isShowRightMoney: false,
             bgColor: "#0b0b0b",
         },
+        invite: {
+            leftIcon: "back",
+            leftIconWidth: "32px",
+            leftIconHeight: "32px",
+            center: t('leftNav.invite.text'),
+            rightIcon: "",
+            rightIconWidth: "",
+            rightIconHeight: "",
+            isShowRightMoney: false,
+            bgColor: "",
+        },
         purchaseAmount: {
             leftIcon: "back",
             leftIconWidth: "32px",

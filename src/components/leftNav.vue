@@ -179,6 +179,7 @@ const listArr = computed(() => {
         {
             icon: 'invite',
             name: t('leftNav.invite.text'),
+            link: '/invite',
             isOpen: false,
             isArrow: false
         },

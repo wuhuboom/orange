@@ -42,7 +42,8 @@
   "fundsRecords.balance.text": "balance",
   "fundsRecords.left.title.text": "Type/Time",
   "fundsRecords.right.title.text": "Amount/Discount",
-  
+  "invite.title1.text": "Long press the QR code tosave to the",
+  "invite.title2.text": "phone album",
   "footer.home": "Home",
   "footer.match": "Match",
   "footer.order": "Order",
