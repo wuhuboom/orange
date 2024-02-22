@@ -607,7 +607,7 @@ const { swiper, upcomingSwiper, upcomingIndex, gameList, swiperAutoPlay, trading
 
 
             input {
-                height: 45px;
+                height: 40px;
                 background-color: #313038;
                 outline: none;
                 border: none;

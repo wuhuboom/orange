@@ -156,11 +156,14 @@ function resetActive(item) {
 }
 async function registerAcc() {
     console.log('zhuce ');
-    for (let i in state.userInfo) {
-        state.userInfo[i].error = state.userInfo[i].val == '' ? true : false
-        if (state.userInfo[i].error) {
-            emit('changeRegStatus', false)
-            return
+
+    if (props.isRegBtn) {
+        for (let i in state.userInfo) {
+            state.userInfo[i].error = state.userInfo[i].val == '' ? true : false
+            if (state.userInfo[i].error) {
+                emit('changeRegStatus', false)
+                return
+            }
         }
     }
     let url = '/player/auth/regist'
@@ -192,9 +195,10 @@ async function registerAcc() {
             }
             localStorage.setItem('remember', JSON.stringify(reStoreage))
             showToast(t('tips.success.text'))
-            setTimeout(() => {
-                emit('changeBtnIndex', 0)
-            }, 500);
+
+            emit('changeBtnIndex', 0)
+            // setTimeout(() => {
+            // }, 500);
         }
 
     } catch (error) {
@@ -319,6 +323,7 @@ const { userInfo, isReadPwd, areaCode, showAreaCodeOpt, codeList, checked, verif
                     input {
                         // width: 100%;
                         // height: calc(100% - px);
+                        flex: 1;
                         background-color: #11101c;
                         border: none;
                         font-family: $fontFamily;

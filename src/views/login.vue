@@ -26,8 +26,8 @@
           <span :class="{ spanAct: btnIndex === 1 }" @click="changeBtn(1)">{{ $t('register.registerBtn') }}</span>
         </div>
         <LoginC v-show="btnIndex === 0" :btnIndex="btnIndex" />
-        <RegisterC v-show="btnIndex === 1" :btnIndex="btnIndex"  @changeRegStatus="changeRegStatus" @changeBtnIndex="changeBtnIndex"
-          ref="regRefs" :isRegBtn="isRegBtn" />
+        <RegisterC v-show="btnIndex === 1" :btnIndex="btnIndex" @changeRegStatus="changeRegStatus"
+          @changeBtnIndex="changeBtnIndex" ref="regRefs" :isRegBtn="isRegBtn" />
       </div>
     </div>
     <div class="regiter" v-if="btnIndex === 1">
@@ -328,6 +328,13 @@ const { langList, showLangOpt, langTarget, btnIndex, rCheckBool, isRegBtn, noChe
     .checkErr {
       color: red;
     }
+  }
+}
+
+.serviceLink {
+  img {
+    width: 32px;
+    height: 32px;
   }
 }
 </style>
