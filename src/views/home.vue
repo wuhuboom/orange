@@ -72,7 +72,7 @@
             </div>
         </div>
         <!-- 设置资金密码弹窗 -->
-        <van-dialog v-model:show="tradingDialog" className="fundDialog" :showConfirmButton="false"
+        <van-dialog v-model:show="tradingDialog" className="fundDialog maxWidth" :showConfirmButton="false"
             :showCancelButton="false">
             <template #default>
                 <img src="../assets/images/common/dialogIcon.webp" class="dialogIcon" alt="">
@@ -636,6 +636,13 @@ const { swiper, upcomingSwiper, upcomingIndex, gameList, swiperAutoPlay, trading
         .van-dialog__footer {
             background-color: #211f32 !important;
         }
+    }
+
+    :deep(.van-overlay) {
+        width: 100%;
+        max-width: 400px;
+        left: 50%;
+        transform: translateX(-50%);
     }
 }
 </style>

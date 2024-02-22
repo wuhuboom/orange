@@ -21,7 +21,7 @@
         <img src="../assets/images/login/logo.webp" class="logoImg p_left" alt="logo">
       </div>
       <div class="loginBox lrPadding">
-        <div class="btnOpt">
+        <div class="btnOpt cursor">
           <span :class="{ spanAct: btnIndex === 0 }" @click="changeBtn(0)">{{ $t('login.loginBtn') }}</span>
           <span :class="{ spanAct: btnIndex === 1 }" @click="changeBtn(1)">{{ $t('register.registerBtn') }}</span>
         </div>
@@ -279,7 +279,7 @@ const { langList, showLangOpt, langTarget, btnIndex, rCheckBool, isRegBtn, noChe
   backdrop-filter: blur(17px);
   /* 应用背景模糊效果 */
   // @include flex(center);
-  padding: 9px;
+  padding: 9px 9px 17px 9px;
   box-sizing: border-box;
 
   .btnOpt {
