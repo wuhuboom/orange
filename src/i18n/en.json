@@ -8,7 +8,7 @@
   "login.notAcc": "Not have an account",
   "login.goRegister": "Register now",
   "login.service": "Online Service",
-  "login.username": "Username",
+  "login.username": "User name",
   "login.uErrorText": "The username cannot be empty",
   "login.password": "Password",
   "login.pErrorText": "The password cannot be empty",

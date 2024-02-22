@@ -1,5 +1,5 @@
 <template>
-  <div class="login maxWidth">
+  <div class="login maxWidth lrPadding">
     <div class="loginMain" @click="showLangOpt = false">
       <div class="langBox">
         <div class="langSelect" @click.stop="showSelect">
@@ -19,43 +19,25 @@
       </div>
       <div class="logoBox">
         <img src="../assets/images/login/logo.webp" class="logoImg p_left" alt="logo">
-        <h3 class="w_cter">{{ $t('login.title') }} &nbsp;<span>CTER</span></h3>
-        <p class="logo_p">{{ $t('login.create.accTips') }}</p>
       </div>
-      <!-- 账号登陆 -->
-      <div class="loginForm">
-        <div v-for="(item, index) in userInfo" :key="index">
-          <div class="formItem" :class="{ errorStyle: item.error, focusBorderColor: inputIndex === index }">
-            <div class="login_left">
-              <img :src="getImg('login', item.imgIcon)" alt="">
-              <input :type="item.type" autocomplete="off" v-model="item.val" :placeholder="item.placeholder"
-                @focus="borderActive(index)" @blur="resetActive(item)" @input="resetActive(item)" />
-            </div>
-            <img :src="getImg('login', (isReadPwd ? 'open' : 'close'))" alt="" class="eye" v-if="item.name == 'password'"
-              @click="readPwd(item)" style="cursor: pointer;">
-            <img :src="verificationObj?.img" alt="" v-if="item.name === 'verificationCode'"
-              style="width: 80px;cursor: pointer;" @click="getVerifyCode">
-          </div>
-          <p :class="{ errorPStyle: item.error }" style="padding-left: 8px;margin-bottom: 9px;" v-if="item.error">{{
-            item.errorText }}</p>
+      <div class="loginBox lrPadding">
+        <div class="btnOpt">
+          <span :class="{ spanAct: btnIndex === 0 }" @click="changeBtn(0)">{{ $t('login.loginBtn') }}</span>
+          <span :class="{ spanAct: btnIndex === 1 }" @click="changeBtn(1)">{{ $t('register.registerBtn') }}</span>
         </div>
+        <LoginC v-show="btnIndex === 0" :btnIndex="btnIndex" />
+        <RegisterC v-show="btnIndex === 1" @changeRegStatus="changeRegStatus" @changeBtnIndex="changeBtnIndex"
+          ref="regRefs" :isRegBtn="isRegBtn" />
       </div>
-      <div class="remember">
-        <div class="r_switch">
-          <van-switch v-model="isRemember" active-color="#ff7c43" inactive-color="#2c2c2c" @change="savePwd" />
-          <span>{{ $t('login.remember') }}</span>
-        </div>
-        <div class="r_forgot" @click="toForgot">
-          {{ $t('login.forgotPwd') }}
-        </div>
-      </div>
-      <van-button type="primary" class="loginbtn" @click="login">{{ $t('login.loginBtn') }}</van-button>
-      <p class="addAccText">{{ $t('login.notAcc') }}? &nbsp;&nbsp;<span class="r_now" @click="jumpRegisterPage">{{
-        $t('login.goRegister') }}</span></p>
-
     </div>
-    <van-divider style="background-color: #3f3f3f;" :hairline="true" />
-    <p class="serviceLink" @click="jumpService">
+    <div class="regiter" v-if="btnIndex === 1">
+      <div class="desc">
+        <img :src="rCheckBool ? getImg('register', 'checked') : getImg('register', 'nocheck')" alt="" @click="isChecked">
+        <p :class="{ checkErr: noCheck }">{{ $t('register.instructions') }}</p>
+      </div>
+      <van-button type="primary" class="loginbtn" @click="registerAcc">{{ $t('register.registerBtn') }}</van-button>
+    </div>
+    <p class="serviceLink" @click="jumpService" v-if="btnIndex === 0">
       <img src="../assets/images/login/service.webp" alt="">
       {{ $t('login.service') }}
     </p>
@@ -63,14 +45,17 @@
 </template>
 
 <script setup>
-import { reactive, toRefs, onMounted, computed } from 'vue'
+import { reactive, toRefs, ref } from 'vue'
 import { getImg } from '@/utils/utils'
 import { useRouter } from 'vue-router';
 import http from '@/utils/axios'
+import LoginC from '@/components/loginC.vue'
+import RegisterC from '@/components/registerC.vue'
 import { useI18n } from 'vue-i18n'
 
 const { t, locale } = useI18n()
 const router = useRouter()
+let regRefs = ref(null)
 const state = reactive({
   langList: [
     {
@@ -91,44 +76,12 @@ const state = reactive({
   ],
   showLangOpt: false,
   langTarget: 'EN',
-  isRemember: false,
-  isReadPwd: false,
-  inputIndex: -1,
-  verificationObj: {},
   serviceUrl: '',
-  lUser: []
-})
-const userInfo = computed(() => {
-  state.lUser = [
-    {
-      name: 'account',
-      imgIcon: 'acc',
-      type: 'text',
-      val: '',
-      error: false,
-      errorText: t('login.uErrorText'),
-      placeholder: t('login.username')
-    },
-    {
-      name: 'password',
-      imgIcon: 'pwd',
-      type: 'password',
-      val: '',
-      error: false,
-      errorText: t('login.pErrorText'),
-      placeholder: t('login.password')
-    },
-    {
-      name: 'verificationCode',
-      imgIcon: 'email',
-      type: 'text',
-      val: '',
-      error: false,
-      errorText: t('login.vErrorText'),
-      placeholder: t('login.verificationCode')
-    },
-  ]
-  return state.lUser
+  btnIndex: 0,
+  rCheckBool: false,
+  regTimer: null,
+  isRegBtn: false,
+  noCheck: false
 })
 function showSelect() {
   let langList = [
@@ -158,88 +111,6 @@ function selectLang(item) {
   locale.value = language
   state.showLangOpt = false
 }
-function readPwd(item) {
-  state.isReadPwd = !state.isReadPwd
-  item.type = state.isReadPwd ? 'text' : 'password'
-}
-function borderActive(index) {
-  state.inputIndex = index
-}
-function toForgot() {
-  router.push({
-    path: '/forgotPwd'
-  })
-}
-function resetActive(item) {
-  state.inputIndex = -1
-  if (item.vale != '') {
-    item.error = false
-  }
-  if (state.isRemember) {
-    savePwd()
-  }
-}
-function savePwd() {
-  let storeage = {
-    isremember: state.isRemember,
-    user: userInfo.value
-  }
-  if (state.isRemember) {
-    localStorage.setItem('remember', JSON.stringify(storeage))
-  } else {
-    localStorage.removeItem('remember')
-  }
-}
-function jumpRegisterPage() {
-  router.push({
-    path: '/register',
-  })
-}
-async function login() {
-  let url = '/player/auth/login'
-  // for (let i in userInfo.value) {
-  //   userInfo.value[i].error = userInfo.value[i].val == '' ? true : false
-  //   if (userInfo.value[i].error) {
-  //     return
-  //   }
-  // }
-  // if(userInfo.)
-  let data = {
-    username: userInfo.value[0].val,
-    password: userInfo.value[1].val,
-    code: userInfo.value[2].val,
-    verifyKey: state.verificationObj.verifyKey
-  }
-  console.log(data);
-  try {
-    const res = await http.post(url, data)
-    console.log(res);
-    if (res == 103) {
-      getVerifyCode()
-    }
-    if (res?.token) {
-      localStorage.setItem('userInfo', JSON.stringify(res))
-      setTimeout(() => {
-        router.push({
-          path: '/home'
-        })
-      }, 500)
-    }
-  } catch (error) {
-    console.log(error);
-  }
-}
-async function getVerifyCode() {
-  userInfo.value[2].val = ''
-  let url = '/player/auth/verify_code'
-  try {
-    const res = await http.get(url)
-    state.verificationObj = res
-  } catch (error) {
-    console.log(error);
-  }
-}
-getVerifyCode()
 async function getServiceLink() {
   let url = '/player/home/serv_tmp'
   try {
@@ -253,31 +124,33 @@ async function getServiceLink() {
 }
 getServiceLink()
 function jumpService() {
-  console.log(state.serviceUrl);
   if (state.serviceUrl) {
     window.location.href = state.serviceUrl
   }
 }
-onMounted(() => {
-  if (localStorage.getItem('lang')?.toUpperCase().includes('ZH')) {
-    state.langTarget = 'EN'
-  } else {
-    state.langTarget = localStorage.getItem('lang')?.toUpperCase() || 'EN'
+function changeBtn(index) {
+  state.btnIndex = index
+}
+function isChecked() {
+  state.rCheckBool = !state.rCheckBool
+  if (state.rCheckBool) {
+    state.noCheck = false
   }
-  const language = navigator.language;
-  if (!localStorage.getItem('lang')) {
-    localStorage.setItem('lang', language)
-
+}
+function changeRegStatus(bool) {
+  state.isRegBtn = bool
+}
+function changeBtnIndex(index) {
+  state.btnIndex = index
+}
+function registerAcc() {
+  if (!state.rCheckBool) {
+    state.noCheck = true
+    return
   }
-  if (localStorage.getItem('remember')) {
-    let storeage = JSON.parse(localStorage.getItem('remember'))
-    console.log(storeage);
-    state.isRemember = storeage.isremember
-    userInfo.value[0].val = storeage.user[0]?.val
-    userInfo.value[1].val = storeage.user[1]?.val
-  }
-})
-const { langList, showLangOpt, langTarget, isRemember, isReadPwd, inputIndex, verificationObj } = toRefs(state)
+  state.isRegBtn = true
+}
+const { langList, showLangOpt, langTarget, btnIndex, rCheckBool, isRegBtn, noCheck } = toRefs(state)
 </script>
 <style lang="scss" scoped>
 .p_left {
@@ -294,7 +167,7 @@ const { langList, showLangOpt, langTarget, isRemember, isReadPwd, inputIndex, ve
 }
 
 .loginMain {
-  padding: 40px 20px 0;
+  padding: 40px 0px 0;
   @include flex();
   flex-direction: column
 }
@@ -343,6 +216,7 @@ const { langList, showLangOpt, langTarget, isRemember, isReadPwd, inputIndex, ve
     overflow: hidden;
     transition: height .5s ease-out;
     cursor: pointer;
+    z-index: 2;
 
     .o_item {
       height: 28px;
@@ -369,11 +243,13 @@ const { langList, showLangOpt, langTarget, isRemember, isReadPwd, inputIndex, ve
 
 .logoBox {
   width: $width;
-  margin-top: 90px;
+  margin-top: 17px;
+  margin-bottom: 43px;
 
   .logoImg {
     width: 70px;
     height: 70px;
+    margin: 0 auto;
   }
 
   .w_cter {
@@ -395,115 +271,62 @@ const { langList, showLangOpt, langTarget, isRemember, isReadPwd, inputIndex, ve
   }
 }
 
-.loginForm {
+.loginBox {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 10px;
+  /* 设置背景颜色为半透明白色 */
+  backdrop-filter: blur(17px);
+  /* 应用背景模糊效果 */
+  // @include flex(center);
+  padding: 9px;
   box-sizing: border-box;
 
-  .formItem {
-    width: $width;
-    height: 45px;
-    border-radius: 12px;
-    border: solid 1px #3f3f3f;
-    background-color: #2c2c2c;
+  .btnOpt {
+    width: 100%;
+    height: 53px;
+    border-radius: 26.5px;
+    background-color: #1d1d25;
+    padding: 4px;
+    color: #fff;
     @include flex();
-    padding-left: 9px;
-    margin-bottom: 9px;
     box-sizing: border-box;
-    padding-right: 14px;
-
-    .login_left {
-      height: 100%;
-      @include flex(flex-start);
-      flex: 1;
-
-      img {
-        width: 28px;
-        height: 28px;
-      }
-
-      input {
-        width: 100%;
-        height: calc(100% - px);
-        background-color: #2c2c2c;
-        border: none;
-        font-family: $fontFamily;
-        font-size: 14px;
-        color: #fff;
-      }
-    }
-
-    .eye {
-      width: 28px;
-      height: 28px;
-    }
-  }
-
-  .errorTipStyle {
-    font-family: $fontFamily;
-    font-size: 12px;
-    color: #ff4343;
-
-  }
-
-  .errorStyle {
-    @extend .errorTipStyle;
-    border-color: #ff4343;
-
-    .login_left {
-      input {
-        color: #ff4343;
-      }
-    }
-  }
-
-  .errorPStyle {
-    @extend .errorTipStyle;
-  }
-
-  .focusBorderColor {
-    border-color: $btnBgColor;
-  }
-}
-
-.remember {
-  width: $width;
-  @include flex();
-  margin-top: 16px;
-
-  .r_switch {
-    @include flex(flex-start);
+    margin-bottom: 13px;
 
     span {
-      font-family: $fontFamily;
-      font-size: 14px;
-      color: #8d8d8d;
-      margin-left: 12px;
+      width: 50%;
+      height: 100%;
+      @include flex(center);
+      text-transform: uppercase;
+    }
+
+    .spanAct {
+      border-radius: 22.5px;
+      background-image: linear-gradient(151deg, #353545 26%, rgba(43, 43, 63, 0.55) 80%);
     }
   }
-
-  .r_forgot {
-    font-family: $fontFamily;
-    font-size: 14px;
-    color: #eaeaea;
-    cursor: pointer;
-  }
 }
 
-.loginbtn {
-  margin-top: 32px;
-}
+.regiter {
+  margin-top: 7px;
 
+  .desc {
+    @include flex(flex-start);
 
-.addAccText {
-  text-align: center;
-  font-family: $fontFamily;
-  font-size: 14px;
-  color: #eaeaea;
-  margin-top: 15px;
+    img {
+      width: 24px;
+      height: 24px;
+    }
 
-  .r_now {
-    font-size: 14px;
-    color: #00a3b7;
-    cursor: pointer;
+    p {
+      font-size: 12px;
+      color: #fff;
+      margin-left: 7px;
+    }
+
+    .checkErr {
+      color: red;
+    }
   }
 }
 </style>
