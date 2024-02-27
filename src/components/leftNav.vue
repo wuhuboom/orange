@@ -12,6 +12,14 @@
             <div class="list">
                  <div class="li_money">
                     <div class="p1">{{$t('wallet.index.balance.text')}}</div>
+                    <div class="p2">
+                        <span>{{balance}}</span>
+                        <img :src="getImg('leftNav', 'refresh')" alt="">
+                    </div>
+                    <div class="p3">
+                        <input type="button" class="btn1" :value="$t('leftNav.recharge.text')" @click="recharge" />
+                        <input type="button" class="btn2" :value="$t('leftNav.withdrawal.text')" @click="withdrawal" />
+                    </div>
                 </div>
                 <ul>
                     <li v-for="(item, index) in listArr" :key="index">
@@ -75,6 +83,7 @@ const state = reactive({
     showLangOpt: false,
     langTarget: 'EN',
     menuIndex: -1,
+    balance: 0.00,
     langList: [
         // {
         //     name: 'ZH'
@@ -100,24 +109,6 @@ const state = reactive({
 const listArr = computed(() => {
     // state.cList解决listArr不会响应式
     state.cList = [
-        {
-            icon: 'money',
-            name: '0.00',
-            isOpen: true,
-            isArrow: true,
-            menu: [
-                {
-                    name: t('leftNav.recharge.text'),
-                    link: '/recharge',
-                    highlight: false
-                },
-                {
-                    name: t('leftNav.withdrawal.text'),
-                    link: '/withdraw',
-                    highlight: false
-                },
-            ]
-        },
         {
             icon: 'order',
             name: t('leftNav.myOrder.text'),
@@ -145,7 +136,7 @@ const listArr = computed(() => {
                 },
                 {
                     name: t('leftNav.result.text'),
-                    link: '',
+                    link: '/result',
                     highlight: false
                 },
             ]
@@ -181,6 +172,7 @@ const listArr = computed(() => {
         {
             icon: 'invite',
             name: t('leftNav.invite.text'),
+            link: '/invite',
             isOpen: false,
             isArrow: false
         },
@@ -241,8 +233,23 @@ function selectList(k, index) {
 watchEffect(() => {
     // console.log('leftName', accountInfo);
     state.perInfo = accountInfo.value
-    listArr.value[0].name = accountInfo.value.currRate
+    state.balance = accountInfo.value.currRate
 })
+function recharge(){
+    router.push({
+        path: '/recharge',
+        query: {
+            rechargeType: 'football'
+        }
+    })
+    store.showLeftNav = false
+}
+function withdrawal(){
+    router.push({
+        path: '/withdraw'
+    })
+    store.showLeftNav = false
+}
 function showSelect() {
     let langList = [
         {
@@ -288,7 +295,7 @@ async function logOut() {
         console.log(error);
     }
 }
-const { perInfo, showLangOpt, langTarget, langList } = toRefs(state)
+const { perInfo,balance, showLangOpt, langTarget, langList } = toRefs(state)
 </script>
 <style scoped lang='scss'>
 .leftNav {
@@ -343,19 +350,68 @@ const { perInfo, showLangOpt, langTarget, langList } = toRefs(state)
         }
 
         .list {
-            padding: 30px 16px 16px 12px;
+            padding: 15px 16px 16px 12px;
             .li_money{
                 background-image: url('../assets/images/leftNav/bg_money.png');
                 background-size: 100% 100%;
-                width: 100%;
-                height: 130px;
-                margin-bottom: 20px;
+                width: 90%;
+                height: 100px;
+                margin-bottom: 10px;
+                @include flex(space-around,flex-start);
+                flex-direction: column;
+                padding: 15px;
+                .p1{
+                   width: 53px;
+                    height: 18px;
+                    margin: 0 43.5px 7px 0.9px;
+                    font-family: Roboto;
+                    font-size: 15px;
+                    font-weight: normal;
+                    font-stretch: normal;
+                    font-style: normal;
+                    line-height: normal;
+                    letter-spacing: normal;
+                    text-align: left;
+                    color: #000;
+                }
+                .p2{
+                    @include flex();
+                    margin-bottom: 10px;
+                    padding-left: 20px;
+                    span{
+                        font-size: 28px;
+                        display: block;
+                        margin-right: 20px;
+                    }
+                    img{
+                        width: 21px;
+                        height: 21px;
+                    }
+                }
+                .p3{
+                    @include flex(space-around);
+                    .btn1{
+                        width: 102px;
+                        height: 31px;
+                        border-radius: 15.5px;
+                        border: solid 2px #000;
+                        background-color: transparent;
+                    }
+                    .btn2{
+                        width: 102px;
+                        height: 31px;
+                        border-radius: 15.5px;
+                        background-color: #000;
+                        color:#FFF;
+                        margin-left: 10px;
+                    }
+                }
             }
             ul {
                 li {
                     width: 100%;
                     @include flex(space-between);
-                    margin-bottom: 30px;
+                    margin-bottom: 20px;
                     flex-direction: column;
                     box-sizing: border-box;
                     .li_top {
@@ -409,9 +465,9 @@ const { perInfo, showLangOpt, langTarget, langList } = toRefs(state)
 
                 li:first-child {
                     .li_top {
-                        border-radius: 12px;
-                        background-color: #ff7c43;
-                        padding: 11px 10px 9px 13px;
+                        // border-radius: 12px;
+                        // background-color: #ff7c43;
+                        // padding: 11px 10px 9px 13px;
 
                     }
 
@@ -432,7 +488,7 @@ const { perInfo, showLangOpt, langTarget, langList } = toRefs(state)
                 width: $selectWidth;
                 height: $selectHeight;
                 padding: 0 6px 0 4px;
-                border-radius: 3.5px;
+                border-radius: 10px;
                 border: solid 1px #fff;
                 cursor: pointer;
 

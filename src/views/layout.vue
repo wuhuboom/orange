@@ -232,6 +232,16 @@ const headerObj = computed(() => {
             isShowRightMoney: true,
             bgColor: "#202020",
         },
+        result: {
+            leftIcon: "back",
+            leftIconWidth: "32px",
+            leftIconHeight: "32px",
+            center: t("leftNav.result.text"),
+            rightIcon: "",
+            isShowRightMoney: false,
+            bgColor: "#202020",
+            link: "/home",
+        },
     }
     return header
 })

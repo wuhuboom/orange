@@ -184,7 +184,23 @@ const router = createRouter({
           path: "partner",
           name: "partner",
           meta: {
-            parentName: "partner",
+            parentName: "",
+          },
+          component: () => import("../views/partner.vue"),
+        },
+        {
+          path: "result",
+          name: "result",
+          meta: {
+            parentName: "",
+          },
+          component: () => import("../views/result.vue"),
+        },
+        {
+          path: "invite",
+          name: "invite",
+          meta: {
+            parentName: "",
           },
           component: () => import("../views/partner.vue"),
         },
