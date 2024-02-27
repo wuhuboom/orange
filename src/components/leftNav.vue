@@ -10,6 +10,9 @@
             </div>
             <div class="van-hairline--bottom"></div>
             <div class="list">
+                 <div class="li_money">
+                    <div class="p1">{{$t('wallet.index.balance.text')}}</div>
+                </div>
                 <ul>
                     <li v-for="(item, index) in listArr" :key="index">
                         <div class="li_top" @click="showSecondList(item, index)">
@@ -341,7 +344,13 @@ const { perInfo, showLangOpt, langTarget, langList } = toRefs(state)
 
         .list {
             padding: 30px 16px 16px 12px;
-
+            .li_money{
+                background-image: url('../assets/images/leftNav/bg_money.png');
+                background-size: 100% 100%;
+                width: 100%;
+                height: 130px;
+                margin-bottom: 20px;
+            }
             ul {
                 li {
                     width: 100%;
@@ -349,7 +358,6 @@ const { perInfo, showLangOpt, langTarget, langList } = toRefs(state)
                     margin-bottom: 30px;
                     flex-direction: column;
                     box-sizing: border-box;
-
                     .li_top {
                         box-sizing: border-box;
                         width: 100%;
