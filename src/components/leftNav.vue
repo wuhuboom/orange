@@ -26,7 +26,7 @@
                             :to="{ path: '/frecharge', query: { rechargeType: 'football' } }">{{
                                 $t('leftNav.recharge.text') }}</router-link>
                     </div>
-                </div>
+                </div> 
                 <ul>
                     <li v-for="(item, index) in listArr" :key="index">
                         <div class="li_top" @click="showSecondList(item, index)">
