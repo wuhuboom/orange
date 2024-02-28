@@ -142,7 +142,7 @@ const listArr = computed(() => {
                     highlight: false
                 },
                 {
-                    name: t('fuc.match.records'),
+                    name: t('leftNav.result.text'),
                     link: '/result',
                     highlight: false
                 },

@@ -7,6 +7,7 @@ export const useStore = defineStore("store", {
       balance: "0.0",
       showLeftNav: false,
       isRefreshVerifyCode: false,
+      showNoticeId:'',
       accountInfo: {},
     };
   },
@@ -15,6 +16,9 @@ export const useStore = defineStore("store", {
       http.get("/player/player_info").then((res) => {
         this.accountInfo = res;
       });
+    },
+    changeShowNotice(id) {
+      this.showNoticeId = id
     },
   },
 });
