@@ -75,6 +75,10 @@ const route = useRoute()
 
 const state = reactive({
     tabArr: [
+         {
+            name: t('match.all.text'),
+            id: 0,
+        },
         {
             name: t('match.today.text'),
             id: 1,
@@ -345,10 +349,13 @@ function getType(value) {
 async function getDeposit(val) {
     let url = '/player/recharge_log'
     // 1今日 2昨日 3.7日 4.10日 5.30日
+    const id = state.tabArr[state.tabIndex].id
     let data = {
-        time: state.tabArr[state.tabIndex].id,
         pageNo: state.page.pageNo,
         pageSize: state.page.pageSize
+    }
+    if(id != 0){
+         data.time= state.tabArr[state.tabIndex].id
     }
     state.loading = true
     try {
@@ -464,8 +471,8 @@ const { tabArr, typeArr, typeIndex, tabIndex, recordList, statusList, typeList, 
             padding-top: 11px;
 
             span {
-                width: 88px;
-                height: 31px;
+                //height: 31px;
+                padding: 8.5px 20px;
                 border-radius: 15.5px;
                 background-color: #282828;
                 @include flex(center);
