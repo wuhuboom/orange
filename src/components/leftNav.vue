@@ -161,7 +161,7 @@ const listArr = computed(() => {
                 },
                 {
                     name: t('leftNav.trading.text'),
-                    link: '',
+                    link: '/rebateReport',
                     highlight: false
                 },
                 {
