@@ -95,6 +95,20 @@
                 </div>
             </template>
         </van-dialog>
+
+        <!-- 设置公告弹窗 -->
+        <van-dialog v-model:show="noticeDialog.show" width="310px" className="fundDialog maxWidth" :showConfirmButton="false"
+            :showCancelButton="false">
+            <template #default>
+                <img src="../assets/images/home/warningIcon.webp" class="warningIcon" alt="">
+                <p class="wtitle">{{ $t('home.dialog.notice.title.text') }}</p>
+                <p class="wcontent">{{noticeDialog.content  }}</p>
+                 
+                <div class="dialogBtn" @click="closeNoticeDialog">
+                    {{ $t('modal.confirm.text') }}
+                </div>
+            </template>
+        </van-dialog>
     </div>
 </template>
 <script setup >
@@ -102,6 +116,12 @@ import { reactive, toRefs, computed } from 'vue'
 import { formatDate } from '@/utils/utils'
 import http from '@/utils/axios'
 import { useRouter } from 'vue-router'
+
+import { useStore } from '@/stores/index'
+import { storeToRefs } from 'pinia'
+
+const store = useStore()
+const { isShowNotice } = storeToRefs(store)
 
 
 const router = useRouter()
@@ -137,6 +157,10 @@ const state = reactive({
     upcomingSwiper: [],
     gameList: [],
     tradingDialog: false,
+    noticeDialog: {
+        show:false,
+        content:''
+    },
     tradingObj: {
         payPwd: '',
         payPwdAgain: '',
@@ -225,6 +249,25 @@ function toMatch() {
         path: '/match'
     })
 }
+// 查看公告
+getShowNotice()
+async function getShowNotice(){
+   let url = '/player/home/dialog'
+    try {
+        const res = await http.get(url)
+        if(store.showNoticeId != res.id){
+            state.noticeDialog.content = res.content
+            state.noticeDialog.show = true
+            store.changeShowNotice(res.id)
+        }
+    }catch (error) {
+        console.log(error);
+    }
+}
+function closeNoticeDialog() {
+    state.noticeDialog.show = false
+    
+}
 // 是否设置资金密码
 isSetPwd()
 async function isSetPwd() {
@@ -263,7 +306,17 @@ async function setPwdBtn() {
         console.log(error);
     }
 }
-const { swiper, upcomingSwiper, upcomingIndex, gameList, swiperAutoPlay, tradingDialog, tradingObj } = toRefs(state)
+// 获取系统类型
+function getOsType() {
+    let osType = ''
+    if (navigator.userAgent.indexOf('iPhone') !== -1) {
+        osType = 'ios'
+    } else if (navigator.userAgent.indexOf('Android') !== -1) {
+        osType = 'android'
+    }
+    return osType
+}
+const { swiper, upcomingSwiper, upcomingIndex, gameList, swiperAutoPlay, tradingDialog,noticeDialog, tradingObj } = toRefs(state)
 </script>
 <style scoped lang='scss'>
 .home {
@@ -643,6 +696,22 @@ const { swiper, upcomingSwiper, upcomingIndex, gameList, swiperAutoPlay, trading
         max-width: 400px;
         left: 50%;
         transform: translateX(-50%);
+    }
+    .warningIcon{
+        width: 96px;
+        height: 96px;
+        margin: 8px auto 0;
+    }
+    .wtitle{
+            text-align: left;
+            color: #fff;
+            font-size: 15px;
+            margin-bottom: 10px;
+    }
+    .wcontent{
+        font-size: 15px;
+        color: #d9dbe9;
+        margin-bottom: 20px;
     }
 }
 </style>
