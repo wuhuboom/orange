@@ -189,6 +189,17 @@ const headerObj = computed(() => {
             isShowRightMoney: false,
             bgColor: "#0b0b0b",
         },
+        cardManage: {
+            leftIcon: "back",
+            leftIconWidth: "32px",
+            leftIconHeight: "32px",
+            center: t('leftNav.cardManagement.text'),
+            rightIcon: "",
+            rightIconWidth: "",
+            rightIconHeight: "",
+            isShowRightMoney: false,
+            bgColor: "#0b0b0b",
+        },
         fundsRecords: {
             leftIcon: "back",
             leftIconWidth: "32px",

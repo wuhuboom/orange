@@ -17,15 +17,17 @@
             </p>
         </div>
         <div class="sendBox">
-            <div class="title" style="margin-bottom: 15px;">{{ $t('withdraw.type.text') }}</div>
-            <div class="bankList cursor relative" v-for="(item, index) in virtualCurrencyList" :key="index"
-                :class="{ bankListActive: index === channelIndex }" @click="selectBank(item, index)">
-                <div class="left">
-                    <img :src="item.img" alt="">
-                    <div class="cardName">{{ item.name }}</div>
+            <div class="title sub">{{ $t('withdraw.type.text') }}</div>
+            <template v-for="(item, index) in virtualCurrencyList" :key="index">
+                <div class="bankList cursor relative"  :class="{ bankListActive: index === channelIndex }" @click="selectBank(item, index)">
+                    <div class="left">
+                        <img :src="item.img" alt="">
+                        <div class="cardName">{{ item.name }}</div>
+                    </div>
+                    <img src="../assets/images/common/check.webp" class="checkIcon" alt="" v-if="index === channelIndex">
                 </div>
-                <img src="../assets/images/common/check.webp" class="checkIcon" alt="" v-if="index === channelIndex">
-            </div>
+            </template>
+            
         </div>
         <div class="WAddress cursor relative" v-if="currentWAList[walletAddrIndex]?.addr">
             {{ currentWAList[walletAddrIndex].addr }}
@@ -306,9 +308,6 @@ function addWalletPage() {
     }
     return
 }
-// function showADList() {
-//     state.isShowWalletOpt = !state.isShowWalletOpt
-// }
 function getPanelTitle() {
 
     if (state.rechargeInfo.name == 'E-Wallet') {
@@ -322,7 +321,7 @@ function getPanelTitle() {
 function closePanel() {
     state.isShowWalletPanel = false
 }
-const { amount, channelIndex, rechargeInfo, virtualCurrencyList, payPwd, currentWAList, walletAddrIndex, isShowWalletOpt, isShowWalletPanel } = toRefs(state)
+const { amount, channelIndex, rechargeInfo, virtualCurrencyList, payPwd, currentWAList, walletAddrIndex, isShowWalletOpt, isShowWalletPanel,bankList } = toRefs(state)
 </script>
 <style scoped lang='scss'>
 .withdraw {
@@ -350,6 +349,10 @@ const { amount, channelIndex, rechargeInfo, virtualCurrencyList, payPwd, current
             display: block;
             margin: 0 auto;
             font-family: $fontFamily;
+        }
+        .sub{
+            margin-top: 20px;
+            margin-bottom: 10px;
         }
 
         input {
@@ -382,8 +385,8 @@ const { amount, channelIndex, rechargeInfo, virtualCurrencyList, payPwd, current
                 box-sizing: border-box;
 
                 img {
-                    width: 63px;
-                    height: 35px;
+                    width: 40px;
+                    height: 40px;
                     border-radius: 8px;
                 }
 
@@ -392,9 +395,9 @@ const { amount, channelIndex, rechargeInfo, virtualCurrencyList, payPwd, current
                     // display: flex;
                     // flex-wrap: wrap;
                     word-wrap: break-word;
-                    font-size: 12px;
+                    font-size: 14px;
                     color: #fff;
-                    margin-left: 32px;
+                    margin-left: 15px;
                     line-height: 1.2;
                 }
             }
@@ -522,16 +525,10 @@ const { amount, channelIndex, rechargeInfo, virtualCurrencyList, payPwd, current
     .balance {
         width: 100%;
         font-size: 14px;
-        font-weight: normal;
-        font-stretch: normal;
-        font-style: normal;
-        line-height: normal;
-        letter-spacing: normal;
         text-align: left;
         color: #8a929a;
         @include flex(space-between);
-        margin: 14px auto 34px;
-
+        margin-top: 10px;
         .money {
             color: #fff;
         }
@@ -558,6 +555,7 @@ const { amount, channelIndex, rechargeInfo, virtualCurrencyList, payPwd, current
     }
 
     .tip_mod_container {
+        display: none;
         margin-top: 20px;
         color: #c4c4c4;
         font-size: 12px;

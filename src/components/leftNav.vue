@@ -171,7 +171,7 @@ const listArr = computed(() => {
                 },
                 {
                     name: t('leftNav.cardManagement.text'),
-                    link: '',
+                    link: '/cardManage',
                     highlight: false
                 },
             ]
