@@ -166,7 +166,7 @@ const listArr = computed(() => {
                 },
                 {
                     name: t('leftNav.personalInformation.text'),
-                    link: '',
+                    link: '/personalInfomation',
                     highlight: false
                 },
                 {

@@ -205,6 +205,14 @@ const router = createRouter({
           component: () => import("../views/rebateReport.vue"),
         },
         {
+          path: "personalInfomation",
+          name: "personalInfomation",
+          meta: {
+            parentName: "",
+          },
+          component: () => import("../views/personalInfomation.vue"),
+        },
+        {
           path: "cardManage",
           name: "cardManage",
           meta: {
