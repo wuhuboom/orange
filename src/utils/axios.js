@@ -99,6 +99,8 @@ http.interceptors.response.use(
         localStorage.removeItem("toaddFlag");
         window.location.href = "/login";
       }, 500);
+    }else{
+      return response.data
     }
   },
   (error) => {

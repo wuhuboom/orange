@@ -229,6 +229,30 @@ const router = createRouter({
           component: () => import("../views/withdrawPwdSet.vue"),
         },
         {
+          path: "updatePhone",
+          name: "updatePhone",
+          meta: {
+            parentName: "",
+          },
+          component: () => import("../views/updatePhone.vue"),
+        },
+        {
+          path: "updateEmail",
+          name: "updateEmail",
+          meta: {
+            parentName: "",
+          },
+          component: () => import("../views/updateEmail.vue"),
+        },
+        {
+          path: "bindPhone",
+          name: "bindPhone",
+          meta: {
+            parentName: "updatePhone",
+          },
+          component: () => import("../views/bindPhone.vue"),
+        },
+        {
           path: "cardManage",
           name: "cardManage",
           meta: {

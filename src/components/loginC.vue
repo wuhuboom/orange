@@ -226,7 +226,7 @@ const { langList, showLangOpt, langTarget, isRemember, isReadPwd, inputIndex, ve
     box-sizing: border-box;
 
     .formItem {
-        width: $width;
+        // width: $width;
         height: 45px;
         border-radius: 22px;
         border: solid 1px #11101c;
@@ -293,7 +293,7 @@ const { langList, showLangOpt, langTarget, isRemember, isReadPwd, inputIndex, ve
 }
 
 .remember {
-    width: $width;
+    // width: $width;
     @include flex();
     margin-top: 16px;
 

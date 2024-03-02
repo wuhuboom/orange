@@ -109,6 +109,19 @@
                 </div>
             </template>
         </van-dialog>
+         <!-- 设置版本升级弹窗 -->
+        <van-dialog v-model:show="versionDialog.show" width="310px" className="fundDialog versionDialog maxWidth" :showConfirmButton="false"
+            :showCancelButton="false">
+            <template #default>
+                <img src="../assets/images/home/updateIcon.webp" class="warningIcon" alt="">
+                <p class="wcontent">{{versionDialog.content  }}</p>
+                 
+                <div class="dialogBtn" @click="updateVersion" v-if="!versionDialog.isUpdate">
+                    {{ $t('update.now') }}
+                </div>
+                <van-progress class="processBar" :percentage="versionDialog.process" :show-pivot="false" color="#f2826a" v-else/>
+            </template>
+        </van-dialog>
     </div>
 </template>
 <script setup >
@@ -122,9 +135,9 @@ import { storeToRefs } from 'pinia'
 
 const store = useStore()
 const { isShowNotice } = storeToRefs(store)
-
-
 const router = useRouter()
+
+import Cookies from 'js-cookie'
 import { Swiper, SwiperSlide } from 'swiper/vue';
 // 引入swiper核心和所需模块
 import {
@@ -160,6 +173,13 @@ const state = reactive({
     noticeDialog: {
         show:false,
         content:''
+    },
+    versionDialog:{
+        show:false,
+        isUpdate:false,
+        content:'',
+        process:0,
+        version:''
     },
     tradingObj: {
         payPwd: '',
@@ -249,6 +269,41 @@ function toMatch() {
         path: '/match'
     })
 }
+//查询版本号
+getVersion()
+async function getVersion(){
+    let url = '/player/home/version'
+    try {
+        const curVersion = Cookies.get('cur_version') || '1.00'
+        const res = await http.get(url)
+        if(res != curVersion){
+            state.versionDialog.content = t('version.update')
+            state.versionDialog.show = true
+            state.versionDialog.isUpdate = false
+            state.versionDialog.version = res
+        }else{
+            state.versionDialog.show = false
+            state.versionDialog.isUpdate = false
+            state.versionDialog.content = ''
+        }
+    }catch (error) {
+        console.log(error);
+    }
+}
+async function updateVersion(){
+    Cookies.set('cur_version', state.versionDialog.version)
+    state.versionDialog.process = 0
+    state.versionDialog.isUpdate = true
+    state.versionDialog.content = t('version.updating')
+    while(state.versionDialog.process < 100){
+        state.versionDialog.process += 10
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+    }
+    
+    state.versionDialog.isUpdate = false
+    window.location.reload()
+}
+
 // 查看公告
 getShowNotice()
 async function getShowNotice(){
@@ -316,7 +371,7 @@ function getOsType() {
     }
     return osType
 }
-const { swiper, upcomingSwiper, upcomingIndex, gameList, swiperAutoPlay, tradingDialog,noticeDialog, tradingObj } = toRefs(state)
+const { swiper, upcomingSwiper, upcomingIndex, gameList, swiperAutoPlay, tradingDialog,noticeDialog,versionDialog, tradingObj } = toRefs(state)
 </script>
 <style scoped lang='scss'>
 .home {
@@ -688,6 +743,16 @@ const { swiper, upcomingSwiper, upcomingIndex, gameList, swiperAutoPlay, trading
 
         .van-dialog__footer {
             background-color: #211f32 !important;
+        }
+    }
+    :deep(.versionDialog){
+        .wcontent{
+            padding-top: 30px;
+            padding-bottom: 20px;
+            text-align: center;
+        }
+        .processBar{
+            margin-bottom: 20px;
         }
     }
 
