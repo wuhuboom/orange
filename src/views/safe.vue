@@ -210,7 +210,7 @@ const { safeData } = toRefs(state)
     }
 
     .menubox {
-        margin-top: 253px;
+        margin-top: 223px;
         @include flex();
 
         .item {
@@ -232,7 +232,7 @@ const { safeData } = toRefs(state)
     }
 
     .title {
-        margin-top: 12vh;
+        margin-top: 17vh;
         font-size: 18px;
         color: #fff;
         margin-bottom: 10px;

@@ -17,7 +17,7 @@
                 }}</span>
             </p>
         </div>
-        <div class="sendBox">
+        <div class="sendBox sub">
             <div class="title" style="margin-bottom: 15px;">{{ $t('recharge.pay.method') }}</div>
             <div class="bankList cursor" v-for="(item, index) in channelList" :key="index"
                 :class="{ bankListActive: index === channelIndex }" @click="selectBank(item, index)">
@@ -25,7 +25,7 @@
                     <img :src="item.img" alt="">
                     <div class="cardName">{{ item.name }}</div>
                 </div>
-                <van-icon name="arrow" color="#fff" />
+                <!-- <van-icon name="arrow" color="#fff" /> -->
             </div>
         </div>
 
@@ -140,6 +140,9 @@ const { amount, channelIndex, rechargeInfo, channelList, amountInput } = toRefs(
 
     // @include flex();
     // flex-direction: column;
+    .sub{
+        margin-top: 30px!important;
+    }
     .sendBox {
         width: 100%;
         box-sizing: border-box;
@@ -223,7 +226,7 @@ const { amount, channelIndex, rechargeInfo, channelList, amountInput } = toRefs(
         text-align: left;
         color: #8a929a;
         @include flex(space-between);
-        margin: 14px auto 34px;
+        margin: 10px auto 10px;
 
         .money {
             color: #fff;
