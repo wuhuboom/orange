@@ -213,6 +213,22 @@ const router = createRouter({
           component: () => import("../views/personalInfomation.vue"),
         },
         {
+          path: "loginPwdSet",
+          name: "loginPwdSet",
+          meta: {
+            parentName: "",
+          },
+          component: () => import("../views/loginPwdSet.vue"),
+        },
+        {
+          path: "withdrawPwdSet",
+          name: "withdrawPwdSet",
+          meta: {
+            parentName: "",
+          },
+          component: () => import("../views/withdrawPwdSet.vue"),
+        },
+        {
           path: "cardManage",
           name: "cardManage",
           meta: {
