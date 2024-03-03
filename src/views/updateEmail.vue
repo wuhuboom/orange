@@ -23,24 +23,6 @@
         <div class="confirm cursor" @click="submit">
             {{ $t('modal.confirm.text') }}
         </div>
-        <van-dialog v-model:show="phoneDialog.show" width="310px" className="phoneDialog maxWidth" :showConfirmButton="false"
-            :showCancelButton="false">
-            <template #default>
-                <p class="wtitle">{{ $t('deal.createOrder.354499-23') }}</p>
-                <p class="wcontent">
-                    {{ $t('edit.tip.text',{time:sysConfig.editImportantLogout,name:$t('form.email.text')}) }}
-                </p>
-                 <div class="btn">
-                    <div class="dialogBtn" @click="cancleBindPhone">
-                        {{ $t('index.editor.psd.modal.cancel.btn') }}
-                    </div>
-                      <div class="dialogBtn" @click="bindPhone">
-                        {{ $t('index.editor.psd.modal.confirm.btn') }}
-                    </div>
-                 </div>
-              
-            </template>
-        </van-dialog>
     </div>
 </template>
 <script setup >
@@ -73,21 +55,15 @@ const state = reactive({
 })
 
 onMounted(() => {
-    initPhone()
+    init()
 })
-function initPhone(){
-    if(!accountInfo.value.phone){
-        state.phoneDialog.show=true
+function init(){
+    if(!accountInfo.value.email){
+        router.push({
+            path:'/bindEmail'
+        })
     }
     state.form.oldEmail = accountInfo.value.email
-}
-function cancleBindPhone(){
-    router.go(-1)
-}
-function bindPhone(){
-    router.push({
-        path:'/bindPhone'
-    })
 }
 async function sendVerify() {
     if (state.form.phone === '') {
@@ -125,20 +101,6 @@ function startCountdown() {
 } 
 function getVerifyCode() {
     state.code = state.form.code.replace(/\D/g, '')
-}
-getSysConfig()
-async function getSysConfig(){
-    let url = '/player/auth/sys_config'
-    try {
-        const res = http.get(url)
-        if(res){
-            state.sysConfig = res
-            let options = res.area_code.map(item => areaCodeList.push({ value: item, label: item }))
-            state.verifyObj.options = options
-        }
-    } catch (error) {
-        console.log(error)
-    }
 }
 async function submit() {
     if (state.form.phone === '') {

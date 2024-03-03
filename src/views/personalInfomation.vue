@@ -40,8 +40,8 @@ function maskString(str) {
         return str;
     }
     const maskedPart = '*'.repeat(str.length - 4);
-    const visiblePart = str.slice(-4);
-    return maskedPart + visiblePart;
+    const visiblePart = str.slice(4);
+    return visiblePart + maskedPart;
 }
 function go(item){
     router.push({

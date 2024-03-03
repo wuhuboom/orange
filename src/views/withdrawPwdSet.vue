@@ -1,24 +1,44 @@
 <template>
     <div class="personalInfomation hideScrollbar maxWidth lrPadding">
-        <div class="sendBox">
-            <input type="number" class="hideInputBtn" v-model="newPwd" :placeholder="$t('form.new.password.text')">
-        </div>
-        <div class="sendBox">
-            <input type="number" class="hideInputBtn" v-model="twicePwd" :placeholder="$t('form.confirm.password.text')">
-        </div>
-        <Select :selectedObj="verifyObj" @sendSelectVal="sendSelectVal" />
-        <div class="sendBox">
-            <input type="text" class="hideInputBtn" v-model="verifyText" :placeholder="$t('form.email.text')" v-if="verifyObj.optIndex==1">
-            <input type="text" class="hideInputBtn" v-model="verifyText" :placeholder="$t('form.phoneNum.text')" v-if="verifyObj.optIndex==0">
-        </div>
-        <div class="sendBox">
-            <div class="verifyOpt cursor">
-                <input type="text" class="hideInputBtn" v-model="code" @input="getVerifyCode"
-                    :placeholder="$t('addWalletAddress.verify.code.text')">
-                <div class="sendBtn" @click="sendVerify">
-                    {{ sendBtn }} <span v-if="showSeconds">s</span>
+        <div class="pwdBox lrPadding">
+            <div class="btnOpt cursor">
+                <span :class="{ spanAct: btnIndex === 0 }" @click="changeBtn(0)">{{ $t("backapi.self.edit.change.safe.pwd.usdt") }}</span>
+                <span :class="{ spanAct: btnIndex === 1 }" @click="changeBtn(1)">{{ $t("index.login.forget.text") }}</span>
+            </div>
+            <div class="pwdForm" v-if="btnIndex === 0">
+                <div class="sendBox">
+                    <input type="password" class="hideInputBtn" v-model="form1.origin" :placeholder="$t('ruls.xxx.please', { name: $t('form.pwd2.text') })">
+                </div>
+                <div class="sendBox">
+                    <input type="password" class="hideInputBtn" v-model="form1.newPwd" :placeholder="$t('ruls.xxx.please', { name: $t('form.new.password.text') })">
+                </div>
+                <div class="sendBox">
+                    <input type="password" class="hideInputBtn" v-model="form1.twicePwd" :placeholder="$t('ruls.xxx.please', { name: $t('form.confirm.password.text') })">
                 </div>
             </div>
+            <div v-else>
+                <Select :selectedObj="verifyObj" @sendSelectVal="sendSelectVal" />
+                <div class="sendBox">
+                    <input type="text" class="hideInputBtn" v-model="form2.phone" :placeholder="$t('form.phoneNum.text')" v-if="verifyObj.optIndex==0" :disabled="true">
+                    <input type="text" class="hideInputBtn" v-model="form2.email" :placeholder="$t('form.email.text')" v-if="verifyObj.optIndex==1" :disabled="true">
+                </div>
+                <div class="sendBox">
+                    <div class="verifyOpt cursor">
+                        <input type="text" class="hideInputBtn" v-model="form2.code" @input="getVerifyCode"
+                            :placeholder="$t('addWalletAddress.verify.code.text')">
+                        <div class="sendBtn" @click="sendVerify">
+                            {{ sendBtn }} <span v-if="showSeconds">s</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="sendBox">
+                    <input type="password" class="hideInputBtn" v-model="form2.newPwd" :placeholder="$t('ruls.xxx.please', { name: $t('form.new.password.text') })">
+                </div>
+                <div class="sendBox">
+                    <input type="password" class="hideInputBtn" v-model="form2.twicePwd" :placeholder="$t('ruls.xxx.please', { name: $t('form.confirm.password.text') })">
+                </div>
+            </div>
+             
         </div>
         <div class="confirm cursor" @click="submit">
             {{ $t('modal.confirm.text') }}
@@ -26,23 +46,22 @@
     </div>
 </template>
 <script setup >
-import { reactive, toRefs, onMounted } from 'vue'
+import { reactive, toRefs, onMounted,computed } from 'vue'
 import Select from '@/components/select.vue'
 import { useRouter } from "vue-router";
 import http from '@/utils/axios'
 import { showToast } from 'vant'
 import { useI18n } from 'vue-i18n'
-
+import { useStore } from '@/stores/index'
+const store = useStore()
+const accountInfo = computed(() => store.accountInfo)
 const { t } = useI18n()
 const router = useRouter()
 const state = reactive({
     verifyMetIndex: 1,
     verifyText:'',
     verifyCode: '',
-    newPwd: '',
-    twicePwd: '',
-    code: '',
-    account:{},
+    btnIndex:0,
     verifyObj: {
         title: '',
         dataType: 'verify',
@@ -57,23 +76,38 @@ const state = reactive({
             },
         ],
         selectedVal: t('addWalletAddress.verify.phone.text'),
-        optIndex: 1,
+        optIndex: 0,
     },
     sendBtn: t('forget.send'),
-    showSeconds: false
+    showSeconds: false,
+    form1:{
+        origin:'',
+        newPwd:'',
+        twicePwd:''
+    },
+    form2:{
+        newPwd:'',
+        twicePwd:'',
+        code:'',
+        email:'',
+        phone:''
+    }
 })
-
-onMounted(() => {
-    getPlayInfo()
-})
+function changeBtn(index) {
+  state.btnIndex = index
+  if(state.btnIndex == 1){
+      state.form2.email = accountInfo.value.email
+      state.form2.phone = accountInfo.value.phone
+  }
+}
 function sendSelectVal(data) {
     if (data.type === 'verify') {
         state.verifyObj.selectedVal = data.val.label
         state.verifyObj.optIndex = state.verifyObj.options.find(item => item.label == data.val.label)?.value
         if(!state.verifyObj.optIndex == 0){
-            state.verifyText = state.account.phone
+            state.verifyText = accountInfo.value.phone
         }else{
-            state.verifyText = state.account.email
+            state.verifyText = accountInfo.value.email
         }
     }
 }
@@ -93,7 +127,6 @@ async function sendVerify() {
     let url = urlObj[state.verifyObj.optIndex]
     try {
         const res = state.verifyObj.optIndex === 0 ? await http.post(url) : await http.get(url)
-        // console.log(res);
         if (res.hasOwnProperty('hasSend')) {
             if (!state.showSeconds) {
                 state.sendBtn = 60
@@ -120,40 +153,47 @@ function startCountdown() {
 function getVerifyCode() {
     state.code = state.code.replace(/\D/g, '')
 }
-
-async function getPlayInfo(){
-    let url = '/player/player_info'
-    try {
-        const res = http.get(url)
-        if(res){
-            state.account = res
-        }
-    } catch (error) {
-        console.log(error)
-    }
-}
 async function submit() {
-    if (state.newPwd === '') {
-        showToast(t('ruls.pass.empty'))
-        return
-    }
-    if (state.newPwd != state.twicePwd) {
-        showToast(t('backapi.twicePwdDiff'))
-        return
-    }
-    if (state.twicePwd === '') {
-        showToast(t('ruls.passtwo.empty'))
-        return
-    } 
-    if (state.code === '') {
-        showToast(t('addWalletAddress.verify.code.text'))
-        return
-    }
-    let url = '/player/v2/change_pwd_online'
-    let data = {
-        newPwd: state.newPwd,
-        twicePwd: state.twicePwd,
-        code: state.code
+    let data = {}
+    let url = ''
+    if(state.btnIndex == 0){
+        if (state.form1.origin === '') {
+            showToast(t('ruls.pwd2.empty'))
+            return
+        } 
+        if (state.form1.newPwd === '') {
+            showToast(t('ruls.pass.empty'))
+            return
+        }
+        if (state.form1.newPwd != state.form1.twicePwd) {
+            showToast(t('backapi.twicePwdDiff'))
+            return
+        }
+        if (state.form1.twicePwd === '') {
+            showToast(t('ruls.passtwo.empty'))
+            return
+        } 
+        url ='/player/v2/change_pwd_pay'
+        data = Object.assign({ }, state.form1)
+    }else{
+        if (state.form2.code === '') {
+            showToast(t('addWalletAddress.verify.code.text'))
+            return
+        }
+        if (state.form2.newPwd === '') {
+            showToast(t('ruls.pass.empty'))
+            return
+        }
+        if (state.form2.newPwd != state.form2.twicePwd) {
+            showToast(t('backapi.twicePwdDiff'))
+            return
+        }
+        if (state.form2.twicePwd === '') {
+            showToast(t('ruls.passtwo.empty'))
+            return
+        } 
+        url ='/player/v2/phone_change_pwd_pay'
+         data = Object.assign({ }, state.form2)
     }
     try {
         const res = await http.post(url, data)
@@ -170,7 +210,7 @@ async function submit() {
         console.log(error);
     }
 }
-const { verifyCode, verifyText,newPwd, verifyObj, sendBtn, showSeconds, twicePwd, subBranch,  code } = toRefs(state)
+const { verifyCode, verifyText, verifyObj, sendBtn, showSeconds, subBranch,btnIndex,form1,form2 } = toRefs(state)
 </script>
 <style scoped lang='scss'>
 .personalInfomation {
@@ -179,7 +219,38 @@ const { verifyCode, verifyText,newPwd, verifyObj, sendBtn, showSeconds, twicePwd
     overflow: auto;
     box-sizing: border-box;
     overflow-x: hidden;
+    .pwdBox {
+        width: 100%;
+        border-radius: 10px;
+        /* 设置背景颜色为半透明白色 */
+        backdrop-filter: blur(17px);
+        /* 应用背景模糊效果 */
+        // @include flex(center);
+        box-sizing: border-box;
+        padding-top: 20px;
 
+        .btnOpt {
+            width: 100%;
+            height: 53px;
+            border-radius: 26.5px;
+            background-color: #1d1d25;
+            padding: 4px;
+            color: #fff;
+            @include flex();
+            box-sizing: border-box;
+            margin-bottom: 13px;
+            span {
+                width: 50%;
+                height: 100%;
+                @include flex(center);
+                text-transform: uppercase;
+            }
+            .spanAct {
+                border-radius: 22.5px;
+                background-image: linear-gradient(151deg, #353545 26%, rgba(43, 43, 63, 0.55) 80%);
+            }
+        }
+    }
     .sendBox {
         width: 100%;
         box-sizing: border-box;

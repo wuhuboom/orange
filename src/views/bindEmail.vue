@@ -1,7 +1,7 @@
 <template>
-    <div class="bind-phone hideScrollbar maxWidth lrPadding">
-         <div class="sendBox">
-            <input type="text" class="hideInputBtn" v-model="accountInfo.phone" :disabled="true" :placeholder="$t('password.setting.phone.old.phone.text')">
+    <div class="bind-mail hideScrollbar maxWidth lrPadding">
+        <div class="sendBox">
+             <input type="text" class="hideInputBtn" v-model="form.email" :placeholder="$t('form.email.text')">
         </div>
         <div class="sendBox">
             <div class="verifyOpt cursor">
@@ -12,33 +12,9 @@
                 </div>
             </div>
         </div>
-        <div class="sendBox sendBoxNum">
-             <div class="area-code">
-                <Select :datas="areaCodeList" :defaultVal="form.areaCodeName" @sendSelectVal="sendSelectVal" v-if="areaCodeList.length > 0"/>
-             </div>
-             <input type="text" class="hideInputBtn" v-model="form.phone" :placeholder="$t('form.phoneNum.text')">
-        </div>
         <div class="confirm cursor" @click="submit">
             {{ $t('modal.confirm.text') }}
         </div>
-        <van-dialog v-model:show="phoneDialog.show" width="310px" className="phoneDialog maxWidth" :showConfirmButton="false"
-            :showCancelButton="false">
-            <template #default>
-                <p class="wtitle">{{ $t('deal.createOrder.354499-23') }}</p>
-                <p class="wcontent">
-                    {{ $t('edit.tip.text',{time:sysConfig.editImportantLogout,name:$t('form.phoneNum.text')}) }}
-                </p>
-                 <div class="btn">
-                    <div class="dialogBtn" @click="cancleBindPhone">
-                        {{ $t('index.editor.psd.modal.cancel.btn') }}
-                    </div>
-                      <div class="dialogBtn" @click="bindPhone">
-                        {{ $t('index.editor.psd.modal.confirm.btn') }}
-                    </div>
-                 </div>
-              
-            </template>
-        </van-dialog>
     </div>
 </template>
 <script setup >
@@ -51,64 +27,44 @@ import { useI18n } from 'vue-i18n'
 import { useStore } from '@/stores/index'
 const store = useStore()
 const accountInfo = computed(() => store.accountInfo)
+
 const { t } = useI18n()
 const router = useRouter()
 const state = reactive({
     verifyMetIndex: 1,
     verifyText:'',
     sysConfig:{},
-    oldPhoneStr:'',
-    areaCodeList:[],
     form:{
-        phone: '',
-        areaCode: '',
-        code: '',
-        areaCodeName:''
-    },
-    phoneDialog:{
-        show:false
+        email: '',
+        code: ''
     },
     sendBtn: t('forget.send'),
     showSeconds: false
 })
 
 onMounted(() => {
-    initPhone()
+    
 })
-function initPhone(){
-    if(!accountInfo.value.phone){
-        state.phoneDialog.show=true
-    }
-}
-function cancleBindPhone(){
-    router.go(-1)
-}
-function bindPhone(){
-    router.push({
-        path:'/bindPhone'
-    })
-}
-function sendSelectVal(data) {
-    state.form.areaCode = data.value
-}
 async function sendVerify() {
-    if (state.form.phone === '') {
-        showToast(t('ruls.phone.empty'))
+    if (state.form.email === '') {
+        showToast(t('ruls.email.empty'))
         return
     }
-    let url = '/player/v2/phone_code'
+    let url = '/player/mail/code'
     try {
         let para = {
-            phone: state.form.phone
+            email: state.form.email
         }
         const res = await http.post(url,para)
-        // console.log(res);
         if (res.hasOwnProperty('hasSend')) {
             if (!state.showSeconds) {
                 state.sendBtn = 60
                 startCountdown()
             }
             showToast(t('form.verift.send.text'))
+            return
+        }else{
+            showToast(res.msg)
             return
         }
     } catch (error) {
@@ -129,43 +85,27 @@ function startCountdown() {
 function getVerifyCode() {
     state.code = state.form.code.replace(/\D/g, '')
 }
-getSysConfig()
-async function getSysConfig(){
-    let url = '/player/auth/sys_config'
-    try {
-        const res = await http.get(url)
-        if(res){
-            state.sysConfig = res
-             res.area_code.map(item => state.areaCodeList.push({ value: item, name: '+' + item }))
-            state.form.areaCode = state.areaCodeList[0]?.value
-            state.form.areaCodeName = state.areaCodeList[0]?.name
-        }
-    } catch (error) {
-        console.log(error)
-    }
-}
 async function submit() {
-    if (state.form.phone === '') {
-        showToast(t('ruls.phone.empty'))
+    if (state.form.email === '') {
+        showToast(t('ruls.email.empty'))
         return
     }
     if (state.form.code === '') {
         showToast(t('ruls.vercode.empty'))
         return
     }
-    let url = '/player/v2/phone_bind'
+    let url = '/player/mail/bind'
     let data = {
-        phone: state.form.phone,
-        code: state.form.code,
-        areaCode: state.form.areaCode
+        email: state.form.email,
+        code: state.form.code
     }
     try {
         const res = await http.post(url, data)
         if (res === null) {
             showToast(t('tips.success.text'))
-            state.form.phone = ''
+            state.form.email = ''
             state.form.code = ''
-            state.form.areaCode = ''
+            store.getUserInfo()
             setTimeout(() => {
                 router.go(-1)
             }, 500);
@@ -174,10 +114,10 @@ async function submit() {
         console.log(error);
     }
 }
-const { form, verifyText, verifyObj, sendBtn, showSeconds, subBranch,areaCodeList,sysConfig,phoneDialog } = toRefs(state)
+const { form, verifyText, verifyObj, sendBtn, showSeconds, subBranch } = toRefs(state)
 </script>
 <style scoped lang='scss'>
-.bind-phone {
+.bind-mail {
     height: 100%;
     background-color: #0b0b0b;
     overflow: auto;
@@ -415,41 +355,6 @@ const { form, verifyText, verifyObj, sendBtn, showSeconds, subBranch,areaCodeLis
 
     .showBetPanel {
         height: 50vh;
-    }
-    :deep(.phoneDialog) {
-        border-radius: 16px;
-        background-image: linear-gradient(to bottom, #252531, rgba(24, 24, 38, 0.96));
-        padding: 0 30px;
-
-        .wtitle {
-            font-size: 18px;
-            text-align: center;
-            padding-top: 15px;
-            color: #fff;
-        }
-
-        .wcontent {
-             padding-top: 20px;
-             color: #fff;
-             line-height: 16px;
-        }
-
-        .btn{
-            @include flex(space-between,center);
-            .dialogBtn {
-                @include flex();
-                height: 48px;
-                justify-content: center;
-                flex: 1;
-                border-radius: 16px;
-                color: #fff;
-                background-color: $btnBgColor;
-                margin: 18px 10px 26px 0;
-            }
-        }
-        .van-dialog__footer {
-            background-color: #211f32 !important;
-        }
     }
 }
 </style>

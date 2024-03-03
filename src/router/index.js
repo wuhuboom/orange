@@ -253,6 +253,14 @@ const router = createRouter({
           component: () => import("../views/bindPhone.vue"),
         },
         {
+          path: "bindEmail",
+          name: "bindEmail",
+          meta: {
+            parentName: "bindEmail",
+          },
+          component: () => import("../views/bindEmail.vue"),
+        },
+        {
           path: "cardManage",
           name: "cardManage",
           meta: {
