@@ -91,9 +91,9 @@ const state = reactive({
     langTarget: 'EN',
     menuIndex: -1,
     langList: [
-        // {
-        //     name: 'ZH'
-        // },
+        {
+            name: 'ZH'
+        },
         {
             name: 'EN'
         },

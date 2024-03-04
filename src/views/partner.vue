@@ -11,7 +11,7 @@
             <div class="item balance">
                 <img :src="getImg('partner', 'balance')" alt="">
                 <p class="name">{{ $t('send.balance.text') }}</p>
-                <p class="num"><span>$ </span>{{ partnerObj.totalBalance || 0 }}</p>
+                <p class="num"><span> </span>{{ partnerObj.totalBalance / 100 || 0 }}</p>
             </div>
             <div class="item trade">
                 <img :src="getImg('partner', 'trade')" alt="">
@@ -21,7 +21,7 @@
             <div class="item win">
                 <img :src="getImg('partner', 'win')" alt="">
                 <p class="name">{{ $t('partner.winning.text') }}</p>
-                <p class="num"><span>$ {{ partnerObj?.netProfit || 0 }} </span></p>
+                <p class="num"><span> {{ partnerObj?.netProfit || 0 }} </span></p>
             </div>
         </div>
         <div class="tabs">
@@ -113,7 +113,6 @@ async function getTeamData(index, key = '') {
             }
         }
         state.partnerObj = { ...state.partnerObj, ...res }
-        console.log(state.partnerObj);
         if (state.partnerObj.hasOwnProperty('groupUnAim')) {
             state.groupUnAim = state.partnerObj.groupUnAim
         }
@@ -121,32 +120,33 @@ async function getTeamData(index, key = '') {
             state.groupAim = state.partnerObj.groupAim
             state.passRate = getPercent(state.partnerObj.groupAim, 100)
         }
+        console.log(state.partnerObj)
     } catch (error) {
         console.log(error);
     }
 }
-// getUserList()
-// async function getUserList() {
-//     let url = '/player/sub_players'
-//     let data = {
-//         pageNo: state.page.pageNo,
-//         pageSize: state.page.pageSize
-//     }
-//     try {
-//         const res = await http.post(url, data)
-//         console.log(
-//             '%c res: ',
-//             'background-color: #3756d4; padding: 4px 8px; border-radius: 2px; font-size: 14px; color: #fff; font-weight: 700;',
-//             res
-//         )
-//         state.userArr = [...state.userArr, ...res.results] || []
-//         state.page.pageNo = res.pageNo
-//         state.page.pageSize = res.pageSize
-//         state.page.hasNext = res.hasNext
-//     } catch (error) {
-//         console.log(error);
-//     }
-// }
+getUserList()
+async function getUserList() {
+    let url = '/player/sub_players'
+    let data = {
+        pageNo: state.page.pageNo,
+        pageSize: state.page.pageSize
+    }
+    try {
+        const res = await http.post(url, data)
+        console.log(
+            '%c res: ',
+            'background-color: #3756d4; padding: 4px 8px; border-radius: 2px; font-size: 14px; color: #fff; font-weight: 700;',
+            res
+        )
+        state.userArr = [...state.userArr, ...res.results] || []
+        state.page.pageNo = res.pageNo
+        state.page.pageSize = res.pageSize
+        state.page.hasNext = res.hasNext
+    } catch (error) {
+        console.log(error);
+    }
+}
 function handleClickTab(item, index) {
     state.tabsIndex = index
     getTeamData(1)
@@ -202,8 +202,12 @@ const { tabsIndex, groupUnAim, groupAim, partnerObj, passRate, userArr } = toRef
             background-color: #ff7c43;
             @include flex(flex-start, flex-start);
             flex-direction: column;
-            padding: 10px 16px;
+            padding: 10px 10px;
             box-sizing: border-box;
+            
+            overflow: hidden; /* 超出部分隐藏 */
+            text-overflow: ellipsis; /* 添加省略号表示被裁切的文本 */
+            white-space: nowrap; /* 保持单行显示 */
 
             img {
                 width: 34px;
@@ -220,7 +224,6 @@ const { tabsIndex, groupUnAim, groupAim, partnerObj, passRate, userArr } = toRef
                 font-size: 15px;
                 font-weight: bold;
                 color: #fff;
-
             }
         }
 

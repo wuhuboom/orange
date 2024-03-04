@@ -1,5 +1,5 @@
 window.config = {
   UNIFIED_NUMBER: 10000,
-  baseUrl: "https://api.uunn.org",
+  baseUrl: "https://apiapi.uunn.org",
   //   MSG_BELL: "1",
 };

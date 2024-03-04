@@ -75,22 +75,22 @@ const route = useRoute()
 
 const state = reactive({
     tabArr: [
-         {
-            name: t('match.all.text'),
-            id: 0,
-        },
         {
-            name: t('match.today.text'),
+            name: t('rebateReport.select.today.text'),
             id: 1,
         },
         {
-            name: t('match.records.yes.text'),
+            name: t('rebateReport.select.yesterday.text'),
             id: 2,
         },
         {
-            name: t('match.records.nearly7.text'),
-            id: 7,
+            name: t('rebateReport.select.week.text'),
+            id: 3,
         },
+        // {
+        //     name: t('rebateReport.select.month.text'),
+        //     id: 5,
+        // },
     ],
     tabIndex: 0,
     typeArr: [
@@ -101,7 +101,7 @@ const state = reactive({
             name: t('leftNav.withdrawal.text')
         },
         {
-            name: t('fundsRecords.balance.text')
+            name: t('fundsRecords.Balance.text')
         },
     ],
     typeIndex: 0,
@@ -355,7 +355,7 @@ async function getDeposit(val) {
         pageSize: state.page.pageSize
     }
     if(id != 0){
-         data.time= state.tabArr[state.tabIndex].id
+        data.time= state.tabArr[state.tabIndex].id
     }
     state.loading = true
     try {
