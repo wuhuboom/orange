@@ -40,7 +40,7 @@
                 <p>{{ $t('partner.not.up.to.par') }}: <span class="blue">{{ partnerObj?.groupUnAim || 0 }}</span></p>
             </div>
             <div class="p_right">
-                <van-circle v-model:current-rate="groupAim" :speed="100" :rate="groupUnAim" color="#0b4de6"
+                <van-circle v-model:current-rate="groupUnAim" :speed="100" :rate="100" color="#0b4de6"
                     layer-color="#ff7c43" :stroke-width="80" :text="passRate" />
             </div>
         </div>
@@ -107,6 +107,7 @@ const tabArr = computed(() => {
 loadData()
 getTeamData(1)
  async function loadData(){
+    state.loadCircle.curRate = 100
     state.loadCircle.show = true
     let process = 0
     while(process < 100){
@@ -116,8 +117,6 @@ getTeamData(1)
         state.loadCircle.curRate = process
         state.loadCircle.text = state.loadCircle.curRate + '%'
     }
-    state.loadCircle.curRate = 0
-    state.loadCircle.text = state.loadCircle.curRate + '%'
     state.loadCircle.show = false
 }
 async function getTeamData(index, key = '') {
@@ -139,8 +138,9 @@ async function getTeamData(index, key = '') {
         state.partnerObj = { ...state.partnerObj, ...res }
         if (state.partnerObj.hasOwnProperty('groupUnAim') && state.partnerObj.hasOwnProperty('groupAim')) {
             state.groupAim = 0
-            state.groupUnAim = state.partnerObj.groupUnAim / (state.partnerObj.groupUnAim + state.partnerObj.groupAim) * 100
-            state.passRate = getPercent(state.partnerObj.groupAim, 100)
+            state.groupUnAim = (state.partnerObj.groupUnAim / (state.partnerObj.groupUnAim + state.partnerObj.groupAim) * 100 || 0).toFixed(2)
+            state.passRate = state.groupUnAim + '%'
+            console.log(state.passRate,state.groupUnAim )
         }
     } catch (error) {
         console.log(error);
@@ -170,6 +170,7 @@ async function getUserList() {
 }
 function handleClickTab(item, index) {
     state.tabsIndex = index
+    loadData()
     getTeamData(1)
 }
 const { tabsIndex, groupUnAim, groupAim, partnerObj, passRate, userArr,loadCircle } = toRefs(state)
