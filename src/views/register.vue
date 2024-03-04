@@ -55,14 +55,14 @@
 <script setup>
 import { reactive, toRefs, onMounted } from 'vue'
 import { getImg } from '@/utils/utils'
-import { useRouter } from 'vue-router';
+import { useRouter,useRoute } from 'vue-router';
 import http from "@/utils/axios";
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
 
 const router = useRouter()
-
+const route = useRoute()
 const state = reactive({
   userInfo: [
     {
@@ -99,7 +99,7 @@ const state = reactive({
       name: 'invitationCode',
       imgIcon: 'rCode',
       type: 'text',
-      val: '',
+      val: route.query.code || '',
       error: false,
       iconFile: 'register',
       errorText: t('register.referralErrorText'),

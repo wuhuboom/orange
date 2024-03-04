@@ -138,7 +138,7 @@ const listArr = computed(() => {
             menu: [
                 {
                     name: t('leftNav.marketList.text'),
-                    link: '',
+                    link: '/match',
                     highlight: false
                 },
                 {

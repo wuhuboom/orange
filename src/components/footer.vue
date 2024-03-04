@@ -48,11 +48,17 @@ const list = computed(() => {
             fname: 'order',
             link: '/order'
         },
+        // {
+        //     icon: 'funds',
+        //     name: t('footer.safe'),
+        //     fname: 'safe',
+        //     link: '/safe'
+        // },
         {
-            icon: 'funds',
-            name: t('footer.safe'),
-            fname: 'safe',
-            link: '/safe'
+            icon: 'result',
+            name: t('footer.result'),
+            fname: 'result',
+            link: '/result'
         },
         // {
         //     icon: 'funds',

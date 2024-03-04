@@ -57,7 +57,9 @@ async function downLoadImg() {
 }
 watchEffect(async () => {
     if (accountInfo.value.invitationCode) {
-        state.shareLink = `${window.location.href}?code=${accountInfo.value.invitationCode}`
+        let url = window.location.href
+        url = url.replace('/invite','') + '/register';
+        state.shareLink = `${url}?code=${accountInfo.value.invitationCode}`
         // console.log(state.shareLink);
         const qrCodeCanvas = document.createElement('canvas');
         qrCodeCanvas.width = 194; // 根据需要调整二维码尺寸

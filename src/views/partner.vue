@@ -57,6 +57,10 @@
                 </p>
             </div>
         </div>
+        <div class="loading-div" v-if="loadCircle.show">
+             <van-circle v-model:current-rate="loadCircle.curRate" :speed="100" :rate="loadCircle.rate" color="#0b4de6" size="150px"
+                    layer-color="#ffffff" :stroke-width="80" :text="loadCircle.text" />
+        </div>
     </div>
 </template>
 <script setup >
@@ -72,6 +76,12 @@ const state = reactive({
     groupUnAim: 0,
     groupAim: 0,
     passRate: '',
+    loadCircle: {
+        show:false,
+        curRate: 0,
+        rate:100,
+        text:''
+    },
     page: {
         pageNo: 1,
         pageSize: 10,
@@ -94,7 +104,22 @@ const tabArr = computed(() => {
         },
     ]
 })
+loadData()
 getTeamData(1)
+ async function loadData(){
+    state.loadCircle.show = true
+    let process = 0
+    while(process < 100){
+        var randomNum = Math.floor(Math.random() * 10 + 1);
+        process += 10 + randomNum
+        await new Promise((resolve) => setTimeout(resolve, 500));
+        state.loadCircle.curRate = process
+        state.loadCircle.text = state.loadCircle.curRate + '%'
+    }
+    state.loadCircle.curRate = 0
+    state.loadCircle.text = state.loadCircle.curRate + '%'
+    state.loadCircle.show = false
+}
 async function getTeamData(index, key = '') {
     let url = `/player/data_center/${index}`
     let data = {
@@ -108,19 +133,15 @@ async function getTeamData(index, key = '') {
         if (res?.key) {
             index += 1
             if (index < 7) {
-                console.log(index);
                 getTeamData(index, res.key)
             }
         }
         state.partnerObj = { ...state.partnerObj, ...res }
-        if (state.partnerObj.hasOwnProperty('groupUnAim')) {
-            state.groupUnAim = state.partnerObj.groupUnAim
-        }
-        if (state.partnerObj.hasOwnProperty('groupAim')) {
-            state.groupAim = state.partnerObj.groupAim
+        if (state.partnerObj.hasOwnProperty('groupUnAim') && state.partnerObj.hasOwnProperty('groupAim')) {
+            state.groupAim = 0
+            state.groupUnAim = state.partnerObj.groupUnAim / (state.partnerObj.groupUnAim + state.partnerObj.groupAim) * 100
             state.passRate = getPercent(state.partnerObj.groupAim, 100)
         }
-        console.log(state.partnerObj)
     } catch (error) {
         console.log(error);
     }
@@ -151,7 +172,7 @@ function handleClickTab(item, index) {
     state.tabsIndex = index
     getTeamData(1)
 }
-const { tabsIndex, groupUnAim, groupAim, partnerObj, passRate, userArr } = toRefs(state)
+const { tabsIndex, groupUnAim, groupAim, partnerObj, passRate, userArr,loadCircle } = toRefs(state)
 </script>
 <style scoped lang='scss'>
 .partner {
@@ -160,7 +181,16 @@ const { tabsIndex, groupUnAim, groupAim, partnerObj, passRate, userArr } = toRef
     box-sizing: border-box;
     padding-top: 13px;
     overflow: auto;
-
+    .loading-div{
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(255, 255, 255, 0.8);
+        z-index: 999;
+        @include flex(center);
+    }
     .totalData {
         // width: 351px;
         height: 60px;
@@ -286,7 +316,10 @@ const { tabsIndex, groupUnAim, groupAim, partnerObj, passRate, userArr } = toRef
             }
 
             .mt {
-                margin-top: 30px;
+                margin-top: 30px!important;
+            }
+            p{
+                margin-top: 3px;
             }
         }
 
