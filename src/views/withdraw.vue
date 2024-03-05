@@ -274,10 +274,15 @@ function selectBank(item, index) {
     } else if (item.name === 'USDT') {
         state.currentWAList = state.usdtWallet
     }
-    state.isShowWalletPanel = true
-    state.rechargeInfo = item
-    state.channelIndex = index
-    item.showCurrWallet = !item.showCurrWallet
+     state.rechargeInfo = item
+     state.channelIndex = index
+    if(state.currentWAList.length == 0){
+        addWalletPage()
+    }else{
+        state.isShowWalletPanel = true
+       
+        item.showCurrWallet = !item.showCurrWallet
+    }
 }
 // 选择钱包地址
 function selectWallet(k, j,) {

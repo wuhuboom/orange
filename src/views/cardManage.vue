@@ -3,7 +3,7 @@
         <div class="card-item"  v-for="(item,index) in cardList" :key="index" :class="'bgImg'+ index">
             <div class="row1">
                 <span class="l_left">{{item.bankName}}</span>
-                <img :src="getImg('card', 'delete')" class="iconImg" @click="deleteCard(item)">
+                <!-- <img :src="getImg('card', 'delete')" class="iconImg" @click="deleteCard(item)"> -->
             </div>
             <div class="row2">
                 <span>{{splitNum(item.cardNumber)}}</span>
@@ -44,7 +44,12 @@ function deleteCard(item) {
     
 }
 function editCard(item){
-
+    router.push({
+        path:'/editBankCard',
+        query:{
+            card:JSON.stringify(item)
+        }
+    })
 }
 function addCard(){
     router.push({
@@ -62,7 +67,7 @@ async function getBankCard() {
         // state.cardList.push(
         //     {
         //     "createdAt": "日期",
-        //     "bankName": "银行名",
+        //     "bankName": "CREDIT AGRICOLE",
         //     "backEncoding": "银行编码",
         //     "cardNumber": "123452651854123",
         //     "cardName": "卡姓名",

@@ -145,6 +145,17 @@ const headerObj = computed(() => {
             isShowRightMoney: false,
             bgColor: "#0b0b0b",
         },
+        editBankCard: {
+            leftIcon: "back",
+            leftIconWidth: "32px",
+            leftIconHeight: "32px",
+            center: t('backapi.self.edit.bankcard'),
+            rightIcon: "",
+            rightIconWidth: "18px",
+            rightIconHeight: "18px",
+            isShowRightMoney: false,
+            bgColor: "#0b0b0b",
+        },
         addWallet: {
             leftIcon: "back",
             leftIconWidth: "32px",
