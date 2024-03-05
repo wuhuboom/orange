@@ -59,3 +59,8 @@ export const getPercent = (numSuc, numCount) => {
   }
   return `${percent}%`;
 };
+//格式化金额
+export const fomarNoney = (num) => {
+  let res = (Number(num) / window?.config?.UNIFIED_NUMBER).toFixed(2);
+  return Number(res);
+};

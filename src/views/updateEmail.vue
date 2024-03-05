@@ -5,6 +5,14 @@
         </div>
         <div class="sendBox">
             <div class="verifyOpt cursor">
+                <input type="text" class="hideInputBtn" v-model="form.email" :placeholder="$t('form.email.text')">
+                <div class="append-str">
+                {{form.append}}
+                </div>
+            </div>
+        </div>
+        <div class="sendBox">
+            <div class="verifyOpt cursor">
                 <input type="text" class="hideInputBtn" v-model="form.code" @input="getVerifyCode"
                     :placeholder="$t('form.vercode.text')">
                 <div class="sendBtn" @click="sendVerify">
@@ -12,14 +20,7 @@
                 </div>
             </div>
         </div>
-        <div class="sendBox">
-             <div class="verifyOpt cursor">
-                <input type="text" class="hideInputBtn" v-model="form.email" :placeholder="$t('form.email.text')">
-                <div class="append-str">
-                 {{form.append}}
-                </div>
-            </div>
-        </div>
+        
         <div class="confirm cursor" @click="submit">
             {{ $t('modal.confirm.text') }}
         </div>
@@ -66,14 +67,14 @@ function init(){
     state.form.oldEmail = accountInfo.value.email
 }
 async function sendVerify() {
-    if (state.form.phone === '') {
+    if (state.form.email === '') {
         showToast(t('ruls.email.empty'))
         return
     }
     let url = '/player/mail/code'
     try {
         let para = {
-            email: state.form.oldEmail
+            email: state.form.email + state.form.append
         }
         const res = await http.post(url,para)
         if (res.hasOwnProperty('hasSend')) {

@@ -2,8 +2,12 @@
     <div class="personalInfomation hideScrollbar maxWidth lrPadding">
         <div class="pwdBox lrPadding">
             <div class="btnOpt cursor">
-                <span :class="{ spanAct: btnIndex === 0 }" @click="changeBtn(0)">{{ $t("backapi.self.edit.change.safe.pwd.usdt") }}</span>
-                <span :class="{ spanAct: btnIndex === 1 }" @click="changeBtn(1)">{{ $t("index.login.forget.text") }}</span>
+                <div :class="{ spanAct: btnIndex === 0 }" @click="changeBtn(0)">
+                    <span>{{ $t("backapi.self.edit.change.safe.pwd.usdt") }}</span>
+                </div>
+                <div :class="{ spanAct: btnIndex === 1 }" @click="changeBtn(1)">
+                    <span>{{ $t("index.login.forget.text") }}</span>
+                </div>
             </div>
             <div class="pwdForm" v-if="btnIndex === 0">
                 <div class="sendBox">
@@ -239,12 +243,19 @@ const { verifyCode, verifyText, verifyObj, sendBtn, showSeconds, subBranch,btnIn
             @include flex();
             box-sizing: border-box;
             margin-bottom: 13px;
-            span {
+            div{
                 width: 50%;
                 height: 100%;
                 @include flex(center);
                 text-transform: uppercase;
+                span {
+                    width: 100%;
+                    display: block;
+                    margin: 0 auto;
+                    text-align: center;
+                }
             }
+            
             .spanAct {
                 border-radius: 22.5px;
                 background-image: linear-gradient(151deg, #353545 26%, rgba(43, 43, 63, 0.55) 80%);

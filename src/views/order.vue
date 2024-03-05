@@ -12,7 +12,11 @@
                 <div class="lItem" v-for="(item, index) in dataList" :key="index">
                     <div class="lTop">
                         <div class="topBox">
-                            <div class="name">{{ item.allianceName }}</div>
+                            <div class="name">
+                                <span>{{ item.gameInfo1 }}</span>
+                                <span class="vs">VS</span>
+                                <span>{{ item.gameInfo2 }}</span>
+                            </div>
                             <div class="date">{{ item.ymd }}</div>
                         </div>
                         <div class="statusBox">
@@ -49,7 +53,7 @@
                             <!-- {{ item.statusSettlement === 0 ? $t('order.inProgress.text') : $t('table.head.detail.text') }}
                             <img v-if="item.statusSettlement === 1" src="../assets/images/common/arrow_right.webp" alt=""
                                 style="width: 14px;height: 14px;"> -->
-                            {{ $t(`order.orderInfo.statusOpen${item.statusOpen}`) }}
+                            {{ $t(`table.head.detail.text`) }}
                         </div>
                     </div>
                 </div>
@@ -192,6 +196,16 @@ async function orderList(val) {
         state.page.pageNo = res.pageNo
         state.page.pageSize = res.pageSize
         state.page.hasNext = res.hasNext
+        if(res.results){
+            for(var i=0;i<res.results?.length;i++){
+                var item = res.results[i]
+                if(item.gameInfo){
+                    var names = item.gameInfo.split("VS")
+                    item.gameInfo1 = names[0]
+                    item.gameInfo2 = names[1]
+                }
+            }
+        }
         state.dataList = [...state.dataList, ...res.results]
         state.listStatus.loading = false
         state.listStatus.refreshing = false
@@ -318,18 +332,28 @@ const { tabsArr, tabIndex, dataList, listStatus, cancelShow, orderShow, orderInf
 
             .topBox {
                 width: 100%;
-                @include flex();
+                @include flex(space-between,center);
 
                 .name {
                     font-family: SFProText;
                     font-size: 14px;
                     font-weight: 500;
                     color: #fff;
-                    width: 250px;
-                    display: flex;
+                    width: 60%;
+                    @include flex(space-between);
                     flex-wrap: wrap;
+                    span{
+                        display: block;
+                        width: 40%;
+                        text-align: left;
+                        white-space: nowrap;
+                        overflow: hidden;
+                        text-overflow:ellipsis;
+                    }
+                    .vs{
+                        width: 30px!important;
+                    }
                 }
-
                 .date {
                     font-size: 12px;
                     color: #8d8d8d;
@@ -351,7 +375,7 @@ const { tabsArr, tabIndex, dataList, listStatus, cancelShow, orderShow, orderInf
                     .profit {
                         font-size: 14px;
                         color: #fff;
-                        margin-top: 2px;
+                        margin-top: 6px;
 
                         .num {
                             color: #8d8d8d;
@@ -382,7 +406,7 @@ const { tabsArr, tabIndex, dataList, listStatus, cancelShow, orderShow, orderInf
 
         .lBottom {
             @include flex(space-between);
-            padding: 12px 11px 12px 12px;
+            padding: 6px 11px 6px 12px;
             background-color: #1c1c1c;
             border-bottom-left-radius: 8px;
             border-bottom-right-radius: 8px;
@@ -395,9 +419,9 @@ const { tabsArr, tabIndex, dataList, listStatus, cancelShow, orderShow, orderInf
             .btn {
                 height: 24px;
                 line-height: 24px;
-                padding: 5px 8px 5px 10px;
+                padding: 2px 15px 2px 15px;
                 border-radius: 8px;
-                background-color: rgba(93, 86, 105, 0.48);
+                background-color: $btnBgColor;
                 font-size: 12px;
                 color: #fff;
                 @include flex();

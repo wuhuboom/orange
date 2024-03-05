@@ -144,7 +144,7 @@ const state = reactive({
   showCheckedBordr: false,
   showCheckedAnimate: false,
   verificationObj: {},
-  inputIndex: -1,
+  inputIndex: -1
 })
 function showSelect() {
   state.showAreaCodeOpt = !state.showAreaCodeOpt

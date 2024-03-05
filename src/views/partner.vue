@@ -11,7 +11,7 @@
             <div class="item balance">
                 <img :src="getImg('partner', 'balance')" alt="">
                 <p class="name">{{ $t('send.balance.text') }}</p>
-                <p class="num"><span> </span>{{ partnerObj.totalBalance / 100 || 0 }}</p>
+                <p class="num"><span> </span>{{ partnerObj.totalBalance / unitNum || 0 }}</p>
             </div>
             <div class="item trade">
                 <img :src="getImg('partner', 'trade')" alt="">
@@ -21,7 +21,7 @@
             <div class="item win">
                 <img :src="getImg('partner', 'win')" alt="">
                 <p class="name">{{ $t('partner.winning.text') }}</p>
-                <p class="num"><span> {{ partnerObj?.netProfit || 0 }} </span></p>
+                <p class="num"><span> {{ partnerObj?.netProfit / unitNum  || 0 }} </span></p>
             </div>
         </div>
         <div class="tabs">
@@ -86,7 +86,9 @@ const state = reactive({
         pageNo: 1,
         pageSize: 10,
     },
-    userArr: []
+    userArr: [],
+    unitNum:window.config.UNIFIED_NUMBER 
+
 })
 const tabArr = computed(() => {
     return [
@@ -173,7 +175,7 @@ function handleClickTab(item, index) {
     loadData()
     getTeamData(1)
 }
-const { tabsIndex, groupUnAim, groupAim, partnerObj, passRate, userArr,loadCircle } = toRefs(state)
+const { tabsIndex, groupUnAim, groupAim, partnerObj, passRate, userArr,loadCircle,unitNum } = toRefs(state)
 </script>
 <style scoped lang='scss'>
 .partner {

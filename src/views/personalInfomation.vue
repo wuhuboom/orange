@@ -26,7 +26,7 @@ const state = reactive({
     menulist: [
         { name: t('personal.menu.password'), path: '/loginPwdSet',showIcon:true,showText:'' },
         { name: t('personal.menu.withdrawpwd'), path: '/withdrawPwdSet',showIcon:true,showText:'' },
-        { name: t('personal.menu.phone'), path: '/updatePhone',showIcon:true,showText:maskString(accountInfo.value.phone) },
+        { name: t('personal.menu.phone'), path: '/updatePhone',showIcon:true,showText:accountInfo.value.phone },
         { name: t('personal.menu.email'), path: '/updateEmail',showIcon:true,showText:accountInfo.value.email },
         { name: t('personal.menu.loginlog'), path: '',showIcon:false,showText:getLoginLog() },
     ]

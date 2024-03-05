@@ -59,20 +59,20 @@ async function getBankCard() {
         if(res){
             state.cardList.push(res)
         }
-        state.cardList.push(
-            {
-            "createdAt": "日期",
-            "bankName": "银行名",
-            "backEncoding": "银行编码",
-            "cardNumber": "123452651854123",
-            "cardName": "卡姓名",
-            "country": "国家",
-            "province": "省",
-            "city": "市",
-            "subBranch": "支行名",
-            "img": "withdraw/2503090ee177451d85ac4e7eea5d42f5.jpg",
-            }
-        )
+        // state.cardList.push(
+        //     {
+        //     "createdAt": "日期",
+        //     "bankName": "银行名",
+        //     "backEncoding": "银行编码",
+        //     "cardNumber": "123452651854123",
+        //     "cardName": "卡姓名",
+        //     "country": "国家",
+        //     "province": "省",
+        //     "city": "市",
+        //     "subBranch": "支行名",
+        //     "img": "withdraw/2503090ee177451d85ac4e7eea5d42f5.jpg",
+        //     }
+        // )
     } catch (error) {
         console.log(error);
     }

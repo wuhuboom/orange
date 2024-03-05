@@ -49,7 +49,7 @@
                                 getTabName(item?.balanceChangeType) }}</span>
 
                             <span class="color10ab61" v-if="typeIndex === 0 || typeIndex === 1"
-                                :style="{ color: statusList[item.status]?.color }">{{ getStatus(item.status)
+                                :style="{ color: typeArr[typeIndex].statusList[item.status-1]?.color }">{{ getStatus(item.status)
                                 }}</span>
                             <span class="rLeft" v-if="typeIndex === 2">{{ $t('fundsRecords.initMoney.text') }}:{{
                                 getAmount(item?.initMoney) }}</span>
@@ -95,10 +95,65 @@ const state = reactive({
     tabIndex: 0,
     typeArr: [
         {
-            name: t('leftNav.recharge.text')
+            name: t('leftNav.recharge.text'),
+            statusList: [
+                {
+                    label: t("order.search.all.text"),
+                    active: true,
+                    color: '#9F9F9F'
+                },
+                {
+                    label: t("recharge.record.status.pendding.text"),
+                    active: false,
+                    color: '#B5DB1C'
+                },
+                {
+                    label: t("recharge.record.status.paid.text"),
+                    active: false,
+                    color: '#B5DB1C'
+                },
+                {
+                    label: t("recharge.record.status.scored.text"),
+                    active: false,
+                    color: '#FF0000'
+                },
+                {
+                    label: t("recharge.record.status.pay.timeout.text"),
+                    active: false,
+                    color: '#fff'
+                }
+            ],
         },
         {
-            name: t('leftNav.withdrawal.text')
+            name: t('leftNav.withdrawal.text'),
+            statusList: [{
+                label: t('withdraw.record.status.need.audit.text'),
+                color: '#9F9F9F'
+            }, {
+                label: t('withdraw.record.status.already.audit.text'),
+                color: '#9F9F9F'
+            }, {
+                label: t('withdraw.record.status.fail.text'),
+                color: '#B5DB1C'
+            }, {
+                label: t('withdraw.record.status.withdraw.success.text'),
+                color: '#FF0000'
+            }, {
+                label: t('withdraw.record.status.paid.in.text'),
+                color: '#FF0000'
+            }, {
+                label: t('backapi.self.pay.failed.text'),
+                color:'#fff'
+            }, {
+                label: t('withdraw.record.status.operation.in.text'),
+                color:'#fff'
+            }, {
+                label: t('withdraw.record.status.redo.in.text'),
+                color:'#fff'
+            }, {
+                label: t('backapi.self.pay.failed.text'),
+                color:'#fff'
+            }]
         },
         {
             name: t('fundsRecords.Balance.text')
@@ -111,35 +166,6 @@ const state = reactive({
         pageSize: 10
     },
     recordList: [],
-
-    statusList: [
-        {
-            label: t("order.search.all.text"),
-            active: true,
-            color: '#9F9F9F'
-        },
-        {
-            label: t("recharge.record.status.pendding.text"),
-            active: false,
-            color: '#B5DB1C'
-        },
-        {
-            label: t("recharge.record.status.paid.text"),
-            active: false,
-            color: '#B5DB1C'
-        },
-        {
-            label: t("recharge.record.status.scored.text"),
-            active: false,
-            color: '#FF0000'
-        },
-        {
-            label: t("recharge.record.status.pay.timeout.text"),
-            active: false,
-            color: '#fff'
-        }
-    ],
-
     typeList: [{
         nameStr: t('withdraw.record.center.show.detail.type.bank.text'),
         valueNum: 1
@@ -337,7 +363,7 @@ function getInit(val) {
     }
 }
 function getStatus(index) {
-    return state.statusList[index]?.label || ''
+    return state.typeArr[state.typeIndex].statusList[index-1]?.label || ''
 }
 function getTabName(type) {
     return state.tabsList.find(item => item.value == type)?.label || ''

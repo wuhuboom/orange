@@ -7,7 +7,7 @@
                         @click="changeTabIndex(index)">{{ item.name
                         }}</span>
                 </div>
-                <div class="dateBox">
+                <div class="dateBox" v-if="tabIndex==1">
                     <div class="dateSelect" @click.stop="showSelect">
                         <img :src="getImg('rebate', 'dateIcon')" class="langImg" alt="">
                         <div class="l_left">
@@ -27,21 +27,21 @@
                 <div class="row">
                     <div class="l_left bl">
                         <div class="name">{{ $t('backapi.self.rebate.top.content.total.text') }}</div>
-                        <div class="num">{{rebate.total}}</div>
+                        <div class="num">{{fomarNoney(rebate.total)}}</div>
                     </div>
                     <div class="l_right">
                         <div class="name">{{ $t('backapi.self.rebate.top.content.today.text') }}</div>
-                        <div class="num">{{rebate.today}}</div>
+                        <div class="num">{{fomarNoney(rebate.today)}}</div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="l_left bl">
                         <div class="name">{{ $t('backapi.self.rebate.top.content.week.text') }}</div>
-                        <div class="num">{{rebate.week}}</div>
+                        <div class="num">{{fomarNoney(rebate.week)}}</div>
                     </div>
                     <div class="l_right">
                         <div class="name">{{ $t('backapi.self.rebate.top.content.lastweek.text') }}</div>
-                        <div class="num">{{rebate.lastWeek}}</div>
+                        <div class="num">{{fomarNoney(rebate.lastWeek)}}</div>
                     </div>
                 </div>
             </div>
@@ -57,11 +57,11 @@
                 <div class="list">
                     <div class="lItem" v-for="(item, index) in recordList" :key="index">
                         <div class="row-left">
-                            <span class="top">{{item.type}}</span>
+                            <span class="top">{{getStatus(item.type)}}</span>
                             <span class="date">{{item.ymd}}</span>
                         </div>
                          <div class="row-right">
-                            <span>+{{item.money}}</span>
+                            <span>+{{fomarNoney(item.money)}}</span>
                         </div>
                     </div>
                 </div>
@@ -72,13 +72,18 @@
             <van-list v-model:loading="loading" :finished="finished" :finished-text="$t('load.no.more.text')"
                 :loading-text="$t('load.loading.text')" @load="onLoad" :immediate-check="true" :offset='50'>
                 <div class="list">
-                    <div class="lItem" v-for="(item, index) in reportList" :key="index">
-                        <div class="row-left">
-                            <span class="top">{{item.type}}</span>
-                            <span class="date">{{item.ymd}}</span>
+                    <div class="reportItem" v-for="(item, index) in reportList" :key="index">
+                        <div class="row">
+                            <span class="date-span">{{ $t('personal.report.date') }} :  {{ item.date }}</span>
                         </div>
-                         <div class="row-right">
-                            <span>+{{item.money}}</span>
+                        <div class="row">
+                            <span>{{ $t("personal.report.recharge") }} :  {{ fomarNoney(item.recharge) }}</span>
+                            <span>{{ $t("personal.report.withdraw") }} :  {{ fomarNoney(item.withdrawal) }}</span>
+                        </div>
+                        <div class="row">
+                            <span>{{ $t("personal.report.bet") }} :  {{ fomarNoney(item.bet) }}</span>
+                            <!-- <span>{{ $t("personal.report.bingo") }} :  {{ fomarNoney(item.bingo) }}</span> -->
+                            <span>{{ $t("personal.report.rebate") }} :  {{ fomarNoney(item.rebate) }}</span>
                         </div>
                     </div>
                 </div>
@@ -91,7 +96,7 @@
 import { reactive, toRefs, onMounted } from 'vue'
 import { useRouter, useRoute } from "vue-router";
 import http from '@/utils/axios'
-import { getImg } from '@/utils/utils'
+import { getImg,fomarNoney } from '@/utils/utils'
 import { showToast } from 'vant'
 import { useI18n } from 'vue-i18n'
 import { formatDate, getAmount } from '@/utils/utils'
@@ -112,6 +117,11 @@ const state = reactive({
             id: 2,
         }
     ],
+    statuslist:[
+        {val:'1',label:t('rebate.center.list.cell.bet.text')},
+        {val:'2',label:t('rebate.center.list.cell.profit.text')},
+        {val:'3',label:t('rebate.center.list.cell.recharge.text')}
+    ],
     tabIndex: 0,
     showDateOpt:false,
     dateTarget:'month',
@@ -123,6 +133,7 @@ const state = reactive({
         {name: t('rebateReport.select.day10.text'),id:4},
         {name: t('rebateReport.select.month.text'),id:5}
     ],
+    
     page: {
         hasNext: false,
         pageNo: 1,
@@ -146,6 +157,14 @@ onMounted(() => {
     window.scrollTo(0, 0);
     getInit()
 })
+function getStatus(type){
+    const arr = state.statuslist.filter(item => {
+        return item.val == type
+    })
+    if(arr && arr.length > 0){
+        return arr[0].label
+    }
+}
 function showSelect() {
     state.showDateOpt = !state.showDateOpt
 }
@@ -155,7 +174,8 @@ function selectDate(item) {
     state.showDateOpt = false
 }
 function onLoad() {
-    
+    state.page.pageNo += 1
+    getInit()
 }
 function onRefresh() {
     state.page.pageNo = 1
@@ -201,25 +221,12 @@ async function getRebateList(val) {
         if (val == 'refresh') {
             state.recordList = []
         }
-        // res.results = [
-        //     {
-        //         "id": 72562,
-        //         "playerId": 16500,
-        //         "money": '金额',
-        //         "type": '下注返利',
-        //         "ymd": '日期'
-        //     }
-        // ]
         state.recordList = [...state.recordList, ...res.results]
-        state.page.pageNo = res.pageNo
-        state.page.pageSize = res.pageSize
-
         if (!res.hasNext) {
             state.finished = true
         }else{
             state.finished = false
         }
-
         state.loading = false
         state.refreshing = false
     } catch (error) {
@@ -240,11 +247,7 @@ async function getReportList(val) {
         if (val == 'refresh') {
             state.reportList = []
         }
-       console.log(res,'-----------')
-        state.reportList = [...state.reportList, ...res.results]
-        state.page.pageNo = res.pageNo
-        state.page.pageSize = res.pageSize
-
+        state.reportList = [...state.reportList, ...res]
         if (!res.hasNext) {
             state.finished = true
         }else{
@@ -467,6 +470,26 @@ const { tabArr, typeArr,showDateOpt, dateTarget,dateTargetId,dateSelectList, tab
                 span{
                     color: green;
                     font-size: 15px;
+                }
+            }
+        }
+        .reportItem{
+            border-radius: 6px;
+            background-color: #1f1f1f;
+            color: #ffffff;
+            margin-top: 10px;
+            padding: 10px 10px 5px 10px;
+            .row{
+                @include flex(space-between);
+                flex-wrap: nowrap;
+                margin-bottom: 5px;
+                span{
+                    display:block;
+                    font-size: 12px;
+                }
+                .date-span{
+                    font-size: 14px;
+                    color: #ff6c00;
                 }
             }
         }
