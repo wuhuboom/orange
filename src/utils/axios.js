@@ -1,8 +1,7 @@
 import axios from "axios";
 import { showToast } from "vant";
 import i18n from "@/i18n/i18n";
-
-// console.log(window);
+import router from "@/router";
 const t = i18n.global.t;
 // console.log("import.meta.env", import.meta.env);
 // let { VITE_BASE_URL } = import.meta.env;
@@ -97,7 +96,10 @@ http.interceptors.response.use(
       showToast({ message: msg, className: "textColorRed" });
       setTimeout(() => {
         localStorage.removeItem("toaddFlag");
-        window.location.href = "/login";
+        console.log(router)
+        router.push({
+          path:'/login'
+        });
       }, 500);
     }else{
       return response.data

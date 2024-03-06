@@ -75,7 +75,7 @@ const state = reactive({
     },
   ],
   showLangOpt: false,
-  langTarget: localStorage.getItem('lang').toUpperCase() || 'EN',
+  langTarget: localStorage.getItem('lang')?.toUpperCase() || 'EN',
   serviceUrl: '',
   btnIndex: 0,
   rCheckBool: false,
