@@ -9,9 +9,9 @@ import { useRoute } from 'vue-router';
 const route = useRoute()
 
 watchEffect(() => {
-  if (route.query?.ojbk === "1") {
-    localStorage.setItem('lang', 'zh')
-  }
+  // if (route.query?.ojbk === "1") {
+  //   localStorage.setItem('lang', 'zh')
+  // }
 })
 </script>
 
