@@ -157,7 +157,7 @@ const { activeNames, grList, teamName, loading, finished, refreshing, dateIndex,
 .result {
     height: 100%;
     box-sizing: border-box;
-    padding-top: 105px;
+    padding-top: 95px;
     overflow-y: auto;
     background-color: #18181b;
 
@@ -175,7 +175,7 @@ const { activeNames, grList, teamName, loading, finished, refreshing, dateIndex,
             border-radius: 21px;
             box-sizing: border-box;
             margin-bottom: 10px;
-
+            margin-top: 10px;
             .van-search__content {
                 background-color: #252528;
 
@@ -200,7 +200,7 @@ const { activeNames, grList, teamName, loading, finished, refreshing, dateIndex,
             width: 100%;
             @include flex(space-between);
             color: #fff;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
 
             >div {
                 width: 30%;

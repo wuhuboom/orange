@@ -88,12 +88,12 @@ const router = useRouter()
 const state = reactive({
     perInfo: {},
     showLangOpt: false,
-    langTarget: 'EN',
+    langTarget: localStorage.getItem('lang').toUpperCase() || 'EN',
     menuIndex: -1,
     langList: [
-        {
-            name: 'ZH'
-        },
+        // {
+        //     name: 'ZH'
+        // },
         {
             name: 'EN'
         },
@@ -184,11 +184,19 @@ const listArr = computed(() => {
             isArrow: false
         },
         {
-            icon: 'msg',
-            name: t('leftNav.aboutCTER.ONLINE.text'),
+            icon: 'download',
+            name: t("fuc.app.download"),
+            link:'/download',
             isOpen: false,
             isArrow: false
         },
+        // {
+        //     icon: 'msg',
+        //     name: t('leftNav.aboutCTER.ONLINE.text'),
+        //     link:'/about',
+        //     isOpen: false,
+        //     isArrow: false
+        // },
     ]
     return state.cList
 })

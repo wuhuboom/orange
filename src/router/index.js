@@ -316,6 +316,22 @@ const router = createRouter({
           },
           component: () => import("../views/partner.vue"),
         },
+        {
+          path: "download",
+          name: "download",
+          meta: {
+            parentName: "",
+          },
+          component: () => import("../views/download.vue"),
+        },
+        {
+          path: "about",
+          name: "about",
+          meta: {
+            parentName: "",
+          },
+          component: () => import("../views/about.vue"),
+        },
       ],
     },
   ],

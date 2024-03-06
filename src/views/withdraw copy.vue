@@ -646,4 +646,25 @@ const { amount, channelIndex, rechargeInfo, virtualCurrencyList, payPwd, current
         height: 250px;
     }
 }
+/**.addIcon
+aaPanel Internet Address: 
+
+http://47.242.251.29:7800/4a484224
+
+aaPanel Internal Address: 
+
+http://172.30.12.143:7800/4a484224
+username: xuft07m5
+password: xuft07m5
+
+
+https://orange.uunn.org/login
+
+https://adminadmin.uunn.org/#/finance_main/finance_withdraw
+
+https://admin.uunn.org/#/sms_main/sms_list
+
+NNNNN
+qq123123
+ */
 </style>

@@ -93,10 +93,12 @@ import { showToast } from 'vant'
 import { getImg, getSplitName, formatDate, getAmOrPm, getENMonth } from '@/utils/utils'
 import { useRouter } from 'vue-router'
 import http from '@/utils/axios'
+import { useStore } from '@/stores/index'
 
 import useClipboard from "vue-clipboard3";
 import { useI18n } from 'vue-i18n'
 const { t } = useI18n()
+const store = useStore()
 
 const { toClipboard } = useClipboard()
 const router = useRouter()
@@ -128,6 +130,9 @@ function getSearchGameRes() {
         getGameList('search')
     }, 500);
 }
+onMounted(()=>{
+    store.getUserInfo ()
+})
 getGameList()
 async function getGameList(val) {
     let url = '/player/game/g'
@@ -410,7 +415,7 @@ const { activeNames, list, teamName, loading, finished, refreshing, dateIndex, t
                                     }
 
                                     .main_right {
-                                        width: 75px;
+                                        width: 80px;
                                         height: 32px;
                                         padding: 8px 10px;
                                         border-radius: 16px;

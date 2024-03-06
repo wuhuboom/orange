@@ -135,11 +135,13 @@
     </div>
 </template>
 <script setup>
-import { reactive, toRefs } from 'vue'
+import { reactive, toRefs,onMounted } from 'vue'
 import http from '@/utils/axios'
 import { formatDate, getAmount } from '@/utils/utils'
 import { showToast } from 'vant'
 import { useI18n } from 'vue-i18n'
+import { useStore } from '@/stores/index'
+const store = useStore()
 
 const { t, locale } = useI18n()
 const state = reactive({
@@ -232,6 +234,9 @@ async function getOrderDetails(item) {
         console.log(error);
     }
 }
+onMounted(()=>{
+    store.getUserInfo ()
+})
 function onLoad() {
     state.timer && clearTimeout(state.timer)
     state.timer = setTimeout(() => {

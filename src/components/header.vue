@@ -47,6 +47,7 @@ import { toRefs, defineProps, reactive, onMounted, computed } from 'vue'
 import { getImg } from '@/utils/utils'
 import { useRouter, useRoute } from 'vue-router'
 import { useStore } from '@/stores/index'
+import http from '@/utils/axios'
 
 const store = useStore()
 const accountInfo = computed(() => store.accountInfo)
@@ -66,12 +67,13 @@ async function handleHeaderClick() {
         store.showLeftNav = true
     }
 }
-function handleRightIcon() {
-    if (header.value.noticeLink) {
-        router.push({
-            path: header.value.noticeLink
-        })
-    }
+async function handleRightIcon() {
+     let url ='/player/home/serv'
+     const res = await http.get(url)
+     console.log(res)
+     if(res.serviceAddr){
+        window.location.href = res.serviceAddr
+     }
 }
 onMounted(() => {
     store.getUserInfo()

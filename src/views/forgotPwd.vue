@@ -38,8 +38,8 @@
                                     <van-icon :name="showVerifyOpt ? 'arrow-up' : 'arrow-down'" />
                                 </div>
                                 <!-- 发送验证码 -->
-                                <div class="sendBtn" v-if="item.name === 'verificationCode'" @click="getVerifyCode">
-                                    {{ $t('forget.send') }}
+                                <div class="sendBtn" v-if="item.name === 'verificationCode' " @click="getVerifyCode">
+                                    {{ sendBtn }}<span v-if="showSeconds">s</span>
                                 </div>
                             </div>
                         </div>
@@ -152,7 +152,9 @@ const state = reactive({
     optObj: {
         1: t('forget.phoneVerifiCode'),
         2: t('forget.emailVerifiCode')
-    }
+    },
+    showSeconds:false,
+    sendBtn:t('forget.send')
 })
 function goback() {
     router.go(-1)
@@ -175,6 +177,10 @@ function showVerifySelect(item) {
     }
 }
 function getVerifyCode() {
+    if (state.showSeconds) {
+        showToast(t('addWalletAddress.countDown.tips.text'))
+        return
+    }
     if (state.optVal === 'Email verifiCode') {
         getEmailCode()
     } else {
@@ -191,9 +197,16 @@ async function getEmailCode() {
         username: state.userInfo[0].val,
         email: state.userInfo[4].val
     }
+    if(!data.email){
+        showToast(t('form.verift.send.text'))
+    }
     try {
         let res = await http.post(url, data)
         if (res?.hasSend) {
+            if (!state.showSeconds) {
+                state.sendBtn = 60
+                startCountdown()
+            }
             showToast(t('form.verift.send.text'))
         }
     } catch (error) {
@@ -209,11 +222,26 @@ async function getPhoneCode() {
     try {
         let res = await http.post(url, data)
         if (res?.hasSend) {
+            if (!state.showSeconds) {
+                state.sendBtn = 60
+                startCountdown()
+            }
             showToast(t('form.verift.send.text'))
         }
     } catch (error) {
         console.log(error);
     }
+}
+function startCountdown() {
+    state.showSeconds = true
+    let timer = setInterval(function () {
+        state.sendBtn--
+        if (state.sendBtn <= 0) {
+            clearInterval(timer)
+            state.showSeconds = false
+            state.sendBtn = t('forget.send')
+        }
+    }, 1000)
 }
 function clickVerify(params) {
     state.optVal = state.optObj[params]
@@ -288,7 +316,7 @@ onMounted(() => {
         }
     })
 })
-const { userInfo, inputIndex, areaCode, showAreaCodeOpt, codeList, showVerifyOpt, optVal } = toRefs(state)
+const { userInfo, inputIndex, areaCode, showAreaCodeOpt, codeList, showVerifyOpt, optVal,sendBtn,showSeconds } = toRefs(state)
 </script>
 <style scoped lang='scss'>
 .forgotPwd {
@@ -327,7 +355,6 @@ const { userInfo, inputIndex, areaCode, showAreaCodeOpt, codeList, showVerifyOpt
             margin-top: 16px;
 
             .formItem {
-                width: $width;
                 height: 45px;
                 border-radius: 12px;
                 border: solid 1px #3f3f3f;
@@ -350,7 +377,7 @@ const { userInfo, inputIndex, areaCode, showAreaCodeOpt, codeList, showVerifyOpt
                     }
 
                     input {
-                        // width: 100%;
+                        width: 100%;
                         // height: calc(100% - px);
                         background-color: #2c2c2c;
                         border: none;
@@ -474,6 +501,8 @@ const { userInfo, inputIndex, areaCode, showAreaCodeOpt, codeList, showVerifyOpt
                         width: 58px;
                         height: 28px;
                         margin: 0 0 0 70px;
+                        padding-left: 10px;
+                        padding-right: 10px;
                         border-radius: 4px;
                         background-color: #ff7c43;
                         font-size: 14px;
