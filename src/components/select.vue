@@ -18,7 +18,7 @@ import { ref, defineEmits } from 'vue'
 const props = defineProps(['selectedObj'])
 const emit = defineEmits(['sendSelectVal'])
 const isShowSelectedOpt = ref(false)
-let optIndex = ref(0)
+let optIndex = ref(props.selectedObj.optIndex || 0)
 function showSelectOpt() {
     isShowSelectedOpt.value = !isShowSelectedOpt.value
 }

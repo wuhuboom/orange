@@ -3,7 +3,7 @@
         <div class="pwdBox lrPadding">
             <div class="btnOpt cursor">
                 <div :class="{ spanAct: btnIndex === 0 }" @click="changeBtn(0)">
-                    <span>{{ $t("backapi.self.edit.change.safe.pwd.usdt") }}</span>
+                    <span>{{ $t("password.setting.login.pass.button.text") }}</span>
                 </div>
                 <div :class="{ spanAct: btnIndex === 1 }" @click="changeBtn(1)">
                     <span>{{ $t("index.login.forget.text") }}</span>
@@ -79,8 +79,8 @@ const state = reactive({
                 value: 1
             },
         ],
-        selectedVal: t('addWalletAddress.verify.phone.text'),
-        optIndex: 0,
+        selectedVal: t('addWalletAddress.verify.email.text'),
+        optIndex: 1,
     },
     sendBtn: t('forget.send'),
     showSeconds: false,

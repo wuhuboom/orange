@@ -1,8 +1,8 @@
 <template>
     <div class="personalInfomation hideScrollbar maxWidth lrPadding">
-        <div v-for="(item,index) in menulist" :key="index" class="menu-item">
+        <div v-for="(item,index) in menulist" :key="index" class="menu-item" @click="go(item)">
             <span class="menu-name">{{ item.name }}</span>
-            <div class="menu-icon" @click="go(item)">
+            <div class="menu-icon" >
                 <span v-if="item.showText" :class="item.showIcon ? 'menu-tip':''">{{ item.showText }}</span>
                 <van-icon name="arrow" color="#fff" v-if="item.showIcon"/>
             </div>
@@ -19,17 +19,21 @@ import { useI18n } from 'vue-i18n'
 
 import { useStore } from '@/stores/index'
 const store = useStore()
-const accountInfo = computed(() => store.accountInfo)
+// refresh()
+// function refresh(){
+//     store.getUserInfo()
+// }
+const accountInfo = JSON.parse(localStorage.getItem('accountInfo'))
 const { t } = useI18n()
 const router = useRouter()
 const state = reactive({
     menulist: [
         { name: t('personal.menu.password'), path: '/loginPwdSet',showIcon:true,showText:'' },
         { name: t('personal.menu.withdrawpwd'), path: '/withdrawPwdSet',showIcon:true,showText:'' },
-        { name: t('personal.menu.phone'), path: '/updatePhone',showIcon:true,showText:accountInfo.value.phone },
-        { name: t('personal.menu.email'), path: '/updateEmail',showIcon:true,showText:accountInfo.value.email },
+        { name: t('personal.menu.phone'), path: '/updatePhone',showIcon:true,showText:accountInfo.phone },
+        { name: t('personal.menu.email'), path: '/updateEmail',showIcon:true,showText:accountInfo.email },
         { name: t('personal.menu.loginlog'), path: '',showIcon:false,showText:getLoginLog() },
-    ]
+    ],
 })    
 function getLoginLog(){
     const time = formatDate(new Date())

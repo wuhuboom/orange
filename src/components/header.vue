@@ -56,7 +56,8 @@ const props = defineProps(['header'])
 const { header } = toRefs(props)
 
 
-function handleHeaderClick() {
+async function handleHeaderClick() {
+    await store.getUserInfo()
     if (header.value.leftIcon == 'back') {
         router.go(-1)
     }

@@ -124,6 +124,7 @@ async function submit() {
             state.form.phone = ''
             state.form.code = ''
             state.form.areaCode = ''
+            store.getUserInfo()
             setTimeout(() => {
                 router.go(-1)
             }, 500);

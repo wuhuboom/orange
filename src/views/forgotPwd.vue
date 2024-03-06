@@ -235,6 +235,12 @@ function clickVerify(params) {
     }
 }
 async function changePwd() {
+    for (let i in userInfo.value) {
+        userInfo.value[i].error = userInfo.value[i].val == '' ? true : false
+        if (userInfo.value[i].error) {
+            return
+        }
+    }
     let url = '/player/v2/phone_change_pwd'
     let data = {
         username: state.userInfo[0].val,

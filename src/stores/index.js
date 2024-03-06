@@ -12,10 +12,14 @@ export const useStore = defineStore("store", {
     };
   },
   actions: {
-    getUserInfo() {
-      http.get("/player/player_info").then((res) => {
-        this.accountInfo = res;
-      });
+    async getUserInfo() {
+      // http.get("/player/player_info").then((res) => {
+      //   this.accountInfo = res;
+      //   localStorage.setItem("accountInfo", JSON.stringify(res));
+      // });
+      const res = await http.get("/player/player_info")
+      this.accountInfo = res
+      localStorage.setItem("accountInfo", JSON.stringify(this.accountInfo));
     },
     changeShowNotice(id) {
       this.showNoticeId = id

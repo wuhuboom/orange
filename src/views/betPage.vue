@@ -23,7 +23,7 @@
             </div>
         </div>
         <div class="tab maxWidth">
-            <div :class="{ tabActive: tabIndex === index }" v-for="(item, index) in tabArr" @click="handleClickTab(index)">
+            <div :class="{ tabActive: tabIndex === index }" :key="index" v-for="(item, index) in tabArr" @click="handleClickTab(index)">
                 {{ item }}</div>
         </div>
         <div class="betMain hideScrollbar" :style="{ height: `${pageHeight - 340}px` }">
@@ -113,7 +113,7 @@ import { useI18n } from 'vue-i18n'
 const { t, locale } = useI18n()
 const store = useStore()
 const pageHeight = ref(document.body.scrollHeight - 4)
-console.log(pageHeight);
+
 const accountInfo = computed(() => store.accountInfo)
 const tabArr = computed(() => {
     return [
@@ -162,6 +162,7 @@ async function getGameInfo() {
     }
 }
 async function betPrepare() {
+    await store.getUserInfo()
     let url = '/player/bet/pre'
     let data = {
         gameId: route.query?.gameId,
@@ -175,7 +176,8 @@ async function betPrepare() {
         console.log(error);
     }
 }
-function quickBets(params) {
+async function quickBets(params) {
+    await store.getUserInfo()
     if (params === 'all') {
         state.betNum = Number(accountInfo?.value.currRate)
     } else {
