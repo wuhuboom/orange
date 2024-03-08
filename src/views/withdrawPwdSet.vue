@@ -57,7 +57,6 @@ import http from '@/utils/axios'
 import { showToast } from 'vant'
 import { useI18n } from 'vue-i18n'
 import { useStore } from '@/stores/index'
-import { checkPwd } from '@/utils/utils';
 const store = useStore()
 const accountInfo = computed(() => store.accountInfo)
 const { t } = useI18n()
@@ -170,22 +169,14 @@ async function submit() {
             showToast(t('ruls.pass.empty'))
             return
         }
-        if(!checkPwd(state.form1.newPwd)){
-            showToast(t('ruls.pass.length'))
-            return 
-        }
         if (state.form1.newPwd != state.form1.twicePwd) {
-            showToast(t('backapi.twicePwdDiff'))
+            showToast(t('ruls.passtwo.unequal'))
             return
         }
         if (state.form1.twicePwd === '') {
             showToast(t('ruls.passtwo.empty'))
             return
         } 
-        if(!checkPwd(state.form1.twicePwd)){
-            showToast(t('ruls.passtwo.length'))
-            return 
-        }
         url ='/player/v2/change_pwd_pay'
         data = Object.assign({ }, state.form1)
     }else{
@@ -197,22 +188,14 @@ async function submit() {
             showToast(t('ruls.pass.empty'))
             return
         }
-        if(!checkPwd(state.form2.newPwd)){
-            showToast(t('ruls.pass.length'))
-            return 
-        }
         if (state.form2.newPwd != state.form2.twicePwd) {
-            showToast(t('backapi.twicePwdDiff'))
+            showToast(t('ruls.passtwo.unequal'))
             return
         }
         if (state.form2.twicePwd === '') {
             showToast(t('ruls.passtwo.empty'))
             return
         } 
-        if(!checkPwd(state.form2.twicePwd)){
-            showToast(t('ruls.passtwo.length'))
-            return 
-        }
         url ='/player/v2/phone_change_pwd_pay'
          data = Object.assign({ }, state.form2)
     }

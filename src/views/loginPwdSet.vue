@@ -183,7 +183,7 @@ async function submit() {
             return 
         }
         if (state.form1.newPwd != state.form1.twicePwd) {
-            showToast(t('backapi.twicePwdDiff'))
+            showToast(t('ruls.passtwo.unequal'))
             return
         }
         url ='/player/auth/editPwd'
@@ -210,7 +210,7 @@ async function submit() {
             return 
         }
         if (state.form2.newPwd != state.form2.twicePwd) {
-            showToast(t('backapi.twicePwdDiff'))
+            showToast(t('ruls.passtwo.unequal'))
             return
         }
         
