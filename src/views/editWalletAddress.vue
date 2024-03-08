@@ -1,6 +1,10 @@
 <template>
     <div class="addWalletAddress maxWidth lrPadding">
-        <Select :selectedObj="walletTypeObj" />
+        <!-- <Select :selectedObj="walletTypeObj" @sendSelectVal="sendSelectVal" :disabled="true"/> -->
+        <div class="sendBox">
+            <div class="title">{{ $t("withdraw.add.with.currency.text") }}</div>
+            <input type="text" class="hideInputBtn" v-model="walletType" :disabled="true">
+        </div>
         <div class="sendBox">
             <div class="title">{{ $t('addWalletAddress.walletId.text') }}</div>
             <input type="text" class="hideInputBtn" v-model="walletId"
@@ -38,8 +42,9 @@ const { t } = useI18n()
 const router = useRouter()
 const route = useRoute()
 const state = reactive({
-    walletType: 'USDT',
+    walletType: '',
     walletId: '',
+    id:'',
     isShowVerifyMet: false,
     verifyCode: '',
     payPwd: '',
@@ -84,20 +89,28 @@ function initData(){
     const res = JSON.parse(route.query.item)
     console.log(res)
     if(res){
+        state.id = res.id
+        state.walletId = res.addr
         state.walletType = res.protocol
+        if(res.protocol =='TRC20'){
+            state.walletTypeObj.optIndex = 1
+            state.walletTypeObj.selectedVal = 'TRC20'
+        }
     }
 }
 function sendSelectVal(data) {
     if (data.type === 'verify') {
         state.verifyObj.selectedVal = data.val.label
         state.verifyObj.optIndex = state.verifyObj.options.find(item => item.label == data.val.label)?.value
+    }else if(data.type == 'type'){
+        state.walletTypeObj.selectedVal = data.val.label
+        state.walletTypeObj.optIndex = state.walletTypeObj.options.find(item => item.label == data.val.label)?.value
     }
 }
 async function submit() {
-    let url = '/player/virtual_currency_add'
+    let url = '/player/virtual_currency_edit'
     let data = {
-        type: "1",
-        subType: '11',
+        id: state.id,
         addr: state.walletId,
         payPwd: state.payPwd,
         code: state.verifyCode,
@@ -115,7 +128,7 @@ async function submit() {
         return
     }
     if (state.payPwd === '') {
-        showToast(t('addWalletAddress.walletAddr.payPwd.text'))
+        showToast(t('ruls.xxx.empty', { type: t('user.security.center.bankcard.bankadd.input.pay.pass.text') }))
         return
     }
     try {
@@ -125,6 +138,7 @@ async function submit() {
             state.code = ''
             state.walletId = ''
             state.payPwd = ''
+            state.id = ''
             setTimeout(() => {
                 router.go(-1)
             }, 500);
@@ -183,7 +197,7 @@ onMounted(() => {
         state.verifyObj.selectedVal = t('addWalletAddress.verify.email.text')
     }
 })
-const { walletId, verifyObj, walletTypeObj, verifyCode, payPwd, sendBtn, showSeconds } = toRefs(state)
+const { walletId, verifyObj, walletType,walletTypeObj, verifyCode, payPwd, sendBtn, showSeconds } = toRefs(state)
 </script>
 <style scoped lang='scss'>
 .addWalletAddress {

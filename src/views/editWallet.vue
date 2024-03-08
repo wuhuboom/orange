@@ -3,7 +3,7 @@
         <div class="sendBox">
             <div class="title">{{ $t('deal.createOrder.354499-13') }}</div>
             <input type="text" class="hideInputBtn" v-model="account"
-                :placeholder="$t('backapi.self.whitdraw.type.ewallet.form.name.placehole.text')">
+                :placeholder="$t('backapi.self.whitdraw.type.ewallet.form.name.placehole.text')" :disabled="true" />
         </div>
         <div class="sendBox">
             <div class="title">{{ $t('addWalletAddress.type.text') }}</div>
@@ -53,19 +53,20 @@
 <script setup >
 import { reactive, toRefs, onMounted, ref } from 'vue'
 import Select from '@/components/select.vue'
-import { useRouter } from "vue-router";
+import { useRouter,useRoute } from "vue-router";
 import http from '@/utils/axios'
 import { showToast } from 'vant'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
 const router = useRouter()
+const route = useRoute()
 const state = reactive({
     walletTyIndex: 0,
     walltyName: '',
+    id:'',
     account: '',
     address: '',
-    cardName: '',
     payPwd: '',
     code: '',
     isShowNewAddBool: false,
@@ -89,6 +90,20 @@ const state = reactive({
     showSeconds: false,
     wtList: []
 })
+onMounted(()=>{
+    initData()
+    getWalletType() //获取钱包类型
+})
+function initData(){
+    const res = JSON.parse(route.query.item)
+    console.log(res)
+    if(res){
+        state.id = res.id
+        state.account = res.account
+        state.address = res.address
+        state.walltyName = res.type
+    }
+}
 function sendSelectVal(data) {
     if (data.type === 'verify') {
         state.verifyObj.selectedVal = data.val.label
@@ -117,7 +132,6 @@ async function sendVerify() {
     let url = urlObj[state.verifyObj.optIndex]
     try {
         const res = state.verifyObj.optIndex === 0 ? await http.post(url) : await http.get(url)
-        // console.log(res);
         if (res.hasOwnProperty('hasSend')) {
             if (!state.showSeconds) {
                 state.sendBtn = 60
@@ -149,12 +163,15 @@ function selectNewAddress(k, j) {
 function showNewAddPanel() {
     state.isShowNewAddBool = !state.isShowNewAddBool
 }
-getWalletType() //获取钱包类型
 async function getWalletType() {
     let url = '/player/wallet_type'
     try {
         const res = await http.get(url)
-        state.walltyName = res[state.walletTyIndex]
+        for(let i = 0; i < res.length; i++ ){
+            if(res[i] === state.walltyName){
+                state.walletTyIndex = i
+            }
+        }
         state.wtList = res
         console.log(state.wtList);
     } catch (error) {
@@ -178,9 +195,10 @@ async function submit() {
         showToast(t('send.payment.placeholder.text'))
         return
     }
-    let url = '/player/wallet'
+    let url = '/player/wallet_edit'
     let data = {
-        type: state.wtList[state.walletTyIndex],
+        id: state.id,
+        type: state.walltyName,
         account: state.account,
         address: state.address,
         payPwd: state.payPwd,

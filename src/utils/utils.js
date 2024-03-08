@@ -64,3 +64,9 @@ export const fomarNoney = (num) => {
   let res = (Number(num) / window?.config?.UNIFIED_NUMBER).toFixed(2);
   return Number(res);
 };
+
+export const checkPwd = (pwd) => {
+    //必须包含数字和字母
+    let res = /^[a-zA-Z0-9]{8,20}$/
+    return res.test(pwd)
+}

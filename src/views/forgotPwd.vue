@@ -62,7 +62,7 @@
 </template>
 <script setup >
 import { reactive, toRefs, onMounted } from 'vue'
-import { getImg } from '@/utils/utils'
+import { getImg,checkPwd } from '@/utils/utils'
 import { useRouter } from 'vue-router';
 import { showToast } from 'vant'
 import http from "@/utils/axios";
@@ -192,6 +192,10 @@ function selectAreaNum(item) {
     state.showAreaCodeOpt = false
 }
 async function getEmailCode() {
+    if(!checkPwd(state.userInfo[4].val)){
+        showToast(t('register.emailErrorText'))
+        return 
+    }
     let url = '/player/mail/change_pwd'
     let data = {
         username: state.userInfo[0].val,
@@ -214,6 +218,10 @@ async function getEmailCode() {
     }
 }
 async function getPhoneCode() {
+    if(!checkPwd(state.userInfo[5].val)){
+        showToast(t('register.phoneErrorText'))
+        return 
+    }
     let url = '/player/v2/phone_code/change_pwd'
     let data = {
         username: state.userInfo[0].val,
@@ -264,10 +272,19 @@ function clickVerify(params) {
 }
 async function changePwd() {
     for (let i in userInfo.value) {
+        if(i==4 || i==5) continue
         userInfo.value[i].error = userInfo.value[i].val == '' ? true : false
         if (userInfo.value[i].error) {
             return
         }
+    }
+    if(!checkPwd(state.userInfo[1].val)){
+        showToast(t('ruls.pass.length'))
+        return 
+    }
+    if(!checkPwd(state.userInfo[2].val)){
+        showToast(t('ruls.passtwo.length'))
+        return 
     }
     let url = '/player/v2/phone_change_pwd'
     let data = {

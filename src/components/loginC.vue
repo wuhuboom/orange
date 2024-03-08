@@ -211,7 +211,7 @@ onMounted(() => {
     } else {
         state.langTarget = localStorage.getItem('lang')?.toUpperCase() || 'EN'
     }
-    const language = navigator.language;
+    const language = state.langTarget;
     if (!localStorage.getItem('lang')) {
         localStorage.setItem('lang', language)
     }
