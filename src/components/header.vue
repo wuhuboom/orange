@@ -13,8 +13,8 @@
                 <div class="purchaseAmount" v-if="route.name == 'purchaseAmount'">
                     <img src="../assets/images/common/avatar.webp" class="avatar" alt="">
                     <div>
-                        <p class="name">name name</p>
-                        <p class="num">$7.821</p>
+                        <p class="name">{{merName}}</p>
+                        <p class="num">{{price}}</p>
                     </div>
                 </div>
 
@@ -56,6 +56,11 @@ const route = useRoute()
 const props = defineProps(['header'])
 const { header } = toRefs(props)
 
+const state = reactive({
+    merName: '',
+    price:''
+})
+
 
 async function handleHeaderClick() {
     await store.getUserInfo()
@@ -77,7 +82,12 @@ async function handleRightIcon() {
 }
 onMounted(() => {
     store.getUserInfo()
+    if (route.query?.merName) {
+        state.merName = route.query?.merName
+        state.price = route.query?.price
+    }
 })
+const {merName,price} = toRefs(state)
 </script>
 <style scoped lang='scss'>
 .header {

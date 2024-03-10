@@ -6,15 +6,12 @@
             </div>
             <div class="buySort relative">
                 <span>{{ $t('safe.buy.sortBy.text') }}</span>
-                <div class="Transaction" @click="showSelect = !showSelect">
-                    Transaction Rate
+                <div class="Transaction" @click.stop="showSelect = !showSelect">
+                    {{sortTarget}}
                     <img src="../assets/images/buy/arrowBuy.webp" :class="{ rotateImg: showSelect }" alt="">
                 </div>
                 <div class="select" :class="{ addSelectClass: showSelect }">
-                    <p>trade volume</p>
-                    <p>trade volume</p>
-                    <p>trade volume</p>
-                    <p>trade volume</p>
+                    <p v-for="(item,index) in sortList" :key="index" @click="getMerchantList('search',item)">{{item.label}}</p>
                 </div>
             </div>
         </div>
@@ -35,15 +32,17 @@
                                 <div class="name">{{ item.merName }}</div>
                             </div>
                             <div class="price">
-                                <p>price</p>
-                                <p class="num">7.12</p>
+                                <p>{{ $t('deal_price') }}</p>
+                                <p class="num">
+                                    11
+                                </p>
                             </div>
                             <div class="quantity">
-                                <p>quantity</p>
-                                <p class="num">2,061.00</p>
+                                <p>{{ $t('deal_quantity') }}</p>
+                                <p class="num">1,111.1</p>
                             </div>
                             <div class="transaction">
-                                <p>transaction</p>
+                                <p>{{$t('deal_transaction')}}</p>
                                 <p class="num">{{ getPercent(item.cumulativeSucc, item.cumulativeCount) }}</p>
                             </div>
                         </div>
@@ -62,6 +61,8 @@ import { reactive, toRefs } from "vue";
 import { useRouter } from 'vue-router'
 import http from '@/utils/axios'
 import { getPercent } from "@/utils/utils";
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
 
 const router = useRouter()
 const state = reactive({
@@ -76,26 +77,39 @@ const state = reactive({
         finished: false,
         refreshing: false,
     },
-    saleList: []
+    saleList: [],
+    sortList:[
+        {id:1,label:t('deal.buy.957990-0')},
+        {id:2,label:t('deal.buy.957990-1')},
+        {id:3,label:t('deal.buy.957990-2')}
+    ],
+    sortTarget: t('deal.buy.957990-0')
 })
 function toPurchaseAmount(item) {
     router.push({
         path: '/purchaseAmount',
         query: {
             id: item.id,
-            payTypes: item.payTypes
+            payTypes: item.payTypes,
+            merName:item.merName,
+            price:'$1'
         }
     })
 }
 getMerchantList()
-function getMerchantList(val) {
+function getMerchantList(val,item) {
     let url = '/player/fb/sale_list'
     let data = {
         bmin: '',
         type: '',
-        sort: '',
+        sort: val,
         pageNo: state.page.pageNo,
         pageSize: state.page.pageSize,
+    }
+    if(item){
+        state.sortTarget = item.label
+        data.sort = item.id
+        state.showSelect = !state.showSelect
     }
     state.listObj.loading = true
     http.post(url, data).then(res => {
@@ -125,11 +139,10 @@ function onLoad() {
     }, 1000);
 }
 function onRefresh() {
-    console.log(11123);
     state.page.pageNo = 1
     getMerchantList('refresh')
 }
-const { showSelect, saleList, listObj } = toRefs(state)
+const { showSelect, saleList, listObj,sortList,sortTarget } = toRefs(state)
 </script>
 <style scoped lang='scss'>
 .buy {
@@ -175,7 +188,7 @@ const { showSelect, saleList, listObj } = toRefs(state)
             }
 
             .select {
-                width: 120px;
+                width: 220px;
                 position: absolute;
                 right: 0;
                 top: 28px;
@@ -216,37 +229,34 @@ const { showSelect, saleList, listObj } = toRefs(state)
             background-color: #131317;
             @include flex();
             flex-direction: column;
-
             .top {
                 @include flex();
                 width: 100%;
-
                 .user {
                     @include flex();
-
                     .avatar {
                         width: 28px;
                         height: 28px;
                         border-radius: 50%;
                     }
-
                     .name {
-                        width: 40px;
+                        width: 60px;
                         font-size: 11px;
                         color: #fff;
                         margin-left: 3px;
-                        white-space: normal;
-                        // overflow: hidden;
+                        white-space: nowrap;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
                     }
                 }
-
                 .price {
+                    width: 100px;
+                    text-align: center;
                     p {
                         font-size: 10px;
                         color: rgba(255, 255, 255, 0.48);
 
                     }
-
                     .num {
                         font-size: 12px;
                         color: #69cfb5;
@@ -256,21 +266,22 @@ const { showSelect, saleList, listObj } = toRefs(state)
                 }
 
                 .quantity {
+                    width: 100px;
+                    text-align: center;
                     font-size: 10px;
                     color: rgba(255, 255, 255, 0.48);
-
                     .num {
                         font-family: $fontFamily;
                         font-size: 12px;
                         color: #f87871;
                         margin-top: 10px;
                         text-align: center;
-
                     }
                 }
 
                 .transaction {
-
+                    width: 100px;
+                    text-align: center;
                     font-size: 10px;
                     color: rgba(255, 255, 255, 0.48);
 

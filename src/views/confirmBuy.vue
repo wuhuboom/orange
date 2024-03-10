@@ -12,23 +12,23 @@
             </div>
             <!-- step === 0 -->
             <div class="orderSummary" v-if="stepIndex === 0">
-                <P class="title">Order summary</P>
+                <P class="title">{{$t('confirmbuy.ordersummary.text')}}</P>
                 <div class="orderBox">
                     <p class="paymentTime">
-                        <span>specified payment duration</span>
-                        <span class="time">15 min</span>
+                        <span>{{$t('confirmbuy.payment.duration.text')}}</span>
+                        <span class="time">15 {{$t('deal.buyDetail.387081-10')}}</span>
                     </p>
                     <p class="merchant">
-                        <span>merchant</span>
+                        <span>{{$t('deal.buyDetail.387081-11')}}</span>
                         <span class="mbox">
                             <img src="../assets/images/common/avatar.webp" alt="">
-                            <span class="name">name</span>
+                            <span class="name">{{name}}</span>
                             <van-icon name="arrow" color="#fff" size="20" />
                         </span>
                     </p>
                     <div class="countDown">
                         <img src="../assets/images/common/cd.webp" class="cdImg" alt="">
-                        payment time <van-count-down :time="countDownTime" format="mm:ss"
+                        {{$t('confirmbuy.payment.time.text')}} <van-count-down :time="countDownTime" format="mm:ss"
                             style="color: #ff7c43;margin-left: 5px;" />
                     </div>
                 </div>
@@ -39,25 +39,26 @@
                 </P>
                 <div class="buyInfo">
                     <p>
-                        <span>total amount</span>
+                        <span>{{$t('deal.createOrderMer.354499-15')}}</span>
                         <span>100.00</span>
                     </p>
                     <p>
-                        <span>unit price</span>
+                        <span>{{$t('deal.orderDetail.197148-3')}}</span>
                         <span>7.23</span>
                     </p>
                     <p>
-                        <span>order number</span>
+                        <span>{{$t('deal.createOrderMer.354499-16')}}</span>
                         <span>5656565565656</span>
                     </p>
                     <p>
-                        <span>creation time</span>
+                        <span>{{$t('deal.orderDetail.197148-9')}}</span>
                         <span>17:43:16 2023-12-13</span>
                     </p>
                 </div>
             </div>
             <div class="Instructions" v-if="stepIndex === 0">
-                If you agree to use C2C transactions, it means you accept <span>C2C Transaction Legal Disclaimer</span>
+                <span class="agree">{{$t('purchaseamount.agree.text')}}</span>
+                <span class="link">{{$t('purchaseamount.link.text')}}</span>
             </div>
             <!-- step ===  -->
             <div class="orderSummary step1" v-if="stepIndex === 1 || stepIndex === 2">
@@ -126,9 +127,9 @@
                     completing the transfer, it may result in your account being frozen!</p>
             </div>
             <div class="btn">
-                <div class="cancel" v-if="stepIndex === 0 || stepIndex === 1" @click="toCancelOrder">Cancel</div>
+                <div class="cancel" v-if="stepIndex === 0 || stepIndex === 1" @click="toCancelOrder">{{$t('modal.cancel.text')}}</div>
                 <div class="cancel" v-if="stepIndex === 2">Customer service</div>
-                <div class="confirm" @click="selectPayMet" v-if="stepIndex === 0">Confirm</div>
+                <div class="confirm" @click="selectPayMet" v-if="stepIndex === 0">{{$t('modal.confirm.text')}}</div>
                 <div class="confirm" v-if="stepIndex === 1">Payment made</div>
             </div>
         </div>
@@ -328,7 +329,7 @@ const { stepList, stepIndex, countDownTime, showPayMethod } = toRefs(state)
 
                 .merchant {
                     @include flex();
-
+                    padding-top: 10px;
                     .mbox {
                         @include flex();
 
@@ -447,8 +448,10 @@ const { stepList, stepIndex, countDownTime, showPayMethod } = toRefs(state)
             text-align: center;
             color: #9f9f9f;
             margin-top: 20px;
-
-            span {
+            .agree{
+                color: #9f9f9f;
+            }
+            .link{
                 color: #fff;
                 text-decoration: underline;
             }
@@ -456,7 +459,7 @@ const { stepList, stepIndex, countDownTime, showPayMethod } = toRefs(state)
 
         .btn {
             display: flex;
-            margin-top: 20px;
+            margin-top: 80px;
 
 
             div {

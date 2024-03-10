@@ -55,13 +55,17 @@ export const getPercent = (numSuc, numCount) => {
   if (numSuc / numCount === 1) {
     percent = 100;
   } else {
-    percent = numSuc / numCount;
+    percent = (numSuc / numCount * 100).toFixed(2);
   }
   return `${percent}%`;
 };
 //格式化金额
 export const fomarNoney = (num) => {
   let res = (Number(num) / window?.config?.UNIFIED_NUMBER).toFixed(2);
+  return Number(res);
+};
+export const fomarUsdt = (num) => {
+  let res = (Number(num) / window?.config?.USDT_NUMBER).toFixed(2);
   return Number(res);
 };
 

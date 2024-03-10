@@ -1160,5 +1160,20 @@
   "invite.tip.title.text":"Promotion rules",
   "invite.tip.subtitle.text":"Promotion on the Internet such as",
   "invite.tip.content.text":"etc. is prohibited. If discovered, your account will be banned.",
-  "invite.tip.btn.text":"Okay"
+  "invite.tip.btn.text":"Okay",
+  "deal_transaction":"transaction",
+  "deal_price":"Price",
+
+  "purchaseamount.text":"Purchase Amount",
+  "purchaseamount.half.text":"Half",
+  "purchaseamount.max.text":"Max",
+  "purchaseamount.obtain.text":"obtain",
+  "purchaseamount.agree.text":"If you agree to use C2C transactions, it means you accept ",
+  "purchaseamount.link.text":"C2C Transaction Legal Disclaimer",
+  "confirmbuy.ordersummary.text":"Order summary",
+  "confirmbuy.payment.duration.text":"specified payment duration",
+  "confirmbuy.payment.time.text":"payment time",
+  "confirmbuy.Order summary.obtain.text":"obtain",
+  "confirmbuy.Order summary.agree.text":"If you agree to use C2C transactions, it means you accept ",
+  "confirmbuy.Order summary.link.text":"C2C Transaction Legal Disclaimer"
 }

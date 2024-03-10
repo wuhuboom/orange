@@ -1,6 +1,6 @@
 <template>
     <div class="layout">
-        <Header :header="headerObj[pageName]" />
+        <Header :header="headerObj[pageName]" :key="key"/>
         <router-view />
         <Footer />
 
@@ -455,14 +455,14 @@ const headerObj = computed(() => {
 })
 const state = reactive({
     pageName: route.name,
-
+    key:Math.random()
 })
 watchEffect(() => {
     // console.log(route.name);
     state.pageName = route.name
-
+    state.key = Math.random()
 })
-const { pageName } = toRefs(state)
+const { pageName,key } = toRefs(state)
 </script>
 <style scoped lang='scss'>
 .layout {

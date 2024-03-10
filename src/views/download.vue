@@ -1,5 +1,5 @@
 <template>
-    <div class="download">
+    <div class="download maxWidth lrPadding ">
         <div class="logo">
             <img :src="getImg('down', 'icon')" />
         </div>
