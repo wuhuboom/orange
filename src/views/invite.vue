@@ -16,6 +16,16 @@
                 <img src="../assets/images/invite/copy.webp" class="copyImg" alt="" @click="copyBtn(shareLink)">
             </div>
         </div>
+        <van-dialog v-model:show="tipDialog" width="310px" className="fundDialog maxWidth" :showConfirmButton="false"
+            :showCancelButton="false">
+            <template #default>
+                <p class="wtitle">{{$t('invite.tip.title.text')}}</p>
+                <p class="wsubtitle">{{$t('invite.tip.subtitle.text')}}</p>
+                <img src="../assets/images/invite/logoIcon.webp" class="warningIcon" alt="">
+                <p class="wcontent">{{$t('invite.tip.content.text')}}</p>
+                <div class="btn" @click="tipDialog = false">{{$t('invite.tip.btn.text')}}</div>
+            </template>
+        </van-dialog>
     </div>
 </template>
 <script setup >
@@ -33,17 +43,18 @@ const { toClipboard } = useClipboard()
 
 const store = useStore()
 const accountInfo = computed(() => store.accountInfo)
-console.log(accountInfo);
 const { t, locale } = useI18n()
 const state = reactive({
     shareLink: '',
-    qrCodeImg: ''
+    qrCodeImg: '',
+    tipDialog: false
 })
 async function copyBtn(val) {
     console.log(val);
     try {
         await toClipboard(val)
-        showToast(t('transfer.copy.success.text'))
+        // showToast(t('transfer.copy.success.text'))
+        state.tipDialog = true
     } catch (error) {
         console.log(error);
     }
@@ -70,7 +81,7 @@ watchEffect(async () => {
         // console.log(qrCodeCanvas.toDataURL());
     }
 })
-const { qrCodeImg, shareLink } = toRefs(state)
+const { qrCodeImg, shareLink,tipDialog } = toRefs(state)
 </script>
 <style scoped lang='scss'>
 .invite {
@@ -136,8 +147,61 @@ const { qrCodeImg, shareLink } = toRefs(state)
             .shareUrl {
                 width: 75%;
                 text-align: center;
+                padding-right: 20px;
                 // white-space: ;
             }
+        }
+    }
+    :deep(.fundDialog) {
+        border-radius: 16px;
+        background-image: linear-gradient(to bottom, #252531, rgba(24, 24, 38, 0.96));
+        padding: 0 30px;
+        .warningIcon {
+            width: 100%;
+            height: 54px;
+            margin: 10px auto 0;
+        }
+        .wtitle {
+            font-family: 'Roboto';
+            font-size: 18px;
+            font-weight: bold;
+            text-align: center;
+            color: #ff6c00;
+            margin-top: 20px;
+            text-transform: uppercase;
+        }
+        .wsubtitle{
+            font-family: 'Roboto';
+            font-size: 14px;
+            font-weight: normal;
+            font-stretch: normal;
+            font-style: normal;
+            line-height: 1.5;
+            letter-spacing: 0.3px;
+            text-align: left;
+            color: #fff;
+            margin-top: 15px;
+        }
+        .wcontent {
+            font-family: 'Roboto';
+            font-size: 14px;
+            font-weight: normal;
+            font-stretch: normal;
+            font-style: normal;
+            line-height: 1.5;
+            letter-spacing: 0.3px;
+            text-align: left;
+            color: #d9dbe9;
+            padding: 15px 10px 20px 10px;
+        }
+        .btn{
+            margin: 0 8px 0 0;
+            padding: 13.3px 104px 16px 105px;
+            border-radius: 14px;
+            background-color: #ff6c00;
+            text-transform: uppercase;
+            color: #fff;
+            margin-bottom: 20px;
         }
     }
 }

@@ -98,6 +98,15 @@
                 </div>
             </div>
         </div>
+
+        <van-dialog v-model:show="tipDialog" width="310px" className="fundDialog maxWidth" :showConfirmButton="false"
+            :showCancelButton="false">
+            <template #default>
+                <img src="../assets/images/withdraw/sucIcon.webp" class="warningIcon" alt="">
+                <p class="wtitle">{{$t('withdraw.success.title.text')}}</p>
+                <p class="wcontent">{{$t('withdraw.success.content.text')}}</p>
+            </template>
+        </van-dialog>
     </div>
 </template>
 <script setup>
@@ -123,9 +132,14 @@ const state = reactive({
     walletAddrIndex: 0,
     isShowWalletOpt: false,
     isShowWalletPanel: false,
+    tipDialog:false
 })
 async function submitWithdraw() {
     let url = '/player/withdrawal'
+    if (!state.amount) {
+        showToast(t('deal.buyDetail.387081-13'))
+        return
+    }
     if (state.payPwd.length <= 0) {
         showToast(t('withdraw.placeholder.text'))
         return
@@ -145,7 +159,13 @@ async function submitWithdraw() {
         if (res === null) {
             state.payPwd = ''
             state.money = ''
-            showToast(t('withdraw.success.text'))
+            // showToast(t('withdraw.success.text'))
+            state.tipDialog = true
+            setTimeout(() => {
+                state.tipDialog = false
+                state.payPwd = ''
+                state.amount = ''
+            }, 5000)
         }
     } catch (error) {
 
@@ -326,7 +346,7 @@ function getPanelTitle() {
 function closePanel() {
     state.isShowWalletPanel = false
 }
-const { amount, channelIndex, rechargeInfo, virtualCurrencyList, payPwd, currentWAList, walletAddrIndex, isShowWalletOpt, isShowWalletPanel,bankList } = toRefs(state)
+const { amount, channelIndex, rechargeInfo, virtualCurrencyList, payPwd, currentWAList, walletAddrIndex, isShowWalletOpt, isShowWalletPanel,bankList,tipDialog } = toRefs(state)
 </script>
 <style scoped lang='scss'>
 .withdraw {
@@ -647,6 +667,37 @@ const { amount, channelIndex, rechargeInfo, virtualCurrencyList, payPwd, current
 
     .showBetPanel {
         height: 250px;
+    }
+    :deep(.fundDialog) {
+        border-radius: 16px;
+        background-image: linear-gradient(to bottom, #252531, rgba(24, 24, 38, 0.96));
+        padding: 0 30px;
+        .warningIcon {
+            width: 54px;
+            height: 54px;
+            margin: 10px auto 0;
+        }
+        .wtitle {
+            text-align: center;
+            color: #fff;
+            margin-top: 18px;
+            font-family: $fontFamily;
+            font-size: 13px;
+            font-weight: bold;
+            color: #fff;
+        }
+        .wcontent {
+            font-family: Roboto;
+            font-size: 16px;
+            font-weight: normal;
+            font-stretch: normal;
+            font-style: normal;
+            line-height: 1.5;
+            letter-spacing: 0.3px;
+            text-align: left;
+            color: #d9dbe9;
+            padding: 15px 10px 20px 10px;
+        }
     }
 }
 </style>
