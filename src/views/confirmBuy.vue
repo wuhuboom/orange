@@ -7,7 +7,7 @@
                     :key="index">
                     <img :src="getImg('confirmBuy', (index <= stepIndex ? 'step1' : item.icon))" alt="">
                     <p class="stepName">{{ item.step }}</p>
-                    <p class="desc apostrophe">{{ item.desc }}</p>
+                    <p class="desc">{{ item.desc }}</p>
                 </div>
             </div>
             <!-- step === 0 -->
@@ -155,24 +155,30 @@
 import { reactive, toRefs } from 'vue'
 import { getImg } from '@/utils/utils'
 import { useRouter } from 'vue-router'
+import { useI18n } from 'vue-i18n'
+import http from '@/utils/axios'
+const { t } = useI18n()
 const router = useRouter()
 const state = reactive({
+    id:'',
+    orderData:{},
+    fbconf:{},
     stepIndex: 0,
     stepList: [{
         icon: 'step1',
         iconActive: 'step1',
-        step: 'STEP 1',
-        desc: "Order has been generated"
+        step: t('confirmbuy.step1.text'),
+        desc: t('confirmbuy.step1.desc')
     }, {
         icon: 'step2',
         iconActive: 'step1',
-        step: 'STEP 2',
-        desc: "Make payment to the seller"
+        step: t('confirmbuy.step2.text'),
+        desc: t('confirmbuy.step2.desc')
     }, {
         icon: 'step3',
         iconActive: 'step1',
-        step: 'STEP 3',
-        desc: "waiting for the funds to arrive"
+        step: t('confirmbuy.step3.text'),
+        desc: t('confirmbuy.step3.desc')
     },],
     countDownTime: 15 * 60 * 1000,
     showPayMethod: false
@@ -189,7 +195,66 @@ function toCancelOrder() {
         path: '/cancelOrder'
     })
 }
-const { stepList, stepIndex, countDownTime, showPayMethod } = toRefs(state)
+// 购买获取支付方式
+async function fbBuy1(){
+    let url = '/player/fb/buy1'
+    try {
+        let para = {
+            id:state.id
+        }
+        const res = await http.post(url,para) 
+    } catch (error) {
+        console.log(error)
+    }
+}
+// 购买选择支付方式
+async function fbBuy2(){
+    let url = '/player/fb/buy2'
+    try {
+        let para = {
+            id:state.id,
+            payId:''
+        }
+        const res = await http.post(url,para) 
+    } catch (error) {
+        console.log(error)
+    }
+}
+// 标记已付款
+async function fbBuyPayed(){
+    let url = '/player/fb/buy/payed'
+    try {
+        let para = {
+            id:state.id
+        }
+        const res = await http.post(url,para)
+        getSalerOrderDetail()
+    } catch (error) {
+        console.log(error)
+    }
+}
+async function getFbConf(){
+    let url = '/player/fb/conf'
+    try {
+        const res = await http.get(url)
+        state.fbconf = res
+    } catch (error) {
+        console.log(error)
+    }
+}
+async function getSalerOrderDetail(){
+    let url = '/player/fb/sale/order/detail'
+    try {
+        let para = {
+            id:state.id
+        }
+        const res = await http.post(url,para)
+        state.orderData = res
+    } catch (error) {
+        console.log(error)
+    }
+}
+const { id,stepList, stepIndex, countDownTime, showPayMethod,orderData,fbconf } = toRefs(state)
 </script>
 <style scoped lang='scss'>
 .confirmBuy {
@@ -225,6 +290,7 @@ const { stepList, stepIndex, countDownTime, showPayMethod } = toRefs(state)
                     text-align: center;
                     font-size: 11px;
                     color: #8d8d8d;
+                    width:100px;
                 }
             }
 

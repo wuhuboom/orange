@@ -2,20 +2,14 @@
     <div class="cancelOrder maxWidth lrPadding">
         <div class="title">
             <img src="" alt="">
-            Friendly reminder
+            {{ $t('cancelorder.friendlyReminder.text')}}
         </div>
-        <p class="text"> 1. If you have already made payment to the seller, please do not cancel the order.</p>
+        <p class="text"> {{ $t('cancelorder.friendlyReminder.tips1.text') }}</p>
 
-        <p class="text"> 2. If the seller does not respond to your message within 15 minutes, you can cancel the order
-            without any
-            penalty, and your completion rate will not be affected. You can cancel orders without penalty up to 5 times per
-            day.</p>
+        <p class="text"> {{ $t('cancelorder.friendlyReminder.tips2.text') }}</p>
 
-        <p class="text"> 3. If the order is canceled due to system timeout, the buyer will be penalized (completion rate
-            affected).
-            You can have up to 3 cancellations with penalty per day. Otherwise, your account will be suspended, and you will
-            not be able to place orders on the same day.</p>
-        <h5>Please select the reason for cancellation</h5>
+        <p class="text"> {{ $t('cancelorder.friendlyReminder.tips3.text' ) }}</p>
+        <h5>{{ $t('cancelorder.reason.head.text') }}</h5>
         <van-divider />
         <ul class="list">
             <li class="cursor " :class="{ pactive: reasonsIndex === index }" v-for="(item, index) in listData" :key="index"
@@ -24,14 +18,19 @@
                     alt="">
                 {{ item.text }}
             </li>
-
         </ul>
+        <div class="confirm cursor" @click="cancelOrder">
+            {{ $t('modal.confirm.text') }}
+        </div>
     </div>
 </template>
 <script setup >
 import { reactive, toRefs } from "vue";
 import { getImg } from '@/utils/utils'
 import http from '@/utils/axios'
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
+import { showToast } from 'vant'
 import { useRouter } from 'vue-router'
 const router = useRouter()
 const state = reactive({
@@ -39,35 +38,35 @@ const state = reactive({
     listData: [
         {
             icon: 'dot',
-            text: 'I changed my mind/I no longer want to buy.'
+            text: t('cancelorder.reason1.text')
         },
         {
             icon: 'dot',
-            text: 'There was a technical or network error with the payment platform.'
+            text: t('cancelorder.reason2.text')
         },
         {
             icon: 'dot',
-            text: 'I haven’t made the payment yet, but accidentally clicked ‘Transferred.'
+            text: t('cancelorder.reason3.text')
         },
         {
             icon: 'dot',
-            text: 'I am a beginner and don’t know how to make the transfer.'
+            text: t('cancelorder.reason4.text')
         },
         {
             icon: 'dot',
-            text: 'The seller’s receiving account has been flagged by risk control and I am unable to make the payment.'
+            text: t('cancelorder.reason5.text')
         },
         {
             icon: 'dot',
-            text: 'The actual unit price/amount does not match what I saw.'
+            text: t('cancelorder.reason6.text')
         },
         {
             icon: 'dot',
-            text: 'Negotiated cancellation with the seller.'
+            text: t('cancelorder.reason7.text')
         },
         {
             icon: 'dot',
-            text: 'Other reasons.'
+            text: t('cancelorder.reason8.text')
         },
     ]
 })
@@ -76,6 +75,19 @@ function selectReasons(index) {
     router.push({
         path: '/orderStatus'
     })
+}
+async function cancelOrder(){
+    let url = '/player/fb/buy/cancel'
+    if(state.reasonsIndex < 0){
+        showToast($t('ruls.xxx.empty', { type: t('reason') }))
+        return
+    }
+    let para = {
+        id:state.id,
+        remark: state.listData[state.reasonsIndex].text
+    }
+    const res = await http.post(url, para)
+    
 }
 const { listData, reasonsIndex } = toRefs(state)
 </script>
