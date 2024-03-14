@@ -23,7 +23,7 @@
             <div class="right">
                 <!-- 金额 -->
                 <div class="money" v-if="header.isShowRightMoney">
-                    <img :src="getImg('header', 'mIcon')" class="mIcon" alt="">
+                    <img :src="getImg('header', 'mIcon')" class="mIcon" alt="" @click="goRecharge">
                     <span class="moneyNum">{{ accountInfo?.currRate || '0.0' }}</span>
                 </div>
                 <!-- buy页面 -->
@@ -79,6 +79,9 @@ async function handleRightIcon() {
      if(res.serviceAddr){
         window.location.href = res.serviceAddr
      }
+}
+function goRecharge(){
+    router.push({ name: 'recharge' })
 }
 onMounted(() => {
     store.getUserInfo()

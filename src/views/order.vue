@@ -185,6 +185,9 @@ orderList()
 async function orderList(val) {
     // 1今天(用bets/today)，2昨天，3近7日，4近10日，5近30日
     let url = '/player/bets'
+    if(state.tabIndex == 0){
+        url = '/player/bets/today'
+    }
     let data = {
         time: state.tabsArr[state.tabIndex].time,
         pageNo: state.page.pageNo,
