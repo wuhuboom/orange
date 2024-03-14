@@ -158,7 +158,7 @@ const { qrCodeImg, shareLink,tipDialog } = toRefs(state)
         padding: 0 30px;
         .warningIcon {
             width: 100%;
-            height: 54px;
+            height: auto;
             margin: 10px auto 0;
         }
         .wtitle {

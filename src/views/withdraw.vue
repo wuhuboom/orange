@@ -105,6 +105,7 @@
                 <img src="../assets/images/withdraw/sucIcon.webp" class="warningIcon" alt="">
                 <p class="wtitle">{{$t('withdraw.success.title.text')}}</p>
                 <p class="wcontent">{{$t('withdraw.success.content.text')}}</p>
+                <div class="btn" @click="tipDialog = false">{{$t('invite.tip.btn.text')}}</div>
             </template>
         </van-dialog>
     </div>
@@ -161,11 +162,11 @@ async function submitWithdraw() {
             state.money = ''
             // showToast(t('withdraw.success.text'))
             state.tipDialog = true
-            setTimeout(() => {
-                state.tipDialog = false
-                state.payPwd = ''
-                state.amount = ''
-            }, 5000)
+            // setTimeout(() => {
+            //     state.tipDialog = false
+            //     state.payPwd = ''
+            //     state.amount = ''
+            // }, 5000)
         }
     } catch (error) {
 
@@ -697,6 +698,15 @@ const { amount, channelIndex, rechargeInfo, virtualCurrencyList, payPwd, current
             text-align: left;
             color: #d9dbe9;
             padding: 15px 10px 20px 10px;
+        }
+        .btn{
+            margin: 0 8px 0 0;
+            padding: 13.3px 104px 16px 105px;
+            border-radius: 14px;
+            background-color: #ff6c00;
+            text-transform: uppercase;
+            color: #fff;
+            margin-bottom: 20px;
         }
     }
 }
