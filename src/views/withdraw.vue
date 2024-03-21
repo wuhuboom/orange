@@ -50,7 +50,7 @@
             <input type="password" class="hideInputBtn" v-model="payPwd" :placeholder="$t('withdraw.placeholder.text')">
         </div>
 
-        <div class="confirm cursor" :class="{ confirmMt: virtualCurrencyList.length > 0 }" @click="submitWithdraw">
+        <div class="confirm cursor" :class="{ confirmMt: virtualCurrencyList.length > 0 }" @click="submitWithdrawPre">
             {{ $t('modal.confirm.text') }}
         </div>
 
@@ -108,6 +108,17 @@
                 <div class="btn" @click="tipDialog = false">{{$t('invite.tip.btn.text')}}</div>
             </template>
         </van-dialog>
+        <van-dialog v-model:show="vipClearDialog" width="310px" className="fundDialog maxWidth" :showConfirmButton="false"
+            :showCancelButton="false">
+            <template #default>
+                <p class="wcontent">{{$t('withdraw.clearvip.tip.text')}}</p>
+                <div class="btn-box">
+                    <div class="btn-cal" @click="vipClearDialog = false">{{$t('index.editor.psd.modal.cancel.btn')}}</div>
+                    <div class="btn-sub" @click="submitWithdraw">{{$t('invite.tip.btn.text')}}</div>
+                </div>
+                
+            </template>
+        </van-dialog>
     </div>
 </template>
 <script setup>
@@ -133,9 +144,19 @@ const state = reactive({
     walletAddrIndex: 0,
     isShowWalletOpt: false,
     isShowWalletPanel: false,
-    tipDialog:false
+    tipDialog:false,
+    vipClearDialog:false
 })
+function submitWithdrawPre(){
+    var wiClear = state.virtualCurrencyList[state.channelIndex].wiClearVip
+    if(wiClear==0){
+        submitWithdraw()
+    }else{
+        state.vipClearDialog = true
+    }
+}
 async function submitWithdraw() {
+    state.vipClearDialog = false
     let url = '/player/withdrawal'
     if (!state.amount) {
         showToast(t('deal.buyDetail.387081-13'))
@@ -347,7 +368,7 @@ function getPanelTitle() {
 function closePanel() {
     state.isShowWalletPanel = false
 }
-const { amount, channelIndex, rechargeInfo, virtualCurrencyList, payPwd, currentWAList, walletAddrIndex, isShowWalletOpt, isShowWalletPanel,bankList,tipDialog } = toRefs(state)
+const { amount, channelIndex, rechargeInfo, virtualCurrencyList, payPwd, currentWAList, walletAddrIndex, isShowWalletOpt, isShowWalletPanel,bankList,tipDialog,vipClearDialog } = toRefs(state)
 </script>
 <style scoped lang='scss'>
 .withdraw {
@@ -707,6 +728,34 @@ const { amount, channelIndex, rechargeInfo, virtualCurrencyList, payPwd, current
             text-transform: uppercase;
             color: #fff;
             margin-bottom: 20px;
+        }
+        .btn-box{
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            width: 100%;
+            margin-bottom: 20px;
+            .btn-cal{
+                width:30%;
+                height: 35px;
+                line-height: 35px;
+                border-radius: 14px;
+                background-color: transparent;
+                text-transform: uppercase;
+                color: #fff;
+                border: 1px solid #fff;
+                text-align: center;
+            }
+            .btn-sub{
+                width:30%;
+                height: 35px;
+                line-height: 35px;
+                border-radius: 14px;
+                background-color: #ff6c00;
+                text-transform: uppercase;
+                color: #fff;
+                text-align: center;
+            }
         }
     }
 }

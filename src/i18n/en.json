@@ -1157,6 +1157,7 @@
   "backapi.self.safe.recharge.compensation.text": "Recharge compensation",
   "withdraw.success.title.text": "Submitted successfully",
   "withdraw.success.content.text": "Your withdrawal request has been submitted, please wait patiently for it to arrive",
+  "withdraw.clearvip.tip.text":"Your withdrawal will cause your vip level to reset, please confirm whether to submit",
   "invite.tip.title.text":"Promotion rules",
   "invite.tip.subtitle.text":"Promotion on the Internet such as",
   "invite.tip.content.text":"etc. is prohibited. If discovered, your account will be banned.",
