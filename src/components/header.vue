@@ -84,7 +84,10 @@ function goRecharge(){
     router.push({ name: 'recharge' })
 }
 onMounted(() => {
-    store.getUserInfo()
+    const name = route.name
+    if(name != 'result'){
+        store.getUserInfo()
+    }
     if (route.query?.merName) {
         state.merName = route.query?.merName
         state.price = route.query?.price
