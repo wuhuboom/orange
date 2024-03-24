@@ -63,7 +63,6 @@ const state = reactive({
 
 
 async function handleHeaderClick() {
-    await store.getUserInfo()
     if (header.value.leftIcon == 'back') {
         router.go(-1)
     }
@@ -71,6 +70,7 @@ async function handleHeaderClick() {
     if (showLeftArr.includes(route.name)) {
         store.showLeftNav = true
     }
+    await store.getUserInfo()
 }
 async function handleRightIcon() {
      let url ='/player/home/serv'
