@@ -88,7 +88,7 @@ const router = useRouter()
 const state = reactive({
     perInfo: {},
     showLangOpt: false,
-    langTarget: localStorage.getItem('lang').toUpperCase() || 'EN',
+    langTarget: localStorage.getItem('lang').toUpperCase() || 'VN',
     menuIndex: -1,
     langList: [
         {
