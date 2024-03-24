@@ -7,10 +7,11 @@ import fr from "./fr.json";
 import ins from "./ins.json";
 import zh from "./zh.json";
 import deal from "./deal.json";
+import vn from "./vn.json";
 // 创建 i18n 实例
 const i18n = createI18n({
-  locale: localStorage.getItem("lang") || "en", // 设置默认语言
-  fallbackLocale: "en", // 设置回退语言
+  locale: localStorage.getItem("lang") || "vn", // 设置默认语言
+  fallbackLocale: "vn", // 设置回退语言
   legacy: false, //不兼容vue2
   allowComposition: true, //允许组合式api使用
   messages: {
@@ -20,6 +21,7 @@ const i18n = createI18n({
     fr: { ...fr, ...deal.fr },
     ins: { ...ins, ...deal.ins },
     zh: { ...zh, ...deal.zh },
+    vn: { ...vn, ...deal.vn },
   },
   // 其他配置
 });

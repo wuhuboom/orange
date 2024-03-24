@@ -91,9 +91,9 @@ const state = reactive({
     langTarget: localStorage.getItem('lang').toUpperCase() || 'EN',
     menuIndex: -1,
     langList: [
-        // {
-        //     name: 'ZH'
-        // },
+        {
+            name: 'VN'
+        },
         {
             name: 'EN'
         },
@@ -254,6 +254,9 @@ watchEffect(() => {
 })
 function showSelect() {
     let langList = [
+         {
+            name: 'VN'
+        },
         {
             name: 'EN'
         },

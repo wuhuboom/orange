@@ -59,6 +59,9 @@ let regRefs = ref(null)
 const state = reactive({
   langList: [
     {
+      name: 'VN'
+    },
+    {
       name: 'EN'
     },
     {
@@ -72,10 +75,10 @@ const state = reactive({
     },
     {
       name: 'INS'
-    },
+    }
   ],
   showLangOpt: false,
-  langTarget: localStorage.getItem('lang')?.toUpperCase() || 'EN',
+  langTarget: localStorage.getItem('lang')?.toUpperCase() || 'VN',
   serviceUrl: '',
   btnIndex: 0,
   rCheckBool: false,
@@ -85,6 +88,9 @@ const state = reactive({
 })
 function showSelect() {
   let langList = [
+     {
+      name: 'VN'
+    },
     {
       name: 'EN'
     },
