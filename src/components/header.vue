@@ -2,9 +2,12 @@
     <div class="header maxWidth" :style="{ background: header?.bgColor }">
         <div class="hbox">
             <div class="left">
+                <div v-if="header.leftIcon=='A'" class="leftTitle">
+                    {{leftTitle}}
+                </div>
                 <img :src="getImg('header', header.leftIcon)"
                     :style="{ width: header.leftIconWidth, height: header.leftIconHeight }" alt=""
-                    @click="handleHeaderClick">
+                    @click="handleHeaderClick" v-else>
                 <!-- buy页面 -->
                 <div class="buyC2C" v-if="route.name == 'buy'">
                     C2C
@@ -58,7 +61,8 @@ const { header } = toRefs(props)
 
 const state = reactive({
     merName: '',
-    price:''
+    price:'',
+    leftTitle:config.leftTitle
 })
 
 
@@ -93,7 +97,7 @@ onMounted(() => {
         state.price = route.query?.price
     }
 })
-const {merName,price} = toRefs(state)
+const {merName,price,leftTitle} = toRefs(state)
 </script>
 <style scoped lang='scss'>
 .header {
@@ -120,7 +124,11 @@ const {merName,price} = toRefs(state)
 
     .left {
         @include flex(flex-start);
-
+        .leftTitle{
+            font-size: 22px;
+            font-weight: 600;
+            color: rgb(254,124,67)
+        }
         img {
             width: 32px;
             height: 32px;

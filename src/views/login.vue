@@ -25,8 +25,8 @@
           <span :class="{ spanAct: btnIndex === 0 }" @click="changeBtn(0)">{{ $t('login.loginBtn') }}</span>
           <span :class="{ spanAct: btnIndex === 1 }" @click="changeBtn(1)">{{ $t('register.registerBtn') }}</span>
         </div>
-        <LoginC v-show="btnIndex === 0" :btnIndex="btnIndex" />
-        <RegisterC v-show="btnIndex === 1" :btnIndex="btnIndex" @changeRegStatus="changeRegStatus"
+        <LoginC v-if="btnIndex === 0" :btnIndex="btnIndex" />
+        <RegisterC v-if="btnIndex === 1" :btnIndex="btnIndex" @changeRegStatus="changeRegStatus"
           @changeBtnIndex="changeBtnIndex" ref="regRefs" :isRegBtn="isRegBtn" />
       </div>
     </div>
@@ -111,11 +111,14 @@ function showSelect() {
   state.showLangOpt = !state.showLangOpt
 }
 function selectLang(item) {
+  let index = state.btnIndex
+  // state.btnIndex = 2
   state.langTarget = item.name
   let language = item.name.toLowerCase()
   localStorage.setItem('lang', language)
   locale.value = language
   state.showLangOpt = false
+  // state.btnIndex = index
 }
 async function getServiceLink() {
   let url = '/player/home/serv_tmp'

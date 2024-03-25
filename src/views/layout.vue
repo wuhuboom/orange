@@ -31,7 +31,7 @@ const headerObj = computed(() => {
             bgColor: "#202020",
         },
         match: {
-            leftIcon: "boldCter",
+            leftIcon: "A",
             leftIconWidth: "58px",
             leftIconHeight: "19px",
             center: "",

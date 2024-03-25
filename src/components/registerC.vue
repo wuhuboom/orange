@@ -40,7 +40,7 @@
     </div>
 </template>
 <script setup>
-import { reactive, toRefs, onMounted, watchEffect } from 'vue'
+import { reactive, toRefs, onMounted, watchEffect,computed } from 'vue'
 import { getImg } from '@/utils/utils'
 import { useRouter } from 'vue-router';
 import http from "@/utils/axios";
@@ -53,7 +53,92 @@ const router = useRouter()
 const props = defineProps(['isRegBtn', 'btnIndex'])
 const emit = defineEmits('changeRegStatus', 'changeBtnIndex')
 const state = reactive({
-    userInfo: [
+    // userInfo: [
+    //     {
+    //         name: 'account',
+    //         imgIcon: 'acc',
+    //         type: 'text',
+    //         val: '',
+    //         iconFile: 'login',
+    //         error: false,
+    //         errorText: t('login.uErrorText'),
+    //         placeholder: t('login.username')
+    //     },
+    //     {
+    //         name: 'password',
+    //         imgIcon: 'pwd',
+    //         type: 'password',
+    //         val: '',
+    //         iconFile: 'login',
+    //         error: false,
+    //         errorText: t('login.pErrorText'),
+    //         placeholder: t('login.password')
+    //     },
+    //     {
+    //         name: 'ConfirmPassword',
+    //         imgIcon: 'pwd',
+    //         type: 'password',
+    //         val: '',
+    //         iconFile: 'login',
+    //         error: false,
+    //         errorText: t('register.confirmErrorText'),
+    //         placeholder: t('register.confirmPwd')
+    //     },
+    //     {
+    //         name: 'invitationCode',
+    //         imgIcon: 'rCode',
+    //         type: 'text',
+    //         val: '',
+    //         error: false,
+    //         iconFile: 'register',
+    //         errorText: t('register.referralErrorText'),
+    //         placeholder: t('register.referralCode')
+    //     },
+    //     {
+    //         name: 'emailAddress',
+    //         imgIcon: 'email',
+    //         type: 'text',
+    //         val: '',
+    //         iconFile: 'login',
+    //         error: false,
+    //         errorText: t('register.emailErrorText'),
+    //         placeholder: t('register.email')
+    //     },
+    //     {
+    //         name: 'phoneNumber',
+    //         imgIcon: '',
+    //         type: 'text',
+    //         val: '',
+    //         iconFile: '',
+    //         error: false,
+    //         errorText: t('register.phoneErrorText'),
+    //         placeholder: t('register.phone')
+    //     },
+    //     {
+    //         name: 'verificationCode',
+    //         imgIcon: 'code',
+    //         type: 'text',
+    //         val: '',
+    //         iconFile: 'register',
+    //         error: false,
+    //         errorText: t('login.vErrorText'),
+    //         placeholder: t('login.verificationCode')
+    //     },
+    // ],
+    isReadPwd: false,
+    showAreaCodeOpt: false,
+    areaCode: 225,
+    codeList: [],
+    checked: false,
+    showCheckedBordr: false,
+    showCheckedAnimate: false,
+    verificationObj: {},
+    inputIndex: -1,
+    lUser:[]
+})
+
+const userInfo = computed(() => {
+    state.lUser = [
         {
             name: 'account',
             imgIcon: 'acc',
@@ -124,16 +209,8 @@ const state = reactive({
             errorText: t('login.vErrorText'),
             placeholder: t('login.verificationCode')
         },
-    ],
-    isReadPwd: false,
-    showAreaCodeOpt: false,
-    areaCode: 225,
-    codeList: [],
-    checked: false,
-    showCheckedBordr: false,
-    showCheckedAnimate: false,
-    verificationObj: {},
-    inputIndex: -1,
+    ]
+    return state.lUser
 })
 function showSelect() {
     state.showAreaCodeOpt = !state.showAreaCodeOpt
@@ -158,9 +235,9 @@ async function registerAcc() {
     console.log('zhuce ');
 
     if (props.isRegBtn) {
-        for (let i in state.userInfo) {
-            state.userInfo[i].error = state.userInfo[i].val == '' ? true : false
-            if (state.userInfo[i].error) {
+        for (let i in userInfo) {
+            userInfo[i].error = userInfo[i].val == '' ? true : false
+            if (userInfo[i].error) {
                 emit('changeRegStatus', false)
                 return
             }
@@ -168,14 +245,14 @@ async function registerAcc() {
     }
     let url = '/player/auth/regist'
     let data = {
-        username: state.userInfo[0].val,
-        password: state.userInfo[1].val,
-        twoPassword: state.userInfo[2].val,
-        invitationCode: state.userInfo[3].val,
+        username: userInfo[0].val,
+        password: userInfo[1].val,
+        twoPassword: userInfo[2].val,
+        invitationCode: userInfo[3].val,
         verifyKey: state.verificationObj?.verifyKey,
-        email: state.userInfo[4].val,
-        code: state.userInfo[6].val,
-        phone: `${state.areaCode}${state.userInfo[5].val}`,
+        email: userInfo[4].val,
+        code: userInfo[6].val,
+        phone: `${state.areaCode}${userInfo[5].val}`,
         areaCode: state.areaCode,
     }
     try {
@@ -187,7 +264,7 @@ async function registerAcc() {
         if (res?.token) {
             let reStoreage = {
                 isremember: false,
-                user: state.userInfo
+                user: userInfo
             }
             if (localStorage.getItem('remember')) {
                 let storage = JSON.parse(localStorage.getItem('remember'))
@@ -206,7 +283,7 @@ async function registerAcc() {
     }
 }
 async function getVerifyCode() {
-    state.userInfo[6].val = ''
+    userInfo[6].val = ''
     let url = '/player/auth/verify_code'
     try {
         const res = await http.get(url)
@@ -251,7 +328,7 @@ onMounted(() => {
         }
     })
 })
-const { userInfo, isReadPwd, areaCode, showAreaCodeOpt, codeList, checked, verificationObj, showCheckedBordr, showCheckedAnimate, inputIndex } = toRefs(state)
+const { isReadPwd, areaCode, showAreaCodeOpt, codeList, checked, verificationObj, showCheckedBordr, showCheckedAnimate, inputIndex } = toRefs(state)
 </script>
 <style lang="scss" scoped>
 @keyframes shake {
