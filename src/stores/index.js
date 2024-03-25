@@ -18,8 +18,10 @@ export const useStore = defineStore("store", {
       //   localStorage.setItem("accountInfo", JSON.stringify(res));
       // });
       const res = await http.get("/player/player_info")
-      this.accountInfo = res
-      localStorage.setItem("accountInfo", JSON.stringify(this.accountInfo));
+      if(res && res.balance > 0){
+        this.accountInfo = res
+        localStorage.setItem("accountInfo", JSON.stringify(this.accountInfo));
+      }
     },
     changeShowNotice(id) {
       this.showNoticeId = id

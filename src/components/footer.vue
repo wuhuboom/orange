@@ -13,6 +13,7 @@ import { reactive, toRefs, onMounted, watchEffect, computed } from 'vue'
 import { getImg } from '@/utils/utils'
 import { useRouter, useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'
+import http from '@/utils/axios'
 
 const { t } = useI18n()
 
@@ -21,10 +22,12 @@ const route = useRoute()
 
 const state = reactive({
     activeIndex: 0,
+    isSafe:0
 })
 const list = computed(() => {
-
-    let list = [
+    let list = []
+    if(state.isSafe == 1){
+        list = [
         {
             icon: 'home',
             name: t('footer.home'),
@@ -48,11 +51,57 @@ const list = computed(() => {
             fname: 'order',
             link: '/order'
         },
+         {
+            icon: 'funds',
+             name: t('footer.safe'),
+             fname: 'safe',
+             link: '/safe'
+        },
+        {
+            icon: 'result',
+            name: t('footer.result'),
+            fname: 'result',
+            link: '/result'
+        },
         // {
         //     icon: 'funds',
-        //     name: t('footer.safe'),
-        //     fname: 'safe',
-        //     link: '/safe'
+        //     name: 'Funds',
+        // },
+        // {
+        //     icon: 'profile',
+        //     name: 'Profile',
+        // },
+        ]
+    }else{
+        list = [
+        {
+            icon: 'home',
+            name: t('footer.home'),
+            fname: 'home',
+            link: '/home'
+        },
+        {
+            icon: 'match',
+            name: t('footer.match'),
+            fname: 'match',
+            link: '/Match'
+        },
+        // {
+        //     icon: 'partner',
+        //     name: 'Partner',
+        //     link: '/partner'
+        // },
+        {
+            icon: 'partner',
+            name: t('footer.order'),
+            fname: 'order',
+            link: '/order'
+        },
+        //  {
+        //     icon: 'funds',
+        //      name: t('footer.safe'),
+        //      fname: 'safe',
+        //      link: '/safe'
         // },
         {
             icon: 'result',
@@ -68,10 +117,23 @@ const list = computed(() => {
         //     icon: 'profile',
         //     name: 'Profile',
         // },
-    ]
+        ]
+    }
     return list
 })
+
+isSafe()
+async function isSafe(){
+     let url = '/player/safe/conf'
+    try {
+        const res = await http.get(url)
+        state.isSafe = res.showH5 || 0;
+    } catch (error) {
+        console.log(error);
+    }
+}
 function changeFooterIndex(item, index) {
+    isSafe()
     state.activeIndex = index
     router.push({
         path: item.link
