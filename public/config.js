@@ -1,7 +1,7 @@
 window.config = {
-  UNIFIED_NUMBER: 100,
+  UNIFIED_NUMBER: 10000,
   USDT_NUMBER: 10000,
   baseUrl: "https://api.uunn.org",
-  leftTitle:"CERT"
+  leftTitle:"ARC.CC"
   //   MSG_BELL: "1",
 };
