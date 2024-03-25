@@ -29,7 +29,7 @@
         <div class="betMain hideScrollbar" :style="{ height: `${pageHeight - 340}px` }">
             <div class="betItem" v-for="(item, index) in betData" :key="index" @click="handleBetClick(item, index)">
                 <p class="score">{{ item.scoreHome }}-{{ item.scoreAway }}</p>
-                <div class="odds cursor" :class="{ oddsActive: betIndex === index }">{{ item.antiPerCent }}</div>
+                <div class="odds cursor" :class="{ oddsActive: betIndex === index }">{{ item.antiPerCent }}%</div>
             </div>
         </div>
         <!-- 投注面板 -->
@@ -68,7 +68,7 @@
                     </p>
                     <p class="betOdds">
                         <span>{{ $t('bet.detail.odds.text') }}</span>
-                        <span>{{ targetBetOpt.antiPerCent }}</span>
+                        <span>{{ targetBetOpt.antiPerCent }}%</span>
                     </p>
                 </div>
                 <p class="betRange" :class="{ errorStyle: (getErrorStyle() || betRangeMistake) }">
