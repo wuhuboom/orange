@@ -25,7 +25,7 @@
                                 :class="{ inputMl: item.name === 'phoneNumber', verificationMl: item.name === 'verificationCode' }"
                                 @focus="borderActive(index)" @blur="resetActive(item)" @input="resetActive(item)" />
                             <img :src="verificationObj?.img" alt=""
-                                v-if="item.name === 'verificationCode' && verificationObj?.img"
+                                v-if="item.name === 'verificationCode'"
                                 style="margin-left: 60px; width: 80px;cursor: pointer;" @click="getVerifyCode">
                         </div>
                         <img :src="getImg('login', isReadPwd ? 'open' : 'close')" class="eye" alt=""
@@ -232,12 +232,10 @@ function resetActive(item) {
     }
 }
 async function registerAcc() {
-    console.log('zhuce ');
-
     if (props.isRegBtn) {
-        for (let i in userInfo) {
-            userInfo[i].error = userInfo[i].val == '' ? true : false
-            if (userInfo[i].error) {
+        for (let i in userInfo.value) {
+            userInfo.value[i].error = userInfo.value[i].val == '' ? true : false
+            if (userInfo.value[i].error) {
                 emit('changeRegStatus', false)
                 return
             }
@@ -245,14 +243,14 @@ async function registerAcc() {
     }
     let url = '/player/auth/regist'
     let data = {
-        username: userInfo[0].val,
-        password: userInfo[1].val,
-        twoPassword: userInfo[2].val,
-        invitationCode: userInfo[3].val,
+        username: userInfo.value[0].val,
+        password: userInfo.value[1].val,
+        twoPassword: userInfo.value[2].val,
+        invitationCode: userInfo.value[3].val,
         verifyKey: state.verificationObj?.verifyKey,
-        email: userInfo[4].val,
-        code: userInfo[6].val,
-        phone: `${state.areaCode}${userInfo[5].val}`,
+        email: userInfo.value[4].val,
+        code: userInfo.value[6].val,
+        phone: `${state.areaCode}${userInfo.value[5].val}`,
         areaCode: state.areaCode,
     }
     try {
@@ -264,7 +262,7 @@ async function registerAcc() {
         if (res?.token) {
             let reStoreage = {
                 isremember: false,
-                user: userInfo
+                user: userInfo.value
             }
             if (localStorage.getItem('remember')) {
                 let storage = JSON.parse(localStorage.getItem('remember'))
@@ -283,7 +281,7 @@ async function registerAcc() {
     }
 }
 async function getVerifyCode() {
-    userInfo[6].val = ''
+    userInfo.value[6].val = ''
     let url = '/player/auth/verify_code'
     try {
         const res = await http.get(url)
@@ -295,6 +293,7 @@ async function getVerifyCode() {
 // getVerifyCode()
 
 watchEffect(() => {
+    console.log(props.isRegBtn);
     if (props.isRegBtn) {
         registerAcc()
     }

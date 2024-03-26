@@ -12,7 +12,7 @@
                     <img :src="getImg('login', (isReadPwd ? 'open' : 'close'))" alt="" class="eye"
                         v-if="item.name == 'password'" @click="readPwd(item)" style="cursor: pointer;">
                     <img :src="verificationObj?.img" alt="" v-if="item.name === 'verificationCode'"
-                        style="width: 80px;cursor: pointer;" @click="getVerifyCode">
+                        style="width: 80px;height:25px;cursor: pointer;" @click="getVerifyCode">
                 </div>
                 <p :class="{ errorPStyle: item.error }" style="padding-left: 8px;margin-bottom: 9px;" v-if="item.error">{{
                     item.errorText }}</p>

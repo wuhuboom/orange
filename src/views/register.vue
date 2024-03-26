@@ -27,8 +27,8 @@
               <input :type="item.type" :placeholder="item.placeholder" v-model="item.val"
                 :class="{ inputMl: item.name === 'phoneNumber', verificationMl: item.name === 'verificationCode' }"
                 @focus="borderActive(index)" @blur="resetActive(item)" @input="resetActive(item)" />
-              <img :src="verificationObj?.img" alt="" v-if="item.name === 'verificationCode' && verificationObj?.img"
-                style="margin-left: 60px; width: 80px;cursor: pointer;" @click="getVerifyCode">
+              <img :src="verificationObj?.img" alt="" v-if="item.name === 'verificationCode'"
+                style="margin-left: 60px; width: 80px;height:25px;cursor: pointer;" @click="getVerifyCode">
             </div>
             <img :src="getImg('login', isReadPwd ? 'open' : 'close')" class="eye" alt="" v-if="item.name == 'password'"
               @click="readPwd(item)" style="cursor: pointer;">

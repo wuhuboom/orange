@@ -148,6 +148,18 @@ const state = reactive({
     vipClearDialog:false
 })
 function submitWithdrawPre(){
+    if (!state.amount) {
+        showToast(t('deal.buyDetail.387081-13'))
+        return
+    }
+    if (state.payPwd.length <= 0) {
+        showToast(t('withdraw.placeholder.text'))
+        return
+    }
+    if (state.channelIndex < 0) {
+        showToast(t('withdraw.withdrawType.text'))
+        return
+    }
     var wiClear = state.virtualCurrencyList[state.channelIndex].wiClearVip
     if(wiClear==0){
         submitWithdraw()
@@ -158,7 +170,7 @@ function submitWithdrawPre(){
 async function submitWithdraw() {
     state.vipClearDialog = false
     let url = '/player/withdrawal'
-    if (!state.amount) {
+     if (!state.amount) {
         showToast(t('deal.buyDetail.387081-13'))
         return
     }
