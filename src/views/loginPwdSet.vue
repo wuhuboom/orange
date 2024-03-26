@@ -187,7 +187,11 @@ async function submit() {
             return
         }
         url ='/player/auth/editPwd'
-        data = Object.assign({ }, state.form1)
+        data = {
+            origin:state.form1.origin,
+            newpwd:state.form1.newPwd,
+            confirmed:state.form1.twicePwd
+        }
     }else{
         if (state.form2.code === '') {
             showToast(t('addWalletAddress.verify.code.text'))

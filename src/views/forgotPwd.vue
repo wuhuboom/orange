@@ -192,7 +192,7 @@ function selectAreaNum(item) {
     state.showAreaCodeOpt = false
 }
 async function getEmailCode() {
-    if(!checkPwd(state.userInfo[4].val)){
+    if(!state.userInfo[4].val){
         showToast(t('register.emailErrorText'))
         return 
     }

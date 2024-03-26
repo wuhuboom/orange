@@ -85,7 +85,13 @@ async function handleRightIcon() {
      }
 }
 function goRecharge(){
-    router.push({ name: 'recharge' })
+    // router.push({ name: 'recharge' })
+    router.push({ 
+        path: 'recharge',
+        query:{
+            rechargeType:'football'
+        }
+    })
 }
 onMounted(() => {
     const name = route.name

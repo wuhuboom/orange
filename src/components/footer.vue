@@ -124,10 +124,12 @@ const list = computed(() => {
 
 isSafe()
 async function isSafe(){
-     let url = '/player/safe/conf'
+    let url = '/player/safe/conf'
     try {
         const res = await http.get(url)
-        state.isSafe = res.showH5 || 0;
+        if(res && res.showH5 >=0){
+            state.isSafe = res.showH5 
+        }
     } catch (error) {
         console.log(error);
     }

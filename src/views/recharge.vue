@@ -46,7 +46,7 @@ const { t } = useI18n()
 const router = useRouter()
 const route = useRoute()
 const { rechargeType } = route.query
-
+console.log(rechargeType,'------------');
 const state = reactive({
     amount: '0',
     rechargeInfo: {},
