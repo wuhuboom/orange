@@ -23,7 +23,7 @@ const store = useStore()
 // function refresh(){
 //     store.getUserInfo()
 // }
-const accountInfo = JSON.parse(localStorage.getItem('accountInfo'))
+const accountInfo = JSON.parse(localStorage.getItem('accountInfo')) || {}
 const { t } = useI18n()
 const router = useRouter()
 const state = reactive({
