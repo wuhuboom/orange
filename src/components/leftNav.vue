@@ -16,7 +16,7 @@
                 <div class="assetsBox">
                     <p>{{ $t('wallet.index.balance.text') }}</p>
                     <div class="money cb">
-                        {{ accountInfo.currRate || 0 }}
+                        {{ getAmount(accountInfo.balance || 0) }}
                         <img src="../assets/images/leftNav/refresh.webp" ref="refreshRef" class="refresh cursor"
                             @click="getbalance" alt="">
                     </div>
@@ -72,7 +72,7 @@
 <script setup >
 import { reactive, computed, watchEffect, toRefs, ref } from 'vue'
 import http from '@/utils/axios'
-import { getImg } from '@/utils/utils'
+import { getImg,getAmount } from '@/utils/utils'
 import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { useStore } from '@/stores/index'
