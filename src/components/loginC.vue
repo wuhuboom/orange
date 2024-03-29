@@ -206,10 +206,11 @@ function setAccPwd() {
     }
 }
 onMounted(() => {
+    console.log( localStorage.getItem('lang'),'---------------');
     if (localStorage.getItem('lang')?.toUpperCase().includes('ZH')) {
-        state.langTarget = 'EN'
+        state.langTarget = 'VN'
     } else {
-        state.langTarget = localStorage.getItem('lang')?.toUpperCase() || 'EN'
+        state.langTarget = localStorage.getItem('lang')?.toUpperCase() || 'VN'
     }
     const language = state.langTarget;
     if (!localStorage.getItem('lang')) {
