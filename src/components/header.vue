@@ -27,7 +27,7 @@
                 <!-- 金额 -->
                 <div class="money" v-if="header.isShowRightMoney">
                     <img :src="getImg('header', 'mIcon')" class="mIcon" alt="" @click="goRecharge">
-                    <span class="moneyNum">{{ accountInfo?.currRate || '0.0' }}</span>
+                    <span class="moneyNum">{{ getAmount(accountInfo.balance || 0) }}</span>
                 </div>
                 <!-- buy页面 -->
                 <div class="hbuy" v-if="route.name == 'buy'">
@@ -47,7 +47,7 @@
 </template>
 <script setup >
 import { toRefs, defineProps, reactive, onMounted, computed } from 'vue'
-import { getImg } from '@/utils/utils'
+import { getImg,getAmount } from '@/utils/utils'
 import { useRouter, useRoute } from 'vue-router'
 import { useStore } from '@/stores/index'
 import http from '@/utils/axios'
