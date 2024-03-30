@@ -290,6 +290,20 @@ async function getVerifyCode() {
         console.log(error);
     }
 }
+async function getConfig(){
+    let url = '/player/auth/sys_config'
+    try {
+        const res = await http.get(url)
+        let codeList =  res.area_code || []
+        state.codeList = codeList.map(item=>{
+            return {
+                num: item
+            }
+        })
+    } catch (error) {
+        console.log(error);
+    }
+}
 // getVerifyCode()
 
 watchEffect(() => {
@@ -302,30 +316,7 @@ watchEffect(() => {
     }
 })
 onMounted(() => {
-    let codeList = [
-        255,
-        213,
-        33,
-        44,
-        49,
-        34,
-        1,
-        91,
-        90,
-        260,
-        251,
-        254,
-        255,
-        234,
-        237,
-        213,
-        33,
-        44,]
-    state.codeList = codeList.map(item => {
-        return {
-            num: item
-        }
-    })
+     getConfig()
 })
 const { isReadPwd, areaCode, showAreaCodeOpt, codeList, checked, verificationObj, showCheckedBordr, showCheckedAnimate, inputIndex } = toRefs(state)
 </script>
@@ -452,6 +443,7 @@ const { isReadPwd, areaCode, showAreaCodeOpt, codeList, checked, verificationObj
 
                         .options {
                             width: 74px;
+                            overflow: auto;
                             position: absolute;
                             top: 30px;
                             left: -0;
@@ -464,6 +456,7 @@ const { isReadPwd, areaCode, showAreaCodeOpt, codeList, checked, verificationObj
                             cursor: pointer;
                             box-sizing: border-box;
                             padding: 0 9px;
+                            z-index: 999;
 
                             .o_item {
                                 width: 100%;
@@ -492,7 +485,7 @@ const { isReadPwd, areaCode, showAreaCodeOpt, codeList, checked, verificationObj
 
                         .showOpt {
                             transition: height .5s ease-out;
-                            height: 185px;
+                            height: 135px;
                             overflow: auto;
                         }
 

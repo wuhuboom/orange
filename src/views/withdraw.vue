@@ -226,7 +226,7 @@ async function reachargePre() {
             });
         }
         state.virtualCurrencyList = res
-        state.rechargeInfo = state.virtualCurrencyList[state.channelIndex]
+        state.rechargeInfo = state.virtualCurrencyList[state.channelIndex] || {}
         if (!localStorage.getItem('toaddFlag')) {
             localStorage.setItem('toaddFlag', 0)
         }

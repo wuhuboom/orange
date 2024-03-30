@@ -153,7 +153,7 @@ const { t } = useI18n()
 let swiperOption = {
     spaceBetween: '15',
     slidesPerView: 'auto', // 一屏显示的slide个数  'auto'
-    slidesPerGroup: 3, //每组多少个swiper滑块
+    slidesPerGroup: 1, //每组多少个swiper滑块
     centeredSlides: true, // 居中的slide是否标记为active，默认是最左active,这样样式即可生效
     slideToClickedSlide: true, // 点击的slide会居中
     loop: true, // 循环播放, 可有无限滚动效果，初始加载即是滚动后的效果
