@@ -127,7 +127,7 @@ const state = reactive({
     // ],
     isReadPwd: false,
     showAreaCodeOpt: false,
-    areaCode: 225,
+    areaCode: '',
     codeList: [],
     checked: false,
     showCheckedBordr: false,
@@ -300,6 +300,9 @@ async function getConfig(){
                 num: item
             }
         })
+        if(codeList.length > 0){
+            state.areaCode = codeList[0]
+        }
     } catch (error) {
         console.log(error);
     }

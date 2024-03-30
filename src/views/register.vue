@@ -138,7 +138,7 @@ const state = reactive({
   ],
   isReadPwd: false,
   showAreaCodeOpt: false,
-  areaCode: 225,
+  areaCode: '',
   codeList: [],
   checked: false,
   showCheckedBordr: false,
@@ -237,32 +237,26 @@ async function getVerifyCode() {
     console.log(error);
   }
 }
+async function getConfig(){
+    let url = '/player/auth/sys_config'
+    try {
+        const res = await http.get(url)
+        let codeList =  res.area_code || []
+        state.codeList = codeList.map(item=>{
+            return {
+                num: item
+            }
+        })
+        if(codeList.length > 0){
+            state.areaCode = codeList[0]
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
 getVerifyCode()
 onMounted(() => {
-  let codeList = [
-    255,
-    213,
-    33,
-    44,
-    49,
-    34,
-    1,
-    91,
-    90,
-    260,
-    251,
-    254,
-    255,
-    234,
-    237,
-    213,
-    33,
-    44,]
-  state.codeList = codeList.map(item => {
-    return {
-      num: item
-    }
-  })
+  getConfig()
 })
 const { userInfo, isReadPwd, areaCode, showAreaCodeOpt, codeList, checked, verificationObj, showCheckedBordr, showCheckedAnimate, inputIndex } = toRefs(state)
 </script>

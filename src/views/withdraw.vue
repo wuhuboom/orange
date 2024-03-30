@@ -331,7 +331,7 @@ function selectBank(item, index) {
      state.rechargeInfo = item
      state.channelIndex = index
     if(state.currentWAList.length == 0){
-        addWalletPage()
+        // addWalletPage()
     }else{
         state.isShowWalletPanel = true
        
