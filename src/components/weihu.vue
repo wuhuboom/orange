@@ -13,6 +13,8 @@
 <script setup>
 import { reactive, toRefs,onMounted } from 'vue'
 import http from '@/utils/axios'
+import { useRouter } from "vue-router";
+const router = useRouter()
 
 const state = reactive({
     tipDialog: false,
@@ -34,6 +36,9 @@ async function getConfig(){
             state.tipMsg = res.msg
         }else{
             state.tipDialog = false
+            router.push({
+                path: '/home',
+            })
         }
     } catch (error) {
         console.log(error);

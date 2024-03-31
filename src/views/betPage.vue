@@ -105,7 +105,7 @@
 import { reactive, toRefs, computed, ref } from 'vue'
 import { getImg, getSplitName, getAmOrPm,getAmount, formatDate } from '@/utils/utils'
 import { showToast } from 'vant'
-import { useRoute,useRouter } from 'vue-router'
+import { useRoute } from 'vue-router'
 import http from '@/utils/axios'
 import { useStore } from '@/stores/index'
 
@@ -124,7 +124,6 @@ const tabArr = computed(() => {
 const successIcon = getImg('betpage', 'successIcon')
 
 const route = useRoute()
-const router = useRouter()
 
 const state = reactive({
     tabIndex: 0,
@@ -266,11 +265,6 @@ function add() {
     }
     state.betNum += 1
     state.potentialWinnings = getPotentialWin()
-
-    router.push({
-        path: '/home',
-    })
-
 }
 function closePanel() {
     state.isShowBetPanel = false
