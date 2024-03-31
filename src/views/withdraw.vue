@@ -206,11 +206,13 @@ async function submitWithdraw() {
     }
 }
 function getAddText() {
-    if (state.rechargeInfo.name == 'E-Wallet') {
+    let name = state.rechargeInfo.name || ''
+    name = name.toUpperCase()
+    if (name.indexOf('WALLET') > -1) {
         return t('withdraw.add.eWallet.text')
-    } else if (state.rechargeInfo.name === 'Bank') {
+    } else if (name.indexOf('BANK') > -1) {
         return t('withdraw.add.bankCard.text')
-    } else if (state.rechargeInfo.name === 'USDT') {
+    } else if (name === 'USDT') {
         return t('withdraw.add.usdt.text')
     }
 }
