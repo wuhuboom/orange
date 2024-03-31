@@ -8,7 +8,7 @@
         </div>
         <van-pull-refresh v-model="listStatus.refreshing" @refresh="onRefresh" :loosing-text="$t('match.loosing.text')">
             <van-list v-model:loading="listStatus.loading" :loading-text="$t('load.loading.text')"
-                :finished="$t('load.no.more.text')" :finished-text="$t('load.no.more.text')" @load="onLoad">
+                :finished="listStatus.finished" :finished-text="$t('load.no.more.text')" @load="onLoad">
                 <div class="lItem" v-for="(item, index) in dataList" :key="index">
                     <div class="lTop">
                         <div class="topBox">
