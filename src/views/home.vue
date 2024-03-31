@@ -276,6 +276,7 @@ async function getVersion(){
     try {
         const curVersion = Cookies.get('cur_version') || '0'
         const res = await http.get(url)
+        console.log(res,curVersion,'--------')
         if(res != curVersion && curVersion > 0){
             state.versionDialog.content = t('version.update')
             state.versionDialog.show = true
@@ -285,6 +286,7 @@ async function getVersion(){
             state.versionDialog.show = false
             state.versionDialog.isUpdate = false
             state.versionDialog.content = ''
+             Cookies.set('cur_version', res)
         }
     }catch (error) {
         console.log(error);
@@ -299,8 +301,7 @@ async function updateVersion(){
         state.versionDialog.process += 10
         await new Promise((resolve) => setTimeout(resolve, 1000));
     }
-    
-    state.versionDialog.isUpdate = false
+    state.versionDialog.show = false
     window.location.reload()
 }
 
@@ -310,10 +311,11 @@ async function getShowNotice(){
    let url = '/player/home/dialog'
     try {
         const res = await http.get(url)
-        if(store.showNoticeId != res.id){
+        let noticeId = localStorage.getItem('showNoticeId') || ''
+        if(noticeId != res.id){
             state.noticeDialog.content = res.content
             state.noticeDialog.show = true
-            store.changeShowNotice(res.id)
+            localStorage.setItem('showNoticeId',res.id)
         }
     }catch (error) {
         console.log(error);

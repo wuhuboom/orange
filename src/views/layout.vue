@@ -5,6 +5,8 @@
         <Footer />
 
         <LeftNav />
+
+        <Weihu/>
     </div>
 </template>
 <script setup>
@@ -14,6 +16,7 @@ import { useRoute } from 'vue-router'
 import Header from '@/components/header.vue'
 import Footer from '@/components/footer.vue'
 import LeftNav from '@/components/leftNav.vue'
+import Weihu from '@/components/weihu.vue'
 // import headerConf from '@/utils/header'
 
 import { useI18n } from 'vue-i18n'

@@ -41,10 +41,12 @@
       <img src="../assets/images/login/service.webp" alt="">
       {{ $t('login.service') }}
     </p>
+    <Weihu></Weihu>
   </div>
 </template>
 
 <script setup>
+import Weihu from '@/components/weihu.vue'
 import { reactive, toRefs, ref } from 'vue'
 import { getImg } from '@/utils/utils'
 import { useRouter } from 'vue-router';

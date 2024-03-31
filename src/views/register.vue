@@ -50,9 +50,11 @@
         {{ $t('login.service') }}
       </p>
     </div>
+    <Weihu/>
   </div>
 </template>
 <script setup>
+import Weihu from '@/components/weihu.vue'
 import { reactive, toRefs, onMounted } from 'vue'
 import { getImg } from '@/utils/utils'
 import { useRouter,useRoute } from 'vue-router';
