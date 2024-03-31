@@ -231,7 +231,7 @@ watchEffect(() => {
         state.showClearIcon = false
     }
 })
-const { activeNames, list, teamName, loading, finished, refreshing, dateIndex, totalCount } = toRefs(state)
+const { activeNames, list, teamName, loading, finished, refreshing, dateIndex, totalCount,showClearIcon } = toRefs(state)
 </script>
 <style scoped lang='scss'>
 .contest {

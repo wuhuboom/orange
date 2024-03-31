@@ -105,7 +105,7 @@
 import { reactive, toRefs, computed, ref } from 'vue'
 import { getImg, getSplitName, getAmOrPm,getAmount, formatDate } from '@/utils/utils'
 import { showToast } from 'vant'
-import { useRoute } from 'vue-router'
+import { useRoute,useRouter } from 'vue-router'
 import http from '@/utils/axios'
 import { useStore } from '@/stores/index'
 
@@ -124,6 +124,7 @@ const tabArr = computed(() => {
 const successIcon = getImg('betpage', 'successIcon')
 
 const route = useRoute()
+const router = useRouter()
 
 const state = reactive({
     tabIndex: 0,
@@ -178,8 +179,9 @@ async function betPrepare() {
 }
 async function quickBets(params) {
     await store.getUserInfo()
+    const balance = getAmount(accountInfo?.value.balance)
     if (params === 'all') {
-        state.betNum = Number(accountInfo?.value.balance)
+        state.betNum = Number(balance)
     } else {
         state.betNum = Number(params)
     }
@@ -257,12 +259,18 @@ function subtraction() {
 function add() {
     state.betRangeMistake = false
     state.errorTips = {}
-    if (state.betNum >= accountInfo?.value.balance) {
-        state.betNum = Number(accountInfo?.value.balance)
+    const balance = getAmount(accountInfo?.value.balance)
+    if (state.betNum >= balance) {
+        state.betNum = balance
         return
     }
     state.betNum += 1
     state.potentialWinnings = getPotentialWin()
+
+    router.push({
+        path: '/home',
+    })
+
 }
 function closePanel() {
     state.isShowBetPanel = false
