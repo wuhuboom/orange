@@ -276,7 +276,6 @@ async function getVersion(){
     try {
         const curVersion = Cookies.get('cur_version') || '0'
         const res = await http.get(url)
-        console.log(res,curVersion,'--------')
         if(res != curVersion && curVersion > 0){
             state.versionDialog.content = t('version.update')
             state.versionDialog.show = true

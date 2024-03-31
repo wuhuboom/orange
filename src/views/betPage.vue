@@ -39,7 +39,7 @@
                 <div class="flex left_box">
                     <div class="money">
                         <img :src="getImg('header', 'mIcon')" class="mIcon" alt="">
-                        <span class="moneyNum">{{ accountInfo?.currRate }}</span>
+                        <span class="moneyNum">{{ getAmount(accountInfo?.balance) }}</span>
                     </div>
                     <div class="panel_tit">{{ $t('betPage.create.order.text') }}</div>
                 </div>
@@ -103,7 +103,7 @@
 </template>
 <script setup>
 import { reactive, toRefs, computed, ref } from 'vue'
-import { getImg, getSplitName, getAmOrPm, formatDate } from '@/utils/utils'
+import { getImg, getSplitName, getAmOrPm,getAmount, formatDate } from '@/utils/utils'
 import { showToast } from 'vant'
 import { useRoute } from 'vue-router'
 import http from '@/utils/axios'

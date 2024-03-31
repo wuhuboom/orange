@@ -32,6 +32,8 @@ async function getConfig(){
         if(code ==188){
             state.tipDialog = true
             state.tipMsg = res.msg
+        }else{
+            state.tipDialog = false
         }
     } catch (error) {
         console.log(error);

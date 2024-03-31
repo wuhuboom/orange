@@ -206,14 +206,15 @@ async function submitWithdraw() {
     }
 }
 function getAddText() {
-    let name = state.rechargeInfo.name || ''
-    name = name.toUpperCase()
-    if (name.indexOf('WALLET') > -1) {
+    let type = state.rechargeInfo.type || ''
+    if (type==3) {
         return t('withdraw.add.eWallet.text')
-    } else if (name.indexOf('BANK') > -1) {
+    } else if (type==1) {
         return t('withdraw.add.bankCard.text')
-    } else if (name === 'USDT') {
+    } else if (type==2) {
         return t('withdraw.add.usdt.text')
+    }else{
+         return t('withdraw.add.eWallet.text')
     }
 }
 // 提现准备
