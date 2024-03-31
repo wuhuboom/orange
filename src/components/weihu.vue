@@ -18,7 +18,8 @@ const router = useRouter()
 
 const state = reactive({
     tipDialog: false,
-    tipMsg:''
+    tipMsg:'',
+    lastTipDialog: false,
 })
 
 async function getConfig(){
@@ -33,12 +34,16 @@ async function getConfig(){
         const code = res.code || 200
         if(code ==188){
             state.tipDialog = true
+            state.lastTipDialog = true
             state.tipMsg = res.msg
         }else{
             state.tipDialog = false
-            router.push({
-                path: '/home',
-            })
+            if(state.lastTipDialog){
+                 router.push({
+                    path: '/home',
+                })
+            }
+           state.lastTipDialog = false
         }
     } catch (error) {
         console.log(error);
