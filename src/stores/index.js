@@ -23,7 +23,7 @@ export const useStore = defineStore("store", {
         if(!account){
           this.accountInfo = res
           localStorage.setItem("accountInfo", JSON.stringify(this.accountInfo));
-        }else if(res.balance > 0){
+        }else if(res.balance >= 0){
           this.accountInfo = res
           localStorage.setItem("accountInfo", JSON.stringify(this.accountInfo));
         }

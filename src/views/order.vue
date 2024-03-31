@@ -260,6 +260,7 @@ function cancelOrder() {
         orderList('refresh')
         // showToast(t('wallet.index.order.state.cancel.text1'))
         state.cancelShow = false
+        store.getUserInfo ()
     })
     state.cancelShow = false
     // state.targetItem
