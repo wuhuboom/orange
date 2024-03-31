@@ -11,7 +11,7 @@
     </div>
 </template>
 <script setup>
-import { reactive, toRefs,onMounted } from 'vue'
+import { reactive, toRefs,onMounted,onUnmounted } from 'vue'
 import http from '@/utils/axios'
 import { useRouter } from "vue-router";
 const router = useRouter()
@@ -20,17 +20,13 @@ const state = reactive({
     tipDialog: false,
     tipMsg:'',
     lastTipDialog: false,
+    timer:''
 })
 
 async function getConfig(){
     let url = '/player/auth/sys_config'
     try {
         let res = await http.get(url)
-        // res = {
-        //     "code": 188,
-        //     "msg": "Dear user\n\nIn order to provide better services and optimize platform performance, we will upgrade the platform. During this period, the platform will be inaccessible. Please stop using the platform and wait for a while during the upgrade. Estimated time is 2 hours\n\nIn order to provide better services and optimize platform performance, we will upgrade the platform. During this period, the platform will be inaccessible. Please stop using the platform and wait for a while during the upgrade. Estimated time is 2 hours",
-        //     "data": null
-        // }
         const code = res.code || 200
         if(code ==188){
             state.tipDialog = true
@@ -48,13 +44,16 @@ async function getConfig(){
     } catch (error) {
         console.log(error);
     }
-    setTimeout(getConfig,3000)
+    state.timer = setTimeout(getConfig,3000)
 }
  
 onMounted(() => {
     getConfig()
 })
-const {tipDialog,tipMsg} = toRefs(state)
+onUnmounted(() => {
+    clearTimeout(state.timer)
+})
+const {tipDialog,tipMsg,timer} = toRefs(state)
 </script>
 <style scoped lang='scss'>
 .weihu {
