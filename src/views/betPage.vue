@@ -179,7 +179,7 @@ async function betPrepare() {
 async function quickBets(params) {
     await store.getUserInfo()
     if (params === 'all') {
-        state.betNum = Number(accountInfo?.value.currRate)
+        state.betNum = Number(accountInfo?.value.balance)
     } else {
         state.betNum = Number(params)
     }
@@ -239,8 +239,8 @@ function getWinMoney() {
     if (state.betNum < 0) {
         state.betNum = 0
     }
-    if (state.betNum >= accountInfo?.value.currRate) {
-        state.betNum = Number(accountInfo?.value.currRate)
+    if (state.betNum >= accountInfo?.value.balance) {
+        state.betNum = Number(accountInfo?.value.balance)
         return
     }
     state.potentialWinnings = getPotentialWin()
@@ -257,8 +257,8 @@ function subtraction() {
 function add() {
     state.betRangeMistake = false
     state.errorTips = {}
-    if (state.betNum >= accountInfo?.value.currRate) {
-        state.betNum = Number(accountInfo?.value.currRate)
+    if (state.betNum >= accountInfo?.value.balance) {
+        state.betNum = Number(accountInfo?.value.balance)
         return
     }
     state.betNum += 1
