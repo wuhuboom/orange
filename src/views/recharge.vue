@@ -189,8 +189,8 @@ const { amount, channelIndex, rechargeInfo, channelList, amountInput } = toRefs(
                 align-items: center;
 
                 img {
-                    width: 63px;
-                    height: 35px;
+                    width: 40px;
+                    height: 40px;
                     border-radius: 8px;
                 }
 

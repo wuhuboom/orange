@@ -100,7 +100,7 @@
                 </div>
                 <div class="rowDiv">
                     <span>{{ $t('match.cmopetition.list.odd.text') }}</span>
-                    <span>{{ orderInfo?.betinfo?.betOdds }}</span>
+                    <span>{{ orderInfo?.betinfo?.betOdds }}%</span>
                 </div>
                 <div class="rowDiv">
                     <span>{{ $t('order.dialog.money.text') }}</span>

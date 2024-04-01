@@ -107,8 +107,8 @@ const state = reactive({
                 value: 1
             },
         ],
-        selectedVal: t('addWalletAddress.verify.phone.text'),
-        optIndex: 0,
+        selectedVal: t('addWalletAddress.verify.email.text'),
+        optIndex: 1,
     },
     sendBtn: t('forget.send'),
     showSeconds: false

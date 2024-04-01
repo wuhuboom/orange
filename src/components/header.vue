@@ -77,17 +77,23 @@ async function handleHeaderClick() {
     await store.getUserInfo()
 }
 async function handleRightIcon() {
-     let url ='/player/home/serv'
-     const res = await http.get(url)
-     console.log(res)
-     if(res.serviceAddr){
-        window.location.href = res.serviceAddr
-     }
+    if (header.value.rightIcon == 'hRightIcon') {
+         let url ='/player/home/serv'
+        const res = await http.get(url)
+        console.log(res)
+        if(res.serviceAddr){
+            window.location.href = res.serviceAddr
+        }
+    }else{
+         router.push({ 
+            path: 'fundsRecords'
+        })
+    }
 }
 function goRecharge(){
     // router.push({ name: 'recharge' })
     router.push({ 
-        path: 'recharge',
+        path: 'frecharge',
         query:{
             rechargeType:'football'
         }

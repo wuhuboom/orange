@@ -94,7 +94,14 @@ http.interceptors.response.use(
           className: "textColorRed",
         });
       }
-    } else if (code === 402) {
+    } else if (code === 107) {
+      let showMsg = msg
+      showToast({
+        message: showMsg,
+        wordBreak: "break-word",
+        className: "textColorRed",
+      });
+    }else if (code === 402) {
       showToast({ message: msg, className: "textColorRed" });
       setTimeout(() => {
         localStorage.removeItem("toaddFlag");
