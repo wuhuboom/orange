@@ -49,6 +49,25 @@
             <div class="title">{{ $t('withdraw.password.text') }}</div>
             <input type="password" class="hideInputBtn" v-model="payPwd" :placeholder="$t('withdraw.placeholder.text')">
         </div>
+        <div class="sendBox" v-if="verifyType == 3">
+              <Select :selectedObj="verifyObj" @sendSelectVal="sendSelectVal" />
+        </div>
+       
+        <!-- <div class="sendBox">
+            <input type="text" class="hideInputBtn" v-model="form2.phone" :placeholder="$t('form.phoneNum.text')" v-if="verifyObj.optIndex==0" :disabled="true">
+            <input type="text" class="hideInputBtn" v-model="form2.email" :placeholder="$t('form.email.text')" v-if="verifyObj.optIndex==1" :disabled="true">
+        </div> -->
+        <div class="sendBox" v-if="verifyType > 0">
+            <div class="title sub" v-if="state.verifyObj.optIndex==0 ">{{ $t('forget.phoneVerifiCode') }}</div>
+            <div class="title sub" v-else>{{ $t('forget.emailVerifiCode') }}</div>
+            <div class="verifyOpt cursor">
+                <input type="text" class="hideInputBtn" v-model="code" @input="getVerifyCode"
+                    :placeholder="$t('addWalletAddress.verify.code.text')">
+                <div class="sendBtn" @click="sendVerify">
+                    {{ sendBtn }} <span v-if="showSeconds">s</span>
+                </div>
+            </div>
+        </div>
 
         <div class="confirm cursor" :class="{ confirmMt: virtualCurrencyList.length > 0 }" @click="submitWithdrawPre">
             {{ $t('modal.confirm.text') }}
@@ -145,7 +164,29 @@ const state = reactive({
     isShowWalletOpt: false,
     isShowWalletPanel: false,
     tipDialog:false,
-    vipClearDialog:false
+    vipClearDialog:false,
+    verifyText:'',
+    verifyCode: '',
+    code:'',
+    verifyObj: {
+        title: t('index.editor.psd.text'),
+        dataType: 'verify',
+        options: [
+            {
+                label: t('addWalletAddress.verify.phone.text'),
+                value: 0
+            },
+            {
+                label: t('addWalletAddress.verify.email.text'),
+                value: 1
+            },
+        ],
+        selectedVal: t('addWalletAddress.verify.email.text'),
+        optIndex: 1,
+    },
+    sendBtn: t('forget.send'),
+    showSeconds: false,
+    verifyType:'0'// 0不验证1手机2邮件3两者
 })
 function submitWithdrawPre(){
     if (!state.amount) {
@@ -200,6 +241,9 @@ async function submitWithdraw() {
             //     state.payPwd = ''
             //     state.amount = ''
             // }, 5000)
+        }else if(res.code == 103){
+            showToast(res.data.withdrawalLimitMsg)
+            return
         }
     } catch (error) {
 
@@ -229,6 +273,7 @@ async function reachargePre() {
             });
         }
         state.virtualCurrencyList = res
+        state.verifyType = res.msg || '0'
         state.rechargeInfo = state.virtualCurrencyList[state.channelIndex] || {}
         if (!localStorage.getItem('toaddFlag')) {
             localStorage.setItem('toaddFlag', 0)
@@ -383,7 +428,71 @@ function getPanelTitle() {
 function closePanel() {
     state.isShowWalletPanel = false
 }
-const { amount, channelIndex, rechargeInfo, virtualCurrencyList, payPwd, currentWAList, walletAddrIndex, isShowWalletOpt, isShowWalletPanel,bankList,tipDialog,vipClearDialog } = toRefs(state)
+function sendSelectVal(data) {
+    if (data.type === 'verify') {
+        state.verifyObj.selectedVal = data.val.label
+        state.verifyObj.optIndex = state.verifyObj.options.find(item => item.label == data.val.label)?.value
+        if(!state.verifyObj.optIndex == 0){
+            // state.verifyText = accountInfo.value.phone
+        }else{
+            // state.verifyText = accountInfo.value.email
+        }
+    }
+}
+async function sendVerify() {
+    if (state.showSeconds) {
+        showToast(t('addWalletAddress.countDown.tips.text'))
+        return
+    }
+    if (state.walletId === '') {
+        showToast(t('addWalletAddress.walletAddr.notEmpty.text'))
+        return
+    }
+    let urlObj = {
+        0: '/player/v2/phone_code/online',
+        1: '/player/mail/code'
+    }
+    let url = ''
+    let res = {}
+    if(state.verifyType==1){
+        url = '/player/v2/phone_code/online'
+        res = await http.post(url)
+    }else if(state.verifyType == 2){
+        url = '/player/mail/code'
+        res = await http.get(url)
+    }else{
+        url = urlObj[state.verifyObj.optIndex]
+        res = state.verifyObj.optIndex === 0 ? await http.post(url) : await http.get(url)
+    }
+    try {
+        
+        if (res.hasOwnProperty('hasSend')) {
+            if (!state.showSeconds) {
+                state.sendBtn = 60
+                startCountdown()
+            }
+            showToast(t('form.verift.send.text'))
+            return
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
+function startCountdown() {
+    state.showSeconds = true
+    let timer = setInterval(function () {
+        state.sendBtn--
+        if (state.sendBtn <= 0) {
+            clearInterval(timer)
+            state.showSeconds = false
+            state.sendBtn = t('forget.send')
+        }
+    }, 1000)
+} 
+function getVerifyCode() {
+    state.code = state.code.replace(/\D/g, '')
+}
+const { amount, channelIndex, rechargeInfo, virtualCurrencyList, payPwd, currentWAList, walletAddrIndex, isShowWalletOpt, isShowWalletPanel,bankList,tipDialog,vipClearDialog,verifyText, verifyObj, sendBtn, showSeconds,code,verifyType } = toRefs(state)
 </script>
 <style scoped lang='scss'>
 .withdraw {
@@ -402,6 +511,46 @@ const { amount, channelIndex, rechargeInfo, virtualCurrencyList, payPwd, current
         box-sizing: border-box;
         @include flex(center);
         flex-direction: column;
+        .verifyOpt {
+                width: 100%;
+                background-color: #333;
+                border-radius: 10px;
+                @include flex();
+                box-sizing: border-box;
+                margin-top: 10px;
+                padding-right: 16px;
+
+                input {
+                    width: 90%;
+                    margin: 0;
+                    border: none;
+                }
+
+                .vmType {
+                    @extend input;
+                    @include flex(flex-start);
+                }
+
+                .arrowBox {
+                    width: 28px;
+                    height: 28px;
+                    border-radius: 50%;
+                    background-color: #d9dbe8;
+                    @include flex(center);
+                }
+
+                .sendBtn {
+                    width: 70px;
+                    height: 32px;
+                    border-radius: 8px;
+                    background-color: #ff7c43;
+                    @include flex(center);
+                    font-family: $fontFamily;
+                    font-size: 13px;
+                    color: #fff;
+
+                }
+            }
 
         .title {
             width: 100%;
@@ -499,6 +648,7 @@ const { amount, channelIndex, rechargeInfo, virtualCurrencyList, payPwd, current
             .showCurrentWallet {
                 max-height: 100px;
             }
+            
         }
 
         .bankListActive {
@@ -609,7 +759,7 @@ const { amount, channelIndex, rechargeInfo, virtualCurrencyList, payPwd, current
         @include flex(center);
         font-size: 14px;
         color: #fff;
-        margin: 20vh auto 0;
+        margin: 5vh auto 0;
     }
 
     .confirmMt {

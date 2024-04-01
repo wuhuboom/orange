@@ -32,6 +32,7 @@ http.interceptors.request.use(
 http.interceptors.response.use(
   (response) => {
     let { code, data, msg } = response.data;
+    
     // console.log(
     //   "%c code: ",
     //   "background-color: #3756d4; padding: 4px 8px; border-radius: 2px; font-size: 14px; color: #fff; font-weight: 700;",
@@ -41,11 +42,12 @@ http.interceptors.response.use(
     if (code === 200) {
       return data;
     } else if (code === 103) {
-      let errorMsgKey = ["betMoneyTooLittle", "moneyMustThanZero"];
+      let errorMsgKey = ["betMoneyTooLittle", "moneyMustThanZero","withdrawalLimit"];
       if (errorMsgKey.includes(data[0].msgKey)) {
         return {
           code,
           msgkey: errorMsgKey.find((item) => item == data[0].msgKey),
+          data:data[0]
         };
       }
       if (data.length > 0) {

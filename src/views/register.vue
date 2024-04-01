@@ -29,6 +29,9 @@
                 @focus="borderActive(index)" @blur="resetActive(item)" @input="resetActive(item)" />
               <img :src="verificationObj?.img" alt="" v-if="item.name === 'verificationCode'"
                 style="margin-left: 60px; width: 80px;height:25px;cursor: pointer;" @click="getVerifyCode">
+                <div class="sendBtn" @click="sendVerify" v-if="item.name === 'emailCode'">
+                  {{ sendBtn }} <span v-if="showSeconds">s</span>
+              </div>
             </div>
             <img :src="getImg('login', isReadPwd ? 'open' : 'close')" class="eye" alt="" v-if="item.name == 'password'"
               @click="readPwd(item)" style="cursor: pointer;">
@@ -60,14 +63,13 @@ import { getImg } from '@/utils/utils'
 import { useRouter,useRoute } from 'vue-router';
 import http from "@/utils/axios";
 import { useI18n } from 'vue-i18n'
-
+import { showToast } from 'vant'
 const { t } = useI18n()
 
 const router = useRouter()
 const route = useRoute()
 const state = reactive({
-  userInfo:[],
-  userInfo1: [
+  userInfo: [
     {
       name: 'account',
       imgIcon: 'acc',
@@ -191,16 +193,6 @@ const state = reactive({
       placeholder: t('register.email')
     },
     {
-      name: 'emailCode',
-      imgIcon: 'email',
-      type: 'text',
-      val: '',
-      iconFile: 'login',
-      error: false,
-      errorText: t('addWalletAddress.verify.code.text'),
-      placeholder: t('forget.emailVerifiCode')
-    },
-    {
       name: 'phoneNumber',
       imgIcon: '',
       type: 'text',
@@ -230,7 +222,9 @@ const state = reactive({
   showCheckedAnimate: false,
   verificationObj: {},
   inputIndex: -1,
-  isEmailCode:0
+  isEmailCode:0,
+  sendBtn: t('forget.send'),
+  showSeconds: false,
 })
 function showSelect() {
   state.showAreaCodeOpt = !state.showAreaCodeOpt
@@ -283,8 +277,9 @@ async function registerAcc() {
     invitationCode: state.userInfo[3].val,
     verifyKey: state.verificationObj?.verifyKey,
     email: state.userInfo[4].val,
-    code: state.userInfo[6].val,
-    phone: `${state.areaCode}${state.userInfo[5].val}`,
+    emailCode: state.isEmailCode == 1 ? state.userInfo[5].val : '', 
+    code: state.isEmailCode == 1 ? state.userInfo[7].val : state.userInfo[6].val,
+    phone: state.isEmailCode == 1 ? `${state.areaCode}${state.userInfo[6].val}` : `${state.areaCode}${state.userInfo[5].val}`,
     areaCode: state.areaCode,
   }
   try {
@@ -313,6 +308,48 @@ async function registerAcc() {
     console.log(error);
   }
 }
+async function sendVerify() {
+    if (state.showSeconds) {
+        showToast(t('addWalletAddress.countDown.tips.text'))
+        return
+    }
+    
+    let username = state.userInfo[0].val
+    let email = state.userInfo[4].val
+    if (username === '') {
+        showToast(t('login.uErrorText'))
+        return
+    } 
+    if (email === '') {
+        showToast(t('register.emailErrorText'))
+        return
+    } 
+    let url = '/player/mail/code/reg?username='+username+'&email='+email
+    try {
+        const res = await http.get(url)
+        if (res.hasOwnProperty('hasSend')) {
+            if (!state.showSeconds) {
+                state.sendBtn = 60
+                startCountdown()
+            }
+            showToast(t('form.verift.send.text'))
+            return
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
+function startCountdown() {
+    state.showSeconds = true
+    let timer = setInterval(function () {
+        state.sendBtn--
+        if (state.sendBtn <= 0) {
+            clearInterval(timer)
+            state.showSeconds = false
+            state.sendBtn = t('forget.send')
+        }
+    }, 1000)
+} 
 async function getVerifyCode() {
   state.userInfo[6].val = ''
   let url = '/player/auth/verify_code'
@@ -338,9 +375,17 @@ async function getConfig(){
         }
         state.isEmailCode = res.emailRequired || 0
         if(state.isEmailCode ==1){
-          state.userInfo = state.userInfo2
-        }else{
-          state.userInfo = state.userInfo1
+          let emaiCode = {
+              name: 'emailCode',
+              imgIcon: 'email',
+              type: 'text',
+              val: '',
+              iconFile: 'login',
+              error: false,
+              errorText: t('addWalletAddress.verify.code.text'),
+              placeholder: t('forget.emailVerifiCode')
+            }
+          state.userInfo.splice(5,0,emaiCode)
         }
         getVerifyCode()
     } catch (error) {
@@ -351,7 +396,7 @@ async function getConfig(){
 onMounted(() => {
   getConfig()
 })
-const { userInfo, isReadPwd, areaCode, showAreaCodeOpt, codeList, checked, verificationObj, showCheckedBordr, showCheckedAnimate, inputIndex,isEmailCode } = toRefs(state)
+const { userInfo, isReadPwd, areaCode, showAreaCodeOpt, codeList, checked, verificationObj, showCheckedBordr, showCheckedAnimate, inputIndex,isEmailCode,sendBtn,showSeconds } = toRefs(state)
 </script>
 <style lang="scss" scoped>
 @keyframes shake {
@@ -546,7 +591,18 @@ const { userInfo, isReadPwd, areaCode, showAreaCodeOpt, codeList, checked, verif
               /* 设置滚动条滑块在鼠标悬停时的颜色 */
             }
           }
+           .sendBtn {
+                width: 70px;
+                height: 26px;
+                border-radius: 8px;
+                background-color: #ff7c43;
+                @include flex(center);
+                font-family: $fontFamily;
+                font-size: 13px;
+                color: #fff;
+                margin-left: 30px;
 
+            }
         }
 
         .eye {
