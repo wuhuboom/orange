@@ -66,7 +66,8 @@ const { t } = useI18n()
 const router = useRouter()
 const route = useRoute()
 const state = reactive({
-  userInfo: [
+  userInfo:[],
+  userInfo1: [
     {
       name: 'account',
       imgIcon: 'acc',
@@ -138,6 +139,88 @@ const state = reactive({
       placeholder: t('login.verificationCode')
     },
   ],
+  userInfo2: [
+    {
+      name: 'account',
+      imgIcon: 'acc',
+      type: 'text',
+      val: '',
+      iconFile: 'login',
+      error: false,
+      errorText: t('login.uErrorText'),
+      placeholder: t('login.username')
+    },
+    {
+      name: 'password',
+      imgIcon: 'pwd',
+      type: 'password',
+      val: '',
+      iconFile: 'login',
+      error: false,
+      errorText: t('login.pErrorText'),
+      placeholder: t('login.password')
+    },
+    {
+      name: 'ConfirmPassword',
+      imgIcon: 'pwd',
+      type: 'password',
+      val: '',
+      iconFile: 'login',
+      error: false,
+      errorText: t('register.confirmErrorText'),
+      placeholder: t('register.confirmPwd')
+    },
+    {
+      name: 'invitationCode',
+      imgIcon: 'rCode',
+      type: 'text',
+      val: route.query.code || '',
+      error: false,
+      iconFile: 'register',
+      errorText: t('register.referralErrorText'),
+      placeholder: t('register.referralCode')
+    },
+    {
+      name: 'emailAddress',
+      imgIcon: 'email',
+      type: 'text',
+      val: '',
+      iconFile: 'login',
+      error: false,
+      errorText: t('register.emailErrorText'),
+      placeholder: t('register.email')
+    },
+    {
+      name: 'emailCode',
+      imgIcon: 'email',
+      type: 'text',
+      val: '',
+      iconFile: 'login',
+      error: false,
+      errorText: t('addWalletAddress.verify.code.text'),
+      placeholder: t('forget.emailVerifiCode')
+    },
+    {
+      name: 'phoneNumber',
+      imgIcon: '',
+      type: 'text',
+      val: '',
+      iconFile: '',
+      error: false,
+      errorText: t('register.phoneErrorText'),
+      placeholder: t('register.phone')
+    },
+    {
+      name: 'verificationCode',
+      imgIcon: 'code',
+      type: 'text',
+      val: '',
+      iconFile: 'register',
+      error: false,
+      errorText: t('login.vErrorText'),
+      placeholder: t('login.verificationCode')
+    },
+  ],
   isReadPwd: false,
   showAreaCodeOpt: false,
   areaCode: '',
@@ -146,7 +229,8 @@ const state = reactive({
   showCheckedBordr: false,
   showCheckedAnimate: false,
   verificationObj: {},
-  inputIndex: -1
+  inputIndex: -1,
+  isEmailCode:0
 })
 function showSelect() {
   state.showAreaCodeOpt = !state.showAreaCodeOpt
@@ -252,15 +336,22 @@ async function getConfig(){
         if(codeList.length > 0){
             state.areaCode = codeList[0]
         }
+        state.isEmailCode = res.emailRequired || 0
+        if(state.isEmailCode ==1){
+          state.userInfo = state.userInfo2
+        }else{
+          state.userInfo = state.userInfo1
+        }
+        getVerifyCode()
     } catch (error) {
         console.log(error);
     }
 }
-getVerifyCode()
+
 onMounted(() => {
   getConfig()
 })
-const { userInfo, isReadPwd, areaCode, showAreaCodeOpt, codeList, checked, verificationObj, showCheckedBordr, showCheckedAnimate, inputIndex } = toRefs(state)
+const { userInfo, isReadPwd, areaCode, showAreaCodeOpt, codeList, checked, verificationObj, showCheckedBordr, showCheckedAnimate, inputIndex,isEmailCode } = toRefs(state)
 </script>
 <style lang="scss" scoped>
 @keyframes shake {
