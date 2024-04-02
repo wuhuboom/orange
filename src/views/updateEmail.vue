@@ -21,12 +21,14 @@
             </div>
         </div>
         
-        <div class="confirm cursor" @click="submit">
+        <div class="confirm cursor" @click="confirm">
             {{ $t('modal.confirm.text') }}
         </div>
+        <update-tip :type="$t('form.email.text')" v-if="showTip" @submit="submit" @close="showTip=false"></update-tip>
     </div>
 </template>
 <script setup >
+import UpdateTip from '@/components/updateTip.vue'
 import { reactive, toRefs, onMounted,computed } from 'vue'
 import { useRouter } from "vue-router";
 import http from '@/utils/axios'
@@ -52,12 +54,24 @@ const state = reactive({
         show:false
     },
     sendBtn: t('forget.send'),
-    showSeconds: false
+    showSeconds: false,
+    showTip:false
 })
 
 onMounted(() => {
     init()
 })
+function confirm(){
+    if (state.form.phone === '') {
+        showToast(t('ruls.email.empty'))
+        return
+    }
+    if (state.form.code === '') {
+        showToast(t('ruls.vercode.empty'))
+        return
+    }
+    state.showTip = true
+}
 function init(){
     if(!accountInfo.value.email){
         router.push({
@@ -104,6 +118,7 @@ function getVerifyCode() {
     state.code = state.form.code.replace(/\D/g, '')
 }
 async function submit() {
+    state.showTip = false
     if (state.form.phone === '') {
         showToast(t('ruls.email.empty'))
         return
@@ -133,7 +148,7 @@ async function submit() {
         console.log(error);
     }
 }
-const { form, verifyText, verifyObj, sendBtn, showSeconds, subBranch,areaCodeList,sysConfig,phoneDialog } = toRefs(state)
+const { form, verifyText, verifyObj, sendBtn, showSeconds, subBranch,areaCodeList,sysConfig,phoneDialog,showTip } = toRefs(state)
 </script>
 <style scoped lang='scss'>
 .bind-phone {

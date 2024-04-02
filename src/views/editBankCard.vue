@@ -45,7 +45,7 @@
             <div class="title">{{ $t('user.security.center.bankcard.bankadd.input.pay.pass.text') }}</div>
             <input type="password" class="hideInputBtn" v-model="payPwd" :placeholder="$t('send.payment.placeholder.text')">
         </div>
-        <div class="confirm cursor" @click="submit">
+        <div class="confirm cursor" @click="confirm">
             {{ $t('modal.confirm.text') }}
         </div>
         <div class="betPanel maxWidth" :class="{ showBetPanel: isShowNewAddBool }">
@@ -64,9 +64,11 @@
                 </div>
             </div>
         </div>
+        <update-tip :type="$t('withdraw.record.center.show.detail.type.bank.text')" v-if="showTip" @submit="submit" @close="showTip=false"></update-tip>
     </div>
 </template>
 <script setup >
+import UpdateTip from '@/components/updateTip.vue'
 import { reactive, toRefs, onMounted } from 'vue'
 import Select from '@/components/select.vue'
 import { useRouter,useRoute } from "vue-router";
@@ -111,7 +113,8 @@ const state = reactive({
         optIndex: 1,
     },
     sendBtn: t('forget.send'),
-    showSeconds: false
+    showSeconds: false,
+    showTip:false
 })
 initData()
 function initData(){
@@ -198,7 +201,39 @@ function showNewAddPanel() {
 function getVerifyCode() {
     state.code = state.code.replace(/\D/g, '')
 }
+function confirm(){
+    if (state.cardNumber === '') {
+        showToast(t('deal_enter_bank_card_number'))
+        return
+    }
+    if (state.cardNumber != state.cardNumberTwice) {
+        showToast(t('backapi.cardNumberTwiceDiff'))
+        return
+    }
+    if (state.cardNumberTwice === '') {
+        showToast(t('addBankCard.cardNumberTwice.placeholder.text'))
+        return
+    }
+    if (state.subBranch === '') {
+        showToast(t('addBankCard.bankcard.name.placeholder.text'))
+        return
+    }
+    if (state.cardName === '') {
+        showToast(t('addBankCard.Holder.name.placeholder.text'))
+        return
+    }
+    if (state.code === '') {
+        showToast(t('addWalletAddress.verify.code.text'))
+        return
+    }
+    if (state.payPwd === '') {
+        showToast(t('send.payment.placeholder.text'))
+        return
+    }
+    state.showTip = true
+}
 async function submit() {
+    state.showTip = false
     if (state.cardNumber === '') {
         showToast(t('deal_enter_bank_card_number'))
         return
@@ -256,7 +291,7 @@ async function submit() {
         console.log(error);
     }
 }
-const { verifyCode, cardNumber, verifyObj, sendBtn, showSeconds, cardNumberTwice, subBranch, bankId, bankObj, bankListIndex, cardName, code,province,city,phone,identityCard, isShowNewAddBool, payPwd } = toRefs(state)
+const { verifyCode, cardNumber, verifyObj, sendBtn, showSeconds, cardNumberTwice, subBranch, bankId, bankObj, bankListIndex, cardName, code,province,city,phone,identityCard, isShowNewAddBool, payPwd,showTip } = toRefs(state)
 </script>
 <style scoped lang='scss'>
 .addBankCard {

@@ -1195,5 +1195,6 @@
   "cancelorder.reason5.text":"The seller’s receiving account has been flagged by risk control and I am unable to make the payment.",
   "cancelorder.reason6.text":"The actual unit price/amount does not match what I saw.",
   "cancelorder.reason7.text":"Negotiated cancellation with the seller.",
-  "cancelorder.reason8.text":"Other reasons."
+  "cancelorder.reason8.text":"Other reasons.",
+  "modify.editImportantLogout.text":"Modifying {type} is a sensitive operation. After the successful modification, you will need to log in again and withdrawals will be restricted for {times} hours."
 }

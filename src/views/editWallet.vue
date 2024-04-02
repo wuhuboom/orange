@@ -28,7 +28,7 @@
             <div class="title">{{ $t('user.security.center.bankcard.bankadd.input.pay.pass.text') }}</div>
             <input type="password" class="hideInputBtn" v-model="payPwd" :placeholder="$t('send.payment.placeholder.text')">
         </div>
-        <div class="confirm cursor" @click="submit">
+        <div class="confirm cursor" @click="confirm">
             {{ $t('modal.confirm.text') }}
         </div>
         <!-- 弹窗面板 -->
@@ -48,9 +48,11 @@
                 </div>
             </div>
         </div>
+        <update-tip :type="$t('wallet.list.wallet.text')" v-if="showTip" @submit="submit" @close="showTip=false"></update-tip>
     </div>
 </template>
 <script setup >
+import UpdateTip from '@/components/updateTip.vue'
 import { reactive, toRefs, onMounted, ref } from 'vue'
 import Select from '@/components/select.vue'
 import { useRouter,useRoute } from "vue-router";
@@ -88,7 +90,8 @@ const state = reactive({
     },
     sendBtn: t('forget.send'),
     showSeconds: false,
-    wtList: []
+    wtList: [],
+    showTip:false
 })
 onMounted(()=>{
     initData()
@@ -178,7 +181,27 @@ async function getWalletType() {
         console.log(error);
     }
 }
+function confirm(){
+    if (state.account === '') {
+        showToast(t('backapi.self.whitdraw.type.ewallet.form.name.placehole.text'))
+        return
+    }
+    if (state.address === '') {
+        showToast(t('backapi.self.whitdraw.type.ewallet.form.wallet.addr.placehole.text'))
+        return
+    }
+    if (state.code === '') {
+        showToast(t('addWalletAddress.verify.code.text'))
+        return
+    }
+    if (state.payPwd === '') {
+        showToast(t('send.payment.placeholder.text'))
+        return
+    }
+    state.showTip = true
+}
 async function submit() {
+     state.showTip = false
     if (state.account === '') {
         showToast(t('backapi.self.whitdraw.type.ewallet.form.name.placehole.text'))
         return
@@ -220,7 +243,7 @@ async function submit() {
         console.log(error);
     }
 }
-const { account, verifyObj, sendBtn, showSeconds, address, wtList, walltyName, walletTyIndex, isShowNewAddBool, payPwd, code } = toRefs(state)
+const { account, verifyObj, sendBtn, showSeconds, address, wtList, walltyName, walletTyIndex, isShowNewAddBool, payPwd, code,showTip } = toRefs(state)
 </script>
 <style scoped lang='scss'>
 .addBankCard {

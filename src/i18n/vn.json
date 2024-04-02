@@ -1195,5 +1195,6 @@
   "cancelorder.reason5.text":"Tài khoản nhận tiền của người bán đã bị kiểm soát rủi ro gắn cờ và tôi không thể thực hiện thanh toán.",
   "cancelorder.reason6.text":"Đơn giá/số tiền thực tế không khớp với những gì tôi thấy.",
   "cancelorder.reason7.text":"Thương lượng hủy bỏ với người bán.",
-  "cancelorder.reason8.text":"Lý do khác."
+  "cancelorder.reason8.text":"Lý do khác.",
+  "modify.editImportantLogout.text":"Modifying {type} is a sensitive operation. After the successful modification, you will need to log in again and withdrawals will be restricted for {times} hours."
 }

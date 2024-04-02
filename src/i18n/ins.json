@@ -1153,5 +1153,6 @@
   "backapi.self.security.bind.mail.old.mail.text": "मूल ईमेल",
   "backapi.self.login.server.unhold.text": "ग्राहक सेवा प्रणाली रखरखाव के अधीन",
   "backapi.self.usdt.tip.long.text": "यूएसडीटी ट्रांसफर करने के लिए, प्लेटफ़ॉर्म 1 यूएसडीटी का लेनदेन शुल्क वहन करेगा। रिचार्ज पूरा होने के बाद, सिस्टम स्वचालित रूप से राशि में 1 यूएसडीटी जोड़ देगा।",
-  "backapi.self.safe.recharge.compensation.text": "रिचार्ज मुआवज़ा"
+  "backapi.self.safe.recharge.compensation.text": "रिचार्ज मुआवज़ा",
+  "modify.editImportantLogout.text":"Modifying {type} is a sensitive operation. After the successful modification, you will need to log in again and withdrawals will be restricted for {times} hours."
 }

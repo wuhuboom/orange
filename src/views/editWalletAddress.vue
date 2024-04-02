@@ -25,12 +25,14 @@
             <input type="password" class="hideInputBtn" v-model="payPwd" :placeholder="$t('send.payment.placeholder.text')">
         </div>
 
-        <div class="confirm cursor" @click="submit">
+        <div class="confirm cursor" @click="confirm">
             {{ $t('modal.confirm.text') }}
         </div>
+        <update-tip :type="$t('withdraw.record.center.show.detail.usdt.bank.text')" v-if="showTip" @submit="submit" @close="showTip=false"></update-tip>
     </div>
 </template>
 <script setup >
+import UpdateTip from '@/components/updateTip.vue'
 import { reactive, toRefs, onMounted } from 'vue'
 import { useRouter, useRoute } from "vue-router";
 import http from '@/utils/axios'
@@ -81,9 +83,9 @@ const state = reactive({
         optIndex: 1,
     },
     sendBtn: t('forget.send'),
-    showSeconds: false
+    showSeconds: false,
+    showTip:false
 })
-
 initData()
 function initData(){
     const res = JSON.parse(route.query.item)
@@ -107,7 +109,27 @@ function sendSelectVal(data) {
         state.walletTypeObj.optIndex = state.walletTypeObj.options.find(item => item.label == data.val.label)?.value
     }
 }
+function confirm(){
+    if (state.walletId === '') {
+        showToast(t('addWalletAddress.walletAddr.notEmpty.text'))
+        return
+    }
+    if (state.walletId.length != 34 || !state.walletId.startsWith('T')) {
+        showToast(t('ruls.trc.length'))
+        return
+    }
+    if (state.code === '') {
+        showToast(t('backapi.codeIsEmpty'))
+        return
+    }
+    if (state.payPwd === '') {
+        showToast(t('ruls.xxx.empty', { type: t('user.security.center.bankcard.bankadd.input.pay.pass.text') }))
+        return
+    }
+    state.showTip = true
+}
 async function submit() {
+    state.showTip = false
     let url = '/player/virtual_currency_edit'
     let data = {
         id: state.id,
@@ -197,7 +219,7 @@ onMounted(() => {
         state.verifyObj.selectedVal = t('addWalletAddress.verify.email.text')
     }
 })
-const { walletId, verifyObj, walletType,walletTypeObj, verifyCode, payPwd, sendBtn, showSeconds } = toRefs(state)
+const { walletId, verifyObj, walletType,walletTypeObj, verifyCode, payPwd, sendBtn, showSeconds,showTip } = toRefs(state)
 </script>
 <style scoped lang='scss'>
 .addWalletAddress {
