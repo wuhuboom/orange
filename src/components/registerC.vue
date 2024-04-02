@@ -35,8 +35,7 @@
                             v-if="item.name == 'password'" @click="readPwd(item)" style="cursor: pointer;">
                     </div>
                     <p :class="{ errorPStyle: item.error }" style="padding-left: 8px;margin-bottom: 9px;" v-if="item.error">
-                        {{
-                            item.errorText }}</p>
+                        {{item.errorText }}</p>
                 </div>
             </div>
         </div>
@@ -255,8 +254,9 @@ async function registerAcc() {
         invitationCode: userInfo.value[3].val,
         verifyKey: state.verificationObj?.verifyKey,
         email: userInfo.value[4].val,
-        code: userInfo.value[6].val,
-        phone: `${state.areaCode}${userInfo.value[5].val}`,
+        emailCode: state.isEmailCode == 1 ? state.userInfo[5].val : '', 
+        code: state.isEmailCode == 1 ? state.userInfo[7].val : state.userInfo[6].val,
+        phone: state.isEmailCode == 1 ? `${state.areaCode}${state.userInfo[6].val}` : `${state.areaCode}${state.userInfo[5].val}`,
         areaCode: state.areaCode,
     }
     try {
@@ -292,8 +292,8 @@ async function sendVerify() {
         return
     }
     
-    let username = state.userInfo[0].val
-    let email = state.userInfo[4].val
+    let username = state.lUser[0].val
+    let email = state.lUser[4].val
     if (username === '') {
         showToast(t('login.uErrorText'))
         return
@@ -305,7 +305,7 @@ async function sendVerify() {
     let url = '/player/mail/code/reg?username='+username+'&email='+email
     try {
         const res = await http.get(url)
-        if (res.hasOwnProperty('hasSend')) {
+        if (res && res.hasOwnProperty('hasSend')) {
             if (!state.showSeconds) {
                 state.sendBtn = 60
                 startCountdown()
@@ -329,7 +329,12 @@ function startCountdown() {
     }, 1000)
 } 
 async function getVerifyCode() {
-    userInfo.value[6].val = ''
+    if(state.isEmailCode == 1 ){
+        userInfo.value[7].val = ''
+    }else{
+        userInfo.value[6].val = ''
+    }
+    
     let url = '/player/auth/verify_code'
     try {
         const res = await http.get(url)
@@ -351,7 +356,7 @@ async function getConfig(){
         if(codeList.length > 0){
             state.areaCode = codeList[0]
         }
-         state.isEmailCode = res.emailRequired || 0
+         state.isEmailCode = res.mailCodeRequired || 0
         if(state.isEmailCode ==1){
           let emaiCode = {
               name: 'emailCode',
