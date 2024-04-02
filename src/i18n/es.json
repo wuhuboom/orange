@@ -1155,5 +1155,5 @@
     "backapi.self.login.server.unhold.text": "نظام خدمة العملاء تحت الصيانة",
     "backapi.self.usdt.tip.long.text": "لتحويل USDT، ستتحمل المنصة رسوم معاملة قدرها 1 USDT. وبعد اكتمال إعادة الشحن، سيقوم النظام تلقائيًا بإضافة 1 USDT إلى المبلغ.",
     "backapi.self.safe.recharge.compensation.text": "تعويض إعادة الشحن",
-    "modify.editImportantLogout.text":"Modifying {type} is a sensitive operation. After the successful modification, you will need to log in again and withdrawals will be restricted for {times} hours."
+    "modify.editImportantLogout.text":"تعديل {type} عملية حساسة. بعد نجاح التعديل، ستحتاج إلى تسجيل الدخول مرة أخرى وسيتم تقييد السحب لمدة {times} ساعة."
   }

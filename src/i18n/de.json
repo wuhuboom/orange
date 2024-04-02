@@ -1155,5 +1155,5 @@
   "backapi.self.login.server.unhold.text": "Kundendienstsystem wird gewartet",
   "backapi.self.usdt.tip.long.text": "Für die Überweisung von USDT übernimmt die Plattform die Transaktionsgebühr von 1 USDT. Nach Abschluss der Aufladung fügt das System dem Betrag automatisch 1 USDT hinzu.",
   "backapi.self.safe.recharge.compensation.text": "Aufladekompensation",
-  "modify.editImportantLogout.text":"Modifying {type} is a sensitive operation. After the successful modification, you will need to log in again and withdrawals will be restricted for {times} hours."
+  "modify.editImportantLogout.text":"Die Änderung von {type} ist eine sensible Operation. Nach erfolgreicher Änderung müssen Sie sich erneut anmelden, und Abhebungen sind für {times} Stunden eingeschränkt."
 }

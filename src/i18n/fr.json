@@ -1155,5 +1155,5 @@
   "backapi.self.login.server.unhold.text": "Système de service client en maintenance",
   "backapi.self.usdt.tip.long.text": "Pour le transfert d'USDT, la plateforme prendra en charge les frais de transaction de 1 USDT. Une fois la recharge terminée, le système ajoutera automatiquement 1 USDT au montant.",
   "backapi.self.safe.recharge.compensation.text": "Recharger l'indemnisation",
-  "modify.editImportantLogout.text":"Modifying {type} is a sensitive operation. After the successful modification, you will need to log in again and withdrawals will be restricted for {times} hours."
+  "modify.editImportantLogout.text":"Modifier {type} est une opération sensible. Après la modification réussie, vous devrez vous reconnecter et les retraits seront restreints pendant {times} heures."
 }
