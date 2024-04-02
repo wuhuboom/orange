@@ -50,7 +50,7 @@
             <input type="password" class="hideInputBtn" v-model="payPwd" :placeholder="$t('withdraw.placeholder.text')">
         </div>
         <div class="sendBox" v-if="verifyType == 3">
-              <Select :selectedObj="verifyObj" @sendSelectVal="sendSelectVal" />
+            <Select :selectedObj="verifyObj" @sendSelectVal="sendSelectVal" />
         </div>
        
         <!-- <div class="sendBox">
@@ -273,8 +273,8 @@ async function reachargePre() {
             });
         }
         state.virtualCurrencyList = res
-        state.verifyType = res.msg || '0'
         state.rechargeInfo = state.virtualCurrencyList[state.channelIndex] || {}
+        state.verifyType = state.rechargeInfo.codeMode || '0'
         if (!localStorage.getItem('toaddFlag')) {
             localStorage.setItem('toaddFlag', 0)
         }
