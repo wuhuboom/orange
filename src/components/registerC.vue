@@ -254,9 +254,9 @@ async function registerAcc() {
         invitationCode: userInfo.value[3].val,
         verifyKey: state.verificationObj?.verifyKey,
         email: userInfo.value[4].val,
-        emailCode: state.isEmailCode == 1 ? state.userInfo[5].val : '', 
-        code: state.isEmailCode == 1 ? state.userInfo[7].val : state.userInfo[6].val,
-        phone: state.isEmailCode == 1 ? `${state.areaCode}${state.userInfo[6].val}` : `${state.areaCode}${state.userInfo[5].val}`,
+        emailCode: state.isEmailCode == 1 ? userInfo.value[5].val : '', 
+        code: state.isEmailCode == 1 ? userInfo.value[7].val : userInfo[6].val,
+        phone: state.isEmailCode == 1 ? `${state.areaCode}${userInfo.value[6].val}` : `${state.areaCode}${userInfo.value[5].val}`,
         areaCode: state.areaCode,
     }
     try {
