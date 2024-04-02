@@ -351,7 +351,11 @@ function startCountdown() {
     }, 1000)
 } 
 async function getVerifyCode() {
-  state.userInfo[6].val = ''
+  if(state.isEmailCode == 1 ){
+        userInfo.value[7].val = ''
+    }else{
+        userInfo.value[6].val = ''
+    }
   let url = '/player/auth/verify_code'
   try {
     const res = await http.get(url)
@@ -373,7 +377,7 @@ async function getConfig(){
         if(codeList.length > 0){
             state.areaCode = codeList[0]
         }
-        state.isEmailCode = res.emailRequired || 0
+        state.isEmailCode = res.mailCodeRequired || 0
         if(state.isEmailCode ==1){
           let emaiCode = {
               name: 'emailCode',

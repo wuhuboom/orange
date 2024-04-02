@@ -188,6 +188,11 @@ const state = reactive({
     verifyType:'0'// 0不验证1手机2邮件3两者
 })
 function submitWithdrawPre(){
+    console.log(state.currentWAList,'===============');
+    if(state.currentWAList.length == 0){
+        addWalletPage()
+        return;
+    }
     if (!state.amount) {
         showToast(t('deal.buyDetail.387081-13'))
         return
@@ -226,7 +231,9 @@ async function submitWithdraw() {
         type: state.virtualCurrencyList[state.channelIndex].type,
         usdtId: state.currentWAList[state.walletAddrIndex].id,
         money: state.amount,
-        payPwd: state.payPwd
+        payPwd: state.payPwd,
+        code:state.code,
+        deviceUa:navigator.userAgent
     }
     try {
         const res = await http.post(url, data)
@@ -250,7 +257,7 @@ async function submitWithdraw() {
 }
 function getAddText() {
     let type = state.rechargeInfo.type || ''
-    if (type==3) {
+    if (type==4) {
         return t('withdraw.add.eWallet.text')
     } else if (type==1) {
         return t('withdraw.add.bankCard.text')
@@ -284,11 +291,12 @@ async function reachargePre() {
         if (!localStorage.getItem('toaddFlag')) {
             localStorage.setItem('toaddFlag', 0)
         }
-        if (state.rechargeInfo.name == 'E-Wallet') {
+        let type = state.rechargeInfo.type || ''
+        if (type == 4) {
             eWalletList()
-        } else if (state.rechargeInfo.name === 'Bank') {
+        } else if (type === 1) {
             getBankList()
-        } else if (state.rechargeInfo.name === 'USDT') {
+        } else if (type === 2) {
             getUsdtWalletList()
         }
     } catch (error) {
@@ -371,15 +379,14 @@ function maskString(str) {
 }
 
 function selectBank(item, index) {
-    console.log(item);
     state.virtualCurrencyList.forEach(item => {
         item.showCurrWallet = false
     })
-    if (item.name == 'E-Wallet') {
+    if (item.type == 4) {
         state.currentWAList = state.eWallet
-    } else if (item.name === 'Bank') {
+    } else if (item.type === 1) {
         state.currentWAList = state.bankList
-    } else if (item.name === 'USDT') {
+    } else if (item.type === 2) {
         state.currentWAList = state.usdtWallet
     }
      state.rechargeInfo = item
@@ -401,17 +408,16 @@ function selectWallet(k, j,) {
 }
 function addWalletPage() {
     localStorage.setItem('toaddFlag', 1)
-    console.log(getAddText());
-
-    if (state.rechargeInfo.name == 'E-Wallet') {
+    let type = state.rechargeInfo.type || ''
+    if (type == 4) {
         router.push({
             path: '/addWallet'
         })
-    } else if (state.rechargeInfo.name === 'Bank') {
+    } else if (type == 1) {
         router.push({
             path: '/addBankCard',
         })
-    } else if (state.rechargeInfo.name === 'USDT') {
+    } else if (type == 2) {
         router.push({
             path: '/addWalletAddress',
             query: {
@@ -422,12 +428,12 @@ function addWalletPage() {
     return
 }
 function getPanelTitle() {
-
-    if (state.rechargeInfo.name == 'E-Wallet') {
+    let type = state.rechargeInfo.type || ''
+    if (type == 4) {
         return t('withdraw.add.eWallet.text')
-    } else if (state.rechargeInfo.name === 'Bank') {
+    } else if (type == 1) {
         return t('withdraw.add.bankCard.text')
-    } else if (state.rechargeInfo.name === 'USDT') {
+    } else if (type == 2) {
         return t('withdraw.usdt.panel.title.text')
     }
 }
