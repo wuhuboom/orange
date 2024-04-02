@@ -35,6 +35,8 @@ async function getConfig(){
         if(status > 0){
             state.tipMsg = t('modify.editImportantLogout.text',{type:props.type,times:status})
             state.tipDialog = true
+        }else{
+            emit('submit',{})
         }
     } catch (error) {
         console.log(error);
