@@ -94,8 +94,7 @@
                 </div>
                 <div class="tip_item">
                     6、{{ $t('withdraw.desc.list7') }} {{ rechargeInfo.withdrawalRateMin }},{{ $t('withdraw.desc.list8') }}
-                    {{
-                        rechargeInfo.withdrawalRateMax }}
+                    {{rechargeInfo.withdrawalRateMax }}
                 </div>
                 <div class="tip_item">
                     7、{{ $t('withdraw.desc.list9') }} {{ rechargeInfo.usdtWithdrawPer }}
@@ -275,6 +274,13 @@ async function reachargePre() {
         state.virtualCurrencyList = res
         state.rechargeInfo = state.virtualCurrencyList[state.channelIndex] || {}
         state.verifyType = state.rechargeInfo.codeMode || '0'
+        if(state.verifyType==1){
+            state.verifyObj.optIndex = 0
+            state.verifyObj.selectedVal = state.verifyObj.options[0].label
+        }else{
+            state.verifyObj.optIndex = 1
+            state.verifyObj.selectedVal = state.verifyObj.options[1].label
+        }
         if (!localStorage.getItem('toaddFlag')) {
             localStorage.setItem('toaddFlag', 0)
         }
