@@ -20,6 +20,12 @@
                 </div>
                 <input type="number" v-model="amount" class="hideInputBtn" placeholder="0">
             </div>
+            <div class="money-box">
+                    <div class="money-item" v-for="(item, index) in fastList" :key="index"
+                        :class="{ plActive: moneyIndex === index }" @click="chooseMoney(item, index)"> 
+                        <p>{{ item }}</p>
+                    </div>
+                </div>
         </div>
         <div class="confirm cursor" :class="{ confirmMt: channelList.length > 0 }" @click="toPage">
             {{ $t('modal.confirm.text') }}
@@ -42,6 +48,8 @@ const state = reactive({
     rechargeInfo: {},
     channelList: [],
     channelIndex: 0,
+    fastList:[],
+    moneyIndex:-1
 })
 getMultiChannel()
 // 充值多渠道列表
@@ -51,14 +59,24 @@ async function getMultiChannel() {
         const res = await http.get(url)
         state.channelList = res
         state.rechargeInfo = state.channelList[state.channelIndex]
-        console.log(state.rechargeInfo);
+        state.amount = state.rechargeInfo.def
+        const fast = state.rechargeInfo.fast || ''
+        state.fastList = fast.split('-')
     } catch (error) {
         console.log(error);
     }
 }
+function chooseMoney(item,index){
+    state.amount = item
+    state.moneyIndex = index
+}
 function changePayM(item, index) {
     state.channelIndex = index
     state.rechargeInfo = item
+    state.amount = item.def
+    const fast = state.rechargeInfo.fast || ''
+    state.fastList = fast.split('-')
+    state.moneyIndex = -1
 }
 async function toPage() {
     let url = '/player/recharge'
@@ -86,7 +104,7 @@ async function toPage() {
     }
 
 }
-const { amount, channelIndex, rechargeInfo, channelList } = toRefs(state)
+const { amount, channelIndex, rechargeInfo, channelList,fastList,moneyIndex } = toRefs(state)
 </script>
 <style scoped lang='scss'>
 .fRecharge {
@@ -181,7 +199,7 @@ const { amount, channelIndex, rechargeInfo, channelList } = toRefs(state)
     .amounttips {}
 
     .money {
-        margin-top: 23px;
+        margin-top: 15px;
         border-radius: 10px;
         background-color: #1c1c1c;
         align-items: flex-start;
@@ -189,8 +207,9 @@ const { amount, channelIndex, rechargeInfo, channelList } = toRefs(state)
 
         input {
             width: 100%;
-            height: 30px;
-            margin-top: 23px;
+            height: 25px;
+            margin-top: 15px;
+            font-size: 20px;
             border: none;
             outline: none;
             background-color: #1c1c1c;
@@ -198,6 +217,24 @@ const { amount, channelIndex, rechargeInfo, channelList } = toRefs(state)
         }
     }
 
+    .money-box{
+        max-height: 230px;
+        overflow: auto;
+        .money-item{
+            display: inline-block;
+            width: 100px;
+            height: 35px;
+            line-height: 35px;
+            text-align: center;
+            color: #fff;
+            background-color: #1c1c1c;
+            margin: 10px;
+        }
+        .plActive {
+            border: solid 1px #ff7c43;
+            background-color: rgba(255, 124, 67, 0.15);
+        }
+    }
 
     .confirm {
         width: 100%;
