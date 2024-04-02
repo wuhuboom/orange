@@ -262,8 +262,8 @@ function splitNum(num) {
         margin-top: 10px;
         padding-right: 20px;
         .logo{
-            width: 55px;
-            height: 36px;
+            width: 40px;
+            height: 40px;
         }
         span{
             font-size: 14px;
