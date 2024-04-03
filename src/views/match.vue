@@ -127,14 +127,19 @@ function getSearchGameRes() {
     state.timer && clearTimeout(state.timer)
     state.timer = setTimeout(() => {
         state.page.pageNo = 1
-        getGameList('search')
+        if(state.teamName){
+            getGameListSearch('search')
+        }else{
+            getGameList('search')
+        }
+    
     }, 500);
 }
 onMounted(()=>{
     store.getUserInfo ()
 })
 getGameList()
-async function getGameList(val) {
+async function  getGameList(val) {
     let url = '/player/game/g'
     // startTime 日期选项0全部,1今天,2明日, status状态选项0未开始
     let data = {
@@ -174,13 +179,75 @@ async function getGameList(val) {
         console.log(error);
     }
 }
+async function getGameListSearch(val) {
+    let url = '/player/game'
+    // startTime 日期选项0全部,1今天,2明日, status状态选项0未开始
+    let data = {
+        startTime: state.dateIndex,
+        status: 0,
+        teamName: state.teamName,
+        pageNo: state.page.pageNo,
+        pageSize: state.page.pageSize
+    }
+    state.loading = true
+    // state.refreshing = true
+    try {
+        const res = await http.post(url, data)
+        if (res && res.results.length > 0) {
+            if (val == 'refresh' || val == 'search') {
+                state.list = []
+            }
+            const datas = res.results || []
+            let resMap = new Map()
+            datas.forEach(item => {
+                if(resMap.has(item.allianceName)){
+                    resMap.get(item.allianceName).push(item)
+                }else{
+                    let arr = []
+                    arr.push(item)
+                    resMap.set(item.allianceName,arr)
+                }
+            });
+            let results = []
+            resMap.forEach(function(value,key){
+                let obj = {}
+                obj.allianceName = key
+                obj.games = value
+                results.push(obj)
+            });
+            state.list = [...state.list, ...results]
+            state.page.pageNo = res.pageNo
+            state.page.pageSize = res.pageSize
+            if (res.totalCount > (res.pageSize * res.totalPage)) {
+                state.page.hasNext = true
+            } else {
+                state.page.hasNext = false
+                state.finished = true
+            }
+            if (!res.hasNext) {
+                state.finished = true
+            }
+            state.page.totalPage = res.totalPage
+            state.totalCount = res.totalCount
+            state.loading = false
+            state.refreshing = false
+        }
+    } catch (error) {
+        state.loading = false
+        console.log(error);
+    }
+}
 function onLoad() {
     state.loadTime && clearTimeout(state.loadTime)
     state.loadTime = setTimeout(() => {
         if (state.page.hasNext) {
             state.page.pageNo += 1
         }
-        getGameList()
+        if(state.teamName){
+            getGameListSearch()
+        }else{
+            getGameList()
+        }
     }, 1000);
 }
 function onRefresh() {
@@ -194,7 +261,12 @@ function onRefresh() {
 function selectDate(num) {
     state.totalCount = 0
     state.dateIndex = num
-    getGameList('refresh')
+    if(state.teamName){
+        getGameListSearch('refresh')
+    }else{
+        getGameList('refresh')
+    }
+    
 }
 function toBetPage(item) {
     router.push({
