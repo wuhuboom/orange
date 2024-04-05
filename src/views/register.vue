@@ -284,7 +284,7 @@ async function registerAcc() {
   }
   try {
     const res = await http.post(url, data)
-    if (res == 103) {
+    if (!res) {
       getVerifyCode()
     }
     if (res?.token) {
