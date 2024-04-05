@@ -262,7 +262,7 @@ async function registerAcc() {
     try {
         const res = await http.post(url, data)
         emit('changeRegStatus', false)
-        if (res == 103) {
+        if (!res) {
             getVerifyCode()
         }
         if (res?.token) {
@@ -382,11 +382,13 @@ watchEffect(() => {
         registerAcc()
     }
     if (props.btnIndex === 1) {
-        getVerifyCode()
+        // getVerifyCode()
+        // console.log(props.btnIndex,'-------------------');
     }
 })
 onMounted(() => {
      getConfig()
+     getVerifyCode()
 })
 const { isReadPwd, areaCode, showAreaCodeOpt, codeList, checked, verificationObj, showCheckedBordr, showCheckedAnimate, inputIndex,isEmailCode,sendBtn,showSeconds } = toRefs(state)
 </script>
