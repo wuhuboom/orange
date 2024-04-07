@@ -445,7 +445,7 @@ const headerObj = computed(() => {
             link: "/home",
         },
         partner: {
-            leftIcon: "cter",
+            leftIcon: "A",
             leftIconWidth: "58px",
             leftIconHeight: "19px",
             center: "",

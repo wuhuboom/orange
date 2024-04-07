@@ -48,9 +48,10 @@
                             <span class="rLeft" v-if="typeIndex === 2">{{ $t('fundsRecords.type.text') }}:{{
                                 getTabName(item?.balanceChangeType) }}</span>
 
-                            <span class="color10ab61" v-if="typeIndex === 0 || typeIndex === 1"
-                                :style="{ color: typeArr[typeIndex].statusList[item.status-1]?.color }">{{ getStatus(item.status)
-                                }}</span>
+                            <span class="color10ab61" v-if="typeIndex === 0 || typeIndex === 1" :style="{ color: typeArr[typeIndex].statusList[item.status-1]?.color }">
+                                <block v-if="item.status == 3">{{ item.remark }}</block>
+                                <block v-else>{{ getStatus(item.status)}}  </block>
+                            </span>
                             <span class="rLeft" v-if="typeIndex === 2">{{ $t('fundsRecords.initMoney.text') }}:{{
                                 getAmount(item?.initMoney) }}</span>
                         </div>
@@ -561,6 +562,7 @@ const { tabArr, typeArr, typeIndex, tabIndex, recordList, statusList, typeList, 
 
                 .color10ab61 {
                     color: #10ab61;
+                    text-align: right;
                 }
             }
 
