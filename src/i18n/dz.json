@@ -139,6 +139,7 @@
   "addBankCard.card.number.text": "رقم البطاقة",
   "addBankCard.Holder.name.text": "اسم صاحب",
   "addBankCard.Holder.name.placeholder.text": "الرجاء إدخال اسم المالك",
+  "addBankCard.Holder.name.check.text": "The name can only be written in uppercase letters",
   "addBankCard.month.text": "شهر",
   "addBankCard.year.text": "سنة",
   "addBankCard.cardNumberTwice.placeholder.text": "يُرجى تأكيد رقم البطاقة المصرفية مرة أخرى",

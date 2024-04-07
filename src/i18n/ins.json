@@ -138,6 +138,7 @@
   "addBankCard.card.number.text": "कार्ड संख्या",
   "addBankCard.Holder.name.text": "धारक का नाम",
   "addBankCard.Holder.name.placeholder.text": "कृपया धारक का नाम दर्ज करें",
+  "addBankCard.Holder.name.check.text": "The name can only be written in uppercase letters",
   "addBankCard.month.text": "महीना",
   "addBankCard.year.text": "वर्ष",
   "addBankCard.cardNumberTwice.placeholder.text": "कृपया बैंक कार्ड नंबर की दोबारा पुष्टि करें",

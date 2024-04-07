@@ -22,7 +22,8 @@
         </div>
         <div class="sendBox">
             <div class="title">{{ $t('addBankCard.Holder.name.text') }}</div>
-            <input type="text" v-model="cardName" :placeholder="$t('addBankCard.Holder.name.placeholder.text')">
+            <input type="text" v-model="cardName" :placeholder="$t('addBankCard.Holder.name.placeholder.text')" @blur="chooseError"/>
+            <div class="error" v-if="cardNameError">{{$t('addBankCard.Holder.name.check.text')}}</div>
         </div>
         <Select :selectedObj="verifyObj" @sendSelectVal="sendSelectVal" />
         <div class="sendBox">
@@ -76,6 +77,7 @@ import { useRouter } from "vue-router";
 import http from '@/utils/axios'
 import { showToast } from 'vant'
 import { useI18n } from 'vue-i18n'
+import {checkBankName} from '@/utils/utils'
 
 const { t } = useI18n()
 const router = useRouter()
@@ -88,6 +90,7 @@ const state = reactive({
     cardNumber: '',
     cardNumberTwice: '',
     cardName: '',
+    cardNameError:false,
     subBranch: '',
     payPwd: '',
     code: '',
@@ -126,6 +129,13 @@ async function getBankIdList() {
         state.bankObj = res
     } catch (error) {
         console.log(error);
+    }
+}
+function chooseError(){
+    if(checkBankName(state.cardName)){
+        state.cardNameError = false
+    }else{
+        state.cardNameError = true
     }
 }
 function closePanel() {
@@ -208,6 +218,10 @@ async function submit() {
         showToast(t('addBankCard.Holder.name.placeholder.text'))
         return
     }
+    if(!checkBankName(state.cardName)){
+        state.cardNameError = true
+        return
+    }
     if (state.code === '') {
         showToast(t('addWalletAddress.verify.code.text'))
         return
@@ -245,7 +259,7 @@ async function submit() {
         console.log(error);
     }
 }
-const { verifyCode, cardNumber, verifyObj, sendBtn, showSeconds, cardNumberTwice, subBranch, bankId, bankObj, bankListIndex, cardName, code, isShowNewAddBool, payPwd } = toRefs(state)
+const { verifyCode, cardNumber, verifyObj, sendBtn, showSeconds, cardNumberTwice, subBranch, bankId, bankObj, bankListIndex, cardName, code, isShowNewAddBool, payPwd,cardNameError } = toRefs(state)
 </script>
 <style scoped lang='scss'>
 .addBankCard {
@@ -261,7 +275,9 @@ const { verifyCode, cardNumber, verifyObj, sendBtn, showSeconds, cardNumberTwice
         @include flex(center);
         flex-direction: column;
         margin-top: 20px;
-
+        .error{
+            color: #b50101;
+        }
         .title {
             width: 100%;
             display: block;

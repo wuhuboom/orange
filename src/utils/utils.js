@@ -78,3 +78,7 @@ export const checkName = (name)=>{
   let res = /^[a-zA-Z0-9_]+$/
   return res.test(name)
 }
+export const checkBankName = (name)=>{
+  let res = /^[A-Z\s ]+$/
+  return res.test(name)
+}

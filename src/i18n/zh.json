@@ -136,6 +136,7 @@
   "addBankCard.card.number.text": "卡号",
   "addBankCard.Holder.name.text": "持卡人姓名",
   "addBankCard.Holder.name.placeholder.text": "请输入持卡人姓名",
+  "addBankCard.Holder.name.check.text": "The name can only be written in uppercase letters",
   "addBankCard.month.text": "月",
   "addBankCard.year.text": "年",
   "addBankCard.cardNumberTwice.placeholder.text": "请再次确认银行卡号",

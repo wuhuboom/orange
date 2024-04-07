@@ -139,6 +139,7 @@
   "addBankCard.card.number.text": "Card number",
   "addBankCard.Holder.name.text": "Holder name",
   "addBankCard.Holder.name.placeholder.text": "please enter the Holder name",
+  "addBankCard.Holder.name.check.text": "The name can only be written in uppercase letters",
   "addBankCard.month.text": "Month",
   "addBankCard.year.text": "Year",
   "addBankCard.cardNumberTwice.placeholder.text": "Please confirm the bank card number again",

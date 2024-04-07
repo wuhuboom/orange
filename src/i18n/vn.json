@@ -139,6 +139,7 @@
   "addBankCard.card.number.text": "Số tài khoản",
   "addBankCard.Holder.name.text": "Tên chủ sở hữu",
   "addBankCard.Holder.name.placeholder.text": "vui lòng nhập tên Chủ sở hữu",
+  "addBankCard.Holder.name.check.text": "Tên chỉ có thể viết bằng chữ in hoa",
   "addBankCard.month.text": "Tháng",
   "addBankCard.year.text": "Năm",
   "addBankCard.cardNumberTwice.placeholder.text": "Xin vui lòng xác nhận lại số thẻ ngân hàng",
