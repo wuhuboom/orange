@@ -2,7 +2,10 @@
     <div class="addBankCard hideScrollbar maxWidth lrPadding">
         <div class="sendBox">
             <div class="title">{{ $t('user.security.center.bankcard.bankadd.input.address.text') }}</div>
-            <div class="bankIDBox cursor" @click="showNewAddPanel">{{ bankId }}</div>
+            <div class="bankIDBox cursor" @click="showNewAddPanel">
+                <div class="bankID">{{ bankId }}</div>
+                <van-icon :name="isShowNewAddBool ? 'arrow-up' : 'arrow-down'" />
+            </div>
         </div>
         <div class="sendBox">
             <div class="title">{{ $t('addBankCard.card.number.text') }}</div>
@@ -79,7 +82,7 @@ const router = useRouter()
 const state = reactive({
     verifyMetIndex: 1,
     verifyCode: '',
-    bankListIndex: 0,
+    bankListIndex: -1,
     bankId: '',
     bankObj: {},
     cardNumber: '',
@@ -119,7 +122,6 @@ async function getBankIdList() {
     let url = '/player/banks'
     try {
         const res = await http.get(url)
-        console.log(res);
         state.bankId = res?.banks[state.bankListIndex]?.bankCname
         state.bankObj = res
     } catch (error) {
@@ -279,9 +281,9 @@ const { verifyCode, cardNumber, verifyObj, sendBtn, showSeconds, cardNumberTwice
 
         .bankIDBox {
             @extend input;
-            @include flex(center);
+            @include flex(space-between,center);
             font-size: 14px;
-            padding: 0;
+            padding: 0 20px;
         }
 
         .verifyOpt {

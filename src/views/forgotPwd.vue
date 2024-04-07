@@ -144,7 +144,7 @@ const state = reactive({
         },
     ],
     inputIndex: -1,
-    areaCode: '225',
+    areaCode: '',
     showAreaCodeOpt: false,
     showVerifyOpt: false,
     codeList: [],
@@ -307,31 +307,25 @@ async function changePwd() {
         console.log(error);
     }
 }
-onMounted(() => {
-    let codeList = [
-        255,
-        213,
-        33,
-        44,
-        49,
-        34,
-        1,
-        91,
-        90,
-        260,
-        251,
-        254,
-        255,
-        234,
-        237,
-        213,
-        33,
-        44,]
-    state.codeList = codeList.map(item => {
-        return {
-            num: item
+async function getConfig(){
+    let url = '/player/auth/sys_config'
+    try {
+        const res = await http.get(url)
+        let codeList =  res.area_code || []
+        state.codeList = codeList.map(item=>{
+            return {
+                num: item
+            }
+        })
+        if(codeList.length > 0){
+            state.areaCode = codeList[0]
         }
-    })
+    } catch (error) {
+        console.log(error);
+    }
+}
+onMounted(() => {
+    getConfig()
 })
 const { userInfo, inputIndex, areaCode, showAreaCodeOpt, codeList, showVerifyOpt, optVal,sendBtn,showSeconds } = toRefs(state)
 </script>

@@ -2,7 +2,10 @@
     <div class="addBankCard hideScrollbar maxWidth lrPadding">
         <div class="sendBox">
             <div class="title">{{ $t('user.security.center.bankcard.bankadd.input.address.text') }}</div>
-            <div class="bankIDBox cursor" @click="showNewAddPanel">{{ bankId }}</div>
+            <div class="bankIDBox cursor" @click="showNewAddPanel">
+                <div class="bankID">{{ bankId }}</div>
+                <van-icon :name="isShowNewAddBool ? 'arrow-up' : 'arrow-down'" />
+            </div>
         </div>
         <div class="sendBox">
             <div class="title">{{ $t('addBankCard.card.number.text') }}</div>
@@ -331,9 +334,9 @@ const { verifyCode, cardNumber, verifyObj, sendBtn, showSeconds, cardNumberTwice
 
         .bankIDBox {
             @extend input;
-            @include flex(center);
+            @include flex(space-between,center);
             font-size: 14px;
-            padding: 0;
+            padding: 0 20px;
         }
 
         .verifyOpt {
