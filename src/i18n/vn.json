@@ -395,6 +395,7 @@
   "deal_earn_5_percent_profit_per_transaction": "Kiếm <text class=\"green_text\"> lợi nhuận {num}% </text> trên mỗi giao dịch",
   "deal_bind_bank_card_number": "Ràng buộc số thẻ ngân hàng",
   "deal_enter_bank_card_number": "Vui lòng nhập số thẻ ngân hàng",
+  "deal_enter_bank_id": "Xin hãy chọn tên ngân hàng",
   "deal_phone_number": "Số điện thoại",
   "deal_enter_phone_number": "Xin vui lòng nhập số điện thoại",
   "deal_full_name": "Họ và tên",

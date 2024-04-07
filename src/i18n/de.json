@@ -395,6 +395,7 @@
   "deal_earn_5_percent_profit_per_transaction": "Earn <text class=\"green_text\"> {num}% </text> Gewinn pro Transaktion",
   "deal_bind_bank_card_number": "Bankkartennummer binden",
   "deal_enter_bank_card_number": "Bitte Bankkartennummer eingeben",
+  "deal_enter_bank_id": "Please select your bank name",
   "deal_phone_number": "Telefonnummer",
   "deal_enter_phone_number": "Bitte Telefonnummer eingeben",
   "deal_full_name": "Vollständiger Name",

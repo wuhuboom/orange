@@ -1119,6 +1119,7 @@
   "deal_earn_5_percent_profit_per_transaction": "每一笔赚取 <text class=\"green_text\"> {num}% </text> 的收益",
   "deal_bind_bank_card_number": "绑定银行卡号",
   "deal_enter_bank_card_number": "请输入银行卡号",
+  "deal_enter_bank_id": "Please select your bank name",
   "deal_phone_number": "手机号",
   "deal_enter_phone_number": "请输入手机号",
   "deal_full_name": "姓名",

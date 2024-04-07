@@ -394,6 +394,7 @@
   "deal_earn_5_percent_profit_per_transaction": "कमाना <text class=\"green_text\"> {num}% </text> प्रति लेनदेन लाभ",
   "deal_bind_bank_card_number": "बाइंड बैंक कार्ड नंबर",
   "deal_enter_bank_card_number": "कृपया बैंक कार्ड नंबर दर्ज करें",
+  "deal_enter_bank_id": "Please select your bank name",
   "deal_phone_number": "फ़ोन नंबर",
   "deal_enter_phone_number": "कृपया फ़ोन नंबर दर्ज करें",
   "deal_full_name": "पूरा नाम",

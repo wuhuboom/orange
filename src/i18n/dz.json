@@ -395,6 +395,7 @@
   "deal_earn_5_percent_profit_per_transaction": "يكسب <text class=\"green_text\"> {num}% </text> الربح لكل معاملة",
   "deal_bind_bank_card_number": "ربط رقم البطاقة المصرفية",
   "deal_enter_bank_card_number": "الرجاء إدخال رقم البطاقة المصرفية",
+  "deal_enter_bank_id": "Please select your bank name",
   "deal_phone_number": "رقم التليفون",
   "deal_enter_phone_number": "الرجاء إدخال رقم الهاتف",
   "deal_full_name": "الاسم الكامل",

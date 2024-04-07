@@ -184,6 +184,10 @@ function getVerifyCode() {
     state.code = state.code.replace(/\D/g, '')
 }
 async function submit() {
+    if(state.bankListIndex < 0){
+        showToast(t('deal_enter_bank_id'))
+        return 
+    }
     if (state.cardNumber === '') {
         showToast(t('deal_enter_bank_card_number'))
         return
