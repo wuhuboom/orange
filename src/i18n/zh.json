@@ -10,6 +10,7 @@
   "login.service": "在线客服",
   "login.username": "用户名",
   "login.uErrorText": "用户名不能为空",
+  "login.nameErrorText":"The username can only consist of English letters, numbers, and underscore symbols.",
   "login.password": "密码",
   "login.pErrorText": "密码不能为空",
   "login.verificationCode": "验证码",

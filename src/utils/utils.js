@@ -74,3 +74,7 @@ export const checkPwd = (pwd) => {
     let res = /^[a-zA-Z0-9]{8,20}$/
     return res.test(pwd)
 }
+export const checkName = (name)=>{
+  let res = /^[a-zA-Z0-9_]+$/
+  return res.test(name)
+}

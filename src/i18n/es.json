@@ -10,6 +10,7 @@
     "login.service": "خدمة الإنترنت",
     "login.username": "اسم المستخدم",
     "login.uErrorText": "لا يمكن أن يكون اسم المستخدم فارغًا",
+    "login.nameErrorText":"The username can only consist of English letters, numbers, and underscore symbols.",
     "login.password": "كلمة المرور",
     "login.pErrorText": "لا يمكن أن تكون كلمة المرور فارغة",
     "login.verificationCode": "رمز التحقق",

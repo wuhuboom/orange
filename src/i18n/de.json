@@ -10,6 +10,7 @@
   "login.service": "Onlineservice",
   "login.username": "Nutzername",
   "login.uErrorText": "Der Benutzername darf nicht leer sein",
+  "login.nameErrorText":"The username can only consist of English letters, numbers, and underscore symbols.",
   "login.password": "Passwort",
   "login.pErrorText": "Das Passwort darf nicht leer sein",
   "login.verificationCode": "Bestätigungscode",

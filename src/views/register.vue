@@ -59,7 +59,7 @@
 <script setup>
 import Weihu from '@/components/weihu.vue'
 import { reactive, toRefs, onMounted } from 'vue'
-import { getImg } from '@/utils/utils'
+import { getImg,checkName } from '@/utils/utils'
 import { useRouter,useRoute } from 'vue-router';
 import http from "@/utils/axios";
 import { useI18n } from 'vue-i18n'
@@ -260,6 +260,10 @@ async function registerAcc() {
     if (state.userInfo[i].error) {
       return
     }
+  }
+  if(!checkName(state.userInfo[0].val)){
+      showToast(t('login.nameErrorText'))
+      return
   }
   if (!state.checked) {
     state.showCheckedBordr = true

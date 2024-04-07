@@ -10,6 +10,7 @@
   "login.service": "Dịch vụ trực tuyến",
   "login.username": "Tên tài khoản",
   "login.uErrorText": "Tên người dùng không thể trống",
+  "login.nameErrorText":"Tên người dùng chỉ có thể được tạo thành từ các chữ cái tiếng Anh, số và ký tự gạch dưới",
   "login.password": "Mật khẩu",
   "login.pErrorText": "Mật khẩu không được để trống",
   "login.verificationCode": "Mã xác nhận",

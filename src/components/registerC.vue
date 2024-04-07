@@ -43,7 +43,7 @@
 </template>
 <script setup>
 import { reactive, toRefs, onMounted, watchEffect,computed } from 'vue'
-import { getImg } from '@/utils/utils'
+import { getImg,checkName } from '@/utils/utils'
 import { useRouter } from 'vue-router';
 import http from "@/utils/axios";
 import { showToast } from 'vant'
@@ -245,6 +245,11 @@ async function registerAcc() {
                 return
             }
         }
+    }
+    if(!checkName(userInfo.value[0].val)){
+        showToast(t('login.nameErrorText'))
+        emit('changeRegStatus', false)
+        return
     }
     let url = '/player/auth/regist'
     let data = {
