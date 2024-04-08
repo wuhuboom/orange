@@ -9,11 +9,11 @@
         </div>
         <div class="sendBox">
             <div class="title">{{ $t('addBankCard.card.number.text') }}</div>
-            <input type="number" class="hideInputBtn" v-model="cardNumber" :placeholder="$t('deal_enter_bank_card_number')">
+            <input type="text" class="hideInputBtn" v-model="cardNumber" :placeholder="$t('deal_enter_bank_card_number')">
         </div>
         <div class="sendBox">
             <div class="title">{{ $t('addBankCard.cardNumberTwice.text') }}</div>
-            <input type="number" class="hideInputBtn" v-model="cardNumberTwice"
+            <input type="text" class="hideInputBtn" v-model="cardNumberTwice"
                 :placeholder="$t('addBankCard.cardNumberTwice.placeholder.text')">
         </div>
         <div class="sendBox">
