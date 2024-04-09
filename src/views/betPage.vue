@@ -648,9 +648,9 @@ $bgHeight: 300px;
                     padding-right: 5px;
                     border-radius: 8px;
                     box-sizing: border-box;
-
+                    @include flex(space-between);
                     input {
-                        // width: 150px;
+                        width: 40%;
                         border: none;
                         outline: none;
                         background-color: #24232a;
@@ -680,7 +680,8 @@ $bgHeight: 300px;
                 }
 
                 .betBtn {
-                    width: 110px;
+                    // width: 110px;
+                    width: 25%;
                     height: 36px;
                     text-align: center;
                     line-height: 36px;
