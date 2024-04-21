@@ -86,6 +86,7 @@
   "register.emailErrorText": "L'e-mail ne peut pas être vide",
   "register.phone": "Numéro de téléphone portable",
   "register.phoneErrorText": "Les numéros de téléphone portable ne doivent pas être vides",
+  "register.areaCodeErrorText": "Please select your phone area code",
   "register.instructions": "J'ai plus de 18 ans et j'accepte les réglementations liées au trading et",
   "register.registerBtn": "Registre",
   "forget.title": "Mot de passe oublié",

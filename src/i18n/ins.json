@@ -85,6 +85,7 @@
   "register.emailErrorText": "ईमेल खाली नहीं रह सकता",
   "register.phone": "मोबाइल फोन नंबर",
   "register.phoneErrorText": "मोबाइल फ़ोन नंबर खाली रखने की अनुमति नहीं है",
+  "register.areaCodeErrorText": "Please select your phone area code",
   "register.instructions": "मैं 18 वर्ष से अधिक का हूं और व्यापार संबंधी नियमों से सहमत हूं",
   "register.registerBtn": "पंजीकरण करवाना",
   "forget.title": "पासवर्ड भूल गए",

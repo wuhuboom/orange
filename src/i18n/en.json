@@ -86,6 +86,7 @@
   "register.emailErrorText": "Email cannot be empty",
   "register.phone": "Mobile Phone number",
   "register.phoneErrorText": "Mobile phone numbers are not allowed to be empty",
+  "register.areaCodeErrorText": "Please select your phone area code",
   "register.instructions": "I am over 18 years old and agree toTradingrelated regulations and",
   "register.registerBtn": "Register",
   "forget.title": "Forget password",

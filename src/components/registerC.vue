@@ -246,6 +246,11 @@ async function registerAcc() {
             }
         }
     }
+    if(!state.areaCode){
+        showToast(t('register.areaCodeErrorText'))
+        emit('changeRegStatus', false)
+        return
+    }
     userInfo.value[0].val = userInfo.value[0].val.trim()
     if(!checkName(userInfo.value[0].val)){
         showToast(t('login.nameErrorText'))

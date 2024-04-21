@@ -261,6 +261,10 @@ async function registerAcc() {
       return
     }
   }
+  if(!state.areaCode){
+      showToast(t('register.areaCodeErrorText'))
+      return
+  }
   state.userInfo[0].val = state.userInfo[0].val.trim()
   if(!checkName(state.userInfo[0].val)){
       showToast(t('login.nameErrorText'))
