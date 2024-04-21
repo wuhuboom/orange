@@ -246,6 +246,7 @@ async function registerAcc() {
             }
         }
     }
+    userInfo.value[0].val = userInfo.value[0].val.trim()
     if(!checkName(userInfo.value[0].val)){
         showToast(t('login.nameErrorText'))
         emit('changeRegStatus', false)

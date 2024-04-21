@@ -261,6 +261,7 @@ async function registerAcc() {
       return
     }
   }
+  state.userInfo[0].val = state.userInfo[0].val.trim()
   if(!checkName(state.userInfo[0].val)){
       showToast(t('login.nameErrorText'))
       return
