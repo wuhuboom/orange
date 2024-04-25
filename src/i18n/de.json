@@ -86,6 +86,7 @@
   "register.emailErrorText": "E-Mail darf nicht leer sein",
   "register.phone": "Handynummer",
   "register.phoneErrorText": "Mobiltelefonnummern dürfen nicht leer sein",
+  "register.areaCodeErrorText": "Please select your phone area code",
   "register.instructions": "Ich bin über 18 Jahre alt und stimme den handelsbezogenen Vorschriften zu",
   "register.registerBtn": "Registrieren",
   "forget.title": "Passwort vergessen",

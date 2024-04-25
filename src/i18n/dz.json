@@ -86,6 +86,7 @@
   "register.emailErrorText": "لا يمكن أن يكون البريد الإلكتروني فارغًا",
   "register.phone": "رقم الهاتف الجوال",
   "register.phoneErrorText": "لا يجوز أن تكون أرقام الهواتف المحمولة فارغة",
+  "register.areaCodeErrorText": "Please select your phone area code",
   "register.instructions": "عمري يزيد عن 18 عامًا وأوافق على اللوائح المتعلقة بالتداول و",
   "register.registerBtn": "يسجل",
   "forget.title": "نسيت كلمة المرور",

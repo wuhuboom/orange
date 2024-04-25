@@ -86,6 +86,7 @@
   "register.emailErrorText": "Email không được để trống",
   "register.phone": "Số điện thoại",
   "register.phoneErrorText": "Số điện thoại di động không được để trống",
+  "register.areaCodeErrorText": "Xin hãy chọn mã vùng điện thoại của bạn",
   "register.instructions": "Tôi trên 18 tuổi và đồng ý với các quy định liên quan đến giao dịch và",
   "register.registerBtn": "Đăng ký",
   "forget.title": "Quên mật khẩu",

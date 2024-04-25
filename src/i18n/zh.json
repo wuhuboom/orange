@@ -84,6 +84,7 @@
   "register.emailErrorText": "邮箱不能为空",
   "register.phone": "手机号码",
   "register.phoneErrorText": "手机号码不能为空",
+  "register.areaCodeErrorText": "手机区号不能为空",
   "register.instructions": "我已年满18岁，并同意交易相关的规定和条款",
   "register.registerBtn": "注册",
   "forget.title": "忘记密码",
