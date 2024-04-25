@@ -45,7 +45,10 @@
             </div>
         </div>
         <div class="teamList">
-            <p class="title">{{ $t('partner.team.list.text') }}</p>
+            <div class="teamlist-box">
+                <p class="title">{{ $t('partner.team.list.text') }}</p>
+                <img src="../assets/images/partner/arrow-right.webp" class="arrow-right" alt="" @click="showDetail">
+            </div>
             <div class="item" v-for="(item, index) in userArr" :key="index">
                 <p>
                     <span class="name">{{ item.username }}</span>
@@ -58,7 +61,7 @@
             </div>
         </div>
         <div class="loading-div" v-if="loadCircle.show">
-             <van-circle v-model:current-rate="loadCircle.curRate" :speed="100" :rate="loadCircle.rate" color="#0b4de6" size="150px"
+            <van-circle v-model:current-rate="loadCircle.curRate" :speed="100" :rate="loadCircle.rate" color="#0b4de6" size="150px"
                     layer-color="#ffffff" :stroke-width="80" :text="loadCircle.text" />
         </div>
     </div>
@@ -69,7 +72,9 @@ import { getImg, formatDate } from '@/utils/utils'
 import http from '@/utils/axios'
 import { getPercent } from '@/utils/utils'
 import { useI18n } from 'vue-i18n'
+import { useRouter } from "vue-router";
 const { t, locale } = useI18n()
+const router = useRouter()
 const state = reactive({
     tabsIndex: 0,
     partnerObj: {},
@@ -169,6 +174,11 @@ async function getUserList() {
     } catch (error) {
         console.log(error);
     }
+}
+function showDetail(){
+    router.push({
+        path:'/partnerTeam'
+    })
 }
 function handleClickTab(item, index) {
     state.tabsIndex = index
@@ -343,7 +353,13 @@ const { tabsIndex, groupUnAim, groupAim, partnerObj, passRate, userArr,loadCircl
 
     .teamList {
         padding-bottom: 20px;
-
+        .teamlist-box{
+            @include flex(space-between,center);
+            img{
+                width:20px;
+                height: auto;
+            }
+        }
         .title {
             margin: 17px 0;
             font-size: 16px;

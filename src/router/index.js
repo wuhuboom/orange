@@ -332,6 +332,14 @@ const router = createRouter({
           component: () => import("../views/partner.vue"),
         },
         {
+          path: "partnerTeam",
+          name: "partnerTeam",
+          meta: {
+            parentName: "partner",
+          },
+          component: () => import("../views/partnerTeam.vue"),
+        },
+        {
           path: "download",
           name: "download",
           meta: {
