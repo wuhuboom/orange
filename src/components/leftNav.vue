@@ -16,7 +16,7 @@
                 <div class="assetsBox">
                     <p>{{ $t('wallet.index.balance.text') }}</p>
                     <div class="money cb">
-                        {{ getAmount(accountInfo.balance || 0) }}
+                       {{ getAmount(accountInfo.balance || 0) }}
                         <img src="../assets/images/leftNav/refresh.webp" ref="refreshRef" class="refresh cursor"
                             @click="getbalance" alt="">
                     </div>
@@ -111,7 +111,8 @@ const state = reactive({
         },
     ],
     cList: [],
-    angle: 0
+    angle: 0,
+    balanceLength:6
 })
 const listArr = computed(() => {
     // state.cList解决listArr不会响应式
@@ -247,11 +248,15 @@ function selectList(k, index) {
         k.highlight = false
     }
 }
+ 
 watchEffect(() => {
     // console.log('leftName', accountInfo);
     state.perInfo = accountInfo.value
     // listArr.value[0].name = accountInfo.value.currRate
+    // state.balanceLength = accountInfo.value.balance
+    // console.log('--------------',state.balanceLength);
 })
+
 function showSelect() {
     let langList = [
          {
@@ -408,7 +413,7 @@ const { perInfo, showLangOpt, langTarget, langList } = toRefs(state)
                 }
 
                 .money {
-                    font-size: 31px;
+                    font-size: 18px;
                     font-weight: bold;
                     color: #000;
                     margin: 5px 0;
