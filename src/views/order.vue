@@ -6,7 +6,7 @@
                 {{ item.name }}
             </div>
         </div>
-        <van-pull-refresh v-model="listStatus.refreshing" @refresh="onRefresh" :loosing-text="$t('match.loosing.text')">
+        <van-pull-refresh v-model="listStatus.refreshing" @refresh="onRefresh" :loading-text="$t('load.loading.text')" :pulling-text="$t('load.loading.text')" :loosing-text="$t('match.loosing.text')">
             <van-list v-model:loading="listStatus.loading" :loading-text="$t('load.loading.text')"
                 :finished="listStatus.finished" :finished-text="$t('load.no.more.text')" @load="onLoad">
                 <div class="lItem" v-for="(item, index) in dataList" :key="index">

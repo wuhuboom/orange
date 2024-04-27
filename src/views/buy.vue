@@ -18,7 +18,7 @@
         <van-divider style="margin-top: 0;" />
 
         <van-pull-refresh class="pageRefresh" :immediate-disable="true" v-model="listObj.refreshing" @refresh="onRefresh"
-            :loading-text="$t('load.loading.text')">
+            :loading-text="$t('load.loading.text')" :pulling-text="$t('load.loading.text')" :loosing-text="$t('match.loosing.text')">
             <van-list v-model:loading="listObj.loading" :finished="listObj.finished"
                 :finished-text="$t('load.no.more.text')" :loading-text="$t('load.loading.text')" @load="onLoad"
                 :immediate-check="true" :offset='50'>

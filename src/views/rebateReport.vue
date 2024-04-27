@@ -51,7 +51,7 @@
             </div>
         </div>
         <van-pull-refresh class="pageRefresh" :immediate-disable="true" v-model="refreshing" @refresh="onRefresh" v-if="tabIndex==0"
-            :loading-text="$t('load.loading.text')">
+        :loading-text="$t('load.loading.text')" :pulling-text="$t('load.loading.text')" :loosing-text="$t('match.loosing.text')">
             <van-list v-model:loading="loading" :finished="finished" :finished-text="$t('load.no.more.text')"
                 :loading-text="$t('load.loading.text')" @load="onLoad" :immediate-check="true" :offset='50'>
                 <div class="list">
@@ -68,7 +68,7 @@
             </van-list>
         </van-pull-refresh>
         <van-pull-refresh class="pageRefresh" :immediate-disable="true" v-model="refreshing" @refresh="onRefresh" v-else
-            :loading-text="$t('load.loading.text')">
+        :loading-text="$t('load.loading.text')" :pulling-text="$t('load.loading.text')" :loosing-text="$t('match.loosing.text')">
             <van-list v-model:loading="loading" :finished="finished" :finished-text="$t('load.no.more.text')"
                 :loading-text="$t('load.loading.text')" @load="onLoad" :immediate-check="true" :offset='50'>
                 <div class="list">

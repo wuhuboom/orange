@@ -47,7 +47,7 @@
         <div class="teamList">
             <div class="teamlist-box">
                 <p class="title">{{ $t('partner.team.list.text') }}</p>
-                <img src="../assets/images/partner/arrow-right.webp" class="arrow-right" alt="" @click="showDetail">
+                <!-- <img src="../assets/images/partner/arrow-right.webp" class="arrow-right" alt="" @click="showDetail"> -->
             </div>
             <div class="item" v-for="(item, index) in userArr" :key="index">
                 <p>
