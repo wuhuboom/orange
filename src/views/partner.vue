@@ -34,20 +34,44 @@
         }}</span></p>
         <div class="progressBar">
             <div class="p_left">
-                <p>{{ $t('backapi.report.account.change.query.type.team.motivation.text') }} </p>
-                <p>{{ $t('partner.achievement.text') }}: <span class="tangerine">{{ partnerObj?.groupAim || 0 }}</span></p>
-                <p class="mt">{{ $t('partner.team.incentives.text') }}</p>
-                <p>{{ $t('partner.not.up.to.par') }}: <span class="blue">{{ partnerObj?.groupUnAim || 0 }}</span></p>
+                <div class="p_left_item">
+                    <p>{{ $t('partner.team.incentives.text') }} </p>
+                    <p>{{ $t('partner.not.up.to.par') }}: <span class="tangerine">{{ partnerObj?.groupUnAim || 0 }}</span></p>
+                    <img src="../assets/images/partner/arrow-right.webp" class="arrow-right" alt="" @click="showDetail">
+                </div>
+                <div class="p_left_item">
+                    <p class="mt">{{ $t('partner.team.incentives.text') }}</p>
+                    <p>{{ $t('partner.up.to.par') }}: <span class="green">{{ partnerObj?.groupAim || 0 }}</span></p>
+                    <img src="../assets/images/partner/arrow-right.webp" class="arrow-right" alt="" @click="showDetail">
+                </div>
             </div>
             <div class="p_right">
-                <van-circle v-model:current-rate="groupUnAim" :speed="100" :rate="100" color="#0b4de6"
-                    layer-color="#ff7c43" :stroke-width="80" :text="passRate" />
+                <van-circle v-model:current-rate="groupAim" :speed="100" :rate="100" color="#ff7c43"
+                    layer-color="#1f996b" :stroke-width="80" :text="passRate" />
             </div>
         </div>
         <div class="teamList">
             <div class="teamlist-box">
                 <p class="title">{{ $t('partner.team.list.text') }}</p>
-                <!-- <img src="../assets/images/partner/arrow-right.webp" class="arrow-right" alt="" @click="showDetail"> -->
+                <div class="team-search">
+                    <van-search v-model="username" @blur="inputBlur" @focus="showClearIcon = true" shape="round"
+                        :placeholder="$t('partner.team.search.text')" :clearable="false" background="#000"
+                        @update:model-value="getUserList" @clear="clearContent">
+                        <template #left-icon>
+                            <img src="../assets/images/match/searchIcon.webp" class="searchIcon" alt="">
+                        </template>
+                        <template #right-icon>
+                            <div @click="clearContent" v-if="showClearIcon">
+                                <van-icon name="cross" />
+                            </div>
+                        </template>
+                    </van-search>
+                </div>
+            </div>
+            <div class="team-level">
+                <div class="team-level-item" :class="level==item.level?'active':''" v-for="(item, index) in levelArr" :key="index" @click="changeLevel(item.level)">
+                    {{ item.name}}
+                </div>
             </div>
             <div class="item" v-for="(item, index) in userArr" :key="index">
                 <p>
@@ -92,7 +116,10 @@ const state = reactive({
         pageSize: 10,
     },
     userArr: [],
-    unitNum:window.config.UNIFIED_NUMBER 
+    unitNum:window.config.UNIFIED_NUMBER, 
+    username:'',
+    showClearIcon: false,
+    level:1
 
 })
 const tabArr = computed(() => {
@@ -111,6 +138,22 @@ const tabArr = computed(() => {
         },
     ]
 })
+const levelArr = computed(() => {
+    return [
+        {
+            name: t('partner.team.lv1'),
+            level: 1
+        },
+        {
+            name: t('partner.team.lv2'),
+            level: 2
+        },
+        {
+            name: t('partner.team.lv3'),
+            level: 3
+        }
+    ]
+})  
 loadData()
 getTeamData(1)
  async function loadData(){
@@ -153,10 +196,16 @@ async function getTeamData(index, key = '') {
         console.log(error);
     }
 }
+function changeLevel(level){
+    state.level = level
+    getUserList()
+}
 getUserList()
 async function getUserList() {
     let url = '/player/sub_players'
     let data = {
+        username:state.username,
+        level:state.level,
         pageNo: state.page.pageNo,
         pageSize: state.page.pageSize
     }
@@ -180,12 +229,21 @@ function showDetail(){
         path:'/partnerTeam'
     })
 }
+function clearContent() {
+    state.username = ''
+    state.showClearIcon = false
+}
+function inputBlur() {
+    if (state.username == '') {
+        state.showClearIcon = false
+    }
+}
 function handleClickTab(item, index) {
     state.tabsIndex = index
     loadData()
     getTeamData(1)
 }
-const { tabsIndex, groupUnAim, groupAim, partnerObj, passRate, userArr,loadCircle,unitNum } = toRefs(state)
+const { tabsIndex, groupUnAim, groupAim, partnerObj, passRate, userArr,loadCircle,unitNum,username,level } = toRefs(state)
 </script>
 <style scoped lang='scss'>
 .partner {
@@ -327,12 +385,25 @@ const { tabsIndex, groupUnAim, groupAim, partnerObj, passRate, userArr,loadCircl
             .blue {
                 color: #0b4de6;
             }
+            .green{
+                color:#1f996b;
+            }
 
             .mt {
                 margin-top: 30px!important;
             }
             p{
                 margin-top: 3px;
+            }
+            .p_left_item{
+                position: relative;
+                img{
+                    position: absolute;
+                    right: -25px;
+                    top: -2px;
+                    width: 15px;
+                    height: auto;
+                }
             }
         }
 
@@ -355,9 +426,11 @@ const { tabsIndex, groupUnAim, groupAim, partnerObj, passRate, userArr,loadCircl
         padding-bottom: 20px;
         .teamlist-box{
             @include flex(space-between,center);
-            img{
-                width:20px;
-                height: auto;
+            padding-bottom:5px;
+            border-bottom:1px solid #8d8d8d;;
+            .team-search{
+                height: 30px;
+                width:205px;
             }
         }
         .title {
@@ -365,7 +438,20 @@ const { tabsIndex, groupUnAim, groupAim, partnerObj, passRate, userArr,loadCircl
             font-size: 16px;
             color: #fff;
         }
-
+        .team-level{
+            margin: 10px;
+            @include flex(flex-start);
+            .team-level-item{
+                margin-right: 10px;
+                background-color: #2b2b2b;
+                color:#707070;
+                padding:6px 10px;
+                border-radius: 2px;
+            }
+            .active{
+                color:#ff6c00;
+            }
+        }
         .item {
             // width: 351px;
             height: 56px;
@@ -392,7 +478,32 @@ const { tabsIndex, groupUnAim, groupAim, partnerObj, passRate, userArr,loadCircl
         }
     }
 }
+:deep(.van-search) {
+    padding: 4px 8px;
+    border-radius: 21px;
+    box-sizing: border-box;
 
+    .van-search__content {
+        background-color: #252528;
+
+        .searchIcon {
+            width: 22px;
+            height: 22px;
+        }
+
+        .van-cell {
+            .van-cell__value {
+                .van-field__body {
+                    font-family: $fontFamily;
+
+                    .van-field__control {
+                        color: #fff;
+                    }
+                }
+            }
+        }
+    }
+}
 .partner::-webkit-scrollbar {
     width: 0px;
     /* 设置滚动条宽度 */

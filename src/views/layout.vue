@@ -457,7 +457,7 @@ const headerObj = computed(() => {
             leftIcon: "back",
             leftIconWidth: "32px",
             leftIconHeight: "32px",
-            center: "",
+            center: t("partner.team.userlist"),
             rightIcon: "",
             rightIconWidth: "",
             rightIconHeight: "",
