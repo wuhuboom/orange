@@ -1170,7 +1170,7 @@
   "backapi.self.usdt.tip.long.text": "For transferring USDT, the platform will bear the transaction fee of 1 USDT. After the recharge is completed, the system will automatically add 1 USDT to the amount.",
   "backapi.self.safe.recharge.compensation.text": "Recharge compensation",
   "withdraw.success.title.text": "Submitted successfully",
-  "withdraw.success.content.text": "Your withdrawal request has been submitted, please wait patiently for it to arrive",
+  "withdraw.success.content.text": "Withdrawal time is 48 hours for success",
   "withdraw.clearvip.tip.text":"Your withdrawal will cause your vip level to reset, please confirm whether to submit",
   "invite.tip.title.text":"Promotion rules",
   "invite.tip.subtitle.text":"Promotion on the Internet such as",
