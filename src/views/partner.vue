@@ -54,9 +54,9 @@
             <div class="teamlist-box">
                 <p class="title">{{ $t('partner.team.list.text') }}</p>
                 <div class="team-search">
-                    <van-search v-model="username" @blur="inputBlur" @focus="showClearIcon = true" shape="round"
+                    <van-search v-model="username" @blur="searchUser" @focus="showClearIcon = true" shape="round"
                         :placeholder="$t('partner.team.search.text')" :clearable="false" background="#000"
-                        @update:model-value="searchUser" @clear="clearContent">
+                         @clear="clearContent">
                         <template #left-icon>
                             <img src="../assets/images/match/searchIcon.webp" class="searchIcon" alt="">
                         </template>
@@ -199,6 +199,9 @@ async function getTeamData(index, key = '') {
 function searchUser(){
     state.userArr = []
     getUserList()
+    if (state.username == '') {
+        state.showClearIcon = false
+    }
 }
 function changeLevel(level){
     state.level = level
@@ -240,6 +243,7 @@ function showDetail(type){
 function clearContent() {
     state.username = ''
     state.showClearIcon = false
+    getUserList()
 }
 function inputBlur() {
     if (state.username == '') {
@@ -251,7 +255,7 @@ function handleClickTab(item, index) {
     loadData()
     getTeamData(1)
 }
-const { tabsIndex, groupUnAim, groupAim, partnerObj, passRate, userArr,loadCircle,unitNum,username,level } = toRefs(state)
+const { tabsIndex, groupUnAim, groupAim, partnerObj, passRate, userArr,loadCircle,unitNum,username,level,showClearIcon } = toRefs(state)
 </script>
 <style scoped lang='scss'>
 .partner {
@@ -437,7 +441,7 @@ const { tabsIndex, groupUnAim, groupAim, partnerObj, passRate, userArr,loadCircl
             padding-bottom:5px;
             border-bottom:1px solid #8d8d8d;;
             .team-search{
-                height: 30px;
+                height: 40px;
                 width:205px;
             }
         }
