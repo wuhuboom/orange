@@ -37,12 +37,12 @@
                 <div class="p_left_item">
                     <p>{{ $t('partner.team.incentives.text') }} </p>
                     <p>{{ $t('partner.not.up.to.par') }}: <span class="tangerine">{{ partnerObj?.groupUnAim || 0 }}</span></p>
-                    <img src="../assets/images/partner/arrow-right.webp" class="arrow-right" alt="" @click="showDetail">
+                    <img src="../assets/images/partner/arrow-right.webp" class="arrow-right" alt="" @click="showDetail(1)">
                 </div>
                 <div class="p_left_item">
                     <p class="mt">{{ $t('partner.team.incentives.text') }}</p>
                     <p>{{ $t('partner.up.to.par') }}: <span class="green">{{ partnerObj?.groupAim || 0 }}</span></p>
-                    <img src="../assets/images/partner/arrow-right.webp" class="arrow-right" alt="" @click="showDetail">
+                    <img src="../assets/images/partner/arrow-right.webp" class="arrow-right" alt="" @click="showDetail(2)">
                 </div>
             </div>
             <div class="p_right">
@@ -224,9 +224,12 @@ async function getUserList() {
         console.log(error);
     }
 }
-function showDetail(){
+function showDetail(type){
     router.push({
-        path:'/partnerTeam'
+        path:'/partnerTeam',
+        query:{
+            type:type
+        }
     })
 }
 function clearContent() {
