@@ -56,7 +56,7 @@
                 <div class="team-search">
                     <van-search v-model="username" @blur="inputBlur" @focus="showClearIcon = true" shape="round"
                         :placeholder="$t('partner.team.search.text')" :clearable="false" background="#000"
-                        @update:model-value="getUserList" @clear="clearContent">
+                        @update:model-value="searchUser" @clear="clearContent">
                         <template #left-icon>
                             <img src="../assets/images/match/searchIcon.webp" class="searchIcon" alt="">
                         </template>
@@ -196,8 +196,13 @@ async function getTeamData(index, key = '') {
         console.log(error);
     }
 }
+function searchUser(){
+    state.userArr = []
+    getUserList()
+}
 function changeLevel(level){
     state.level = level
+    state.userArr = []
     getUserList()
 }
 getUserList()
