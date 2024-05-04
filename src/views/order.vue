@@ -271,6 +271,7 @@ function cancelCurrOrder(item) {
 }
 function changeTabs(item, index) {
     state.tabIndex = index
+    state.page.pageNo = 1
     orderList('refresh')
 }
 function getCurrOrderStatus(status) {

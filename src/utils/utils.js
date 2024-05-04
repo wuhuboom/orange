@@ -5,6 +5,9 @@ export const getImg = (file, name) => {
 };
 export const formatDate = (date, type = "YYYY-MM-DD HH:mm:ss") => {
   let formattedDate = moment(date).format(type);
+  if (formattedDate.startsWith("1970")) {
+    formattedDate = "--";
+  }
   return formattedDate;
 };
 export const getSplitName = (name) => {
