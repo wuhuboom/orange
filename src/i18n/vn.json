@@ -1172,6 +1172,7 @@
   "withdraw.success.title.text": "Gửi thành công",
   "withdraw.success.content.text": "Rút tiền sẽ được hoàn thành trong vòng 48 giờ",
   "withdraw.clearvip.tip.text":"Việc rút tiền của bạn sẽ khiến cấp vip của bạn được đặt lại, vui lòng xác nhận xem có gửi không",
+  "withdraw.vipcount.tip.text":"Dear member, your current VIP level is {level}. If this withdrawal is successful, you have {count} free withdrawals remaining without downgrading your level. Do you want to proceed with the withdrawal?",
   "invite.tip.title.text":"Quy tắc khuyến mãi",
   "invite.tip.subtitle.text":"Khuyến mãi trên Internet như",
   "invite.tip.content.text":"v.v. đều bị cấm. Nếu bị phát hiện, tài khoản của bạn sẽ bị cấm.",

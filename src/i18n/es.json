@@ -1168,5 +1168,13 @@
     "backapi.self.login.server.unhold.text": "نظام خدمة العملاء تحت الصيانة",
     "backapi.self.usdt.tip.long.text": "لتحويل USDT، ستتحمل المنصة رسوم معاملة قدرها 1 USDT. وبعد اكتمال إعادة الشحن، سيقوم النظام تلقائيًا بإضافة 1 USDT إلى المبلغ.",
     "backapi.self.safe.recharge.compensation.text": "تعويض إعادة الشحن",
+    "withdraw.success.title.text": "Submitted successfully",
+  "withdraw.success.content.text": "Withdrawal time is 48 hours for success",
+  "withdraw.clearvip.tip.text":"Your withdrawal will cause your vip level to reset, please confirm whether to submit",
+  "withdraw.vipcount.tip.text":"عزيزي العضو، مستوى VIP الحالي الخاص بك هو {level}. إذا نجحت عملية السحب هذه، لديك {count} عمليات سحب مجانية متبقية دون تخفيض مستواك. هل ترغب في المتابعة مع عملية السحب؟",
+  "invite.tip.title.text":"Promotion rules",
+  "invite.tip.subtitle.text":"Promotion on the Internet such as",
+  "invite.tip.content.text":"etc. is prohibited. If discovered, your account will be banned.",
+  "invite.tip.btn.text":"Okay",
     "modify.editImportantLogout.text":"تعديل {type} عملية حساسة. بعد نجاح التعديل، ستحتاج إلى تسجيل الدخول مرة أخرى وسيتم تقييد السحب لمدة {times} ساعة."
   }

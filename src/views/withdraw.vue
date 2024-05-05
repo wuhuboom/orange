@@ -137,6 +137,16 @@
                 
             </template>
         </van-dialog>
+        <van-dialog v-model:show="vipCountDialog" width="310px" className="vipCountDialog maxWidth" :showConfirmButton="false"
+            :showCancelButton="false">
+            <template #default>
+                <p class="wcontent">{{$t('withdraw.vipcount.tip.text',{level:accountInfo.vipLevel,count:wiClearVipCount})}}</p>
+                <div class="btn-box">
+                    <div class="btn-cal" @click="vipCountDialog = false">{{$t('modal.cancel.text')}}</div>
+                    <div class="btn-sub" @click="submitWithdraw">{{$t('invite.tip.btn.text')}}</div>
+                </div>
+            </template>
+        </van-dialog>
     </div>
 </template>
 <script setup>
@@ -145,6 +155,10 @@ import { useRouter } from "vue-router";
 import http from '@/utils/axios'
 import { showToast } from 'vant'
 import { useI18n } from 'vue-i18n'
+import { useStore } from '@/stores/index'
+import { storeToRefs } from 'pinia'
+const store = useStore()
+const {accountInfo } = storeToRefs(store)
 
 const { t } = useI18n()
 
@@ -164,6 +178,8 @@ const state = reactive({
     isShowWalletPanel: false,
     tipDialog:false,
     vipClearDialog:false,
+    vipCountDialog:false,
+    wiClearVipCount:0,
     verifyText:'',
     verifyCode: '',
     code:'',
@@ -188,7 +204,6 @@ const state = reactive({
     verifyType:'0'// 0不验证1手机2邮件3两者
 })
 function submitWithdrawPre(){
-    console.log(state.currentWAList,'===============');
     if(state.currentWAList.length == 0){
         addWalletPage()
         return;
@@ -205,12 +220,18 @@ function submitWithdrawPre(){
         showToast(t('withdraw.withdrawType.text'))
         return
     }
-    var wiClear = state.virtualCurrencyList[state.channelIndex].wiClearVip
-    if(wiClear==0){
-        submitWithdraw()
+    state.wiClearVipCount = state.virtualCurrencyList[state.channelIndex].wiClearVipCount
+    if(state.wiClearVipCount > 0){
+        state.vipCountDialog = true
     }else{
-        state.vipClearDialog = true
+        var wiClear = state.virtualCurrencyList[state.channelIndex].wiClearVip
+        if(wiClear==0){
+            submitWithdraw()
+        }else{
+            state.vipClearDialog = true
+        }
     }
+    
 }
 async function submitWithdraw() {
     state.vipClearDialog = false
@@ -504,7 +525,7 @@ function startCountdown() {
 function getVerifyCode() {
     state.code = state.code.replace(/\D/g, '')
 }
-const { amount, channelIndex, rechargeInfo, virtualCurrencyList, payPwd, currentWAList, walletAddrIndex, isShowWalletOpt, isShowWalletPanel,bankList,tipDialog,vipClearDialog,verifyText, verifyObj, sendBtn, showSeconds,code,verifyType } = toRefs(state)
+const { amount, channelIndex, rechargeInfo, virtualCurrencyList, payPwd, currentWAList, walletAddrIndex, isShowWalletOpt, isShowWalletPanel,bankList,tipDialog,vipClearDialog,verifyText, verifyObj, sendBtn, showSeconds,code,verifyType,vipCountDialog,wiClearVipCount } = toRefs(state)
 </script>
 <style scoped lang='scss'>
 .withdraw {
@@ -932,6 +953,49 @@ const { amount, channelIndex, rechargeInfo, virtualCurrencyList, payPwd, current
                 text-transform: uppercase;
                 color: #fff;
                 text-align: center;
+            }
+        }
+    }
+    :deep(.vipCountDialog){
+        background-image: url('../assets/images/withdraw/vipcount.png');
+        background-size: 100% 100%;
+        background-repeat: no-repeat;
+        padding: 0 30px;
+        background-color: transparent!important;
+        height: 271px;
+        width: 251px!important;
+        padding-top: 70px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        .wcontent{
+            font-size: 13px;
+            text-align: center;
+            color: #fbd9be;
+            line-height: 1.2;
+        }
+        .btn-box{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 15px;
+            .btn-cal{
+                width: 144px;
+                height: 34px;
+                line-height: 34px;
+                background-image: url('../assets/images/withdraw/btn-bg.png');
+                background-size: 100% 100%;
+                background-repeat: no-repeat;
+                text-align: center;
+                font-size: 14px;
+                font-weight: 500;
+                color: #000;
+            }
+            .btn-sub{
+                 font-size: 12px;
+                font-weight: 500;
+                color: #fbd9be;
+                margin-top: 10px;
             }
         }
     }

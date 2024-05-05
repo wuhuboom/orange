@@ -1168,5 +1168,13 @@
   "backapi.self.login.server.unhold.text": "Système de service client en maintenance",
   "backapi.self.usdt.tip.long.text": "Pour le transfert d'USDT, la plateforme prendra en charge les frais de transaction de 1 USDT. Une fois la recharge terminée, le système ajoutera automatiquement 1 USDT au montant.",
   "backapi.self.safe.recharge.compensation.text": "Recharger l'indemnisation",
+  "withdraw.success.title.text": "Submitted successfully",
+  "withdraw.success.content.text": "Withdrawal time is 48 hours for success",
+  "withdraw.clearvip.tip.text":"Your withdrawal will cause your vip level to reset, please confirm whether to submit",
+  "withdraw.vipcount.tip.text":"Cher membre, votre niveau VIP actuel est {level}. Sice retrait est réussi, il vous reste {count} retraits gratuits sans diminution de votre niveau. Souhaitez-vous procéder au retrait ?",
+  "invite.tip.title.text":"Promotion rules",
+  "invite.tip.subtitle.text":"Promotion on the Internet such as",
+  "invite.tip.content.text":"etc. is prohibited. If discovered, your account will be banned.",
+  "invite.tip.btn.text":"Okay",
   "modify.editImportantLogout.text":"Modifier {type} est une opération sensible. Après la modification réussie, vous devrez vous reconnecter et les retraits seront restreints pendant {times} heures."
 }

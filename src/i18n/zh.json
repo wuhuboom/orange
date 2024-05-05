@@ -1147,6 +1147,7 @@
   "withdraw.success.title.text": "Submitted successfully",
   "withdraw.success.content.text": "Your withdrawal request has been submitted, please wait patiently for it to arrive",
   "withdraw.clearvip.tip.text":"Your withdrawal will cause your vip level to reset, please confirm whether to submit",
+  "withdraw.vipcount.tip.text":"尊敬的会员,您当前VIP等级是{level},如果本次提现成功,您享受提现不降低等级的免费次数还剩下{count},您是否继续提现?",
   "invite.tip.title.text":"Promotion rules",
   "invite.tip.subtitle.text":"Promotion on the Internet such as",
   "invite.tip.content.text":"etc. is prohibited. If discovered, your account will be banned.",

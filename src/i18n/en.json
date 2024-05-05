@@ -1172,6 +1172,7 @@
   "withdraw.success.title.text": "Submitted successfully",
   "withdraw.success.content.text": "Withdrawal time is 48 hours for success",
   "withdraw.clearvip.tip.text":"Your withdrawal will cause your vip level to reset, please confirm whether to submit",
+  "withdraw.vipcount.tip.text":"Dear member, your current VIP level is {level}. If this withdrawal is successful, you have {count} free withdrawals remaining without downgrading your level. Do you want to proceed with the withdrawal?",
   "invite.tip.title.text":"Promotion rules",
   "invite.tip.subtitle.text":"Promotion on the Internet such as",
   "invite.tip.content.text":"etc. is prohibited. If discovered, your account will be banned.",
