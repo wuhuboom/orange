@@ -56,7 +56,7 @@ function onLoad() {
         if (state.page.hasNext) {
             orderList()
         }
-    }, 300);
+    }, 2000);
 }
 function onRefresh() {
     state.page.pageNo = 1
@@ -78,10 +78,9 @@ async function orderList(val) {
         state.page.pageNo = res.pageNo
         state.page.pageSize = res.pageSize
         state.page.hasNext = res.hasNext
-
         state.listStatus.loading = false
         state.listStatus.refreshing = false
-        if (res.totalCount > (res.pageSize * res.totalPage)) {
+        if (res.totalCount > (res.pageSize * res.pageNo)) {
             state.page.hasNext = true
         } else {
             state.page.hasNext = false

@@ -42,7 +42,7 @@
                 <div class="p_left_item">
                     <p class="mt">{{ $t('partner.team.incentives.text') }}</p>
                     <p>{{ $t('partner.up.to.par') }}: <span class="green">{{ partnerObj?.groupAim || 0 }}</span></p>
-                    <img src="../assets/images/partner/arrow-right.webp" class="arrow-right" alt="" @click="showDetail(2)">
+                    <!-- <img src="../assets/images/partner/arrow-right.webp" class="arrow-right" alt="" > -->
                 </div>
             </div>
             <div class="p_right">
