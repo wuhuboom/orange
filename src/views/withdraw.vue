@@ -222,6 +222,7 @@ function submitWithdrawPre(){
     }
     state.wiClearVipCount = state.virtualCurrencyList[state.channelIndex].wiClearVipCount
     if(state.wiClearVipCount > 0){
+        state.wiClearVipCount = state.wiClearVipCount - 1
         state.vipCountDialog = true
     }else{
         var wiClear = state.virtualCurrencyList[state.channelIndex].wiClearVip
