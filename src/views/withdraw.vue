@@ -147,10 +147,13 @@
                 </div>
             </template>
         </van-dialog>
+        
+        <risk-modal :riskCode="riskCode" :submitted="submitted" ref="riskRef"></risk-modal>
     </div>
 </template>
 <script setup>
-import { reactive, toRefs, } from 'vue'
+import riskModal from '@/components/riskModal.vue'
+import { reactive, toRefs, ref,onMounted} from 'vue'
 import { useRouter } from "vue-router";
 import http from '@/utils/axios'
 import { showToast } from 'vant'
@@ -161,6 +164,12 @@ const store = useStore()
 const {accountInfo } = storeToRefs(store)
 
 const { t } = useI18n()
+
+const riskRef = ref(null)
+onMounted(()=>{
+     
+})
+
 
 const router = useRouter()
 const state = reactive({
@@ -201,7 +210,9 @@ const state = reactive({
     },
     sendBtn: t('forget.send'),
     showSeconds: false,
-    verifyType:'0'// 0不验证1手机2邮件3两者
+    verifyType:'0',// 0不验证1手机2邮件3两者
+    riskCode:'3',
+    submitted:''
 })
 function submitWithdrawPre(){
     if(state.currentWAList.length == 0){
@@ -258,7 +269,9 @@ async function submitWithdraw() {
         deviceUa:navigator.userAgent
     }
     try {
-        const res = await http.post(url, data)
+        let res = await http.post(url, data)
+        console.log(res)
+        debugger
         if (res === null) {
             state.payPwd = ''
             state.money = ''
@@ -270,11 +283,28 @@ async function submitWithdraw() {
             //     state.amount = ''
             // }, 5000)
         }else if(res.code == 103){
-            showToast(res.data.withdrawalLimitMsg)
-            return
+            if(res.msgkey =='withdrawalRisk'){
+                res = res.data
+                state.riskCode = res.data
+                state.submitted = res.submitted
+                if(state.submitted === 1){
+                    showToast(t("withdraw.risk.waitAudit"))
+                    return
+                }else{
+                    let riskStatus = [2, 3, 4]
+                    if (riskStatus.includes(state.riskCode)) {
+                        riskRef.value.openModal()
+                    }
+                    console.log(riskRef.value)
+                }
+            }else{
+                showToast(res.data.withdrawalLimitMsg)
+                return
+            }
+            
         }
     } catch (error) {
-
+        console.log(error)
     }
 }
 function getAddText() {
@@ -332,7 +362,6 @@ async function getUsdtWalletList() {
     try {
         const res = await http.post(url)
         if (res.length > 0) {
-            console.log(res);
             res.forEach(item => {
                 item.addr = item.addr.slice(0, 4) + '****' + item.addr.slice(-4)
             })
@@ -526,7 +555,7 @@ function startCountdown() {
 function getVerifyCode() {
     state.code = state.code.replace(/\D/g, '')
 }
-const { amount, channelIndex, rechargeInfo, virtualCurrencyList, payPwd, currentWAList, walletAddrIndex, isShowWalletOpt, isShowWalletPanel,bankList,tipDialog,vipClearDialog,verifyText, verifyObj, sendBtn, showSeconds,code,verifyType,vipCountDialog,wiClearVipCount } = toRefs(state)
+const { amount, channelIndex, rechargeInfo, virtualCurrencyList, payPwd, currentWAList, walletAddrIndex, isShowWalletOpt, isShowWalletPanel,bankList,tipDialog,vipClearDialog,verifyText, verifyObj, sendBtn, showSeconds,code,verifyType,vipCountDialog,wiClearVipCount,riskCode,submitted } = toRefs(state)
 </script>
 <style scoped lang='scss'>
 .withdraw {
