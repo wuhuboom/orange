@@ -73,6 +73,12 @@
                     {{ item.name}}
                 </div>
             </div>
+            <van-list
+            v-model:loading="loading"
+            :finished="finished"
+            finished-text="没有更多了"
+            @load="getUserList"
+            >
             <div class="item" v-for="(item, index) in userArr" :key="index">
                 <p>
                     <span class="name">{{ item.username }}</span>
@@ -83,6 +89,7 @@
                     <span>{{ formatDate(item.theNewLoginTime) }}</span>
                 </p>
             </div>
+           </van-list>
         </div>
         <div class="loading-div" v-if="loadCircle.show">
             <van-circle v-model:current-rate="loadCircle.curRate" :speed="100" :rate="loadCircle.rate" color="#0b4de6" size="150px"
@@ -91,13 +98,15 @@
     </div>
 </template>
 <script setup >
-import { reactive, toRefs, computed } from 'vue'
+import { reactive, toRefs, computed,ref } from 'vue'
 import { getImg, formatDate } from '@/utils/utils'
 import http from '@/utils/axios'
 import { getPercent } from '@/utils/utils'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from "vue-router";
 const { t, locale } = useI18n()
+const loading = ref(false);
+const finished = ref(false);
 const router = useRouter()
 const state = reactive({
     tabsIndex: 0,
@@ -113,7 +122,7 @@ const state = reactive({
     },
     page: {
         pageNo: 1,
-        pageSize: 10,
+        pageSize: 30,
     },
     userArr: [],
     unitNum:window.config.UNIFIED_NUMBER, 
@@ -198,7 +207,9 @@ async function getTeamData(index, key = '') {
 }
 function searchUser(){
     state.userArr = []
-    getUserList()
+    finished.value = false
+    state.page.pageNo = 1
+    //getUserList()
     if (state.username == '') {
         state.showClearIcon = false
     }
@@ -206,9 +217,11 @@ function searchUser(){
 function changeLevel(level){
     state.level = level
     state.userArr = []
-    getUserList()
+    finished.value = false
+    state.page.pageNo = 1
+    //getUserList()
 }
-getUserList()
+//getUserList()
 async function getUserList() {
     let url = '/player/sub_players'
     let data = {
@@ -219,16 +232,19 @@ async function getUserList() {
     }
     try {
         const res = await http.post(url, data)
+        loading.value = false
         console.log(
             '%c res: ',
             'background-color: #3756d4; padding: 4px 8px; border-radius: 2px; font-size: 14px; color: #fff; font-weight: 700;',
             res
         )
         state.userArr = [...state.userArr, ...res.results] || []
-        state.page.pageNo = res.pageNo
+        state.page.pageNo = res.pageNo+1
         state.page.pageSize = res.pageSize
         state.page.hasNext = res.hasNext
+        finished.value = !res.hasNext
     } catch (error) {
+        finished.value = true
         console.log(error);
     }
 }
