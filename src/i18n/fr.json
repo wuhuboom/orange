@@ -1185,5 +1185,6 @@
   "invite.tip.subtitle.text":"Promotion on the Internet such as",
   "invite.tip.content.text":"etc. is prohibited. If discovered, your account will be banned.",
   "invite.tip.btn.text":"Okay",
-  "modify.editImportantLogout.text":"Modifier {type} est une opération sensible. Après la modification réussie, vous devrez vous reconnecter et les retraits seront restreints pendant {times} heures."
+  "modify.editImportantLogout.text":"Modifier {type} est une opération sensible. Après la modification réussie, vous devrez vous reconnecter et les retraits seront restreints pendant {times} heures.",
+  "backapi.betFrequently": "La fréquence des transactions est trop rapide, veuillez réessayer plus tard"
 }

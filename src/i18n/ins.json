@@ -1184,5 +1184,6 @@
   "invite.tip.subtitle.text":"Promotion on the Internet such as",
   "invite.tip.content.text":"etc. is prohibited. If discovered, your account will be banned.",
   "invite.tip.btn.text":"Okay",
-  "modify.editImportantLogout.text":"{type} को संशोधित करना एक संवेदनशील कार्य है। सफल संशोधन के बाद, आपको फिर से लॉगिन करना होगा और निकासी {times} घंटों के लिए प्रतिबंधित होगी।"
+  "modify.editImportantLogout.text":"{type} को संशोधित करना एक संवेदनशील कार्य है। सफल संशोधन के बाद, आपको फिर से लॉगिन करना होगा और निकासी {times} घंटों के लिए प्रतिबंधित होगी।",
+  "backapi.betFrequently": "व्यापारिक घण्टा बहुत तेज है, कृपया बाद में पुन: प्रयास करें"
 }

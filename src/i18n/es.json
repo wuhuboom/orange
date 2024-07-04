@@ -1185,5 +1185,6 @@
   "invite.tip.subtitle.text":"Promotion on the Internet such as",
   "invite.tip.content.text":"etc. is prohibited. If discovered, your account will be banned.",
   "invite.tip.btn.text":"Okay",
-    "modify.editImportantLogout.text":"تعديل {type} عملية حساسة. بعد نجاح التعديل، ستحتاج إلى تسجيل الدخول مرة أخرى وسيتم تقييد السحب لمدة {times} ساعة."
+    "modify.editImportantLogout.text":"تعديل {type} عملية حساسة. بعد نجاح التعديل، ستحتاج إلى تسجيل الدخول مرة أخرى وسيتم تقييد السحب لمدة {times} ساعة.",
+    "backapi.betFrequently": "La frecuencia de trading es demasiado rápida, por favor inténtalo de nuevo más tarde"
   }
