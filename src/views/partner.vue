@@ -15,12 +15,12 @@
             </div>
             <div class="item trade">
                 <img :src="getImg('partner', 'trade')" alt="">
-                <p class="name">{{ $t('partner.trade.user.text') }}</p>
+                <p class="name">{{ $t('agency.center.teamSize.text') }}</p>
                 <p class="num">{{ partnerObj.playerCount || 0 }}</p>
             </div>
             <div class="item win">
                 <img :src="getImg('partner', 'win')" alt="">
-                <p class="name">{{ $t('partner.winning.text') }}</p>
+                <p class="name">{{ $t('agency.center.newreg.text') }}</p>
                 <p class="num"><span> {{ partnerObj?.netProfit / unitNum  || 0 }} </span></p>
             </div>
         </div>
