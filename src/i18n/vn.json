@@ -1221,5 +1221,5 @@
   "cancelorder.reason7.text":"Thương lượng hủy bỏ với người bán.",
   "cancelorder.reason8.text":"Lý do khác.",
   "modify.editImportantLogout.text":"Việc sửa đổi {type} là một hoạt động nhạy cảm. Sau khi sửa đổi thành công, bạn sẽ cần đăng nhập lại và việc rút tiền sẽ bị hạn chế trong {times} giờ.",
-  "betFrequently": "Tần suất giao dịch quá nhanh, vui lòng thử lại sau"
+  "backapi.betFrequently": "Tần suất giao dịch quá nhanh, vui lòng thử lại sau"
 }
