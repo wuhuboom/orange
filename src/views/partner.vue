@@ -76,7 +76,7 @@
             <van-list
             v-model:loading="loading"
             :finished="finished"
-            finished-text="没有更多了"
+            finished-text=""
             @load="getUserList"
             >
             <div class="item" v-for="(item, index) in userArr" :key="index">
