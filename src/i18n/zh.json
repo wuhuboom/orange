@@ -1195,5 +1195,6 @@
   "cancelorder.reason7.text":"Negotiated cancellation with the seller.",
   "cancelorder.reason8.text":"Other reasons.",
   "modify.editImportantLogout.text":"Modifying {type} is a sensitive operation. After the successful modification, you will need to log in again and withdrawals will be restricted for {times} hours.",
-  "backapi.betFrequently": "贸易频率太快,稍后尝试"
+  "backapi.betFrequently": "贸易频率太快,稍后尝试",
+  "backapi.phonelsInvalid": "手机号码无效"
 }

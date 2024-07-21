@@ -1186,5 +1186,6 @@
   "invite.tip.content.text":"etc. is prohibited. If discovered, your account will be banned.",
   "invite.tip.btn.text":"Okay",
   "modify.editImportantLogout.text":"Die Änderung von {type} ist eine sensible Operation. Nach erfolgreicher Änderung müssen Sie sich erneut anmelden, und Abhebungen sind für {times} Stunden eingeschränkt.",
-  "backapi.betFrequently": "Handelsfrequenz ist zu schnell, bitte versuchen Sie es später erneut"
+  "backapi.betFrequently": "Handelsfrequenz ist zu schnell, bitte versuchen Sie es später erneut",
+  "backapi.phonelsInvalid": "Ungültige Telefonnummer"
 }
