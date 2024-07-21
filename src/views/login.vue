@@ -249,7 +249,7 @@ const { langList, showLangOpt, langTarget, btnIndex, rCheckBool, isRegBtn, noChe
   .showOpt {
     transition: height .5s ease-out;
     height: 160px;
-    overflow-y: auto;
+    //overflow-y: auto;
   }
 }
 
