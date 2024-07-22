@@ -1222,5 +1222,5 @@
   "cancelorder.reason8.text":"Lý do khác.",
   "modify.editImportantLogout.text":"Việc sửa đổi {type} là một hoạt động nhạy cảm. Sau khi sửa đổi thành công, bạn sẽ cần đăng nhập lại và việc rút tiền sẽ bị hạn chế trong {times} giờ.",
   "backapi.betFrequently": "Tần suất giao dịch quá nhanh, vui lòng thử lại sau",
-  "backapi.phonelsInvalid": "Số điện thoại không hợp lệ"
+  "backapi.phoneIsInvalid": "Số điện thoại không hợp lệ"
 }
