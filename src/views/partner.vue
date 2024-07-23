@@ -20,8 +20,9 @@
             </div>
             <div class="item win">
                 <img :src="getImg('partner', 'win')" alt="">
+                
                 <p class="name">{{ $t('agency.center.newreg.text') }}</p>
-                <p class="num"><span> {{ partnerObj?.netProfit / unitNum  || 0 }} </span></p>
+                <p class="num"><span> {{ partnerObj?.newPlayer }} </span></p>
             </div>
         </div>
         <div class="tabs">
