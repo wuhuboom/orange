@@ -37,3 +37,13 @@ npm run build
 ### npm run build:dev 打包开发环境包
 
 ### npm run build:prod 打包生产环境包
+
+测试服  Karl3601  Karl3601
+
+https://o.uunn.org/#/login
+
+后台
+
+https://admin.uunn.org/#/  
+
+jumi001 jumi001
