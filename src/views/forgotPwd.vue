@@ -181,7 +181,7 @@ function getVerifyCode() {
         showToast(t('addWalletAddress.countDown.tips.text'))
         return
     }
-    if (state.optVal === 'Email verifiCode') {
+    if (state.optVal === state.optObj[2]) {
         getEmailCode()
     } else {
         getPhoneCode()
