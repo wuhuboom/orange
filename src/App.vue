@@ -14,7 +14,7 @@ const store = useStore()
 const user = computed(() => store.accountInfo)
 const isShow=computed(()=>{
   console.log(route.name)
-  return route.name !== 'recharge'
+  return route.name !== 'frecharge'
 })
 watchEffect(() => {
   // if (route.query?.ojbk === "1") {
