@@ -1,4 +1,4 @@
-import "./styles/main.css";
+import "./styles/main.scss";
 import "vant/lib/index.css";
 import "swiper/css";
 
