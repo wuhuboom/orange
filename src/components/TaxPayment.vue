@@ -49,7 +49,7 @@
             block
             type="info"
             @click.native="
-              $router.push({ name: 'frecharge' })
+              $router.push({ path: '/frecharge?rechargeType=football' })
             "
             native-type="button"
             >{{ $t("Pay.Taxes") }}</van-button
