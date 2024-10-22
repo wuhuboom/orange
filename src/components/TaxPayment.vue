@@ -27,9 +27,10 @@
           <p class="color-pink">{{ $t(`backapi.self.need.money.text`) }}</p>
           <p
            @click="copyToClipboard"
+           class="align-center"
           >
-            {{ moneyCeil }}
-            <i class="el-icon-document-copy copy-button active font16 ml-4"></i>
+            {{ moneyCeil }} 
+            <img class="copy-icon m-l-4" src="@/assets/images/betpage/131058@2x.webp" alt="">
           </p>
         </li>
       </ul>
@@ -68,7 +69,7 @@ const { t } = useI18n()
 const store = useStore();
 import http from '@/utils/axios'
 
-
+import { showToast } from "vant";
 const showDialog = ref(false);
 const obj = ref({});
 const trimr = ref(null);
@@ -87,6 +88,7 @@ const copyToClipboard = async () => {
     await navigator.clipboard.writeText(`${moneyCeil.value}`);
     showToast(t(`transfer.copy.success.text`));
   } catch (err) {
+    console.error('Failed to copy: ', err);
   }
 };
 
@@ -141,6 +143,11 @@ onBeforeUnmount(() => {
       width: 28px;
       height: 28px;
     }
+  }
+  .copy-icon{
+    display: block;
+    object-fit: contain;
+    width: 20px;  height: 20px; 
   }
   .van-count-down {
     color: #fff;

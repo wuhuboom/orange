@@ -13,8 +13,7 @@ import { useStore } from '@/stores/index'
 const store = useStore()
 const user = computed(() => store.accountInfo)
 const isShow=computed(()=>{
-  console.log(route.name)
-  return route.name !== 'frecharge'
+  return  !['frecharge','login','forgotPwd'].includes(route.name)
 })
 watchEffect(() => {
   // if (route.query?.ojbk === "1") {

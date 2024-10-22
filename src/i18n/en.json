@@ -1222,5 +1222,8 @@
   "cancelorder.reason8.text":"Other reasons.",
   "modify.editImportantLogout.text":"Modifying {type} is a sensitive operation. After the successful modification, you will need to log in again and withdrawals will be restricted for {times} hours.",
   "backapi.betFrequently": "The trading frequency is too high; please try again later.",
-  "backapi.phoneIsInvalid": "Invalid phone number"
+  "backapi.phoneIsInvalid": "Invalid phone number",
+  "Tax.Payment":"Tax Payment",
+	"backapi.self.all.alert.desc": "Consider as give up if tax not paid within the time set",
+	"Pay.Taxes":"Pay Taxes"
 }
