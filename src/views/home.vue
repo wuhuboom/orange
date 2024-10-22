@@ -97,7 +97,7 @@
         </van-dialog>
 
         <!-- 设置公告弹窗 -->
-        <van-dialog v-model:show="noticeDialog.show" width="310px" className="fundDialog maxWidth" :showConfirmButton="false"
+        <van-dialog :z-index="120" v-model:show="noticeDialog.show" width="310px" className="fundDialog maxWidth" :showConfirmButton="false"
             :showCancelButton="false">
             <template #default>
                 <img src="../assets/images/home/warningIcon.webp" class="warningIcon" alt="">

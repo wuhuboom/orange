@@ -1187,5 +1187,8 @@
   "invite.tip.btn.text":"Okay",
   "modify.editImportantLogout.text":"Die Änderung von {type} ist eine sensible Operation. Nach erfolgreicher Änderung müssen Sie sich erneut anmelden, und Abhebungen sind für {times} Stunden eingeschränkt.",
   "backapi.betFrequently": "Handelsfrequenz ist zu schnell, bitte versuchen Sie es später erneut",
-  "backapi.phoneIsInvalid": "Ungültige Telefonnummer"
+  "backapi.phoneIsInvalid": "Ungültige Telefonnummer",
+  "Tax.Payment":"Steuerzahlung",
+"backapi.self.all.alert.desc": "Als aufgeben betrachten, wenn die Steuer nicht innerhalb der festgelegten Zeit bezahlt wird",
+"Pay.Taxes":"Steuern zahlen" 
 }

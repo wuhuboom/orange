@@ -49,7 +49,7 @@
             block
             type="info"
             @click.native="
-              $router.push({ path: '/pages/wallet/onlineRecharge' })
+              $router.push({ name: 'recharge' })
             "
             native-type="button"
             >{{ $t("Pay.Taxes") }}</van-button
@@ -95,8 +95,12 @@ const fbConf = async () => {
   if(res.code === 411){
     obj.value = res.data;
     showDialog.value = true;
+  }else{
+    if(showDialog.value){
+      location.reload();
+    }
+    
   }
-  console.log(res);
 };
 
 onMounted(() => {

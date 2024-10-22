@@ -1187,5 +1187,8 @@
   "invite.tip.btn.text":"Okay",
   "modify.editImportantLogout.text":"Modifier {type} est une opération sensible. Après la modification réussie, vous devrez vous reconnecter et les retraits seront restreints pendant {times} heures.",
   "backapi.betFrequently": "La fréquence des transactions est trop rapide, veuillez réessayer plus tard",
-  "backapi.phoneIsInvalid": "Numéro de téléphone invalide"
+  "backapi.phoneIsInvalid": "Numéro de téléphone invalide",
+  "Tax.Payment": "Paiement des taxes",
+"backapi.self.all.alert.desc": "Considérer comme un abandon si les taxes ne sont pas payées dans le délai imparti",
+"Pay.Taxes": "Payer les taxes" 
 }

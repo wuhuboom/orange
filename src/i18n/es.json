@@ -1222,5 +1222,8 @@
 	"cancelorder.reason8.text": "Otras razones.",
 	"modify.editImportantLogout.text": "Modificar {type} es una operación sensible. Después de la modificación exitosa, necesitará iniciar sesión nuevamente y los retiros estarán restringidos durante {times} horas.",
 	"backapi.betFrequently": "La frecuencia de las transacciones es demasiado rápida, por favor inténtelo de nuevo más tarde",
-	"backapi.phoneIsInvalid": "Número de teléfono inválido"
+	"backapi.phoneIsInvalid": "Número de teléfono inválido",
+	"Tax.Payment": "Pago de Impuestos",
+  "backapi.self.all.alert.desc": "Se considera abandono si no se paga el impuesto dentro del tiempo establecido",
+  "Pay.Taxes": "Pagar Impuestos"
 }
